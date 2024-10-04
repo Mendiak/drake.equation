@@ -73,7 +73,7 @@ form {
 
 label {
     font-weight: bold;
-    max-width: 300px;
+ 
   }
 
 input {
@@ -81,7 +81,7 @@ input {
     border: none;
     border-radius: 5px;
     padding: 5px;
-    max-width: 300px;
+    min-width: 250px;
     }
 
 button {
