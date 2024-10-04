@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drake Equation</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+</head>
+<body onload="clearForm()">
+<div class="container">
+    <div class="blurredcontainer">
+        <h1>Drake Equation</h1>
+        <p class="subtitle">Calculate the number of advanced civilizations in our galaxy.</p>
+        <div class="equation">
+            <p>N = R* · f<sub>p</sub> · n<sub>e</sub> · f<sub>l</sub> · f<sub>i</sub> · f<sub>c</sub> · L</p>
+        </div>
+        
+    
+
+    
+    <form id="drake-form">
+        <label for="Rstar">Star formation rate (R*):</label>
+        <input type="number" id="Rstar" name="Rstar" step="any" min="0" required placeholder="e.g., 1.5 stars per year">
+        
+        <label for="fp">Fraction of stars with planetary systems (f<sub>p</sub>):</label>
+        <input type="number" id="fp" name="fp" step="any" min="0" max="1" required placeholder="e.g., 0.5 (50%)">
+        
+        <label for="ne">Number of planets per star system that can support life (n<sub>e</sub>):</label>
+        <input type="number" id="ne" name="ne" step="any" min="0" required placeholder="e.g., 2 planets">
+        
+        <label for="fl">Fraction of those planets where life develops (f<sub>l</sub>):</label>
+        <input type="number" id="fl" name="fl" step="any" min="0" max="1" required placeholder="e.g., 0.1 (10%)">
+        
+        <label for="fi">Fraction of planets with life where intelligent life evolves (f<sub>i</sub>):</label>
+        <input type="number" id="fi" name="fi" step="any" min="0" max="1" required placeholder="e.g., 0.01 (1%)">
+        
+        <label for="fc">Fraction of civilizations that develop detectable technology (f<sub>c</sub>):</label>
+        <input type="number" id="fc" name="fc" step="any" min="0" max="1" required placeholder="e.g., 0.1 (10%)">
+        
+        <label for="L">Duration of the detectable phase of the civilization (L):</label>
+        <input type="number" id="L" name="L" step="any" min="0" required placeholder="e.g., 10000 years">
+        
+        <button type="button" onclick="validateAndCalculate()">Calculate</button>
+    </form>
+    
+    <h2 class="result">Result: <span id="result">0</span></h2>
+    <div class="chart-container">
+    <canvas id="drakeChart"></canvas>
+    <p class="scientific-explanation">This number represents the estimated quantity of technologically advanced extraterrestrial civilizations in the Milky Way galaxy capable of interstellar communication. These civilizations have likely developed radio technology or other detectable signals that could potentially be intercepted by our current astronomical instruments. This estimate is based on the parameters of the Drake Equation, which takes into account factors such as star formation rates, planetary habitability, and the emergence and longevity of intelligent life.</p>
+    </div>    
+</div>
+</div>
+
+
+    <script src="script.js"></script>
+    <script>
+        function clearForm() {
+            document.getElementById('drake-form').reset();
+        }
+        </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      
+</body>
+</html>
