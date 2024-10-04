@@ -59,6 +59,8 @@ function validateAndCalculate() {
 let drakeChart;
 
 function initChart() {
+    Chart.defaults.font.family = '"Space Mono", monospace';
+
     const ctx = document.getElementById('drakeChart').getContext('2d');
     drakeChart = new Chart(ctx, {
         type: 'line',
@@ -77,14 +79,38 @@ function initChart() {
                 x: {
                     title: {
                         display: true,
-                        text: 'Parameter Value'
+                        text: 'Parameter Value',
+                        color: 'rgba(0, 0, 0, 0.8)'
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.3)'
+                    },
+                    ticks: {
+                        color: 'rgba(0, 0, 0, 0.8)'
                     }
                 },
                 y: {
                     type: 'logarithmic',
                     title: {
                         display: true,
-                        text: 'N'
+                        text: 'N',
+                        color: 'rgba(0, 0, 0, 0.8)'
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.3)'
+                    },
+                    ticks: {
+                        color: 'rgba(0, 0, 0, 0.8)',
+                        callback: function(value, index, values) {
+                            return Number(value).toFixed(2);
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'rgba(0, 0, 0, 0.8)'
                     }
                 }
             }
