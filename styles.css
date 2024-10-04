@@ -119,3 +119,7 @@ button:hover {
 #drakeChart {
     max-width: 80%;
 }
+
+a:visited {
+    color: #363636;
+}
