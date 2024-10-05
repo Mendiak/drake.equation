@@ -120,6 +120,10 @@ button:hover {
     max-width: 80%;
 }
 
+a {
+    color: rgba(247,191,32,1);
+}
+
 a:visited {
     color: #363636;
 }
