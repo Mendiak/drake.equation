@@ -1,3 +1,29 @@
+function animateValue(id, start, end, duration) {
+    const obj = document.getElementById(id);
+    const range = end - start;
+    const minTimer = 50;
+    let stepTime = Math.abs(Math.floor(duration / range));
+    stepTime = Math.max(stepTime, minTimer);
+    let startTime = new Date().getTime();
+    let endTime = startTime + duration;
+    let timer;
+
+    function run() {
+        let now = new Date().getTime();
+        let remaining = Math.max((endTime - now) / duration, 0);
+        let value = Math.round(end - (remaining * range));
+        obj.innerText = value.toFixed(2);
+        if (value == end) {
+            clearInterval(timer);
+        }
+    }
+
+    timer = setInterval(run, stepTime);
+    run();
+}
+
+
+
 function validateAndCalculate() {
     // Get values from input fields
     const Rstar = parseFloat(document.getElementById('Rstar').value);
@@ -43,17 +69,18 @@ function validateAndCalculate() {
     if (isValid) {
         // Calculate the result using the Drake Equation
         const N = Rstar * fp * ne * fl * fi * fc * L;
-
-        // Display the result on the page
-        document.getElementById('result').innerText = N.toFixed(2);
-
+    
+        // Animate the result on the page
+        animateValue('result', 0, N, 2000); // 2000 ms duration
+    
         // Determine the last changed parameter
         const formInputs = ['Rstar', 'fp', 'ne', 'fl', 'fi', 'fc', 'L'];
         const lastChangedParameter = formInputs.find(input => document.getElementById(input) === document.activeElement) || 'Rstar';
-
+    
         // Update chart for the last changed parameter
         updateChart(lastChangedParameter);
     }
+    
 }
 
 let drakeChart;
@@ -165,3 +192,4 @@ window.onload = function() {
 function clearForm() {
     document.getElementById('drake-form').reset();
 }
+

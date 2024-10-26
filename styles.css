@@ -12,24 +12,20 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
     font-family: "Space Mono", monospace;
-    
-}
-
-.container {
-    max-width: 1000px;
-}
+    width: 100%;}
 
 .blurredcontainer {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    max-width: 1000px;
     background-color: rgba(255, 255, 255, 0.6);
-    padding: 20px;
+    padding: 20px 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);}
 
 h1 {
     font-size: 4em;
-    margin: 20px 0;
-    padding: 0;
     color: #363636;
     text-align: center;
 }
@@ -40,39 +36,44 @@ h1 {
     color: #363636;
     text-align: center;
 }
-p {
-    margin-bottom: 20px;
-    color: #363636;
-}
+
+
 .equation {
     font-size: 1.2em;
-    margin: 20px 0;
     font-weight: bold;
     text-align: center;
 }
 
 .result {
-    font-size: 1.2em;
+    font-size: 1.5em;
     padding: 20px;
-    font-weight: bold;
     text-align: center;
     color: #363636;
 }
 
-form {
-    display: grid;
-    justify-content: center;
+#result {
+    font-weight: bold;
+    color: #000000;
+}
+
+#form-container {
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+}
+
+form {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: grid;
     gap: 10px;
-    max-width: 800px;
-    margin: 0 auto;
     color: #363636;
     font-size: 0.8em;
 }
 
 label {
-    font-weight: bold;
- 
+    font-weight: bold; 
   }
 
 input {
@@ -80,7 +81,7 @@ input {
     border: none;
     border-radius: 5px;
     padding: 5px;
-    min-width: 250px;
+    min-width: 230px;
     }
 
 button {
@@ -100,30 +101,28 @@ button:hover {
     background: #636363;
 }
 
-#result {
-    font-weight: bold;
-    color: #000000;
-}
-
-.chart-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
+canvas {
+    padding: 10px;
 }
 
 .scientific-explanation {
     max-width: 90%;
+    color: #363636;
+    
+}
+.links-container {
+    text-align: left;
+    margin-bottom: 20px;
 }
 
-#drakeChart {
-    max-width: 80%;
-}
-
-a {
+.links {
     color: rgba(247,191,32,1);
+    justify-content: left;
+    text-align: left;
+    display: block;
+    margin-bottom: 5px;
 }
 
-a:visited {
+.links:visited {
     color: #363636;
 }
