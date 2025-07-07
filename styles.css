@@ -1,6 +1,7 @@
 body {
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
     min-height: 100vh;
     margin: 0;
@@ -124,4 +125,20 @@ canvas {
 
 .links:visited {
     color: #363636;
+}
+
+footer {
+    margin-top: 20px;
+    text-align: center;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+footer a {
+    color: #f7bf20; /* Usando el color amarillo del botón */
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
 }
