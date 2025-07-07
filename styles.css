@@ -1,3 +1,9 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 body {
     display: flex;
     justify-content: center;
@@ -6,14 +12,12 @@ body {
     min-height: 100vh;
     margin: 0;
     padding: 20px;
-    box-sizing: border-box;
     background-image: url('assets/images/background.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    font-family: "Space Mono", monospace;
-    width: 100%;}
+    font-family: "Space Mono", monospace;}
 
 .blurredcontainer {
     width: 90%;
@@ -29,6 +33,12 @@ h1 {
     font-size: 4em;
     color: #363636;
     text-align: center;
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2.5em;
+    }
 }
 
 .subtitle {
@@ -85,6 +95,11 @@ input {
     min-width: 150px;
     }
 
+input:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(247, 191, 32, 0.8);
+}
+
 button {
     font-family: "Space Mono", monospace;
     grid-column: span 2;
@@ -96,10 +111,11 @@ button {
     border: none;
     cursor: pointer;
     border-radius: 10px;
+    transition: filter 0.2s ease-in-out;
 }
 
 button:hover {
-    background: #636363;
+    filter: brightness(1.2);
 }
 
 canvas {
@@ -108,7 +124,7 @@ canvas {
 
 .scientific-explanation {
     color: #363636;
-    
+    line-height: 1.6;
 }
 .links-container {
     text-align: left;
