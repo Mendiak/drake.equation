@@ -21,41 +21,68 @@
                 </div>
                 <div id="form-container">   
                     <form id="drake-form">
-                        <label for="Rstar">Star formation rate (R*):</label>
-                        <input type="number" id="Rstar" name="Rstar" step="0.5" min="0" required placeholder="e.g., 1.5 stars per year">
+                        <label for="Rstar" title="The average rate of star formation in our galaxy.">Star formation rate (R*):</label>                        
+                        <input type="range" id="Rstar" name="Rstar" min="0.1" max="10" step="0.1" value="1.5" oninput="updateValueAndRecalculate('Rstar')" aria-controls="Rstar-value">
+                        <span id="Rstar-value" class="value-display">1.5</span>
                         
-                        <label for="fp">Fraction of stars with planetary systems (f<sub>p</sub>):</label>
-                        <input type="number" id="fp" name="fp" step="0.1" min="0" max="1" required placeholder="e.g., 0.5 (50%)">
+                        <label for="fp" title="The fraction of those stars that have planets.">Fraction of stars with planetary systems (f<sub>p</sub>):</label>
+                        <input type="range" id="fp" name="fp" min="0.01" max="1" step="0.01" value="0.5" oninput="updateValueAndRecalculate('fp')" aria-controls="fp-value">
+                        <span id="fp-value" class="value-display">0.5</span>
                         
-                        <label for="ne">Number of planets per star system that can support life (n<sub>e</sub>):</label>
-                        <input type="number" id="ne" name="ne" step="any" min="0" required placeholder="e.g., 2 planets">
+                        <label for="ne" title="The average number of planets that can potentially support life per star that has planets.">Number of planets per star system that can support life (n<sub>e</sub>):</label>
+                        <input type="range" id="ne" name="ne" min="0.1" max="10" step="0.1" value="2" oninput="updateValueAndRecalculate('ne')" aria-controls="ne-value">
+                        <span id="ne-value" class="value-display">2</span>
                         
-                        <label for="fl">Fraction of those planets where life develops (f<sub>l</sub>):</label>
-                        <input type="number" id="fl" name="fl" step="0.1" min="0" max="1" required placeholder="e.g., 0.1 (10%)">
+                        <label for="fl" title="The fraction of suitable planets on which life actually appears.">Fraction of those planets where life develops (f<sub>l</sub>):</label>
+                        <input type="range" id="fl" name="fl" min="0.01" max="1" step="0.01" value="0.1" oninput="updateValueAndRecalculate('fl')" aria-controls="fl-value">
+                        <span id="fl-value" class="value-display">0.1</span>
                         
-                        <label for="fi">Fraction of planets with life where intelligent life evolves (f<sub>i</sub>):</label>
-                        <input type="number" id="fi" name="fi" step="0.1" min="0" max="1" required placeholder="e.g., 0.01 (1%)">
+                        <label for="fi" title="The fraction of life-bearing planets on which intelligent life emerges.">Fraction of planets with life where intelligent life evolves (f<sub>i</sub>):</label>
+                        <input type="range" id="fi" name="fi" min="0.01" max="1" step="0.01" value="0.01" oninput="updateValueAndRecalculate('fi')" aria-controls="fi-value">
+                        <span id="fi-value" class="value-display">0.01</span>
                         
-                        <label for="fc">Fraction of civilizations that develop detectable technology (f<sub>c</sub>):</label>
-                        <input type="number" id="fc" name="fc" step="0.1" min="0" max="1" required placeholder="e.g., 0.1 (10%)">
+                        <label for="fc" title="The fraction of civilizations that develop a technology that releases detectable signs of their existence into space.">Fraction of civilizations that develop detectable technology (f<sub>c</sub>):</label>
+                        <input type="range" id="fc" name="fc" min="0.01" max="1" step="0.01" value="0.1" oninput="updateValueAndRecalculate('fc')" aria-controls="fc-value">
+                        <span id="fc-value" class="value-display">0.1</span>
                         
-                        <label for="L">Duration of the detectable phase of the civilization (L):</label>
-                        <input type="number" id="L" name="L" step="1000" min="0" required placeholder="e.g., 10000 years">
+                        <label for="L" title="The length of time for which such civilizations release detectable signals into space.">Duration of the detectable phase of the civilization (L):</label>
+                        <input type="range" id="L" name="L" min="1000" max="1000000" step="1000" value="10000" oninput="updateValueAndRecalculate('L')" aria-controls="L-value">
+                        <span id="L-value" class="value-display">10000</span>
                         
-                        <button type="button" onclick="validateAndCalculate()">Calculate <i class="bi bi-stars"></i></button>
+                        <div class="button-container">
+                            <button type="button" id="reset-button" onclick="resetForm()">Reset <i class="bi bi-arrow-counterclockwise"></i></button>                            
+                            <button type="button" id="recalculate-button" onclick="validateAndCalculate()">Recalculate <i class="bi bi-stars"></i></button>
+                        </div>
                     </form>  
                 </div>  
-                <h2 class="result">Result: <span id="result">0</span> civilizations</h2>
-
-                    <canvas id="drakeChart"></canvas>
+                <h2 class="result">Result: <span id="result" role="status" aria-live="polite">0</span> civilizations</h2>
+                <div class="chart-options">
+                    <button type="button" id="share-btn" title="Copy shareable link"><i class="bi bi-share-fill"></i></button>
+                    <button type="button" id="download-chart-btn" title="Download chart as PNG"><i class="bi bi-download"></i></button>
+                    <label for="scale-toggle" class="toggle-label">Logarithmic Scale</label>
+                    <label class="switch">
+                        <input type="checkbox" id="scale-toggle" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                    <canvas id="drakeChart">
+                        A line chart showing the relationship between the selected Drake Equation parameter and the calculated number of civilizations.
+                    </canvas>
 
                 <p class="scientific-explanation">This graph represents the estimated number of technologically advanced extraterrestrial civilizations in the Milky Way galaxy capable of interstellar communication.</p>
-                <p class="scientific-explanation">The chart illustrates how this number changes based on the star formation rate (R) — one of the key parameters in the Drake Equation.</p> 
+                <p id="chart-explanation" class="scientific-explanation" aria-live="polite">The chart illustrates how this number changes based on the star formation rate (R*) — one of the key parameters in the Drake Equation.</p> 
                 <p class="scientific-explanation">These civilizations are hypothesized to have developed detectable signals, such as radio technology, which could be observed by our astronomical instruments. The estimate incorporates other factors like planetary habitability, the emergence of intelligent life, and the longevity of such civilizations.</p>
                 <div class="links-container">
                     <a class="links" href="https://github.com/Mendiak/drake.equation" target="_blank"><i class="bi bi-code-slash"></i> Drake Equation @ Github</a>
                     <a class="links" href="https://en.wikipedia.org/wiki/Drake_equation" target="_blank"><i class="bi bi-wikipedia"></i> Drake Equation @ Wikipedia</a>        
-                </div>   
+                </div>
+                <div class="history-section">
+                    <details>
+                        <summary>History and Context of the Drake Equation</summary>
+                        <p>The Drake equation was formulated by Dr. Frank Drake, an American astronomer and astrophysicist, in 1961. Drake conceived the equation not to provide a precise number of civilizations, but as a way to stimulate scientific dialogue at the first SETI (Search for Extraterrestrial Intelligence) conference, held in Green Bank, West Virginia.</p>
+                        <p>The equation serves as a probabilistic argument used to estimate the number of active, communicative extraterrestrial civilizations in the Milky Way galaxy. It breaks down a large, unknown problem into smaller, more manageable pieces. While the values for most of its parameters are still highly speculative, the equation remains a cornerstone of astrobiology and the search for extraterrestrial intelligence, encouraging scientists to consider what we know and what we still need to learn about our place in the universe.</p>
+                    </details>
+                </div>
         </div>
         <footer>
             <p>Website by <a href="https://mendiak.github.io/portfolio/" target="_blank" rel="noopener noreferrer">Mikel Aramendia</a></p>
