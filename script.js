@@ -46,18 +46,21 @@ function updateValueAndRecalculate(paramId) {
     }
 }
 
-function validateAndCalculate(changedParameter) {
-    // Get values from input fields
-    const Rstar = parseFloat(document.getElementById('Rstar').value);
-    const fp = parseFloat(document.getElementById('fp').value);
-    const ne = parseFloat(document.getElementById('ne').value);
-    const fl = parseFloat(document.getElementById('fl').value);
-    const fi = parseFloat(document.getElementById('fi').value);
-    const fc = parseFloat(document.getElementById('fc').value);
-    const L = parseFloat(document.getElementById('L').value);
+function getParameterValues() {
+    const values = {};
+    for (const paramId in defaultValues) {
+        values[paramId] = parseFloat(document.getElementById(paramId).value);
+    }
+    return values;
+}
 
-    // Calculate the result using the Drake Equation
-    const N = Rstar * fp * ne * fl * fi * fc * L;
+function calculateN(params) {
+    return params.Rstar * params.fp * params.ne * params.fl * params.fi * params.fc * params.L;
+}
+
+function validateAndCalculate(changedParameter) {
+    const currentValues = getParameterValues();
+    const N = calculateN(currentValues);
 
     const formattedN = formatResult(N);
 
@@ -69,7 +72,7 @@ function validateAndCalculate(changedParameter) {
     const parameterToChart = changedParameter || 'Rstar'; // Default to Rstar if no specific param changed
 
     // Update chart for the last changed parameter
-    updateChart(parameterToChart);
+    updateChart(parameterToChart, currentValues);
 }
 
 function resetForm() {
@@ -238,38 +241,28 @@ function initChart() {
 }
 
 
-function updateChart(parameter) {
+function updateChart(parameter, currentValues) {
     const values = [];
     const results = [];
     
-    // Get the current value of the parameter
-    const currentValue = parseFloat(document.getElementById(parameter).value);
+    const baseValue = currentValues[parameter];
     
     // Generate 50 points for the chart
     for (let i = 0; i < 50; i++) {
-        const value = currentValue * (i / 25); // This will create a range from 0 to 2 times the current value
-        values.push(value);
+        const variedValue = baseValue * (i / 25); // This will create a range from 0 to 2 times the current value
+        values.push(variedValue);
         
-        // Clone current form values
-        const formData = new FormData(document.getElementById('drake-form'));
-        formData.set(parameter, value);
+        // Create a copy of the parameters and change the one we're varying
+        const chartPointParams = { ...currentValues };
+        chartPointParams[parameter] = variedValue;
         
-        // Calculate N for this point using the Drake equation
-        const Rstar = parseFloat(formData.get('Rstar'));
-        const fp = parseFloat(formData.get('fp'));
-        const ne = parseFloat(formData.get('ne'));
-        const fl = parseFloat(formData.get('fl'));
-        const fi = parseFloat(formData.get('fi'));
-        const fc = parseFloat(formData.get('fc'));
-        const L = parseFloat(formData.get('L'));
-        
-        const N = Rstar * fp * ne * fl * fi * fc * L;
+        const N = calculateN(chartPointParams);
         results.push(N);
     }
     
     drakeChart.data.labels = values;
     drakeChart.data.datasets[0].data = results;
-    drakeChart.options.scales.x.title.text = parameter;
+    drakeChart.options.scales.x.title.text = parameterDescriptions[parameter];
     
     const isLog = document.getElementById('scale-toggle').checked;
     drakeChart.options.scales.y.type = isLog ? 'logarithmic' : 'linear';
@@ -278,8 +271,8 @@ function updateChart(parameter) {
     // Update the dynamic explanation text
     const explanationElement = document.getElementById('chart-explanation');
     if (explanationElement) {
-        const description = parameterDescriptions[parameter] || 'one of the key parameters';
-        explanationElement.innerHTML = `The chart illustrates how this number changes based on ${description} — one of the key parameters in the Drake Equation.`;
+        const description = parameterDescriptions[parameter] || 'el parámetro seleccionado';
+        explanationElement.innerHTML = `El gráfico ilustra cómo cambia el resultado N al variar ${description}, uno de los parámetros clave de la Ecuación de Drake.`;
     }
 }
 
@@ -315,7 +308,7 @@ window.onload = function() {
     applyUrlParameters(); // Check for and apply URL parameters first
     initChart();
     setupFormForScreenSize(); // Set up the form based on initial screen size
-    resetForm(); // Load default values and perform initial calculation
+    resetForm(); // Load default values and perform initial calculation and chart generation
 
     // Add a listener to adjust the form when the window is resized
     let resizeTimer;
