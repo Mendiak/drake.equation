@@ -24,8 +24,20 @@ body {
     padding: 2rem;
 }
 
+@media (max-width: 600px) {
+    .container {
+        padding: 1.25rem;
+    }
+}
+
 header {
     margin-bottom: 3rem;
+}
+
+@media (max-width: 600px) {
+    header {
+        margin-bottom: 2rem;
+    }
 }
 
 /* 2. Typography */
@@ -36,10 +48,65 @@ h1 {
     margin: 0 0 0.5rem 0;
 }
 
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2rem;
+    }
+}
+
 .subtitle {
     font-size: 1.1rem;
     color: #666666;
     margin: 0;
+}
+
+@media (max-width: 600px) {
+    .subtitle {
+        font-size: 1rem;
+    }
+}
+
+.hero-description {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eeeeee;
+    max-width: 800px;
+}
+
+.hero-description p {
+    font-size: 1rem;
+    color: #444444;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.usage-guide {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.guide-item strong {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+    color: #000000;
+}
+
+.guide-item p {
+    font-size: 0.8125rem;
+    color: #888888;
+    margin: 0;
+    line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+    .usage-guide {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
 }
 
 h2 { font-size: 1.25rem; font-weight: 700; margin: 0; }
@@ -53,8 +120,60 @@ h3 { font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-sp
     align-items: start;
 }
 
+@media (max-width: 1024px) {
+    .dashboard {
+        gap: 2rem;
+    }
+}
+
 @media (max-width: 900px) {
-    .dashboard { grid-template-columns: 1fr; gap: 3rem; }
+    .dashboard { 
+        grid-template-columns: 1fr; 
+        gap: 2rem; 
+    }
+    
+    .parameters-panel {
+        order: 2;
+    }
+    
+    .results-panel {
+        order: 1;
+    }
+
+    /* En móvil, queremos el resultado pegado a los sliders. 
+       Movemos el gráfico al final de la sección de resultados. */
+    .sticky-results {
+        position: static;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .result-card {
+        order: 1;
+        margin-bottom: 1.5rem;
+    }
+
+    .chart-section {
+        order: 3; /* El gráfico pasa debajo de los parámetros que están en order 2 */
+        margin-top: 1rem;
+    }
+}
+
+/* Ajuste del Hero en móvil */
+@media (max-width: 600px) {
+    .hero-description {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+    }
+    
+    .hero-description p {
+        font-size: 0.9375rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .usage-guide {
+        display: none; /* Ocultamos la guía detallada en móviles para ahorrar espacio vertical */
+    }
 }
 
 /* 4. Parameters Panel (Left) */
@@ -69,6 +188,21 @@ h3 { font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-sp
 
 .presets-container { display: flex; gap: 0.5rem; }
 
+@media (max-width: 600px) {
+    .panel-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .presets-container {
+        width: 100%;
+    }
+    .preset-btn {
+        flex: 1;
+        text-align: center;
+    }
+}
+
 .preset-btn {
     padding: 0.4rem 0.8rem;
     font-size: 0.75rem;
@@ -81,6 +215,12 @@ h3 { font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-sp
 
 .preset-btn:hover { border-color: #000000; background: #f8f8f8; }
 
+.preset-btn.active-preset {
+    background: #000000;
+    color: #ffffff;
+    border-color: #000000;
+}
+
 .equation-box {
     background: #fcfcfc;
     border: 1px solid #eeeeee;
@@ -89,6 +229,15 @@ h3 { font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-sp
     text-align: center;
     font-family: "Space Mono", monospace;
     font-size: 0.9rem;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+    .equation-box {
+        font-size: 0.75rem;
+        padding: 0.75rem;
+    }
 }
 
 .input-group { margin-bottom: 1.5rem; }
@@ -106,6 +255,16 @@ h3 { font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-sp
     grid-template-columns: 1fr 80px;
     gap: 1.5rem;
     align-items: center;
+}
+
+@media (max-width: 600px) {
+    .input-wrapper {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+    .value-display {
+        display: none;
+    }
 }
 
 input[type="range"] {
@@ -159,20 +318,73 @@ button#reset-button:hover { border-color: #000000; color: #000000; background: #
     color: #ffffff;
     padding: 2.5rem;
     margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
 }
 
-.result-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.6; }
+.galaxy-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+.galaxy-dot {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 0 4px #ffffff;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+@media (max-width: 600px) {
+    .result-card {
+        padding: 1.5rem;
+    }
+}
+
+.result-label { 
+    position: relative;
+    z-index: 1;
+    font-size: 0.75rem; 
+    text-transform: uppercase; 
+    letter-spacing: 0.1em; 
+    opacity: 0.6; 
+}
 
 #result {
+    position: relative;
+    z-index: 1;
     font-size: 3.5rem;
     font-weight: 800;
     margin: 0.5rem 0;
     font-family: "Space Mono", monospace;
 }
 
-.result-unit { font-size: 0.875rem; opacity: 0.8; display: block; margin-bottom: 1.5rem; }
+@media (max-width: 600px) {
+    #result {
+        font-size: 2.5rem;
+    }
+}
+
+.result-unit { 
+    position: relative;
+    z-index: 1;
+    font-size: 0.875rem; 
+    opacity: 0.8; 
+    display: block; 
+    margin-bottom: 1.5rem; 
+}
 
 .result-context {
+    position: relative;
+    z-index: 1;
     font-size: 0.9375rem;
     line-height: 1.6;
     border-top: 1px solid rgba(255, 255, 255, 0.2);
@@ -191,11 +403,62 @@ button#reset-button:hover { border-color: #000000; color: #000000; background: #
     opacity: 0.8;
 }
 
+.cosmic-context {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.context-item small {
+    display: block;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.5;
+    margin-bottom: 0.25rem;
+}
+
+.context-item span {
+    font-size: 0.9375rem;
+    font-family: "Space Mono", monospace;
+    font-weight: 700;
+}
+
+@media (max-width: 600px) {
+    .cosmic-context {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+}
+
 .filter-insight {
     background: rgba(255, 255, 255, 0.1);
     padding: 1rem;
     border-left: 2px solid #ffffff;
     font-size: 0.8125rem;
+    margin-bottom: 1.5rem;
+}
+
+.scientific-note {
+    font-size: 0.65rem;
+    line-height: 1.4;
+    opacity: 0.4;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.active-param {
+    color: #000000;
+    background: #ffff00;
+    padding: 0 4px;
+    border-radius: 2px;
+}
+
+#equation-text span {
+    transition: all 0.3s ease;
 }
 
 .filter-insight strong {
@@ -210,6 +473,21 @@ button#reset-button:hover { border-color: #000000; color: #000000; background: #
 .chart-section {
     border: 1px solid #eeeeee;
     padding: 1.5rem;
+}
+
+@media (max-width: 600px) {
+    .chart-section {
+        padding: 1rem;
+    }
+    .chart-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .chart-controls {
+        width: 100%;
+        justify-content: space-between;
+    }
 }
 
 .chart-header {
@@ -251,6 +529,12 @@ canvas { width: 100% !important; height: auto !important; margin-bottom: 1rem; }
     max-width: 800px;
 }
 
+@media (max-width: 600px) {
+    .educational-content {
+        margin-top: 4rem;
+    }
+}
+
 details { border-top: 1px solid #eeeeee; padding: 1.5rem 0; }
 summary { font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; font-size: 0.9375rem; }
 summary::after { content: "+"; font-weight: 400; color: #999999; }
@@ -260,12 +544,29 @@ details p { margin-top: 1rem; color: #666666; font-size: 0.875rem; line-height: 
 
 .timeline { margin-top: 1.5rem; }
 .timeline-item { display: grid; grid-template-columns: 80px 1fr; gap: 1rem; margin-bottom: 1rem; }
+
+@media (max-width: 600px) {
+    .timeline-item {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+        margin-bottom: 1.5rem;
+    }
+}
+
 .timeline-year { font-weight: 700; font-size: 0.875rem; }
 .timeline-content strong { font-size: 0.875rem; display: block; }
 .timeline-content p { margin: 0; font-size: 0.8125rem; }
 
 .links-container { margin-top: 3rem; display: flex; gap: 2rem; }
-.links { font-size: 0.8125rem; color: #000000; text-decoration: none; border-bottom: 1px solid #eeeeee; padding-bottom: 2px; }
+
+@media (max-width: 600px) {
+    .links-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+.links { font-size: 0.8125rem; color: #000000; text-decoration: none; border-bottom: 1px solid #eeeeee; padding-bottom: 2px; align-self: flex-start; }
 .links:hover { border-bottom-color: #000000; }
 
 /* 8. Tooltip Modal */
@@ -283,6 +584,15 @@ details p { margin-top: 1rem; color: #666666; font-size: 0.875rem; line-height: 
     max-width: 500px; width: 90%;
     padding: 3rem;
     border: 1px solid #000000;
+    overflow-y: auto;
+    max-height: 90vh;
+}
+
+@media (max-width: 600px) {
+    .tooltip-content {
+        padding: 2rem 1.5rem;
+        width: 95%;
+    }
 }
 
 .tooltip-close { position: absolute; top: 1rem; right: 1rem; border: none; background: none; font-size: 1.5rem; cursor: pointer; }
@@ -294,7 +604,14 @@ details p { margin-top: 1rem; color: #666666; font-size: 0.875rem; line-height: 
 
 /* 9. Footer */
 footer { margin-top: 6rem; padding: 2rem; border-top: 1px solid #eeeeee; text-align: center; font-size: 0.75rem; color: #999999; }
+@media (max-width: 600px) {
+    footer {
+        margin-top: 4rem;
+        padding: 1.5rem;
+    }
+}
 footer a { color: #666666; text-decoration: none; }
+
 
 /* Utilities */
 sub {
@@ -305,8 +622,35 @@ sub {
     bottom: -0.2em;
 }
 
-.info-icon { opacity: 0.2; cursor: pointer; transition: opacity 0.2s; }
-.info-icon:hover { opacity: 1; }
+.info-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #eeeeee;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    font-style: normal;
+    color: #999999;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #ffffff;
+}
+
+.info-icon:hover {
+    color: #000000;
+    border-color: #000000;
+    background: #f8f8f8;
+}
+
+@media (max-width: 600px) {
+    .info-icon {
+        width: 24px;
+        height: 24px;
+        font-size: 0.8rem;
+    }
+}
 
 #fermi-dynamic {
     background: #f8f8f8;

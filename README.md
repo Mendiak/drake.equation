@@ -1,59 +1,49 @@
-## 🌌 Drake Equation Interactive Web
+# Drake Equation Interactive Dashboard
 
-This web project represents an interactive visualization of the **Drake Equation**, a formula used to estimate the number of technologically advanced extraterrestrial civilizations in our galaxy.
+A professional, interactive tool for estimating the number of active, communicative extraterrestrial civilizations in the Milky Way galaxy using the Drake Equation framework.
 
-### 📊 What does the graph show?
-The graph on this website shows how the **estimated number of civilizations** changes based on the **star formation rate (R\*)**, which is one of the primary factors in the Drake Equation. These civilizations are expected to have developed technologies, like radio signals, detectable by our current astronomical instruments.
+[Live Demo](https://mendiak.github.io/drake.equation/)
 
-### 🌟 Key Features
-- Interactive calculation of the **Drake Equation** parameters.
-- A dynamic graph 📈 showing the impact of the star formation rate on the estimated number of civilizations.
-- Explanation and background about the **Drake Equation** and its importance in the search for extraterrestrial life.
+## Technical Overview
 
-### 🛠️ Technologies Used
-- **HTML5, CSS3** for structure and styling.
-- **JavaScript** for the interactive functionalities.
-- **Chart.js** for rendering dynamic graphs.
-  
-### 🚀 How to Run
-1. Clone this repository:
+This project is a client-side web application designed to provide real-time probabilistic modeling of the Drake Equation. It prioritizes performance, responsive data visualization, and a clean, functional user interface.
+
+### Core Functionalities
+- **Real-time Mathematical Modeling:** Instant recalculation of the N variable using high-precision JavaScript logic.
+- **Dynamic Data Visualization:** 
+    - **Sensitivity Analysis:** Live Chart.js implementation that visualizes the impact of the currently selected parameter on the final result.
+    - **Galaxy Simulation:** An incremental particle system that represents the estimated number of civilizations (N) through dynamic DOM elements with opacity transitions.
+- **State Management:** URL-based state persistence allows users to share specific configurations via unique query parameters.
+- **Scenario Presets:** Pre-configured data sets for Optimistic, Scientific, and Pessimistic models.
+
+### Responsive Implementation
+- **Adaptive Layout:** Dynamic grid system that reorders components (Results, Parameters, Charts) based on viewport width to optimize user workflow.
+- **Context-Aware Inputs:** The interface switches between range sliders (Desktop) and numeric inputs (Mobile) to ensure input precision across different devices.
+- **Asynchronous UI Updates:** Use of requestAnimationFrame for smooth numerical transitions and setTimeout for non-blocking particle management.
+
+## Tech Stack
+- **JavaScript (ES6+):** Vanilla implementation for the calculation engine and DOM orchestration.
+- **CSS3:** Advanced layouts using Grid and Flexbox, with backdrop-filter for glassmorphism effects and hardware-accelerated transitions.
+- **Chart.js:** Utilized for rendering the sensitivity analysis graph with logarithmic scale support.
+- **HTML5:** Semantic structure for improved accessibility and SEO.
+
+## Installation and Deployment
+
+1. **Clone the repository:**
    ```bash
    git clone https://github.com/Mendiak/drake.equation
    ```
-2. Open `index.html` in your web browser and start exploring!
+2. **Local Development:**
+   Simply open index.html in a modern web browser. No dependencies or build steps are required.
+3. **Deployment:**
+   The project is ready for static hosting (GitHub Pages, Vercel, Netlify).
 
-### 🤖 Contribute
-Feel free to contribute to this project by submitting pull requests or issues. Let's explore the cosmos together! 🌠
+## Development
+The codebase is structured to be modular and easy to extend:
+- script.js: Contains the calculation logic, animation engines, and chart configurations.
+- styles.css: Centralized styling with a mobile-first approach.
+- index.html: The structural backbone of the application.
 
 ---
 
-SPANISH VERSION:
-
----
-
-## 🌌 Web Interactiva de la Ecuación de Drake
-
-Este proyecto web ofrece una visualización interactiva de la **Ecuación de Drake**, una fórmula usada para estimar el número de civilizaciones extraterrestres tecnológicamente avanzadas en nuestra galaxia.
-
-### 📊 ¿Qué muestra el gráfico?
-El gráfico en esta página web muestra cómo el **número estimado de civilizaciones** varía en función de la **tasa de formación de estrellas (R\*)**, uno de los principales factores de la Ecuación de Drake. Se espera que estas civilizaciones hayan desarrollado tecnologías, como señales de radio, detectables por nuestros instrumentos astronómicos actuales.
-
-### 🌟 Características principales
-- Cálculo interactivo de los parámetros de la **Ecuación de Drake**.
-- Un gráfico dinámico 📈 que muestra el impacto de la tasa de formación de estrellas en el número estimado de civilizaciones.
-- Explicaciones y contexto sobre la **Ecuación de Drake** y su relevancia en la búsqueda de vida extraterrestre.
-
-### 🛠️ Tecnologías utilizadas
-- **HTML5, CSS3** para la estructura y el estilo.
-- **JavaScript** para las funcionalidades interactivas.
-- **Chart.js** para la representación de gráficos dinámicos.
-
-### 🚀 Cómo ejecutar
-1. Clona este repositorio:
-   ```bash
-   git clone https://github.com/Mendiak/drake.equation
-   ```
-2. Abre `index.html` en tu navegador web y empieza a explorar.
-
-### 🤖 Contribuir
-¡Siéntete libre de contribuir a este proyecto enviando pull requests o issues! ¡Exploremos el cosmos juntos! 🌠
+*Website by [Mikel Aramendia](https://mendiak.github.io/portfolio/)*

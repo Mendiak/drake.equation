@@ -42,12 +42,30 @@
         <header>
             <h1>Drake Equation</h1>
             <p class="subtitle">An interactive estimate of advanced civilizations in our galaxy.</p>
+            
+            <section class="hero-description">
+                <p>This tool allows you to explore the <strong>Drake Equation</strong>, a probabilistic framework used to estimate the number of active, communicative extraterrestrial civilizations in the Milky Way.</p>
+                <div class="usage-guide">
+                    <div class="guide-item">
+                        <strong>1. Adjust</strong>
+                        <p>Move the sliders to set values for each cosmic and biological factor.</p>
+                    </div>
+                    <div class="guide-item">
+                        <strong>2. Analyze</strong>
+                        <p>Watch how the final result (N) changes in real-time based on your inputs.</p>
+                    </div>
+                    <div class="guide-item">
+                        <strong>3. Learn</strong>
+                        <p>Click the <span class="info-icon" style="display:inline-flex; width:16px; height:16px; font-size:10px;">ⓘ</span> icons to understand the scientific basis of each parameter.</p>
+                    </div>
+                </div>
+            </section>
         </header>
 
         <div class="dashboard">
             <aside class="parameters-panel">
                 <div class="panel-header">
-                    <h2>Parameters</h2>
+                    <h3>Presets</h3>
                     <div class="presets-container">
                         <button class="preset-btn" data-preset="optimistic">Optimistic</button>
                         <button class="preset-btn" data-preset="scientific">Scientific</button>
@@ -56,7 +74,19 @@
                 </div>
 
                 <div class="equation-box">
-                    <code>N = R* · f<sub>p</sub> · n<sub>e</sub> · f<sub>l</sub> · f<sub>i</sub> · f<sub>c</sub> · L</code>
+                    <code id="equation-text">
+                        N = <span id="eq-Rstar">R*</span> · 
+                        <span id="eq-fp">f<sub>p</sub></span> · 
+                        <span id="eq-ne">n<sub>e</sub></span> · 
+                        <span id="eq-fl">f<sub>l</sub></span> · 
+                        <span id="eq-fi">f<sub>i</sub></span> · 
+                        <span id="eq-fc">f<sub>c</sub></span> · 
+                        <span id="eq-L">L</span>
+                    </code>
+                </div>
+
+                <div class="variables-header">
+                    <h3>Individual Factors</h3>
                 </div>
 
                 <form id="drake-form">
@@ -153,6 +183,7 @@
             <main class="results-panel">
                 <div class="sticky-results">
                     <div class="result-card">
+                        <div id="galaxy-viz" class="galaxy-container" aria-hidden="true"></div>
                         <span class="result-label">Estimated result (N)</span>
                         <h2 id="result" role="status" aria-live="polite">0</h2>
                         <span class="result-unit">Communicative civilizations</span>
@@ -179,6 +210,14 @@
                         <canvas id="drakeChart"></canvas>
                         <p id="chart-explanation" class="scientific-explanation"></p>
                     </div>
+
+                    <div class="chart-section funnel-section">
+                        <div class="chart-header">
+                            <h3>Cosmic Filter Funnel</h3>
+                        </div>
+                        <canvas id="funnelChart"></canvas>
+                        <p class="scientific-explanation">This visualization shows how each factor filters down the total number of potential communicative civilizations from the billions of stars in our galaxy.</p>
+                    </div>
                 </div>
             </main>
         </div>
@@ -200,42 +239,98 @@
             </details>
 
             <details>
+                <summary>The Habitable Zone</summary>
+                <p>A key component of the equation (n<sub>e</sub>) relies on the concept of the "Goldilocks Zone"—the region around a star where liquid water can exist on a planet's surface. Understanding this helps narrow down which of the billions of planets in our galaxy might actually be candidates for life.</p>
+            </details>
+
+            <details>
+                <summary>Technosignatures and SETI</summary>
+                <p>The final factors (f<sub>c</sub> and L) relate to how we might actually detect another civilization. Scientists look for "technosignatures" like narrow-band radio signals, laser pulses, or even massive engineering projects like Dyson Spheres. The Search for Extraterrestrial Intelligence (SETI) is the active effort to find these markers.</p>
+            </details>
+
+            <details>
                 <summary>Timeline of the Search</summary>
                 <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-year">1960</div>
+                        <div class="timeline-content">
+                            <strong>Project Ozma</strong>
+                            <p>Frank Drake performs the first modern SETI experiment using a radio telescope.</p>
+                        </div>
+                    </div>
                     <div class="timeline-item">
                         <div class="timeline-year">1961</div>
                         <div class="timeline-content">
                             <strong>Equation Formulated</strong>
-                            <p>Frank Drake creates the equation at the first SETI conference.</p>
+                            <p>The equation is presented at the Green Bank conference.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">1974</div>
+                        <div class="timeline-content">
+                            <strong>Arecibo Message</strong>
+                            <p>A high-power radio message is beamed into space toward the M13 star cluster.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">1977</div>
+                        <div class="timeline-content">
+                            <strong>The "Wow!" Signal</strong>
+                            <p>A strong narrowband radio signal is detected, matching the expected profile of a technosignature.</p>
                         </div>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-year">1992</div>
                         <div class="timeline-content">
                             <strong>First Exoplanets</strong>
-                            <p>Confirmation of planets orbiting a pulsar.</p>
+                            <p>Confirmation of planets orbiting pulsar PSR B1257+12.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">1995</div>
+                        <div class="timeline-content">
+                            <strong>51 Pegasi b</strong>
+                            <p>First discovery of a planet orbiting a Sun-like star.</p>
                         </div>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-year">2009</div>
                         <div class="timeline-content">
                             <strong>Kepler Mission</strong>
-                            <p>NASA launch to hunt for Earth-like exoplanets.</p>
+                            <p>NASA launches Kepler, proving that planets are common throughout the galaxy.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2015</div>
+                        <div class="timeline-content">
+                            <strong>Breakthrough Listen</strong>
+                            <p>Launch of the most comprehensive scientific search for alien communications.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2018</div>
+                        <div class="timeline-content">
+                            <strong>TESS Launch</strong>
+                            <p>The Transiting Exoplanet Survey Satellite begins mapping the nearest and brightest stars.</p>
                         </div>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-year">2021</div>
                         <div class="timeline-content">
-                            <strong>James Webb</strong>
-                            <p>JWST launch, capable of analyzing biosignatures.</p>
+                            <strong>James Webb (JWST)</strong>
+                            <p>Launch of the telescope capable of detecting biosignatures in exoplanet atmospheres.</p>
                         </div>
                     </div>
                 </div>
             </details>
 
             <div class="links-container">
+                <a class="links" href="https://en.wikipedia.org/wiki/Drake_equation" target="_blank">Drake Equation</a>
+                <a class="links" href="https://en.wikipedia.org/wiki/Fermi_paradox" target="_blank">Fermi Paradox</a>
+                <a class="links" href="https://en.wikipedia.org/wiki/Astrobiology" target="_blank">Astrobiology</a>
+                <a class="links" href="https://en.wikipedia.org/wiki/Search_for_extraterrestrial_intelligence" target="_blank">SETI Institute</a>
+                <a class="links" href="https://en.wikipedia.org/wiki/Exoplanet" target="_blank">Exoplanets</a>
                 <a class="links" href="https://github.com/Mendiak/drake.equation" target="_blank">Source Code</a>
-                <a class="links" href="https://en.wikipedia.org/wiki/Drake_equation" target="_blank">Wikipedia</a>
             </div>
         </section>
     </div>

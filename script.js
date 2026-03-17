@@ -155,6 +155,11 @@ function updateValueAndRecalculate(paramId) {
     const input = document.getElementById(paramId);
     const display = document.getElementById(paramId + '-value');
     
+    // Highlight the active part of the equation
+    document.querySelectorAll('#equation-text span').forEach(span => span.classList.remove('active-param'));
+    const eqSpan = document.getElementById('eq-' + paramId);
+    if (eqSpan) eqSpan.classList.add('active-param');
+
     if (paramId === 'L') {
         display.textContent = Number(input.value).toLocaleString();
     } else {
@@ -176,13 +181,79 @@ function calculateN(params) {
     return params.Rstar * params.fp * params.ne * params.fl * params.fi * params.fc * params.L;
 }
 
+let currentN = 0;
+let animationFrame;
+
+function animateValue(start, end, duration) {
+    if (animationFrame) cancelAnimationFrame(animationFrame);
+    
+    const startTime = performance.now();
+    
+    function update(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Easing function (easeOutExpo)
+        const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+        
+        const value = start + (end - start) * easeProgress;
+        document.getElementById('result').innerText = formatResult(value);
+        
+        if (progress < 1) {
+            animationFrame = requestAnimationFrame(update);
+        } else {
+            currentN = end;
+        }
+    }
+    
+    animationFrame = requestAnimationFrame(update);
+}
+
+function updateGalaxyVisualization(N) {
+    const galaxy = document.getElementById('galaxy-viz');
+    if (!galaxy) return;
+    
+    // Limitamos a 500 puntos para rendimiento
+    const targetCount = Math.min(Math.floor(N), 500); 
+    const currentDots = galaxy.querySelectorAll('.galaxy-dot');
+    const currentCount = currentDots.length;
+
+    if (targetCount > currentCount) {
+        // Añadir las estrellas que faltan
+        const toAdd = targetCount - currentCount;
+        for (let i = 0; i < toAdd; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'galaxy-dot';
+            dot.style.left = Math.random() * 100 + '%';
+            dot.style.top = Math.random() * 100 + '%';
+            const opacity = 0.2 + Math.random() * 0.8;
+            galaxy.appendChild(dot);
+            
+            // Forzar reflow para que la transición de opacidad funcione
+            setTimeout(() => { dot.style.opacity = opacity; }, 10);
+        }
+    } else if (targetCount < currentCount) {
+        // Quitar las estrellas sobrantes (de las últimas añadidas)
+        const toRemove = currentCount - targetCount;
+        for (let i = 0; i < toRemove; i++) {
+            const dot = currentDots[i];
+            dot.style.opacity = '0';
+            // Eliminar del DOM después de la transición
+            setTimeout(() => { if (dot.parentNode) galaxy.removeChild(dot); }, 1000);
+        }
+    }
+}
+
 function validateAndCalculate(changedParameter) {
     const currentValues = getParameterValues();
     const N = calculateN(currentValues);
 
     const formattedN = formatResult(N);
-
-    document.getElementById('result').innerText = formattedN;
+    
+    // Animamos el cambio en lugar de setearlo directamente
+    animateValue(currentN, N, 800);
+    updateGalaxyVisualization(N);
+    
     document.title = `N = ${formattedN} | Drake Equation`;
 
     interpretResult(N);
@@ -198,8 +269,27 @@ function interpretResult(N) {
     
     if (!interpretationEl) return;
 
+    // Calculation of average distance (Simplified model: Disk of 100k ly)
+    // Distance approx = Galaxy Diameter / sqrt(N)
+    const avgDistance = N >= 1 ? Math.round(100000 / Math.sqrt(N)) : null;
+    const starRatio = N >= 1 ? (200000000000 / N).toLocaleString(undefined, { maximumFractionDigits: 0 }) : null;
+
     let interpretation = `<strong>${scenario.name}</strong><p>${scenario.desc}</p>`;
     
+    if (N >= 1) {
+        interpretation += `
+            <div class="cosmic-context">
+                <div class="context-item">
+                    <small>Nearest Neighbor (est.)</small>
+                    <span>~${avgDistance.toLocaleString()} light years</span>
+                </div>
+                <div class="context-item">
+                    <small>Star Ratio</small>
+                    <span>1 per ${starRatio} stars</span>
+                </div>
+            </div>`;
+    }
+
     if (N < 1) {
         interpretation += '<div class="filter-insight"><strong>Filter Insight:</strong> We are likely alone. The "Great Filter" is likely behind us (life or intelligence is the hard part).</div>';
     } else if (N < 100) {
@@ -207,6 +297,12 @@ function interpretResult(N) {
     } else {
         interpretation += `<div class="filter-insight"><strong>Filter Insight:</strong> With ${formatResult(N)} civilizations, the Great Filter may be ahead of us. If they are common but we see nothing, they might all face a common cause of extinction.</div>`;
     }
+
+    interpretation += `
+        <div class="scientific-note">
+            Calculations assume civilizations are uniformly distributed across a galactic disk of 100,000 light-years. 
+            Star ratio is based on an estimated 200 billion stars in the Milky Way.
+        </div>`;
     
     interpretationEl.innerHTML = interpretation;
     updateFermiParadox(N);
@@ -281,6 +377,7 @@ function applyPreset(values) {
 }
 
 let drakeChart;
+let funnelChart;
 
 function generateShareLink() {
     const params = new URLSearchParams();
@@ -404,6 +501,48 @@ function initChart() {
         plugins: [backgroundPlugin]
     });
 
+    const funnelCtx = document.getElementById('funnelChart').getContext('2d');
+    funnelChart = new Chart(funnelCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Total Stars', 'With Planets', 'Habitable', 'With Life', 'Intelligent', 'Communicative (N)'],
+            datasets: [{
+                data: [],
+                backgroundColor: '#000000',
+                borderWidth: 0,
+                barPercentage: 0.8
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => `Est. Count: ${context.parsed.x.toLocaleString()}`
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    type: 'logarithmic',
+                    grid: { color: '#eeeeee' },
+                    ticks: {
+                        color: '#666666',
+                        callback: function(value) {
+                            if (value >= 1e9) return (value / 1e9) + 'B';
+                            if (value >= 1e6) return (value / 1e6) + 'M';
+                            if (value >= 1e3) return (value / 1e3) + 'k';
+                            return value;
+                        }
+                    }
+                },
+                y: { grid: { display: false }, ticks: { color: '#000000', font: { weight: '600' } } }
+            }
+        }
+    });
+
     const scaleToggle = document.getElementById('scale-toggle');
     scaleToggle.addEventListener('change', () => {
         const isLog = scaleToggle.checked;
@@ -445,6 +584,24 @@ function updateChart(parameter, currentValues) {
     drakeChart.options.scales.x.title.text = parameterDescriptions[parameter];
     drakeChart.update();
 
+    // Update Funnel Chart
+    const totalStars = 200000000000; // 200B
+    const withPlanets = totalStars * currentValues.fp;
+    const habitable = withPlanets * currentValues.ne;
+    const withLife = habitable * currentValues.fl;
+    const intelligent = withLife * currentValues.fi;
+    const N = calculateN(currentValues);
+
+    funnelChart.data.datasets[0].data = [
+        totalStars,
+        withPlanets,
+        habitable,
+        withLife,
+        intelligent,
+        N
+    ];
+    funnelChart.update();
+
     const explanationElement = document.getElementById('chart-explanation');
     if (explanationElement) {
         const description = parameterDescriptions[parameter] || 'the selected parameter';
@@ -480,10 +637,18 @@ window.onload = function() {
     setupFormForScreenSize();
     resetForm();
 
+    // Set initial active preset
+    const initialPreset = document.querySelector('.preset-btn[data-preset="scientific"]');
+    if (initialPreset) initialPreset.classList.add('active-preset');
+
     document.querySelectorAll('.preset-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             const presetName = this.getAttribute('data-preset');
             if (presets[presetName]) {
+                // Update active state
+                document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active-preset'));
+                this.classList.add('active-preset');
+
                 applyPreset(presets[presetName]);
                 validateAndCalculate('Rstar');
                 this.style.transform = 'scale(0.95)';
