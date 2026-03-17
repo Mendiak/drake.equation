@@ -35,16 +35,32 @@ function updateResultDetails(N) {
     const resultDetails = document.getElementById('result-details');
     if (!resultDetails) return;
     
-    if (N >= 0.1) {
-        const avgDistance = Math.round(100000 / Math.sqrt(N));
-        const starRatio = Math.round(200000000000 / N);
-        
-        document.getElementById('result-meaning-title').innerHTML = t('result_interpretation.title');
-        document.getElementById('result-meaning-near').innerHTML = t('result_interpretation.near').replace('{distance}', avgDistance.toLocaleString(currentLang));
-        document.getElementById('result-meaning-ratio').innerHTML = t('result_interpretation.ratio').replace('{ratio}', starRatio.toLocaleString(currentLang));
-        document.getElementById('result-meaning-context').innerHTML = t('result_interpretation.earth_context') + '<br>' + t('result_interpretation.filter_note');
-        
+    // Mostramos la caja si N es un valor positivo mínimo.
+    if (N > 0.0000000001) {
         resultDetails.style.display = 'block';
+        
+        const titleEl = document.getElementById('result-meaning-title');
+        const nearEl = document.getElementById('result-meaning-near');
+        const ratioEl = document.getElementById('result-meaning-ratio');
+        const contextEl = document.getElementById('result-meaning-context');
+        
+        titleEl.innerHTML = t('result_interpretation.title');
+        contextEl.innerHTML = t('result_interpretation.earth_context') + '<br>' + t('result_interpretation.filter_note');
+        
+        if (N >= 1) {
+            const avgDistance = Math.round(100000 / Math.sqrt(N));
+            const starRatio = Math.round(200000000000 / N);
+            
+            nearEl.innerHTML = t('result_interpretation.near').replace('{distance}', avgDistance.toLocaleString(currentLang));
+            ratioEl.innerHTML = t('result_interpretation.ratio').replace('{ratio}', starRatio.toLocaleString(currentLang));
+            
+            nearEl.style.display = 'block';
+            ratioEl.style.display = 'block';
+        } else {
+            // Para N < 1 no mostramos las líneas de distancia/proporción, solo el contexto
+            nearEl.style.display = 'none';
+            ratioEl.style.display = 'none';
+        }
     } else {
         resultDetails.style.display = 'none';
     }

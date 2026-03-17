@@ -221,8 +221,8 @@ const translations = {
             title: "What This Means",
             near: "Communicative civilizations are roughly 1 per {distance} light-years apart.",
             ratio: "That's about 1 civilization per {ratio} stars in the galaxy.",
-            earth_context: "Earth is 1 unique world among ~200 billion stars.",
-            filter_note: "If this number is low, the \"Great Filter\" (life or intelligence) may be behind us. If high but we detect nothing, it may be ahead."
+            earth_context: "Earth is just one world among roughly 200 billion stars in our galaxy.",
+            filter_note: "If N is low, the hardest challenge (the 'Great Filter') is likely behind us: life is a rare miracle. If N is high but we see nothing, the filter may be ahead: civilizations might tend to self-destruct before they can be found."
         },
         magnitude_scale: "Order of Magnitude Scale",
         magnitude_explanation: "Based on your settings, here's where your estimate lands on the cosmic scale—from a solitary civilization to billions across the galaxy:",
@@ -466,8 +466,8 @@ const translations = {
             title: "Qué Significa Esto",
             near: "Las civilizaciones comunicativas están aproximadamente 1 cada {distance} años luz.",
             ratio: "Eso es alrededor de 1 civilización per cada {ratio} estrellas en la galaxia.",
-            earth_context: "La Tierra es 1 mundo único entre ~200 mil millones de estrellas.",
-            filter_note: "Si este número es bajo, el 'Gran Filtro' (vida o inteligencia) puede estar detrás. Si es alto pero no detectamos nada, puede estar adelante."
+            earth_context: "La Tierra es solo un mundo entre unos 200.000 millones de estrellas en nuestra galaxia.",
+            filter_note: "Si N es bajo, lo más difícil (el 'Gran Filtro') ya ha pasado: la vida es un milagro. Si N es alto y no vemos a nadie, el peligro puede estar en el futuro: las civilizaciones podrían tender a autodestruirse rápido."
         },
         magnitude_scale: "Escala de Orden de Magnitud",
         magnitude_explanation: "Según tus configuraciones, aquí es donde se sitúa tu estimación en la escala cósmica—desde apenas una civilización a miles de millones dispersos en la galaxia:",
