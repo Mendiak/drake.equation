@@ -163,6 +163,20 @@ h3 { font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-s
     }
 }
 
+@media (max-width: 900px) {
+    .dashboard { 
+        grid-template-columns: 1fr; 
+        gap: 3rem; 
+    }
+}
+
+@media (max-width: 600px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
 .parameters-panel {
     position: sticky;
     top: 2rem;
@@ -179,8 +193,11 @@ h3 { font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-s
 .parameters-panel::-webkit-scrollbar-thumb { background: #eeeeee; border-radius: 10px; }
 
 @media (max-width: 900px) {
-    .dashboard { grid-template-columns: 1fr; gap: 3rem; }
-    .parameters-panel { position: static; max-height: none; padding-right: 0; }
+    .parameters-panel { 
+        position: static; 
+        max-height: none; 
+        padding-right: 0; 
+    }
 }
 
 /* 4. Parameters Panel (Left) */
@@ -330,9 +347,10 @@ h3 { font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-s
 input[type="range"] {
     -webkit-appearance: none;
     width: 100%;
-    height: 2px;
-    background: #eeeeee;
+    height: 3px;
+    background: #cccccc;
     outline: none;
+    border-radius: 2px;
 }
 
 input[type="range"]::-webkit-slider-thumb {
@@ -638,49 +656,109 @@ details p {
     background: rgba(255, 255, 255, 0.98);
     z-index: 1000;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    padding: 1.5rem;
+    padding: 1rem;
+    overflow-y: auto;
 }
 
 .tooltip-content {
     max-width: 600px; width: 100%;
-    padding: 4rem;
+    padding: 3rem 2.5rem;
     border: 1px solid #000000;
     position: relative;
     background: #ffffff;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 2px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+    .tooltip-modal {
+        align-items: center;
+        padding: 2rem 1rem;
+    }
+    
     .tooltip-content {
+        margin: 0;
         padding: 2.5rem 1.5rem;
+        max-height: 85vh;
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .tooltip-modal {
+        padding: 1rem 0.75rem;
+    }
+    
+    .tooltip-content {
+        padding: 2rem 1.25rem;
+        border-radius: 4px;
     }
 }
 
 .tooltip-close { 
     position: absolute; 
-    top: 1.5rem; 
-    right: 1.5rem; 
-    border: none; 
-    background: none; 
-    font-size: 2rem; 
+    top: 1rem; 
+    right: 1rem; 
+    border: 1px solid #eeeeee;
+    background: #ffffff;
+    font-size: 1.75rem;
     cursor: pointer; 
     line-height: 1;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    border-radius: 2px;
 }
 
-.tooltip-section { margin-bottom: 2rem; }
+.tooltip-close:hover,
+.tooltip-close:active {
+    background: #000000;
+    color: #ffffff;
+    border-color: #000000;
+}
+
+@media (max-width: 480px) {
+    .tooltip-close {
+        width: 40px;
+        height: 40px;
+        font-size: 2rem;
+    }
+}
+
+#tooltip-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0 0 1rem 0;
+    color: #1a1a1a;
+}
+
+#tooltip-description {
+    font-size: 0.95rem;
+    color: #555555;
+    line-height: 1.6;
+    margin: 0 0 1.5rem 0;
+}
+
+.tooltip-section { margin-bottom: 1.5rem; }
+
 .tooltip-section strong { 
     display: block; 
     font-size: 0.7rem; 
     text-transform: uppercase; 
     letter-spacing: 0.12em; 
-    margin-bottom: 0.75rem; 
+    margin-bottom: 0.5rem; 
     color: #999999; 
 }
 
 .tooltip-section p { 
     margin: 0; 
-    font-size: 1rem; 
+    font-size: 0.95rem; 
     line-height: 1.6;
     color: #333333;
 }
@@ -690,9 +768,10 @@ details p {
     font-weight: 700; 
     text-transform: uppercase; 
     letter-spacing: 0.05em;
-    margin-top: 3rem; 
+    margin-top: 2rem; 
     padding-top: 1.5rem; 
     border-top: 1px solid #eeeeee; 
+    padding-bottom: 0.5rem;
 }
 
 /* 9. Footer */
@@ -743,6 +822,75 @@ footer a:hover {
     transition: all 0.2s ease;
 }
 
+/* Confidence Levels */
+.confidence-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.confidence-section h4 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 1.25rem;
+    color: #999999;
+    margin: 0 0 1.25rem 0;
+}
+
+.confidence-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.confidence-item {
+    text-align: center;
+}
+
+.confidence-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #999999;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.confidence-indicator {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin: 0 auto;
+    border: 2px solid;
+}
+
+.confidence-indicator[data-confidence="low"] {
+    background: #2ecc71;
+    border-color: #27ae60;
+}
+
+.confidence-indicator[data-confidence="medium"] {
+    background: #f39c12;
+    border-color: #e67e22;
+}
+
+.confidence-indicator[data-confidence="high"] {
+    background: #e74c3c;
+    border-color: #c0392b;
+}
+
+.confidence-indicator[data-confidence="very_high"] {
+    background: #c0392b;
+    border-color: #a93226;
+}
+
+@media (max-width: 600px) {
+    .confidence-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
 #equation-text span {
     padding: 2px 4px;
     display: inline-block;
@@ -753,21 +901,21 @@ footer a:hover {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 18px;
-    height: 18px;
-    border: 1px solid #eeeeee;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
-    font-size: 0.65rem;
-    font-style: normal;
-    color: #ccc;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: #999999;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
+    line-height: 1;
 }
 
 .info-icon:hover {
-    color: #000000;
-    border-color: #000000;
-    background: #fcfcfc;
+    background: #000000;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
 
 #fermi-dynamic {
@@ -778,4 +926,141 @@ footer a:hover {
     margin: 1.5rem 0;
     border-left: 3px solid #000000;
     color: #444444;
+}
+
+/* Concepts Grid */
+.concepts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.concept-card {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 2px;
+    border: 1px solid #eeeeee;
+    transition: all 0.2s ease;
+}
+
+.concept-card:hover {
+    border-color: #000000;
+    background: #fcfcfc;
+}
+
+.concept-card h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem 0;
+    color: #1a1a1a;
+}
+
+.concept-card p {
+    font-size: 0.8875rem;
+    color: #555555;
+    margin: 0;
+    line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+    .concepts-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Uncertainty Disclaimer */
+.uncertainty-disclaimer {
+    background: #fafafa;
+    padding: 2rem;
+    border-radius: 4px;
+    border: 1px solid #eeeeee;
+    border-left: 4px solid #e74c3c;
+    margin: 2rem 0;
+}
+
+.uncertainty-disclaimer h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 1rem 0;
+}
+
+.uncertainty-disclaimer p {
+    font-size: 0.95rem;
+    color: #555555;
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Magnitude Scale */
+.magnitude-container {
+    background: #fcfcfc;
+    padding: 2rem;
+    border-radius: 4px;
+    border: 1px solid #f0f0f0;
+    margin: 2rem 0;
+    position: relative;
+}
+
+.magnitude-container h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    color: #1a1a1a;
+}
+
+.magnitude-container p {
+    font-size: 0.8875rem;
+    color: #666666;
+    margin: 0 0 1.5rem 0;
+}
+
+.magnitude-scale {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 2rem 0 1rem 0;
+    position: relative;
+    height: 60px;
+}
+
+.magnitude-point {
+    flex: 1;
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #999999;
+    padding-bottom: 1.5rem;
+    position: relative;
+}
+
+.magnitude-point::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 8px;
+    background: #eeeeee;
+}
+
+.magnitude-indicator {
+    position: absolute;
+    top: 0;
+    width: 3px;
+    height: 40px;
+    background: #000000;
+    border-radius: 3px;
+    transition: left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.magnitude-label {
+    font-size: 0.8rem;
+    color: #666666;
+    text-align: center;
+    margin-top: 0.5rem;
+    font-weight: 600;
 }
