@@ -193,6 +193,45 @@
                     <div class="button-container">
                         <button type="button" id="reset-button" onclick="resetForm()" data-i18n="reset_button">Reset to Defaults</button>
                     </div>
+
+                    <div class="confidence-section">
+                        <h4 data-i18n="confidence_levels_title">Scientific Confidence</h4>
+                        <div class="confidence-grid">
+                            <div class="confidence-item">
+                                <div class="confidence-label">R*</div>
+                                <div class="confidence-indicator" data-confidence="low"></div>
+                            </div>
+                            <div class="confidence-item">
+                                <div class="confidence-label">f<sub>p</sub></div>
+                                <div class="confidence-indicator" data-confidence="low"></div>
+                            </div>
+                            <div class="confidence-item">
+                                <div class="confidence-label">n<sub>e</sub></div>
+                                <div class="confidence-indicator" data-confidence="medium"></div>
+                            </div>
+                            <div class="confidence-item">
+                                <div class="confidence-label">f<sub>l</sub></div>
+                                <div class="confidence-indicator" data-confidence="high"></div>
+                            </div>
+                            <div class="confidence-item">
+                                <div class="confidence-label">f<sub>i</sub></div>
+                                <div class="confidence-indicator" data-confidence="very_high"></div>
+                            </div>
+                            <div class="confidence-item">
+                                <div class="confidence-label">f<sub>c</sub></div>
+                                <div class="confidence-indicator" data-confidence="very_high"></div>
+                            </div>
+                            <div class="confidence-item">
+                                <div class="confidence-label">L</div>
+                                <div class="confidence-indicator" data-confidence="very_high"></div>
+                            </div>
+                        </div>
+                        <p class="confidence-legend" style="font-size: 0.7rem; color: #999999; margin-top: 1rem; line-height: 1.4;">
+                            <span style="display: block; margin-bottom: 0.25rem;"><strong style="color: #2ecc71;">●</strong> Observed</span>
+                            <span style="display: block; margin-bottom: 0.25rem;"><strong style="color: #f39c12;">●</strong> Theoretical</span>
+                            <span style="display: block; margin-bottom: 0.25rem;"><strong style="color: #e74c3c;">●</strong> Speculative</span>
+                        </p>
+                    </div>
                 </form>
             </aside>
 
@@ -204,6 +243,12 @@
                     <span class="result-unit" data-i18n="result_unit">Communicative civilizations</span>
                     <div class="result-context">
                         <p id="result-interpretation" data-i18n="result_initial">Adjust parameters to explore scenarios.</p>
+                        <div id="result-details" style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.15); display: none;">
+                            <strong id="result-meaning-title"></strong>
+                            <p id="result-meaning-near" style="font-size: 0.8125rem; margin: 0.75rem 0 0 0; opacity: 0.8;"></p>
+                            <p id="result-meaning-ratio" style="font-size: 0.8125rem; margin: 0.5rem 0 0 0; opacity: 0.8;"></p>
+                            <p id="result-meaning-context" style="font-size: 0.75rem; margin: 0.75rem 0 0 0; opacity: 0.6; font-style: italic;"></p>
+                        </div>
                     </div>
                 </div>
 
@@ -272,14 +317,73 @@
                             <!-- Timeline items will be injected by JavaScript -->
                         </div>
                     </details>
+
+                    <details>
+                        <summary data-i18n="key_concepts_title">Key Concepts</summary>
+                        <div class="concepts-grid">
+                            <div class="concept-card">
+                                <h4 data-i18n="concept_habitable.title">Habitable Zone</h4>
+                                <p data-i18n="concept_habitable.desc">The region around a star (the 'Goldilocks Zone') where liquid water can exist on a planet's surface.</p>
+                            </div>
+                            <div class="concept-card">
+                                <h4 data-i18n="concept_technosignature.title">Technosignature</h4>
+                                <p data-i18n="concept_technosignature.desc">Evidence of technological activity—radio signals, laser pulses, or massive engineering projects.</p>
+                            </div>
+                            <div class="concept-card">
+                                <h4 data-i18n="concept_great_filter.title">The Great Filter</h4>
+                                <p data-i18n="concept_great_filter.desc">A barrier explaining the Fermi Paradox. Either life is rare, or civilizations self-destruct quickly.</p>
+                            </div>
+                            <div class="concept-card">
+                                <h4 data-i18n="concept_cosmic_perspective.title">Cosmic Perspective</h4>
+                                <p data-i18n="concept_cosmic_perspective.desc">Even one alien civilization would revolutionize our understanding of life itself.</p>
+                            </div>
+                        </div>
+                    </details>
+
+                    <div class="uncertainty-disclaimer">
+                        <h3 data-i18n="uncertainty_title">A Note on Uncertainty</h3>
+                        <p data-i18n="uncertainty_text">The Drake Equation estimates vary by <strong>10 orders of magnitude</strong>—from isolated Earth to billions of civilizations. This isn't a flaw; it's honest uncertainty. We're working with incomplete data, and disagreement itself is scientifically valuable. This tool is speculative, not predictive.</p>
+                    </div>
+
+                    <div class="magnitude-container">
+                        <h3 data-i18n="magnitude_scale">Order of Magnitude Scale</h3>
+                        <p data-i18n="magnitude_explanation">Your estimate falls here on the scale of possible outcomes:</p>
+                        <div class="magnitude-ruler">
+                            <div class="ruler-pointer" id="magnitude-indicator" style="left: 0%;"></div>
+                            <div class="ruler-line"></div>
+                            <div class="ruler-scale" id="magnitude-scale">
+                                <div class="ruler-tick" data-value="1">
+                                    <span class="tick-label">1</span>
+                                </div>
+                                <div class="ruler-tick" data-value="10">
+                                    <span class="tick-label">10</span>
+                                </div>
+                                <div class="ruler-tick" data-value="100">
+                                    <span class="tick-label">100</span>
+                                </div>
+                                <div class="ruler-tick" data-value="1K">
+                                    <span class="tick-label">1K</span>
+                                </div>
+                                <div class="ruler-tick" data-value="100K">
+                                    <span class="tick-label">100K</span>
+                                </div>
+                                <div class="ruler-tick" data-value="1B">
+                                    <span class="tick-label">1B</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p id="magnitude-label" class="magnitude-label">Start calculating...</p>
+                    </div>
         
-                    <div class="links-container">
-                        <a class="links" href="https://en.wikipedia.org/wiki/Drake_equation" target="_blank" data-i18n="link_drake">Drake Equation</a>
-                        <a class="links" href="https://en.wikipedia.org/wiki/Fermi_paradox" target="_blank" data-i18n="link_fermi">Fermi Paradox</a>
-                        <a class="links" href="https://en.wikipedia.org/wiki/Astrobiology" target="_blank" data-i18n="link_astrobiology">Astrobiology</a>
-                        <a class="links" href="https://en.wikipedia.org/wiki/Search_for_extraterrestrial_intelligence" target="_blank" data-i18n="link_seti">SETI Institute</a>
-                        <a class="links" href="https://en.wikipedia.org/wiki/Exoplanet" target="_blank" data-i18n="link_exoplanets">Exoplanets</a>
-                        <a class="links" href="https://github.com/Mendiak/drake.equation" target="_blank" data-i18n="link_source">Source Code</a>
+                    <div class="references-section">
+                        <h3 data-i18n="references_title">References & Resources</h3>
+                        <div class="links-grid">
+                            <a class="reference-link" href="https://en.wikipedia.org/wiki/Drake_equation" target="_blank" data-i18n="link_drake">Drake Equation</a>
+                            <a class="reference-link" href="https://en.wikipedia.org/wiki/Fermi_paradox" target="_blank" data-i18n="link_fermi">Fermi Paradox</a>
+                            <a class="reference-link" href="https://en.wikipedia.org/wiki/Astrobiology" target="_blank" data-i18n="link_astrobiology">Astrobiology</a>
+                            <a class="reference-link" href="https://en.wikipedia.org/wiki/Search_for_extraterrestrial_intelligence" target="_blank" data-i18n="link_seti">SETI Institute</a>
+                            <a class="reference-link" href="https://en.wikipedia.org/wiki/Exoplanet" target="_blank" data-i18n="link_exoplanets">Exoplanets</a>
+                        </div>
                     </div>
                 </section>
             </main>
@@ -287,10 +391,17 @@
     </div>
 
     <footer>
-        <p>Website by <a href="https://mendiak.github.io/portfolio/" target="_blank" rel="noopener noreferrer">Mikel
-                Aramendia</a></p>
+        <div class="footer-content">
+            <p>Website by <a href="https://mendiak.github.io/portfolio/" target="_blank" rel="noopener noreferrer">Mikel Aramendia</a></p>
+            <span class="footer-divider">·</span>
+            <p><a href="https://github.com/Mendiak/drake.equation" target="_blank" rel="noopener noreferrer" data-i18n="link_source">Source Code</a></p>
+        </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="./config.js"></script>
+    <script src="./calculations.js"></script>
+    <script src="./chart-utils.js"></script>
+    <script src="./dom-updates.js"></script>
     <script src="./translations.js"></script>
     <script src="./script.js"></script>
 </body>

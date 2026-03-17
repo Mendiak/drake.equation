@@ -1,0 +1,155 @@
+/* ========================================
+   Components (Buttons, Inputs, Cards)
+   ======================================== */
+
+.preset-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    background: #ffffff;
+    border: 1px solid #eeeeee;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.preset-btn:hover { 
+    border-color: #000000; 
+    background: #fcfcfc; 
+}
+
+.preset-btn.active-preset { 
+    background: #000000; 
+    color: #ffffff; 
+    border-color: #000000; 
+}
+
+#share-btn, #download-chart-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: #ffffff;
+    border: 1px solid #eeeeee;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#share-btn:hover, #download-chart-btn:hover { 
+    background: #000000; 
+    color: #ffffff; 
+    border-color: #000000; 
+}
+
+button#reset-button {
+    width: 100%;
+    padding: 0.75rem;
+    background: none;
+    border: 1px solid #eeeeee;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #666666;
+}
+
+button#reset-button:hover { 
+    border-color: #000000; 
+    color: #000000; 
+    background: #fcfcfc; 
+}
+
+/* Input fields */
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 3px;
+    background: #cccccc;
+    outline: none;
+    border-radius: 2px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    background: #000000;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: transform 0.1s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+.value-display {
+    font-family: "Space Mono", monospace;
+    font-size: 0.8125rem;
+    text-align: right;
+    font-weight: 700;
+    color: #000000;
+}
+
+/* Cards */
+.result-card {
+    background: #000000;
+    color: #ffffff;
+    padding: 2rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.concept-card {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 2px;
+    border: 1px solid #eeeeee;
+    transition: all 0.2s ease;
+}
+
+.concept-card:hover {
+    border-color: #000000;
+    background: #fcfcfc;
+}
+
+.concept-card h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem 0;
+    color: #1a1a1a;
+}
+
+.concept-card p {
+    font-size: 0.8875rem;
+    color: #555555;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.info-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: #999999;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    line-height: 1;
+}
+
+.info-icon:hover {
+    background: #000000;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
