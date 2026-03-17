@@ -64,6 +64,7 @@ function renderTimeline() {
             <div class="timeline-content">
                 <strong>${item.title}</strong>
                 <p>${item.desc}</p>
+                ${item.wiki ? `<a href="${item.wiki}" target="_blank" rel="noopener noreferrer" class="timeline-link">Learn more →</a>` : ''}
             </div>
         </div>
     `).join('');
@@ -79,7 +80,11 @@ function formatResult(n) {
         return billions.toFixed(1) + " billion";
     }
     if (n >= 10000) return Math.round(n).toLocaleString(currentLang);
-    if (n < 0.001) return n.toExponential(2).replace('e', ' x 10^');
+    if (n < 0.01) {
+        if (n === 0) return "0";
+        const inverse = Math.round(1 / n);
+        return `< 1/${inverse.toLocaleString(currentLang)}`;
+    }
     return n.toLocaleString(currentLang, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
 }
 

@@ -133,7 +133,7 @@ h1 {
 
 .guide-item p {
     font-size: 0.875rem;
-    color: #888888;
+    color: #666666;
     margin: 0;
     line-height: 1.5;
 }
@@ -493,12 +493,24 @@ canvas { width: 100% !important; height: auto !important; margin-bottom: 1.5rem;
 /* 7. Educational Content Refinement */
 .educational-content {
     margin-top: 2rem;
+    background: #fafafa;
+    padding: 3rem;
+    border-radius: 4px;
+    border: 1px solid #f0f0f0;
 }
 
 details { 
-    border-top: 1px solid #f0f0f0; 
+    border-top: 1px solid #eeeeee; 
     padding: 1.5rem 0; 
     transition: all 0.3s;
+}
+
+details[open] {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 2px;
+    border: 1px solid #eeeeee;
+    border-top: none;
 }
 
 summary { 
@@ -510,14 +522,24 @@ summary {
     cursor: pointer;
     display: flex;
     justify-content: space-between;
+    padding: 0.5rem 0;
+    user-select: none;
 }
 
-summary::after { content: "+"; color: #ccc; }
-details[open] summary::after { content: "−"; }
+summary::after { 
+    content: "+"; 
+    color: #999999; 
+    font-weight: 400;
+    transition: transform 0.3s ease;
+}
+details[open] summary::after { 
+    content: "−";
+    color: #000000;
+}
 
 details p { 
     margin-top: 1.5rem; 
-    color: #555555; 
+    color: #444444; 
     font-size: 1rem; 
     line-height: 1.7; 
     max-width: 750px;
@@ -525,17 +547,27 @@ details p {
 
 .timeline { margin-top: 2rem; }
 .timeline-item { 
-    border-left: 2px solid #eeeeee;
+    border-left: 3px solid #000000;
+    padding: 1.5rem;
     padding-left: 2.5rem;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     position: relative;
+    background: #ffffff;
+    border-radius: 2px;
+    border: 1px solid #f0f0f0;
+    border-left: 3px solid #000000;
+    transition: all 0.2s ease;
+}
+
+.timeline-item:hover {
+    background: #fcfcfc;
 }
 
 .timeline-item::before {
     content: "";
     position: absolute;
     left: -6px;
-    top: 0;
+    top: 1.75rem;
     width: 10px;
     height: 10px;
     background: #000000;
@@ -547,18 +579,38 @@ details p {
     font-size: 0.8125rem; 
     font-weight: 700;
     color: #999999;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+    display: block;
 }
 
 .timeline-content strong { 
     font-size: 1.125rem; 
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+    color: #1a1a1a;
 }
 
 .timeline-content p {
     font-size: 0.9375rem;
-    color: #666666;
+    color: #555555;
+    margin: 0.75rem 0 0 0;
+}
+
+.timeline-link {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #000000;
+    text-decoration: none;
+    border-bottom: 1px solid #eeeeee;
+    padding-bottom: 2px;
+    transition: all 0.2s;
+}
+
+.timeline-link:hover {
+    border-bottom-color: #000000;
+    color: #000000;
 }
 
 .links-container { 
@@ -652,8 +704,33 @@ footer {
     font-size: 0.8125rem; 
     color: #999999; 
 }
-footer a { color: #666666; text-decoration: none; font-weight: 600; }
-footer a:hover { color: #000000; }
+
+.footer-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+footer p {
+    margin: 0;
+}
+
+.footer-divider {
+    color: #eeeeee;
+}
+
+footer a { 
+    color: #666666; 
+    text-decoration: none; 
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+footer a:hover { 
+    color: #000000; 
+}
 
 /* Utilities */
 .active-param {

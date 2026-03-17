@@ -27,6 +27,7 @@ const translations = {
         toggle_log: "Log",
         chart_explanation_base: "Varying {param} while keeping others constant shows how sensitive the total estimate N is to this specific factor.",
         funnel_title: "Cosmic Filter Funnel",
+        funnel_intro: "Imagine the galaxy as a vast funnel. Each factor in the equation acts as a filter that reduces the chances of finding life. Many candidates enter from the top, but only a few make it to the bottom as detectable civilizations.",
         funnel_explanation: "This visualization shows how each factor filters down the total number of potential communicative civilizations from the billions of stars in our galaxy.",
         background_title: "Background and Context",
         background_text_1: "The Drake equation was formulated by Dr. Frank Drake in 1961. It serves as a probabilistic argument used to estimate the number of active, communicative extraterrestrial civilizations in the Milky Way galaxy.",
@@ -185,17 +186,61 @@ const translations = {
         funnel_labels: ['Total Stars', 'With Planets', 'Habitable', 'With Life', 'Intelligent', 'Communicative (N)'],
         chart_axis_x: "Parameter Value",
         timeline: [
-            { year: "1960", title: "Project Ozma", desc: "Frank Drake performs the first modern SETI experiment using a radio telescope." },
-            { year: "1961", title: "Equation Formulated", desc: "The equation is presented at the Green Bank conference." },
-            { year: "1974", title: "Arecibo Message", desc: "A high-power radio message is beamed into space toward the M13 star cluster." },
-            { year: "1977", title: "The \"Wow!\" Signal", desc: "A strong narrowband radio signal is detected, matching the expected profile of a technosignature." },
-            { year: "1992", title: "First Exoplanets", desc: "Confirmation of planets orbiting pulsar PSR B1257+12." },
-            { year: "1995", title: "51 Pegasi b", desc: "First discovery of a planet orbiting a Sun-like star." },
-            { year: "2009", title: "Kepler Mission", desc: "NASA launches Kepler, proving that planets are common throughout the galaxy." },
-            { year: "2015", title: "Breakthrough Listen", desc: "Launch of the most comprehensive scientific search for alien communications." },
-            { year: "2018", title: "TESS Launch", desc: "The Transiting Exoplanet Survey Satellite begins mapping the nearest and brightest stars." },
-            { year: "2021", title: "James Webb (JWST)", desc: "Launch of the telescope capable of detecting biosignatures in exoplanet atmospheres." }
-        ]
+            { year: "1960", title: "Project Ozma", desc: "Frank Drake performs the first modern SETI experiment using a radio telescope.", wiki: "https://en.wikipedia.org/wiki/Project_Ozma" },
+            { year: "1961", title: "Equation Formulated", desc: "The equation is presented at the Green Bank conference.", wiki: "https://en.wikipedia.org/wiki/Drake_equation" },
+            { year: "1974", title: "Arecibo Message", desc: "A high-power radio message is beamed into space toward the M13 star cluster.", wiki: "https://en.wikipedia.org/wiki/Arecibo_message", discovery: "First intentional message to space" },
+            { year: "1977", title: "The \"Wow!\" Signal", desc: "A strong narrowband radio signal is detected, matching the expected profile of a technosignature.", wiki: "https://en.wikipedia.org/wiki/Wow!_signal", discovery: "Only confirmed unexplained signal" },
+            { year: "1992", title: "First Exoplanets", desc: "Confirmation of planets orbiting pulsar PSR B1257+12.", wiki: "https://en.wikipedia.org/wiki/Exoplanet", discovery: "Validates f_p – planets exist!" },
+            { year: "1995", title: "51 Pegasi b", desc: "First discovery of a planet orbiting a Sun-like star.", wiki: "https://en.wikipedia.org/wiki/51_Pegasi_b", discovery: "Planets like ours are common" },
+            { year: "2009", title: "Kepler Mission", desc: "NASA launches Kepler, proving that planets are common throughout the galaxy.", wiki: "https://en.wikipedia.org/wiki/Kepler_Space_Telescope", discovery: "5000+ exoplanets discovered" },
+            { year: "2015", title: "Breakthrough Listen", desc: "Launch of the most comprehensive scientific search for alien communications.", wiki: "https://en.wikipedia.org/wiki/Breakthrough_Listen", discovery: "Most extensive SETI effort" },
+            { year: "2018", title: "TESS Launch", desc: "The Transiting Exoplanet Survey Satellite begins mapping the nearest and brightest stars.", wiki: "https://en.wikipedia.org/wiki/TESS_(satellite)", discovery: "Searching nearby habitable worlds" },
+            { year: "2021", title: "James Webb (JWST)", desc: "Launch of the telescope capable of detecting biosignatures in exoplanet atmospheres.", wiki: "https://en.wikipedia.org/wiki/James_Webb_Space_Telescope", discovery: "Can detect life signatures" }
+        ],
+        key_concepts_title: "Key Concepts",
+        concept_habitable: {
+            title: "Habitable Zone",
+            desc: "The region around a star (the 'Goldilocks Zone') where liquid water can exist on a planet's surface. Too close and it boils; too far and it freezes."
+        },
+        concept_technosignature: {
+            title: "Technosignature",
+            desc: "Evidence of technological activity—radio signals, laser pulses, atmospheric pollution, megastructures, or waste heat. How we'd know someone is 'home.'"
+        },
+        concept_great_filter: {
+            title: "The Great Filter",
+            desc: "A hypothetical barrier explaining the Fermi Paradox. Either life is incredibly rare (filter behind us), or civilizations self-destruct quickly (filter ahead)."
+        },
+        concept_cosmic_perspective: {
+            title: "Cosmic Perspective",
+            desc: "Even one alien civilization would revolutionize our understanding of life. Finding intelligent life would validate centuries of speculation."
+        },
+        uncertainty_title: "A Note on Uncertainty",
+        uncertainty_text: "The Drake Equation estimates vary by <strong>10 orders of magnitude</strong>—from isolated Earth to billions of civilizations. This isn't a flaw; it's honest uncertainty. We're working with incomplete data, and disagreement itself is scientifically valuable. This tool is speculative, not predictive.",
+        result_interpretation: {
+            title: "What This Means",
+            near: "Communicative civilizations are roughly 1 per {distance} light-years apart.",
+            ratio: "That's about 1 civilization per {ratio} stars in the galaxy.",
+            earth_context: "Earth is 1 unique world among ~200 billion stars.",
+            filter_note: "If this number is low, the \"Great Filter\" (life or intelligence) may be behind us. If high but we detect nothing, it may be ahead."
+        },
+        magnitude_scale: "Order of Magnitude Scale",
+        magnitude_explanation: "Your estimate falls here on the scale of possible outcomes:",
+        confidence_levels_title: "Scientific Confidence Levels",
+        confidence_levels: {
+            Rstar: "low",
+            fp: "low",
+            ne: "medium",
+            fl: "high",
+            fi: "very_high",
+            fc: "very_high",
+            L: "very_high"
+        },
+        confidence_legend: {
+            low: "Well-observed (green): Data-driven from telescopes",
+            medium: "Theoretical but grounded (yellow): Based on established science",
+            high: "Highly speculative (orange): Educated guesses",
+            very_high: "Extremely speculative (red): Profound unknowns"
+        }
     },
     es: {
         title: "Ecuación de Drake",
@@ -384,16 +429,60 @@ const translations = {
         funnel_labels: ['Estrellas totales', 'Con planetas', 'Habitables', 'Con vida', 'Inteligentes', 'Comunicativas (N)'],
         chart_axis_x: "Valor del parámetro",
         timeline: [
-            { year: "1960", title: "Proyecto Ozma", desc: "Frank Drake realiza el primer experimento SETI moderno utilizando un radiotelescopio." },
-            { year: "1961", title: "Ecuación Formulada", desc: "La ecuación se presenta en la conferencia de Green Bank." },
-            { year: "1974", title: "Mensaje de Arecibo", desc: "Se emite un mensaje de radio de alta potencia al espacio hacia el cúmulo estelar M13." },
-            { year: "1977", title: "La señal \"Wow!\"", desc: "Se detecta una fuerte señal de radio de banda estrecha, que coincide con el perfil esperado de una tecnofirma." },
-            { year: "1992", title: "Primeros Exoplanetas", desc: "Confirmación de planetas orbitando el púlsar PSR B1257+12." },
-            { year: "1995", title: "51 Pegasi b", desc: "Primer descubrimiento de un planeta orbitando una estrella similar al Sol." },
-            { year: "2009", title: "Misión Kepler", desc: "La NASA lanza Kepler, demostrando que los planetas son comunes en toda la galaxia." },
-            { year: "2015", title: "Breakthrough Listen", desc: "Lanzamiento de la búsqueda científica más exhaustiva de comunicaciones alienígenas." },
-            { year: "2018", title: "Lanzamiento de TESS", desc: "El Satélite de Sondeo de Exoplanetas en Tránsito comienza a mapear las estrellas más cercanas y brillantes." },
-            { year: "2021", title: "James Webb (JWST)", desc: "Lanzamiento del telescopio capaz de detectar biofirmas en atmósferas de exoplanetas." }
-        ]
+            { year: "1960", title: "Proyecto Ozma", desc: "Frank Drake realiza el primer experimento SETI moderno utilizando un radiotelescopio.", wiki: "https://en.wikipedia.org/wiki/Project_Ozma", discovery: "Primer experimento SETI" },
+            { year: "1961", title: "Ecuación Formulada", desc: "La ecuación se presenta en la conferencia de Green Bank.", wiki: "https://en.wikipedia.org/wiki/Drake_equation", discovery: "Nace el framework científico" },
+            { year: "1974", title: "Mensaje de Arecibo", desc: "Se emite un mensaje de radio de alta potencia al espacio hacia el cúmulo estelar M13.", wiki: "https://en.wikipedia.org/wiki/Arecibo_message", discovery: "Primer mensaje intencional al espacio" },
+            { year: "1977", title: "La señal \"Wow!\"", desc: "Se detecta una fuerte señal de radio de banda estrecha, que coincide con el perfil esperado de una tecnofirma.", wiki: "https://en.wikipedia.org/wiki/Wow!_signal", discovery: "Única señal inexplicada confirmada" },
+            { year: "1992", title: "Primeros Exoplanetas", desc: "Confirmación de planetas orbitando el púlsar PSR B1257+12.", wiki: "https://en.wikipedia.org/wiki/Exoplanet", discovery: "¡Valida f_p – existen planetas!" },
+            { year: "1995", title: "51 Pegasi b", desc: "Primer descubrimiento de un planeta orbitando una estrella similar al Sol.", wiki: "https://en.wikipedia.org/wiki/51_Pegasi_b", discovery: "Planetas como el nuestro son comunes" },
+            { year: "2009", title: "Misión Kepler", desc: "La NASA lanza Kepler, demostrando que los planetas son comunes en toda la galaxia.", wiki: "https://en.wikipedia.org/wiki/Kepler_Space_Telescope", discovery: "5000+ exoplanetas descubiertos" },
+            { year: "2015", title: "Breakthrough Listen", desc: "Lanzamiento de la búsqueda científica más exhaustiva de comunicaciones alienígenas.", wiki: "https://en.wikipedia.org/wiki/Breakthrough_Listen", discovery: "Esfuerzo SETI más comprehensivo" },
+            { year: "2018", title: "Lanzamiento de TESS", desc: "El Satélite de Sondeo de Exoplanetas en Tránsito comienza a mapear las estrellas más cercanas y brillantes.", wiki: "https://en.wikipedia.org/wiki/TESS_(satellite)", discovery: "Buscando mundos habitables cercanos" },
+            { year: "2021", title: "James Webb (JWST)", desc: "Lanzamiento del telescopio capaz de detectar biofirmas en atmósferas de exoplanetas.", wiki: "https://en.wikipedia.org/wiki/James_Webb_Space_Telescope", discovery: "Puede detectar firmas de vida" }
+        ],
+        key_concepts_title: "Conceptos Clave",
+        concept_habitable: {
+            title: "Zona Habitable",
+            desc: "La región alrededor de una estrella (la 'Zona de Ricitos de Oro') donde el agua líquida puede existir en la superficie. Demasiado cerca hirviendo; demasiado lejos congela."
+        },
+        concept_technosignature: {
+            title: "Tecnofirma",
+            desc: "Evidencia de actividad tecnológica—señales de radio, pulsos láser, contaminación atmosférica, megaestructuras, o calor residual. Cómo sabríamos que 'alguien está en casa.'"
+        },
+        concept_great_filter: {
+            title: "El Gran Filtro",
+            desc: "Una barrera hipotética que explica la Paradoja de Fermi. O la vida es increíblemente rara (filtro detrás), o las civilizaciones se autodestruyen rápido (filtro adelante)."
+        },
+        concept_cosmic_perspective: {
+            title: "Perspectiva Cósmica",
+            desc: "Incluso una civilización extraterrestre revolucionaría nuestra comprensión de la vida. Encontrar vida inteligente validaría siglos de especulación."
+        },
+        uncertainty_title: "Una Nota sobre la Incertidumbre",
+        uncertainty_text: "Las estimaciones de la Ecuación de Drake varían en <strong>10 órdenes de magnitud</strong>—desde una Tierra aislada a miles de millones de civilizaciones. No es un defecto; es incertidumbre honesta. Trabajamos con datos incompletos, y el desacuerdo es científicamente valioso. Esta herramienta es especulativa, no predictiva.",
+        result_interpretation: {
+            title: "Qué Significa Esto",
+            near: "Las civilizaciones comunicativas están aproximadamente 1 cada {distance} años luz.",
+            ratio: "Eso es alrededor de 1 civilización per cada {ratio} estrellas en la galaxia.",
+            earth_context: "La Tierra es 1 mundo único entre ~200 mil millones de estrellas.",
+            filter_note: "Si este número es bajo, el 'Gran Filtro' (vida o inteligencia) puede estar detrás. Si es alto pero no detectamos nada, puede estar adelante."
+        },
+        magnitude_scale: "Escala de Orden de Magnitud",
+        magnitude_explanation: "Tu estimación cae aquí en la escala de resultados posibles:",
+        confidence_levels_title: "Niveles de Confianza Científica",
+        confidence_levels: {
+            Rstar: "low",
+            fp: "low",
+            ne: "medium",
+            fl: "high",
+            fi: "very_high",
+            fc: "very_high",
+            L: "very_high"
+        },
+        confidence_legend: {
+            low: "Bien observado (verde): Datos de telescopios",
+            medium: "Teórico pero fundamentado (amarillo): Ciencia establecida",
+            high: "Altamente especulativo (naranja): Conjeturas educadas",
+            very_high: "Extremadamente especulativo (rojo): Incógnitas profundas"
+        }
     }
 };
