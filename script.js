@@ -1,3 +1,5 @@
+let currentLang = localStorage.getItem('drake-lang') || 'en';
+
 const defaultValues = {
     Rstar: 1.5,
     fp: 0.5,
@@ -9,119 +11,76 @@ const defaultValues = {
 };
 
 const presets = {
-    optimistic: {
-        Rstar: 7,
-        fp: 1,
-        ne: 5,
-        fl: 1,
-        fi: 1,
-        fc: 0.2,
-        L: 1000000
-    },
-    scientific: {
-        Rstar: 1.5,
-        fp: 0.5,
-        ne: 2,
-        fl: 0.1,
-        fi: 0.01,
-        fc: 0.1,
-        L: 10000
-    },
-    pessimistic: {
-        Rstar: 1,
-        fp: 0.2,
-        ne: 0.1,
-        fl: 0.01,
-        fi: 0.001,
-        fc: 0.01,
-        L: 100
-    }
-};
-
-const parameterDescriptions = {
-    Rstar: 'the star formation rate (R*)',
-    fp: 'the fraction of stars with planetary systems (f<sub>p</sub>)',
-    ne: 'the number of planets per star system that can support life (n<sub>e</sub>)',
-    fl: 'the fraction of those planets where life develops (f<sub>l</sub>)',
-    fi: 'the fraction of planets with life where intelligent life evolves (f<sub>i</sub>)',
-    fc: 'the fraction of civilizations that develop detectable technology (f<sub>c</sub>)',
-    L: 'the duration of the detectable phase of the civilization (L)'
-};
-
-const tooltipData = {
-    Rstar: {
-        title: 'Star Formation Rate (R*)',
-        description: 'The average number of stars formed in the Milky Way each year.',
-        current: '1.5 – 3.0 stars/year',
-        scientific: 'Measured via infrared observations of gas clouds. While the galaxy is billions of years old, it still produces "nurseries" where gravity collapses gas into new suns.',
-        uncertainty: 'low',
-        importance: 'This is the foundational "engine" of the galaxy. No stars means no planets, and no life.'
-    },
-    fp: {
-        title: 'Fraction with Planets (f<sub>p</sub>)',
-        description: 'The percentage of stars that possess planetary systems.',
-        current: '0.8 – 1.0 (80% to 100%)',
-        scientific: 'Recent exoplanet missions (Kepler, TESS) have revolutionized this. We now believe almost every star has at least one planet.',
-        uncertainty: 'low',
-        importance: 'A decade ago, we didn\'t know if planets were rare. Now we know they are the rule, not the exception.'
-    },
-    ne: {
-        title: 'Habitable Planets (n<sub>e</sub>)',
-        description: 'Number of Earth-like planets per system capable of supporting life.',
-        current: '0.1 – 2.0',
-        scientific: 'Focuses on the "Goldilocks Zone" where liquid water can exist. It considers rocky planets with stable orbits around stable stars.',
-        uncertainty: 'medium',
-        importance: 'Just because a planet exists doesn\'t mean it\'s habitable. It needs the right size, composition, and distance from its sun.'
-    },
-    fl: {
-        title: 'Fraction Developing Life (f<sub>l</sub>)',
-        description: 'The probability that life emerges on a habitable planet.',
-        current: 'Speculative: 0.01 – 1.0',
-        scientific: 'We only have one data point: Earth. Life appeared here almost as soon as the planet cooled, suggesting it might be an inevitable chemical process.',
-        uncertainty: 'high',
-        importance: 'This is a major "Biological Filter." If life is hard to start, the universe is a beautiful but dead wilderness.'
-    },
-    fi: {
-        title: 'Intelligence (f<sub>i</sub>)',
-        description: 'The probability that life evolves to become intelligent.',
-        current: 'Unknown: 0.001 – 1.0',
-        scientific: 'Earth had life for 3 billion years before intelligence. Evolution favors survival, not necessarily "thinking." Intelligence may be a rare evolutionary accident.',
-        uncertainty: 'very high',
-        importance: 'Even if the galaxy is full of "bacteria" or "dinosaurs," they won\'t build telescopes.'
-    },
-    fc: {
-        title: 'Technology (f<sub>c</sub>)',
-        description: 'Fraction of intelligent species that develop detectable technology.',
-        current: 'Unknown: 0.1 – 0.2',
-        scientific: 'Species could be intelligent (like dolphins) but lack the tools, environment, or resources to build radio communication.',
-        uncertainty: 'very high',
-        importance: 'This is what makes a civilization visible. Without "technosignatures," we will never find them.'
-    },
-    L: {
-        title: 'Civilization Lifetime (L)',
-        description: 'The number of years a technological species remains detectable.',
-        current: 'Highly Speculative: 100 – 1,000,000 years',
-        scientific: 'Do civilizations destroy themselves via climate change, war, or AI? Or do they survive for millions of years?',
-        uncertainty: 'very high',
-        importance: 'The most critical factor. If civilizations only last 1,000 years, they likely never exist at the same time as their neighbors.'
-    }
+    optimistic: { Rstar: 7, fp: 1, ne: 5, fl: 1, fi: 1, fc: 0.2, L: 1000000 },
+    scientific: { Rstar: 1.5, fp: 0.5, ne: 2, fl: 0.1, fi: 0.01, fc: 0.1, L: 10000 },
+    pessimistic: { Rstar: 1, fp: 0.2, ne: 0.1, fl: 0.01, fi: 0.001, fc: 0.01, L: 100 }
 };
 
 const uncertaintyLevels = {
-    low: { color: '#000000', label: 'Well Known' },
-    medium: { color: '#666666', label: 'Moderate Uncertainty' },
-    high: { color: '#999999', label: 'Highly Speculative' },
-    'very high': { color: '#cccccc', label: 'Extremely Speculative' }
+    low: { color: '#000000', labelKey: 'low' },
+    medium: { color: '#666666', labelKey: 'medium' },
+    high: { color: '#999999', labelKey: 'high' },
+    'very high': { color: '#cccccc', labelKey: 'very_high' }
 };
 
 const MOBILE_BREAKPOINT = 768;
 
+function t(key) {
+    const keys = key.split('.');
+    let value = translations[currentLang];
+    for (const k of keys) {
+        if (value) value = value[k];
+        else return key;
+    }
+    return value || key;
+}
+
+function updateLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('drake-lang', lang);
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        el.innerHTML = t(key);
+    });
+
+    renderTimeline();
+    validateAndCalculate();
+}
+
+function renderTimeline() {
+    const container = document.getElementById('timeline-container');
+    if (!container) return;
+
+    const timelineData = translations[currentLang].timeline;
+    container.innerHTML = timelineData.map(item => `
+        <div class="timeline-item">
+            <div class="timeline-year">${item.year}</div>
+            <div class="timeline-content">
+                <strong>${item.title}</strong>
+                <p>${item.desc}</p>
+            </div>
+        </div>
+    `).join('');
+}
+
 function formatResult(n) {
     if (n === 0) return "0";
-    if (n > 10000 || n < 0.01) {
-        return n.toExponential(2);
+    if (n >= 1e9) {
+        const billions = n / 1e9;
+        if (currentLang === 'es') {
+            return billions >= 1000 ? (billions/1000).toFixed(1) + " billones" : billions.toFixed(0) + " mil millones";
+        }
+        return billions.toFixed(1) + " billion";
     }
-    return n.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+    if (n >= 10000) return Math.round(n).toLocaleString(currentLang);
+    if (n < 0.001) return n.toExponential(2).replace('e', ' x 10^');
+    return n.toLocaleString(currentLang, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
 }
 
 function getScenario(params) {
@@ -129,42 +88,30 @@ function getScenario(params) {
     const technologicalSuccess = params.fc;
     const longevity = params.L;
 
-    if (longevity < 500) return {
-        name: "The Shooting Star Scenario",
-        desc: "Civilizations emerge frequently but vanish almost instantly. The galaxy is a graveyard of short-lived societies."
-    };
-    if (biologicalSuccess < 0.0001) return {
-        name: "The Rare Earth Scenario",
-        desc: "The universe is habitable, but the jump from chemistry to biology or intelligence is an incredibly rare miracle."
-    };
-    if (technologicalSuccess < 0.05) return {
-        name: "The Silent Wilderness",
-        desc: "The galaxy is teeming with life and intelligence, but they remain 'primitive' or choose to live without detectable technology."
-    };
-    if (longevity > 100000) return {
-        name: "The Galactic Club",
-        desc: "Civilizations survive for eons. The galaxy should be highly organized and filled with ancient, immortal societies."
-    };
-    return {
-        name: "The Balanced Cosmos",
-        desc: "A moderate universe where civilizations are spaced out both in distance and time."
-    };
+    if (longevity < 500) return t('scenarios.shooting_star');
+    if (biologicalSuccess < 0.0001) return t('scenarios.rare_earth');
+    if (technologicalSuccess < 0.05) return t('scenarios.silent_wilderness');
+    if (longevity > 100000) return t('scenarios.galactic_club');
+    return t('scenarios.balanced');
 }
 
 function updateValueAndRecalculate(paramId) {
     const input = document.getElementById(paramId);
     const display = document.getElementById(paramId + '-value');
     
-    // Highlight the active part of the equation
-    document.querySelectorAll('#equation-text span').forEach(span => span.classList.remove('active-param'));
+    // 1. Limpiar resaltados anteriores
+    document.querySelectorAll('.active-param').forEach(el => el.classList.remove('active-param'));
+    
+    // 2. Resaltar en la ecuación
     const eqSpan = document.getElementById('eq-' + paramId);
     if (eqSpan) eqSpan.classList.add('active-param');
 
-    if (paramId === 'L') {
-        display.textContent = Number(input.value).toLocaleString();
-    } else {
-        display.textContent = input.value;
-    }
+    // 3. Resaltar la etiqueta del slider (el texto dentro del label)
+    const labelSpan = document.querySelector(`label[for="${paramId}"] span:first-child`);
+    if (labelSpan) labelSpan.classList.add('active-param');
+
+    if (paramId === 'L') display.textContent = Number(input.value).toLocaleString(currentLang);
+    else display.textContent = input.value;
     
     validateAndCalculate(paramId);
 }
@@ -186,40 +133,27 @@ let animationFrame;
 
 function animateValue(start, end, duration) {
     if (animationFrame) cancelAnimationFrame(animationFrame);
-    
     const startTime = performance.now();
-    
     function update(now) {
         const elapsed = now - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        
-        // Easing function (easeOutExpo)
         const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-        
         const value = start + (end - start) * easeProgress;
         document.getElementById('result').innerText = formatResult(value);
-        
-        if (progress < 1) {
-            animationFrame = requestAnimationFrame(update);
-        } else {
-            currentN = end;
-        }
+        if (progress < 1) animationFrame = requestAnimationFrame(update);
+        else currentN = end;
     }
-    
     animationFrame = requestAnimationFrame(update);
 }
 
 function updateGalaxyVisualization(N) {
     const galaxy = document.getElementById('galaxy-viz');
     if (!galaxy) return;
-    
-    // Limitamos a 500 puntos para rendimiento
     const targetCount = Math.min(Math.floor(N), 500); 
     const currentDots = galaxy.querySelectorAll('.galaxy-dot');
     const currentCount = currentDots.length;
 
     if (targetCount > currentCount) {
-        // Añadir las estrellas que faltan
         const toAdd = targetCount - currentCount;
         for (let i = 0; i < toAdd; i++) {
             const dot = document.createElement('div');
@@ -228,17 +162,13 @@ function updateGalaxyVisualization(N) {
             dot.style.top = Math.random() * 100 + '%';
             const opacity = 0.2 + Math.random() * 0.8;
             galaxy.appendChild(dot);
-            
-            // Forzar reflow para que la transición de opacidad funcione
             setTimeout(() => { dot.style.opacity = opacity; }, 10);
         }
     } else if (targetCount < currentCount) {
-        // Quitar las estrellas sobrantes (de las últimas añadidas)
         const toRemove = currentCount - targetCount;
         for (let i = 0; i < toRemove; i++) {
             const dot = currentDots[i];
             dot.style.opacity = '0';
-            // Eliminar del DOM después de la transición
             setTimeout(() => { if (dot.parentNode) galaxy.removeChild(dot); }, 1000);
         }
     }
@@ -247,17 +177,11 @@ function updateGalaxyVisualization(N) {
 function validateAndCalculate(changedParameter) {
     const currentValues = getParameterValues();
     const N = calculateN(currentValues);
-
     const formattedN = formatResult(N);
-    
-    // Animamos el cambio en lugar de setearlo directamente
     animateValue(currentN, N, 800);
     updateGalaxyVisualization(N);
-    
-    document.title = `N = ${formattedN} | Drake Equation`;
-
+    document.title = `N = ${formattedN} | ${t('title')}`;
     interpretResult(N);
-
     const parameterToChart = changedParameter || 'Rstar';
     updateChart(parameterToChart, currentValues);
 }
@@ -266,44 +190,20 @@ function interpretResult(N) {
     const interpretationEl = document.getElementById('result-interpretation');
     const currentValues = getParameterValues();
     const scenario = getScenario(currentValues);
-    
     if (!interpretationEl) return;
-
-    // Calculation of average distance (Simplified model: Disk of 100k ly)
-    // Distance approx = Galaxy Diameter / sqrt(N)
     const avgDistance = N >= 1 ? Math.round(100000 / Math.sqrt(N)) : null;
-    const starRatio = N >= 1 ? (200000000000 / N).toLocaleString(undefined, { maximumFractionDigits: 0 }) : null;
-
+    const starRatio = N >= 1 ? (200000000000 / N).toLocaleString(currentLang, { maximumFractionDigits: 0 }) : null;
     let interpretation = `<strong>${scenario.name}</strong><p>${scenario.desc}</p>`;
-    
     if (N >= 1) {
-        interpretation += `
-            <div class="cosmic-context">
-                <div class="context-item">
-                    <small>Nearest Neighbor (est.)</small>
-                    <span>~${avgDistance.toLocaleString()} light years</span>
-                </div>
-                <div class="context-item">
-                    <small>Star Ratio</small>
-                    <span>1 per ${starRatio} stars</span>
-                </div>
-            </div>`;
-    }
-
-    if (N < 1) {
-        interpretation += '<div class="filter-insight"><strong>Filter Insight:</strong> We are likely alone. The "Great Filter" is likely behind us (life or intelligence is the hard part).</div>';
-    } else if (N < 100) {
-        interpretation += '<div class="filter-insight"><strong>Filter Insight:</strong> Civilizations are rarities. The vast distances between them make contact a near-impossible dream.</div>';
-    } else {
-        interpretation += `<div class="filter-insight"><strong>Filter Insight:</strong> With ${formatResult(N)} civilizations, the Great Filter may be ahead of us. If they are common but we see nothing, they might all face a common cause of extinction.</div>`;
-    }
-
-    interpretation += `
-        <div class="scientific-note">
-            Calculations assume civilizations are uniformly distributed across a galactic disk of 100,000 light-years. 
-            Star ratio is based on an estimated 200 billion stars in the Milky Way.
+        interpretation += `<div class="cosmic-context">
+            <div class="context-item"><small>${t('context.nearest')}</small><span>~${avgDistance.toLocaleString(currentLang)} ${t('context.unit_ly')}</span></div>
+            <div class="context-item"><small>${t('context.star_ratio')}</small><span>${t('context.unit_stars').replace('{n}', starRatio)}</span></div>
         </div>`;
-    
+    }
+    if (N < 1) interpretation += `<div class="filter-insight">${t('context.filter_alone')}</div>`;
+    else if (N < 100) interpretation += `<div class="filter-insight">${t('context.filter_rare')}</div>`;
+    else interpretation += `<div class="filter-insight">${t('context.filter_common').replace('{n}', formatResult(N))}</div>`;
+    interpretation += `<div class="scientific-note">${t('context.scientific_note')}</div>`;
     interpretationEl.innerHTML = interpretation;
     updateFermiParadox(N);
 }
@@ -311,47 +211,34 @@ function interpretResult(N) {
 function updateFermiParadox(N) {
     const fermiDynamic = document.getElementById('fermi-dynamic');
     if (!fermiDynamic) return;
-    
     let fermiText = '';
-    
-    if (N < 1) {
-        fermiText = '<strong>With N < 1:</strong> The paradox is weak. If civilizations are this rare, we might genuinely be alone or the first to emerge.';
-    } else if (N < 100) {
-        fermiText = '<strong>With N ≈ ' + Math.round(N) + ':</strong> The paradox begins to emerge. Why haven\'t we detected any signals?';
-    } else if (N < 10000) {
-        fermiText = '<strong>With N ≈ ' + Math.round(N) + ':</strong> The paradox is significant! With thousands of civilizations, we should have seen something.';
-    } else {
-        fermiText = '<strong>With N ≈ ' + formatResult(N) + ':</strong> The paradox is at its most extreme! The galaxy should be teeming with life.';
-    }
-    
+    if (N < 1) fermiText = t('fermi_dynamic.weak');
+    else if (N < 100) fermiText = t('fermi_dynamic.start').replace('{n}', Math.round(N));
+    else if (N < 10000) fermiText = t('fermi_dynamic.significant').replace('{n}', Math.round(N));
+    else fermiText = t('fermi_dynamic.extreme').replace('{n}', formatResult(N));
     fermiDynamic.innerHTML = fermiText;
 }
 
 function showTooltip(paramId) {
     const modal = document.getElementById('tooltip-modal');
-    const data = tooltipData[paramId];
-    
+    const data = t('tooltips.' + paramId);
     if (!data || !modal) return;
-    
     document.getElementById('tooltip-title').innerHTML = data.title;
     document.getElementById('tooltip-description').textContent = data.description;
     document.getElementById('tooltip-current').textContent = data.current;
     document.getElementById('tooltip-scientific').textContent = data.scientific;
     document.getElementById('tooltip-importance').textContent = data.importance;
-    
     const uncertaintyEl = document.getElementById('tooltip-uncertainty');
-    const uncertaintyInfo = uncertaintyLevels[data.uncertainty];
+    const levelData = uncertaintyLevels[data.uncertainty];
+    const uncertaintyLabel = t('uncertainty.' + levelData.labelKey);
     uncertaintyEl.className = 'tooltip-uncertainty ' + data.uncertainty.replace(' ', '-');
-    uncertaintyEl.textContent = 'Confidence Level: ' + uncertaintyInfo.label;
-    
+    uncertaintyEl.textContent = `${currentLang === 'es' ? 'Nivel de confianza' : 'Confidence Level'}: ${uncertaintyLabel}`;
     modal.style.display = 'flex';
 }
 
 function hideTooltip() {
     const modal = document.getElementById('tooltip-modal');
-    if (modal) {
-        modal.style.display = 'none';
-    }
+    if (modal) modal.style.display = 'none';
 }
 
 function resetForm() {
@@ -364,14 +251,9 @@ function applyPreset(values) {
         const slider = document.getElementById(paramId);
         const display = document.getElementById(paramId + '-value');
         const value = values[paramId];
-
         if (slider && display) {
             slider.value = value;
-            if (paramId === 'L') {
-                display.textContent = Number(value).toLocaleString();
-            } else {
-                display.textContent = value;
-            }
+            display.textContent = paramId === 'L' ? Number(value).toLocaleString(currentLang) : value;
         }
     }
 }
@@ -381,27 +263,13 @@ let funnelChart;
 
 function generateShareLink() {
     const params = new URLSearchParams();
-    for (const paramId in defaultValues) {
-        const value = document.getElementById(paramId).value;
-        params.append(paramId, value);
-    }
-    
+    for (const paramId in defaultValues) params.append(paramId, document.getElementById(paramId).value);
     const shareUrl = `${window.location.origin}${window.location.pathname}?${params.toString()}`;
-    
     navigator.clipboard.writeText(shareUrl).then(() => {
         const shareButton = document.getElementById('share-btn');
         const originalContent = shareButton.innerHTML;
-        shareButton.innerHTML = 'Copied!';
-        shareButton.style.background = '#000000';
-        shareButton.style.color = '#ffffff';
-        
-        setTimeout(() => {
-            shareButton.innerHTML = originalContent;
-            shareButton.style.background = '';
-            shareButton.style.color = '';
-        }, 2000);
-    }).catch(err => {
-        console.error('Failed to copy link: ', err);
+        shareButton.innerHTML = currentLang === 'es' ? '¡Copiado!' : 'Copied!';
+        setTimeout(() => { shareButton.innerHTML = originalContent; }, 2000);
     });
 }
 
@@ -429,148 +297,36 @@ const backgroundPlugin = {
 
 function initChart() {
     Chart.defaults.font.family = 'system-ui, -apple-system, sans-serif';
-
     const ctx = document.getElementById('drakeChart').getContext('2d');
     drakeChart = new Chart(ctx, {
         type: 'line',
-        data: {
-            labels: [],
-            datasets: [{
-                label: 'N (Civilizations)',
-                data: [],
-                borderColor: '#000000',
-                backgroundColor: 'rgba(0, 0, 0, 0.05)',
-                borderWidth: 1.5,
-                tension: 0,
-                fill: true,
-                pointRadius: 0,
-                pointHitRadius: 10
-            }]
-        },
+        data: { labels: [], datasets: [{ label: 'N', data: [], borderColor: '#000000', backgroundColor: 'rgba(0, 0, 0, 0.05)', borderWidth: 1.5, tension: 0, fill: true, pointRadius: 0 }] },
         options: {
-            animation: {
-                duration: 400
-            },
+            animation: { duration: 400 },
             responsive: true,
-            plugins: {
-                customCanvasBackgroundColor: {
-                    color: '#ffffff',
-                },
-                legend: {
-                    display: false
-                }
-            },
+            plugins: { customCanvasBackgroundColor: { color: '#ffffff' }, legend: { display: false } },
             scales: {
-                x: { 
-                    title: {
-                        display: true,
-                        text: 'Parameter Value',
-                        color: '#1a1a1a',
-                        font: { size: 11, weight: '600' }
-                    },
-                    grid: { color: '#eeeeee' },
-                    ticks: {
-                        color: '#666666',
-                        font: { size: 10 },
-                        callback: function(value, index, values) {
-                            const label = this.getLabelForValue(value);
-                            return Number(label).toFixed(2);
-                        }
-                    }
-                },
-                y: {
-                    type: 'logarithmic',
-                    title: {
-                        display: true,
-                        text: 'N',
-                        color: '#1a1a1a',
-                        font: { size: 11, weight: '600' }
-                    },
-                    grid: { color: '#eeeeee' },
-                    ticks: {
-                        color: '#666666',
-                        font: { size: 10 },
-                        callback: function(value, index, values) {
-                            if (value >= 1) return Math.round(value).toLocaleString();
-                            return value.toFixed(2);
-                        }
-                    }
-                }
+                x: { title: { display: true, text: t('chart_axis_x'), font: { size: 11, weight: '600' } }, ticks: { callback: value => Number(drakeChart.data.labels[value]).toFixed(2) } },
+                y: { type: 'logarithmic', title: { display: true, text: 'N', font: { size: 11, weight: '600' } }, ticks: { callback: value => value >= 1 ? Math.round(value).toLocaleString(currentLang) : value.toFixed(2) } }
             }
         },
         plugins: [backgroundPlugin]
     });
-
     const funnelCtx = document.getElementById('funnelChart').getContext('2d');
     funnelChart = new Chart(funnelCtx, {
         type: 'bar',
-        data: {
-            labels: ['Total Stars', 'With Planets', 'Habitable', 'With Life', 'Intelligent', 'Communicative (N)'],
-            datasets: [{
-                data: [],
-                backgroundColor: '#000000',
-                borderWidth: 0,
-                barPercentage: 0.8
-            }]
-        },
-        options: {
-            indexAxis: 'y',
-            responsive: true,
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    callbacks: {
-                        label: (context) => `Est. Count: ${context.parsed.x.toLocaleString()}`
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    type: 'logarithmic',
-                    grid: { color: '#eeeeee' },
-                    ticks: {
-                        color: '#666666',
-                        callback: function(value) {
-                            if (value >= 1e9) return (value / 1e9) + 'B';
-                            if (value >= 1e6) return (value / 1e6) + 'M';
-                            if (value >= 1e3) return (value / 1e3) + 'k';
-                            return value;
-                        }
-                    }
-                },
-                y: { grid: { display: false }, ticks: { color: '#000000', font: { weight: '600' } } }
-            }
-        }
+        data: { labels: [], datasets: [{ data: [], backgroundColor: '#000000', borderWidth: 0, barPercentage: 0.8 }] },
+        options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } }, scales: { x: { type: 'logarithmic', ticks: { callback: v => v >= 1e9 ? (v/1e9)+'B' : v >= 1e6 ? (v/1e6)+'M' : v >= 1e3 ? (v/1e3)+'k' : v } } } }
     });
-
-    const scaleToggle = document.getElementById('scale-toggle');
-    scaleToggle.addEventListener('change', () => {
-        const isLog = scaleToggle.checked;
-        drakeChart.options.scales.y.type = isLog ? 'logarithmic' : 'linear';
-        drakeChart.update();
-    });
-
-    const downloadBtn = document.getElementById('download-chart-btn');
-    downloadBtn.addEventListener('click', () => {
-        drakeChart.options.plugins.customCanvasBackgroundColor.color = 'white';
-        drakeChart.update('none');
-        const link = document.createElement('a');
-        link.href = drakeChart.toBase64Image();
-        link.download = 'drake-equation-chart.png';
-        link.click();
-        drakeChart.options.plugins.customCanvasBackgroundColor.color = 'transparent';
-        drakeChart.update('none');
-    });
-
-    const shareBtn = document.getElementById('share-btn');
-    shareBtn.addEventListener('click', generateShareLink);
+    document.getElementById('scale-toggle').addEventListener('change', (e) => { drakeChart.options.scales.y.type = e.target.checked ? 'logarithmic' : 'linear'; drakeChart.update(); });
+    document.getElementById('download-chart-btn').addEventListener('click', () => { const link = document.createElement('a'); link.href = drakeChart.toBase64Image(); link.download = 'drake-equation.png'; link.click(); });
+    document.getElementById('share-btn').addEventListener('click', generateShareLink);
 }
 
 function updateChart(parameter, currentValues) {
     const values = [];
     const results = [];
     const baseValue = currentValues[parameter];
-    
     for (let i = 0; i < 50; i++) {
         const variedValue = baseValue * (i / 25);
         values.push(variedValue);
@@ -578,56 +334,53 @@ function updateChart(parameter, currentValues) {
         chartPointParams[parameter] = variedValue;
         results.push(calculateN(chartPointParams));
     }
-    
     drakeChart.data.labels = values;
     drakeChart.data.datasets[0].data = results;
-    drakeChart.options.scales.x.title.text = parameterDescriptions[parameter];
+    drakeChart.options.scales.x.title.text = t('labels.' + parameter);
     drakeChart.update();
-
-    // Update Funnel Chart
-    const totalStars = 200000000000; // 200B
-    const withPlanets = totalStars * currentValues.fp;
-    const habitable = withPlanets * currentValues.ne;
-    const withLife = habitable * currentValues.fl;
-    const intelligent = withLife * currentValues.fi;
-    const N = calculateN(currentValues);
-
-    funnelChart.data.datasets[0].data = [
-        totalStars,
-        withPlanets,
-        habitable,
-        withLife,
-        intelligent,
-        N
-    ];
-    funnelChart.update();
-
+    updateFunnel(currentValues);
     const explanationElement = document.getElementById('chart-explanation');
     if (explanationElement) {
-        const description = parameterDescriptions[parameter] || 'the selected parameter';
-        explanationElement.innerHTML = `Varying ${description} while keeping others constant shows how sensitive the total estimate N is to this specific factor.`;
+        const paramName = t('labels.' + parameter);
+        explanationElement.innerHTML = t('chart_explanation_base').replace('{param}', `<span class="active-param">${paramName}</span>`);
+    }
+}
+
+function updateFunnel(currentValues) {
+    const totalStars = 200000000000;
+    const steps = [
+        { key: 'total', val: totalStars },
+        { key: 'planets', val: totalStars * currentValues.fp },
+        { key: 'habitable', val: totalStars * currentValues.fp * currentValues.ne },
+        { key: 'life', val: totalStars * currentValues.fp * currentValues.ne * currentValues.fl },
+        { key: 'intelligence', val: totalStars * currentValues.fp * currentValues.ne * currentValues.fl * currentValues.fi },
+        { key: 'tech', val: calculateN(currentValues) }
+    ];
+    funnelChart.data.labels = steps.map(s => t(`funnel_steps.${s.key}`));
+    funnelChart.data.datasets[0].data = steps.map(s => s.val);
+    funnelChart.update();
+    const insightContainer = document.getElementById('funnel-insights');
+    if (insightContainer) {
+        insightContainer.innerHTML = steps.map((s, i) => {
+            let retentionText = '';
+            if (i > 0) {
+                const ratio = s.val / steps[i-1].val;
+                const percentage = (ratio * 100).toFixed(i === 1 || i === 2 ? 0 : 2);
+                const prob = currentLang === 'es' ? (ratio < 0.1 ? `Solo 1 de cada ${Math.round(1/ratio)}` : `${percentage}%`) : (ratio < 0.1 ? `Only 1 in ${Math.round(1/ratio)}` : `${percentage}%`);
+                retentionText = `<span class="funnel-percentage">${prob} ${currentLang === 'es' ? 'superan este filtro' : 'pass this filter'}</span>`;
+            }
+            return `<div class="funnel-step-info"><span class="funnel-step-label">${t(`funnel_steps.${s.key}`)}</span><span class="funnel-step-value">${formatResult(s.val)}</span>${retentionText}<p class="funnel-step-desc">${t(`funnel_insights.${s.key}`)}</p></div>`;
+        }).join('');
     }
 }
 
 function setupFormForScreenSize() {
     const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
     const formInputs = ['Rstar', 'fp', 'ne', 'fl', 'fi', 'fc', 'L'];
-
     formInputs.forEach(id => {
         const input = document.getElementById(id);
-        if (isMobile) {
-            input.type = 'number';
-            input.style.width = '100%';
-            input.setAttribute('step', 'any');
-            input.oninput = () => updateValueAndRecalculate(id);
-        } else {
-            input.type = 'range';
-            input.style.width = '100%';
-            input.setAttribute('step', defaultValues[id] > 1 ? '1' : '0.01');
-            if (id === 'Rstar' || id === 'ne') input.setAttribute('step', '0.1');
-            if (id === 'L') input.setAttribute('step', '1000');
-            input.oninput = () => updateValueAndRecalculate(id);
-        }
+        if (isMobile) { input.type = 'number'; input.setAttribute('step', 'any'); }
+        else { input.type = 'range'; input.setAttribute('step', defaultValues[id] > 1 ? '1' : '0.01'); if (id === 'Rstar' || id === 'ne') input.setAttribute('step', '0.1'); if (id === 'L') input.setAttribute('step', '1000'); }
     });
 }
 
@@ -635,53 +388,25 @@ window.onload = function() {
     applyUrlParameters();
     initChart();
     setupFormForScreenSize();
+    updateLanguage(currentLang);
+    const scientificBtn = document.querySelector('[data-preset="scientific"]');
+    if (scientificBtn) scientificBtn.classList.add('active-preset');
     resetForm();
-
-    // Set initial active preset
-    const initialPreset = document.querySelector('.preset-btn[data-preset="scientific"]');
-    if (initialPreset) initialPreset.classList.add('active-preset');
-
+    document.querySelectorAll('.lang-btn').forEach(btn => { btn.addEventListener('click', () => updateLanguage(btn.getAttribute('data-lang'))); });
     document.querySelectorAll('.preset-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             const presetName = this.getAttribute('data-preset');
             if (presets[presetName]) {
-                // Update active state
                 document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active-preset'));
                 this.classList.add('active-preset');
-
                 applyPreset(presets[presetName]);
                 validateAndCalculate('Rstar');
-                this.style.transform = 'scale(0.95)';
-                setTimeout(() => { this.style.transform = ''; }, 150);
             }
         });
     });
-
-    document.querySelectorAll('.info-icon').forEach(icon => {
-        icon.addEventListener('click', function(e) {
-            e.preventDefault();
-            const paramId = this.getAttribute('data-param');
-            showTooltip(paramId);
-        });
-    });
-
-    const tooltipClose = document.querySelector('.tooltip-close');
-    if (tooltipClose) { tooltipClose.addEventListener('click', hideTooltip); }
-
+    document.querySelectorAll('.info-icon').forEach(icon => { icon.addEventListener('click', (e) => showTooltip(e.target.getAttribute('data-param'))); });
     const tooltipModal = document.getElementById('tooltip-modal');
-    if (tooltipModal) {
-        tooltipModal.addEventListener('click', function(e) {
-            if (e.target === this) { hideTooltip(); }
-        });
-    }
-
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') { hideTooltip(); }
-    });
-
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => { setupFormForScreenSize(); }, 250);
-    });
+    if (tooltipModal) { tooltipModal.addEventListener('click', (e) => { if (e.target === tooltipModal || e.target.classList.contains('tooltip-close')) hideTooltip(); }); }
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hideTooltip(); });
+    window.addEventListener('resize', () => setupFormForScreenSize());
 };

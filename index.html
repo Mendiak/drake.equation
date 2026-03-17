@@ -24,15 +24,15 @@
                 <h3 id="tooltip-title"></h3>
                 <p id="tooltip-description"></p>
                 <div class="tooltip-section">
-                    <strong>Current Estimates</strong>
+                    <strong data-i18n="tooltip_current_label">Current Estimates</strong>
                     <p id="tooltip-current"></p>
                 </div>
                 <div class="tooltip-section">
-                    <strong>Scientific Basis</strong>
+                    <strong data-i18n="tooltip_scientific_label">Scientific Basis</strong>
                     <p id="tooltip-scientific"></p>
                 </div>
                 <div class="tooltip-section">
-                    <strong>Why It Matters</strong>
+                    <strong data-i18n="tooltip_importance_label">Why It Matters</strong>
                     <p id="tooltip-importance"></p>
                 </div>
                 <div class="tooltip-uncertainty" id="tooltip-uncertainty"></div>
@@ -40,23 +40,30 @@
         </div>
 
         <header>
-            <h1>Drake Equation</h1>
-            <p class="subtitle">An interactive estimate of advanced civilizations in our galaxy.</p>
+            <div class="header-top">
+                <h1 data-i18n="title">Drake Equation</h1>
+                <div class="lang-switcher">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <span class="lang-divider">|</span>
+                    <button class="lang-btn" data-lang="es">ES</button>
+                </div>
+            </div>
+            <p class="subtitle" data-i18n="subtitle">An interactive estimate of advanced civilizations in our galaxy.</p>
             
             <section class="hero-description">
-                <p>This tool allows you to explore the <strong>Drake Equation</strong>, a probabilistic framework used to estimate the number of active, communicative extraterrestrial civilizations in the Milky Way.</p>
+                <p data-i18n="hero_description">This tool allows you to explore the <strong>Drake Equation</strong>, a probabilistic framework used to estimate the number of active, communicative extraterrestrial civilizations in the Milky Way.</p>
                 <div class="usage-guide">
                     <div class="guide-item">
-                        <strong>1. Adjust</strong>
-                        <p>Move the sliders to set values for each cosmic and biological factor.</p>
+                        <strong data-i18n="guide_1_title">1. Adjust</strong>
+                        <p data-i18n="guide_1_desc">Move the sliders to set values for each cosmic and biological factor.</p>
                     </div>
                     <div class="guide-item">
-                        <strong>2. Analyze</strong>
-                        <p>Watch how the final result (N) changes in real-time based on your inputs.</p>
+                        <strong data-i18n="guide_2_title">2. Analyze</strong>
+                        <p data-i18n="guide_2_desc">Watch how the final result (N) changes in real-time based on your inputs.</p>
                     </div>
                     <div class="guide-item">
-                        <strong>3. Learn</strong>
-                        <p>Click the <span class="info-icon" style="display:inline-flex; width:16px; height:16px; font-size:10px;">ⓘ</span> icons to understand the scientific basis of each parameter.</p>
+                        <strong data-i18n="guide_3_title">3. Learn</strong>
+                        <p data-i18n="guide_3_desc">Click the <span class="info-icon" style="display:inline-flex; width:16px; height:16px; font-size:10px;">ⓘ</span> icons to understand the scientific basis of each parameter.</p>
                     </div>
                 </div>
             </section>
@@ -65,11 +72,11 @@
         <div class="dashboard">
             <aside class="parameters-panel">
                 <div class="panel-header">
-                    <h3>Presets</h3>
+                    <h3 data-i18n="presets_title">Presets</h3>
                     <div class="presets-container">
-                        <button class="preset-btn" data-preset="optimistic">Optimistic</button>
-                        <button class="preset-btn" data-preset="scientific">Scientific</button>
-                        <button class="preset-btn" data-preset="pessimistic">Pessimistic</button>
+                        <button class="preset-btn" data-preset="optimistic" data-i18n="preset_optimistic">Optimistic</button>
+                        <button class="preset-btn" data-preset="scientific" data-i18n="preset_scientific">Scientific</button>
+                        <button class="preset-btn" data-preset="pessimistic" data-i18n="preset_pessimistic">Pessimistic</button>
                     </div>
                 </div>
 
@@ -86,13 +93,13 @@
                 </div>
 
                 <div class="variables-header">
-                    <h3>Individual Factors</h3>
+                    <h3 data-i18n="factors_title">Individual Factors</h3>
                 </div>
 
                 <form id="drake-form">
                     <div class="input-group">
                         <label for="Rstar" class="param-label">
-                            <span>Star formation rate (R*)</span>
+                            <span data-i18n="label_Rstar">Star formation rate (R*)</span>
                             <span class="info-icon" data-param="Rstar">ⓘ</span>
                         </label>
                         <div class="input-wrapper">
@@ -104,7 +111,7 @@
 
                     <div class="input-group">
                         <label for="fp" class="param-label">
-                            <span>Fraction with planets (f<sub>p</sub>)</span>
+                            <span data-i18n="label_fp">Fraction with planets (f<sub>p</sub>)</span>
                             <span class="info-icon" data-param="fp">ⓘ</span>
                         </label>
                         <div class="input-wrapper">
@@ -116,7 +123,7 @@
 
                     <div class="input-group">
                         <label for="ne" class="param-label">
-                            <span>Habitable planets (n<sub>e</sub>)</span>
+                            <span data-i18n="label_ne">Habitable planets (n<sub>e</sub>)</span>
                             <span class="info-icon" data-param="ne">ⓘ</span>
                         </label>
                         <div class="input-wrapper">
@@ -128,7 +135,7 @@
 
                     <div class="input-group">
                         <label for="fl" class="param-label">
-                            <span>Fraction with life (f<sub>l</sub>)</span>
+                            <span data-i18n="label_fl">Fraction with life (f<sub>l</sub>)</span>
                             <span class="info-icon" data-param="fl">ⓘ</span>
                         </label>
                         <div class="input-wrapper">
@@ -140,7 +147,7 @@
 
                     <div class="input-group">
                         <label for="fi" class="param-label">
-                            <span>Fraction with intelligence (f<sub>i</sub>)</span>
+                            <span data-i18n="label_fi">Fraction with intelligence (f<sub>i</sub>)</span>
                             <span class="info-icon" data-param="fi">ⓘ</span>
                         </label>
                         <div class="input-wrapper">
@@ -152,7 +159,7 @@
 
                     <div class="input-group">
                         <label for="fc" class="param-label">
-                            <span>Fraction with technology (f<sub>c</sub>)</span>
+                            <span data-i18n="label_fc">Fraction with technology (f<sub>c</sub>)</span>
                             <span class="info-icon" data-param="fc">ⓘ</span>
                         </label>
                         <div class="input-wrapper">
@@ -164,7 +171,7 @@
 
                     <div class="input-group">
                         <label for="L" class="param-label">
-                            <span>Civilization lifetime (L)</span>
+                            <span data-i18n="label_L">Civilization lifetime (L)</span>
                             <span class="info-icon" data-param="L">ⓘ</span>
                         </label>
                         <div class="input-wrapper">
@@ -175,164 +182,99 @@
                     </div>
 
                     <div class="button-container">
-                        <button type="button" id="reset-button" onclick="resetForm()">Reset to Defaults</button>
+                        <button type="button" id="reset-button" onclick="resetForm()" data-i18n="reset_button">Reset to Defaults</button>
                     </div>
                 </form>
             </aside>
 
             <main class="results-panel">
-                <div class="sticky-results">
-                    <div class="result-card">
-                        <div id="galaxy-viz" class="galaxy-container" aria-hidden="true"></div>
-                        <span class="result-label">Estimated result (N)</span>
-                        <h2 id="result" role="status" aria-live="polite">0</h2>
-                        <span class="result-unit">Communicative civilizations</span>
-                        <div class="result-context">
-                            <p id="result-interpretation">Adjust parameters to explore scenarios.</p>
-                        </div>
+                <div class="result-card">
+                    <div id="galaxy-viz" class="galaxy-container" aria-hidden="true"></div>
+                    <span class="result-label" data-i18n="result_label">Estimated result (N)</span>
+                    <h2 id="result" role="status" aria-live="polite">0</h2>
+                    <span class="result-unit" data-i18n="result_unit">Communicative civilizations</span>
+                    <div class="result-context">
+                        <p id="result-interpretation" data-i18n="result_initial">Adjust parameters to explore scenarios.</p>
                     </div>
+                </div>
 
-                    <div class="chart-section">
-                        <div class="chart-header">
-                            <h3>Sensitivity Analysis</h3>
-                            <div class="chart-controls">
-                                <button type="button" id="share-btn" title="Copy link">Share</button>
-                                <button type="button" id="download-chart-btn" title="Export PNG">Export</button>
-                                <div class="toggle-group">
-                                    <span class="toggle-label">Log</span>
-                                    <label class="switch">
-                                        <input type="checkbox" id="scale-toggle" checked>
-                                        <span class="slider"></span>
-                                    </label>
-                                </div>
+                <section class="chart-section">
+                    <h2 class="section-title" data-i18n="section_sensitivity">Sensitivity Analysis</h2>
+                    <div class="chart-header">
+                        <p class="scientific-explanation" id="chart-explanation"></p>
+                        <div class="chart-controls">
+                            <button type="button" id="share-btn" title="Copy link" data-i18n="share_btn">Share</button>
+                            <button type="button" id="download-chart-btn" title="Export PNG" data-i18n="export_btn">Export</button>
+                            <div class="toggle-group">
+                                <span class="toggle-label" data-i18n="toggle_log">Log</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="scale-toggle" checked>
+                                    <span class="slider"></span>
+                                </label>
                             </div>
                         </div>
-                        <canvas id="drakeChart"></canvas>
-                        <p id="chart-explanation" class="scientific-explanation"></p>
                     </div>
+                    <canvas id="drakeChart"></canvas>
+                </section>
 
-                    <div class="chart-section funnel-section">
-                        <div class="chart-header">
-                            <h3>Cosmic Filter Funnel</h3>
+                <section class="chart-section funnel-section">
+                    <h2 class="section-title" data-i18n="section_funnel">Cosmic Filter Funnel</h2>
+                    <p class="scientific-explanation" data-i18n="funnel_intro" style="margin-bottom: 2rem; font-size: 1rem; color: #444; max-width: 800px;"></p>
+                    <div class="funnel-container">
+                        <div class="funnel-chart-wrapper" style="width: 100%;">
+                            <canvas id="funnelChart"></canvas>
                         </div>
-                        <canvas id="funnelChart"></canvas>
-                        <p class="scientific-explanation">This visualization shows how each factor filters down the total number of potential communicative civilizations from the billions of stars in our galaxy.</p>
+                        <div class="funnel-insight-panel" id="funnel-insights">
+                            <!-- Dynamic insights will be injected here -->
+                        </div>
                     </div>
-                </div>
+                </section>
+
+                <section class="educational-content">
+                    <h2 class="section-title" data-i18n="section_learn">Learn More</h2>
+                    <details>
+                        <summary data-i18n="background_title">Background and Context</summary>
+                        <p data-i18n="background_text_1">The Drake equation was formulated by Dr. Frank Drake in 1961. It serves as a probabilistic argument used to estimate the number of active, communicative extraterrestrial civilizations in the Milky Way galaxy.</p>
+                        <p data-i18n="background_text_2">The equation breaks down a large, unknown problem into smaller, more manageable pieces. While many values remain speculative, it remains a cornerstone of astrobiology and the search for extraterrestrial intelligence.</p>
+                    </details>
+        
+                    <details>
+                        <summary data-i18n="fermi_title">The Fermi Paradox</summary>
+                        <div id="fermi-content">
+                            <p data-i18n="fermi_text_1">The Fermi Paradox highlights the contradiction between the high probability of extraterrestrial civilizations and the lack of evidence for their existence.</p>
+                            <div id="fermi-dynamic"></div>
+                            <p data-i18n="fermi_text_2">Possible explanations include the "Great Filter" hypothesis, suggesting that civilizations might inevitably self-destruct or that the emergence of life is rarer than we think.</p>
+                        </div>
+                    </details>
+        
+                    <details>
+                        <summary data-i18n="habitable_title">The Habitable Zone</summary>
+                        <p data-i18n="habitable_text">A key component of the equation (n<sub>e</sub>) relies on the concept of the "Goldilocks Zone"—the region around a star where liquid water can exist on a planet's surface. Understanding this helps narrow down which of the billions of planets in our galaxy might actually be candidates for life.</p>
+                    </details>
+        
+                    <details>
+                        <summary data-i18n="tech_title">Technosignatures and SETI</summary>
+                        <p data-i18n="tech_text">The final factors (f<sub>c</sub> and L) relate to how we might actually detect another civilization. Scientists look for "technosignatures" like narrow-band radio signals, laser pulses, or even massive engineering projects like Dyson Spheres. The Search for Extraterrestrial Intelligence (SETI) is the active effort to find these markers.</p>
+                    </details>
+        
+                    <details>
+                        <summary data-i18n="timeline_title">Timeline of the Search</summary>
+                        <div class="timeline" id="timeline-container">
+                            <!-- Timeline items will be injected by JavaScript -->
+                        </div>
+                    </details>
+        
+                    <div class="links-container">
+                        <a class="links" href="https://en.wikipedia.org/wiki/Drake_equation" target="_blank" data-i18n="link_drake">Drake Equation</a>
+                        <a class="links" href="https://en.wikipedia.org/wiki/Fermi_paradox" target="_blank" data-i18n="link_fermi">Fermi Paradox</a>
+                        <a class="links" href="https://en.wikipedia.org/wiki/Astrobiology" target="_blank" data-i18n="link_astrobiology">Astrobiology</a>
+                        <a class="links" href="https://en.wikipedia.org/wiki/Search_for_extraterrestrial_intelligence" target="_blank" data-i18n="link_seti">SETI Institute</a>
+                        <a class="links" href="https://en.wikipedia.org/wiki/Exoplanet" target="_blank" data-i18n="link_exoplanets">Exoplanets</a>
+                        <a class="links" href="https://github.com/Mendiak/drake.equation" target="_blank" data-i18n="link_source">Source Code</a>
+                    </div>
+                </section>
             </main>
         </div>
-
-        <section class="educational-content">
-            <details>
-                <summary>Background and Context</summary>
-                <p>The Drake equation was formulated by Dr. Frank Drake in 1961. It serves as a probabilistic argument used to estimate the number of active, communicative extraterrestrial civilizations in the Milky Way galaxy.</p>
-                <p>The equation breaks down a large, unknown problem into smaller, more manageable pieces. While many values remain speculative, it remains a cornerstone of astrobiology and the search for extraterrestrial intelligence.</p>
-            </details>
-
-            <details>
-                <summary>The Fermi Paradox</summary>
-                <div id="fermi-content">
-                    <p>The Fermi Paradox highlights the contradiction between the high probability of extraterrestrial civilizations and the lack of evidence for their existence.</p>
-                    <div id="fermi-dynamic"></div>
-                    <p>Possible explanations include the "Great Filter" hypothesis, suggesting that civilizations might inevitably self-destruct or that the emergence of life is rarer than we think.</p>
-                </div>
-            </details>
-
-            <details>
-                <summary>The Habitable Zone</summary>
-                <p>A key component of the equation (n<sub>e</sub>) relies on the concept of the "Goldilocks Zone"—the region around a star where liquid water can exist on a planet's surface. Understanding this helps narrow down which of the billions of planets in our galaxy might actually be candidates for life.</p>
-            </details>
-
-            <details>
-                <summary>Technosignatures and SETI</summary>
-                <p>The final factors (f<sub>c</sub> and L) relate to how we might actually detect another civilization. Scientists look for "technosignatures" like narrow-band radio signals, laser pulses, or even massive engineering projects like Dyson Spheres. The Search for Extraterrestrial Intelligence (SETI) is the active effort to find these markers.</p>
-            </details>
-
-            <details>
-                <summary>Timeline of the Search</summary>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-year">1960</div>
-                        <div class="timeline-content">
-                            <strong>Project Ozma</strong>
-                            <p>Frank Drake performs the first modern SETI experiment using a radio telescope.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">1961</div>
-                        <div class="timeline-content">
-                            <strong>Equation Formulated</strong>
-                            <p>The equation is presented at the Green Bank conference.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">1974</div>
-                        <div class="timeline-content">
-                            <strong>Arecibo Message</strong>
-                            <p>A high-power radio message is beamed into space toward the M13 star cluster.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">1977</div>
-                        <div class="timeline-content">
-                            <strong>The "Wow!" Signal</strong>
-                            <p>A strong narrowband radio signal is detected, matching the expected profile of a technosignature.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">1992</div>
-                        <div class="timeline-content">
-                            <strong>First Exoplanets</strong>
-                            <p>Confirmation of planets orbiting pulsar PSR B1257+12.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">1995</div>
-                        <div class="timeline-content">
-                            <strong>51 Pegasi b</strong>
-                            <p>First discovery of a planet orbiting a Sun-like star.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2009</div>
-                        <div class="timeline-content">
-                            <strong>Kepler Mission</strong>
-                            <p>NASA launches Kepler, proving that planets are common throughout the galaxy.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2015</div>
-                        <div class="timeline-content">
-                            <strong>Breakthrough Listen</strong>
-                            <p>Launch of the most comprehensive scientific search for alien communications.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2018</div>
-                        <div class="timeline-content">
-                            <strong>TESS Launch</strong>
-                            <p>The Transiting Exoplanet Survey Satellite begins mapping the nearest and brightest stars.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2021</div>
-                        <div class="timeline-content">
-                            <strong>James Webb (JWST)</strong>
-                            <p>Launch of the telescope capable of detecting biosignatures in exoplanet atmospheres.</p>
-                        </div>
-                    </div>
-                </div>
-            </details>
-
-            <div class="links-container">
-                <a class="links" href="https://en.wikipedia.org/wiki/Drake_equation" target="_blank">Drake Equation</a>
-                <a class="links" href="https://en.wikipedia.org/wiki/Fermi_paradox" target="_blank">Fermi Paradox</a>
-                <a class="links" href="https://en.wikipedia.org/wiki/Astrobiology" target="_blank">Astrobiology</a>
-                <a class="links" href="https://en.wikipedia.org/wiki/Search_for_extraterrestrial_intelligence" target="_blank">SETI Institute</a>
-                <a class="links" href="https://en.wikipedia.org/wiki/Exoplanet" target="_blank">Exoplanets</a>
-                <a class="links" href="https://github.com/Mendiak/drake.equation" target="_blank">Source Code</a>
-            </div>
-        </section>
     </div>
 
     <footer>
@@ -340,6 +282,7 @@
                 Aramendia</a></p>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="./translations.js"></script>
     <script src="./script.js"></script>
 </body>
 
