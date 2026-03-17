@@ -161,20 +161,10 @@ function applyUrlParameters() {
 
 
 
-function setupFormForScreenSize() {
-    const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
-    const formInputs = ['Rstar', 'fp', 'ne', 'fl', 'fi', 'fc', 'L'];
-    formInputs.forEach(id => {
-        const input = document.getElementById(id);
-        if (isMobile) { input.type = 'number'; input.setAttribute('step', 'any'); }
-        else { input.type = 'range'; input.setAttribute('step', defaultValues[id] > 1 ? '1' : '0.01'); if (id === 'Rstar' || id === 'ne') input.setAttribute('step', '0.1'); if (id === 'L') input.setAttribute('step', '1000'); }
-    });
-}
 
 window.onload = function() {
     applyUrlParameters();
     initChart();
-    setupFormForScreenSize();
     updateLanguage(currentLang);
     const scientificBtn = document.querySelector('[data-preset="scientific"]');
     if (scientificBtn) scientificBtn.classList.add('active-preset');
@@ -195,5 +185,17 @@ window.onload = function() {
     const tooltipModal = document.getElementById('tooltip-modal');
     if (tooltipModal) { tooltipModal.addEventListener('click', (e) => { if (e.target === tooltipModal || e.target.classList.contains('tooltip-close')) hideTooltip(); }); }
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hideTooltip(); });
-    window.addEventListener('resize', () => setupFormForScreenSize());
+    
+    const detailsElements = document.querySelectorAll('details');
+    detailsElements.forEach(details => {
+        details.addEventListener('toggle', () => {
+            if (details.open) {
+                detailsElements.forEach(otherDetails => {
+                    if (otherDetails !== details && otherDetails.open) {
+                        otherDetails.removeAttribute('open');
+                    }
+                });
+            }
+        });
+    });
 };

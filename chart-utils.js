@@ -87,7 +87,7 @@ function updateFunnel(currentValues) {
             if (i > 0) {
                 const ratio = s.val / steps[i-1].val;
                 const percentage = (ratio * 100).toFixed(i === 1 || i === 2 ? 0 : 2);
-                const prob = currentLang === 'es' ? (ratio < 0.1 ? `Solo 1 de cada ${Math.round(1/ratio)}` : `${percentage}%`) : (ratio < 0.1 ? `Only 1 in ${Math.round(1/ratio)}` : `${percentage}%`);
+                const prob = currentLang === 'es' ? (ratio < 0.1 ? `Solo 1 de cada ${Math.round(1/ratio).toLocaleString(currentLang)}` : `${percentage}%`) : (ratio < 0.1 ? `Only 1 in ${Math.round(1/ratio).toLocaleString(currentLang)}` : `${percentage}%`);
                 retentionText = `<span class="funnel-percentage">${prob} ${currentLang === 'es' ? 'superan este filtro' : 'pass this filter'}</span>`;
             }
             return `<div class="funnel-step-info"><span class="funnel-step-label">${t(`funnel_steps.${s.key}`)}</span><span class="funnel-step-value">${formatResult(s.val)}</span>${retentionText}<p class="funnel-step-desc">${t(`funnel_insights.${s.key}`)}</p></div>`;

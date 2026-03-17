@@ -1,0 +1,78 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   4. TYPOGRAPHY
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+h1 {
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-extra);
+    letter-spacing: -0.04em;
+    margin: 0 0 var(--space-xs) 0;
+}
+
+@media (max-width: 600px) {
+    h1 { font-size: var(--font-size-3xl); }
+}
+
+h2 {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-extra);
+    margin: 0;
+}
+
+h3 {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0;
+}
+
+.subtitle {
+    font-size: var(--font-size-xl);
+    color: var(--color-text-muted);
+    margin: 0;
+    font-weight: var(--font-weight-regular);
+}
+
+.hero-description {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-xl);
+    border-top: var(--border-width) solid var(--color-border);
+    max-width: 800px;
+}
+
+.hero-description p {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-xl);
+}
+
+.usage-guide {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3xl);
+}
+
+.guide-item strong {
+    display: block;
+    font-size: var(--font-size-sm-base);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: var(--space-sm);
+    color: var(--color-black);
+}
+
+.guide-item p {
+    font-size: var(--font-size-sm-text);
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: var(--line-height-tight);
+}
+
+@media (max-width: 768px) {
+    .usage-guide {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+    }
+}

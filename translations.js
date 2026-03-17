@@ -47,6 +47,7 @@ const translations = {
         link_exoplanets: "Exoplanets",
         link_source: "Source Code",
         section_sensitivity: "Sensitivity Analysis",
+        sensitivity_intro: "This graph shows how the final estimate (N) varies when a single parameter is modified while the others are held constant. It helps identify which factors have the greatest impact on the result.",
         section_funnel: "Cosmic Filter Funnel",
         section_learn: "Learn More",
         funnel_steps: {
@@ -291,6 +292,7 @@ const translations = {
         link_source: "Código Fuente",
         section_sensitivity: "Análisis de Sensibilidad",
         section_funnel: "Embudo de Filtrado Cósmico",
+        sensitivity_intro: "Esta gráfica muestra cómo varía la estimación final (N) al modificar un único parámetro mientras los demás se mantienen constantes. Es útil para identificar qué factores tienen el mayor impacto en el resultado.",
         funnel_intro: "Imagina la galaxia como un gran embudo. Cada factor de la ecuación actúa como un filtro que reduce las posibilidades de encontrar vida. Muchos candidatos entran por arriba, pero muy pocos logran salir por abajo como civilizaciones detectables.",
         section_learn: "Aprender Más",
         funnel_steps: {

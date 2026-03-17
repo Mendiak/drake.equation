@@ -1,0 +1,85 @@
+/* ========================================
+   Modernist Dashboard Design (less-is-more-ui)
+   Inspired by Mies van der Rohe & Dieter Rams
+   ======================================== */
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   1. CSS VARIABLES - Design System
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+:root {
+    /* Color Palette */
+    --color-black: #000000;
+    --color-white: #ffffff;
+    --color-text-primary: #1a1a1a;
+    --color-text-secondary: #444444;
+    --color-text-muted: #666666;
+    --color-text-subtle: #999999;
+    --color-border: #eeeeee;
+    --color-bg-light: #fafafa;
+    --color-bg-lighter: #fcfcfc;
+    --color-bg-surface: #f8f8f8;
+    --color-accent-yellow: #ffeb3b;
+    --color-confidence-low: #2ecc71;
+    --color-confidence-low-dark: #27ae60;
+    --color-confidence-medium: #f39c12;
+    --color-confidence-medium-dark: #e67e22;
+    --color-confidence-high: #e74c3c;
+    --color-confidence-high-dark: #c0392b;
+    --color-confidence-very-high: #c0392b;
+    --color-confidence-very-high-dark: #a93226;
+
+    /* Typography Scale */
+    --font-size-sm: 0.65rem;
+    --font-size-xs: 0.7rem;
+    --font-size-sm-base: 0.75rem;
+    --font-size-sm-plus: 0.8125rem;
+    --font-size-sm-text: 0.875rem;
+    --font-size-base: 0.95rem;
+    --font-size-md: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 2.25rem;
+    --font-size-4xl: 3rem;
+    --font-size-5xl: 3.5rem;
+
+    /* Spacing Scale */
+    --space-xs: 0.5rem;
+    --space-sm: 0.75rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 2.5rem;
+    --space-3xl: 3rem;
+    --space-4xl: 4rem;
+    --space-5xl: 5rem;
+
+    /* Typography */
+    --font-family-system: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-family-mono: "Space Mono", monospace;
+    --font-weight-regular: 400;
+    --font-weight-semi: 600;
+    --font-weight-bold: 700;
+    --font-weight-extra: 800;
+    --line-height-tight: 1.5;
+    --line-height-relaxed: 1.6;
+    --line-height-spacious: 1.7;
+
+    /* Transitions */
+    --transition-fast: 0.1s;
+    --transition-base: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: 0.3s;
+    --transition-slow: 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    /* Borders & Radius */
+    --border-width: 1px;
+    --border-width-thick: 3px;
+    --border-width-accent: 4px;
+    --radius-sm: 2px;
+    --radius-md: 4px;
+    --radius-full: 50%;
+
+    /* Shadows & Depth */
+    --shadow-small: 0 1px 4px rgba(0, 0, 0, 0.15);
+}

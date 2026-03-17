@@ -1,0 +1,318 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   3. HEADER & LANGUAGE SWITCHER
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--font-size-sm-base);
+    font-weight: var(--font-weight-extra);
+}
+
+.lang-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--color-text-subtle);
+    transition: color var(--transition-base);
+}
+
+.lang-btn:hover, .lang-btn.active {
+    color: var(--color-black);
+}
+
+.lang-divider {
+    color: var(--color-border);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   7. PARAMETER INPUTS & CONTROLS
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.panel-header {
+    margin-bottom: var(--space-xl);
+    padding-top: var(--space-md);
+}
+
+.presets-container { 
+    display: flex; 
+    flex-wrap: wrap;
+    gap: var(--space-xs); 
+    margin-top: var(--space-md);
+}
+
+.preset-btn {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-extra);
+    background: var(--color-white);
+    border: var(--border-width) solid var(--color-border);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.preset-btn:hover {
+    border-color: var(--color-black);
+    background: var(--color-bg-lighter);
+}
+
+.preset-btn.active-preset {
+    background: var(--color-black);
+    color: var(--color-white);
+    border-color: var(--color-black);
+}
+
+.equation-box {
+    background: var(--color-bg-surface);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-2xl);
+    text-align: center;
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-sm-text);
+    border-radius: var(--radius-sm);
+}
+
+.variables-header {
+    margin-bottom: var(--space-lg);
+}
+
+.input-group {
+    margin-bottom: var(--space-xl);
+}
+
+.param-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--font-size-sm-base);
+    font-weight: var(--font-weight-extra);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-md);
+    color: var(--color-text-muted);
+}
+
+.input-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 60px;
+    gap: var(--space-md);
+    align-items: center;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 3px;
+    background: #cccccc;
+    outline: none;
+    border-radius: var(--radius-sm);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    background: var(--color-black);
+    cursor: pointer;
+    border-radius: var(--radius-full);
+    transition: transform var(--transition-fast);
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+.value-display {
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-sm-plus);
+    text-align: right;
+    font-weight: var(--font-weight-extra);
+    color: var(--color-black);
+}
+
+.button-container {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-xl);
+    border-top: var(--border-width) solid var(--color-border);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   8. BUTTON COMPONENTS (Unified)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* Base button style */
+button {
+    transition: all var(--transition-base);
+}
+
+button#reset-button {
+    width: 100%;
+    padding: var(--space-sm);
+    background: none;
+    border: var(--border-width) solid var(--color-border);
+    font-weight: var(--font-weight-extra);
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    color: var(--color-text-muted);
+}
+
+button#reset-button:hover {
+    border-color: var(--color-black);
+    color: var(--color-black);
+    background: var(--color-bg-lighter);
+}
+
+#share-btn, #download-chart-btn {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-extra);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--color-white);
+    border: var(--border-width) solid var(--color-border);
+    cursor: pointer;
+}
+
+#share-btn:hover, #download-chart-btn:hover {
+    background: var(--color-black);
+    color: var(--color-white);
+    border-color: var(--color-black);
+}
+
+/* Tooltip Modal components */
+.tooltip-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--space-xl);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.tooltip-modal[style*="display: flex"] {
+    opacity: 1;
+    visibility: visible;
+}
+
+.tooltip-content {
+    background: var(--color-white);
+    padding: var(--space-3xl);
+    max-width: 600px;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    transform: translateY(20px);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.tooltip-modal[style*="display: flex"] .tooltip-content {
+    transform: translateY(0);
+}
+
+.tooltip-close {
+    position: absolute;
+    top: var(--space-xl);
+    right: var(--space-xl);
+    background: none;
+    border: none;
+    font-size: var(--font-size-2xl);
+    cursor: pointer;
+    color: var(--color-text-muted);
+    padding: var(--space-xs);
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--transition-base);
+}
+
+.tooltip-close:hover {
+    color: var(--color-black);
+}
+
+.tooltip-content h3 {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-extra);
+    margin: 0 0 var(--space-lg) 0;
+    letter-spacing: -0.02em;
+    padding-right: var(--space-3xl);
+    text-transform: none;
+}
+
+.tooltip-content > p {
+    font-size: var(--font-size-md);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-2xl);
+}
+
+.tooltip-section {
+    margin-bottom: var(--space-xl);
+    padding-left: var(--space-lg);
+    border-left: var(--border-width-thick) solid var(--color-border);
+}
+
+.tooltip-section strong {
+    display: block;
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-black);
+    margin-bottom: var(--space-xs);
+}
+
+.tooltip-section p {
+    margin: 0;
+    font-size: var(--font-size-sm-text);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+}
+
+.tooltip-uncertainty {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-xl);
+    border-top: var(--border-width) solid var(--color-border);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.info-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: var(--radius-full);
+    border: var(--border-width) solid currentColor;
+    font-size: 11px;
+    font-style: normal;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: all var(--transition-base);
+}
+
+.info-icon:hover {
+    opacity: 1;
+    background: var(--color-black);
+    color: var(--color-white);
+    border-color: var(--color-black);
+}
