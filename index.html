@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <div class="blurredcontainer">
+    <div class="container">
         <!-- Tooltip Modal -->
         <div id="tooltip-modal" class="tooltip-modal" style="display: none;">
             <div class="tooltip-content">
@@ -24,243 +24,222 @@
                 <h3 id="tooltip-title"></h3>
                 <p id="tooltip-description"></p>
                 <div class="tooltip-section">
-                    <strong>📊 Current Estimates:</strong>
+                    <strong>Current Estimates</strong>
                     <p id="tooltip-current"></p>
                 </div>
                 <div class="tooltip-section">
-                    <strong>🔬 Scientific Basis:</strong>
+                    <strong>Scientific Basis</strong>
                     <p id="tooltip-scientific"></p>
                 </div>
                 <div class="tooltip-section">
-                    <strong>💡 Why It Matters:</strong>
+                    <strong>Why It Matters</strong>
                     <p id="tooltip-importance"></p>
                 </div>
                 <div class="tooltip-uncertainty" id="tooltip-uncertainty"></div>
             </div>
         </div>
 
-        <h1>Drake Equation</h1>
-        <p class="subtitle">Calculate the number of advanced civilizations in our galaxy.</p>
-        <div class="equation">
-            <p>N = R* · f<sub>p</sub> · n<sub>e</sub> · f<sub>l</sub> · f<sub>i</sub> · f<sub>c</sub> · L</p>
-        </div>
-        <div class="presets-container">
-            <button class="preset-btn" data-preset="optimistic">🌟 Optimista</button>
-            <button class="preset-btn" data-preset="scientific">🔬 Científico</button>
-            <button class="preset-btn" data-preset="pessimistic">🌑 Pesimista</button>
-        </div>
-        <div id="form-container">
-            <form id="drake-form">
-                <label for="Rstar" class="param-label">
-                    Star formation rate (R*):
-                    <span class="info-icon" data-param="Rstar">ℹ️</span>
-                    <span class="uncertainty-badge" data-uncertainty="low"></span>
-                </label>
-                <input type="range" id="Rstar" name="Rstar" min="0.1" max="10" step="0.1" value="1.5"
-                    oninput="updateValueAndRecalculate('Rstar')" aria-controls="Rstar-value">
-                <span id="Rstar-value" class="value-display">1.5</span>
+        <header>
+            <h1>Drake Equation</h1>
+            <p class="subtitle">An interactive estimate of advanced civilizations in our galaxy.</p>
+        </header>
 
-                <label for="fp" class="param-label">
-                    Fraction of stars with planetary systems (f<sub>p</sub>):
-                    <span class="info-icon" data-param="fp">ℹ️</span>
-                    <span class="uncertainty-badge" data-uncertainty="low"></span>
-                </label>
-                <input type="range" id="fp" name="fp" min="0.01" max="1" step="0.01" value="0.5"
-                    oninput="updateValueAndRecalculate('fp')" aria-controls="fp-value">
-                <span id="fp-value" class="value-display">0.5</span>
-
-                <label for="ne" class="param-label">
-                    Number of planets per star system that can support life (n<sub>e</sub>):
-                    <span class="info-icon" data-param="ne">ℹ️</span>
-                    <span class="uncertainty-badge" data-uncertainty="medium"></span>
-                </label>
-                <input type="range" id="ne" name="ne" min="0.1" max="10" step="0.1" value="2"
-                    oninput="updateValueAndRecalculate('ne')" aria-controls="ne-value">
-                <span id="ne-value" class="value-display">2</span>
-
-                <label for="fl" class="param-label">
-                    Fraction of those planets where life develops (f<sub>l</sub>):
-                    <span class="info-icon" data-param="fl">ℹ️</span>
-                    <span class="uncertainty-badge" data-uncertainty="high"></span>
-                </label>
-                <input type="range" id="fl" name="fl" min="0.01" max="1" step="0.01" value="0.1"
-                    oninput="updateValueAndRecalculate('fl')" aria-controls="fl-value">
-                <span id="fl-value" class="value-display">0.1</span>
-
-                <label for="fi" class="param-label">
-                    Fraction of planets with life where intelligent life evolves (f<sub>i</sub>):
-                    <span class="info-icon" data-param="fi">ℹ️</span>
-                    <span class="uncertainty-badge" data-uncertainty="very high"></span>
-                </label>
-                <input type="range" id="fi" name="fi" min="0.01" max="1" step="0.01" value="0.01"
-                    oninput="updateValueAndRecalculate('fi')" aria-controls="fi-value">
-                <span id="fi-value" class="value-display">0.01</span>
-
-                <label for="fc" class="param-label">
-                    Fraction of civilizations that develop detectable technology (f<sub>c</sub>):
-                    <span class="info-icon" data-param="fc">ℹ️</span>
-                    <span class="uncertainty-badge" data-uncertainty="very high"></span>
-                </label>
-                <input type="range" id="fc" name="fc" min="0.01" max="1" step="0.01" value="0.1"
-                    oninput="updateValueAndRecalculate('fc')" aria-controls="fc-value">
-                <span id="fc-value" class="value-display">0.1</span>
-
-                <label for="L" class="param-label">
-                    Duration of the detectable phase of the civilization (L):
-                    <span class="info-icon" data-param="L">ℹ️</span>
-                    <span class="uncertainty-badge" data-uncertainty="very high"></span>
-                </label>
-                <input type="range" id="L" name="L" min="1000" max="1000000" step="1000" value="10000"
-                    oninput="updateValueAndRecalculate('L')" aria-controls="L-value">
-                <span id="L-value" class="value-display">10000</span>
-
-                <div class="button-container">
-                    <button type="button" id="reset-button" onclick="resetForm()">Reset <i
-                            class="bi bi-arrow-counterclockwise"></i></button>
-                    <button type="button" id="recalculate-button" onclick="validateAndCalculate()">Recalculate <i
-                            class="bi bi-stars"></i></button>
+        <div class="dashboard">
+            <aside class="parameters-panel">
+                <div class="panel-header">
+                    <h2>Parameters</h2>
+                    <div class="presets-container">
+                        <button class="preset-btn" data-preset="optimistic">Optimistic</button>
+                        <button class="preset-btn" data-preset="scientific">Scientific</button>
+                        <button class="preset-btn" data-preset="pessimistic">Pessimistic</button>
+                    </div>
                 </div>
-            </form>
-        </div>
-        <h2 class="result">Result: <span id="result" role="status" aria-live="polite">0</span> civilizations</h2>
-        <div class="result-context">
-            <p id="result-interpretation">Adjust the parameters above to explore different scenarios.</p>
-        </div>
-        <div class="chart-options">
-            <button type="button" id="share-btn" title="Copy shareable link"><i class="bi bi-share-fill"></i></button>
-            <button type="button" id="download-chart-btn" title="Download chart as PNG"><i
-                    class="bi bi-download"></i></button>
-            <label for="scale-toggle" class="toggle-label">Logarithmic Scale</label>
-            <label class="switch">
-                <input type="checkbox" id="scale-toggle" checked>
-                <span class="slider round"></span>
-            </label>
-        </div>
-        <canvas id="drakeChart">
-            A line chart showing the relationship between the selected Drake Equation parameter and the calculated
-            number of civilizations.
-        </canvas>
 
-        <p class="scientific-explanation">This graph represents the estimated number of technologically advanced
-            extraterrestrial civilizations in the Milky Way galaxy capable of interstellar communication.</p>
-        <p id="chart-explanation" class="scientific-explanation" aria-live="polite">The chart illustrates how this
-            number changes based on the star formation rate (R*) — one of the key parameters in the Drake Equation.</p>
-        <p class="scientific-explanation">These civilizations are hypothesized to have developed detectable signals,
-            such as radio technology, which could be observed by our astronomical instruments. The estimate incorporates
-            other factors like planetary habitability, the emergence of intelligent life, and the longevity of such
-            civilizations.</p>
-        <div class="links-container">
-            <a class="links" href="https://github.com/Mendiak/drake.equation" target="_blank"><i
-                    class="bi bi-code-slash"></i> Drake Equation @ Github</a>
-            <a class="links" href="https://en.wikipedia.org/wiki/Drake_equation" target="_blank"><i
-                    class="bi bi-wikipedia"></i> Drake Equation @ Wikipedia</a>
+                <div class="equation-box">
+                    <code>N = R* · f<sub>p</sub> · n<sub>e</sub> · f<sub>l</sub> · f<sub>i</sub> · f<sub>c</sub> · L</code>
+                </div>
+
+                <form id="drake-form">
+                    <div class="input-group">
+                        <label for="Rstar" class="param-label">
+                            <span>Star formation rate (R*)</span>
+                            <span class="info-icon" data-param="Rstar">ⓘ</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="range" id="Rstar" name="Rstar" min="0.1" max="10" step="0.1" value="1.5"
+                                oninput="updateValueAndRecalculate('Rstar')">
+                            <span id="Rstar-value" class="value-display">1.5</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="fp" class="param-label">
+                            <span>Fraction with planets (f<sub>p</sub>)</span>
+                            <span class="info-icon" data-param="fp">ⓘ</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="range" id="fp" name="fp" min="0.01" max="1" step="0.01" value="0.5"
+                                oninput="updateValueAndRecalculate('fp')">
+                            <span id="fp-value" class="value-display">0.5</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="ne" class="param-label">
+                            <span>Habitable planets (n<sub>e</sub>)</span>
+                            <span class="info-icon" data-param="ne">ⓘ</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="range" id="ne" name="ne" min="0.1" max="10" step="0.1" value="2"
+                                oninput="updateValueAndRecalculate('ne')">
+                            <span id="ne-value" class="value-display">2</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="fl" class="param-label">
+                            <span>Fraction with life (f<sub>l</sub>)</span>
+                            <span class="info-icon" data-param="fl">ⓘ</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="range" id="fl" name="fl" min="0.01" max="1" step="0.01" value="0.1"
+                                oninput="updateValueAndRecalculate('fl')">
+                            <span id="fl-value" class="value-display">0.1</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="fi" class="param-label">
+                            <span>Fraction with intelligence (f<sub>i</sub>)</span>
+                            <span class="info-icon" data-param="fi">ⓘ</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="range" id="fi" name="fi" min="0.01" max="1" step="0.01" value="0.01"
+                                oninput="updateValueAndRecalculate('fi')">
+                            <span id="fi-value" class="value-display">0.01</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="fc" class="param-label">
+                            <span>Fraction with technology (f<sub>c</sub>)</span>
+                            <span class="info-icon" data-param="fc">ⓘ</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="range" id="fc" name="fc" min="0.01" max="1" step="0.01" value="0.1"
+                                oninput="updateValueAndRecalculate('fc')">
+                            <span id="fc-value" class="value-display">0.1</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="L" class="param-label">
+                            <span>Civilization lifetime (L)</span>
+                            <span class="info-icon" data-param="L">ⓘ</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="range" id="L" name="L" min="1000" max="1000000" step="1000" value="10000"
+                                oninput="updateValueAndRecalculate('L')">
+                            <span id="L-value" class="value-display">10,000</span>
+                        </div>
+                    </div>
+
+                    <div class="button-container">
+                        <button type="button" id="reset-button" onclick="resetForm()">Reset to Defaults</button>
+                    </div>
+                </form>
+            </aside>
+
+            <main class="results-panel">
+                <div class="sticky-results">
+                    <div class="result-card">
+                        <span class="result-label">Estimated result (N)</span>
+                        <h2 id="result" role="status" aria-live="polite">0</h2>
+                        <span class="result-unit">Communicative civilizations</span>
+                        <div class="result-context">
+                            <p id="result-interpretation">Adjust parameters to explore scenarios.</p>
+                        </div>
+                    </div>
+
+                    <div class="chart-section">
+                        <div class="chart-header">
+                            <h3>Sensitivity Analysis</h3>
+                            <div class="chart-controls">
+                                <button type="button" id="share-btn" title="Copy link">Share</button>
+                                <button type="button" id="download-chart-btn" title="Export PNG">Export</button>
+                                <div class="toggle-group">
+                                    <span class="toggle-label">Log</span>
+                                    <label class="switch">
+                                        <input type="checkbox" id="scale-toggle" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <canvas id="drakeChart"></canvas>
+                        <p id="chart-explanation" class="scientific-explanation"></p>
+                    </div>
+                </div>
+            </main>
         </div>
-        <div class="history-section">
+
+        <section class="educational-content">
             <details>
-                <summary>History and Context of the Drake Equation</summary>
-                <p>The Drake equation was formulated by Dr. Frank Drake, an American astronomer and astrophysicist, in
-                    1961. Drake conceived the equation not to provide a precise number of civilizations, but as a way to
-                    stimulate scientific dialogue at the first SETI (Search for Extraterrestrial Intelligence)
-                    conference, held in Green Bank, West Virginia.</p>
-                <p>The equation serves as a probabilistic argument used to estimate the number of active, communicative
-                    extraterrestrial civilizations in the Milky Way galaxy. It breaks down a large, unknown problem into
-                    smaller, more manageable pieces. While the values for most of its parameters are still highly
-                    speculative, the equation remains a cornerstone of astrobiology and the search for extraterrestrial
-                    intelligence, encouraging scientists to consider what we know and what we still need to learn about
-                    our place in the universe.</p>
+                <summary>Background and Context</summary>
+                <p>The Drake equation was formulated by Dr. Frank Drake in 1961. It serves as a probabilistic argument used to estimate the number of active, communicative extraterrestrial civilizations in the Milky Way galaxy.</p>
+                <p>The equation breaks down a large, unknown problem into smaller, more manageable pieces. While many values remain speculative, it remains a cornerstone of astrobiology and the search for extraterrestrial intelligence.</p>
             </details>
-        </div>
 
-        <!-- Fermi Paradox Section -->
-        <div class="fermi-section">
             <details>
-                <summary>🛸 The Fermi Paradox: Where Is Everybody?</summary>
+                <summary>The Fermi Paradox</summary>
                 <div id="fermi-content">
-                    <p>The Fermi Paradox highlights the contradiction between the high probability of extraterrestrial
-                        civilizations (according to the Drake Equation) and the lack of evidence for, or contact with,
-                        such civilizations.</p>
+                    <p>The Fermi Paradox highlights the contradiction between the high probability of extraterrestrial civilizations and the lack of evidence for their existence.</p>
                     <div id="fermi-dynamic"></div>
-                    <h4>Possible Explanations (The Great Filter):</h4>
-                    <ul>
-                        <li><strong>🦠 Behind Us:</strong> The emergence of life or intelligence is extremely rare
-                            (we're lucky to exist)</li>
-                        <li><strong>⚠️ Ahead of Us:</strong> Advanced civilizations inevitably self-destruct (nuclear
-                            war, climate change, AI)</li>
-                        <li><strong>🔇 The Zoo Hypothesis:</strong> They know we're here but choose not to contact us
-                        </li>
-                        <li><strong>📡 Technology Mismatch:</strong> We're looking for the wrong signals or they've
-                            moved beyond radio</li>
-                        <li><strong>🌌 Distance:</strong> Space is too vast; civilizations are too far apart in space
-                            and time</li>
-                        <li><strong>🏠 Rare Earth:</strong> Earth-like planets with the right conditions are extremely
-                            rare</li>
-                    </ul>
+                    <p>Possible explanations include the "Great Filter" hypothesis, suggesting that civilizations might inevitably self-destruct or that the emergence of life is rarer than we think.</p>
                 </div>
             </details>
-        </div>
 
-        <!-- SETI Timeline -->
-        <div class="timeline-section">
             <details>
-                <summary>📅 SETI Timeline: The Search for Life</summary>
+                <summary>Timeline of the Search</summary>
                 <div class="timeline">
                     <div class="timeline-item">
                         <div class="timeline-year">1961</div>
                         <div class="timeline-content">
-                            <strong>Drake Equation Formulated</strong>
-                            <p>Frank Drake creates the equation at the first SETI conference in Green Bank, West
-                                Virginia.</p>
+                            <strong>Equation Formulated</strong>
+                            <p>Frank Drake creates the equation at the first SETI conference.</p>
                         </div>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-year">1992</div>
                         <div class="timeline-content">
-                            <strong>First Exoplanet Discovered</strong>
-                            <p>Aleksander Wolszczan discovers planets orbiting a pulsar, proving planets exist beyond
-                                our solar system.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">1995</div>
-                        <div class="timeline-content">
-                            <strong>First Exoplanet Around Sun-like Star</strong>
-                            <p>51 Pegasi b discovered by Michel Mayor and Didier Queloz (Nobel Prize 2019).</p>
+                            <strong>First Exoplanets</strong>
+                            <p>Confirmation of planets orbiting a pulsar.</p>
                         </div>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-year">2009</div>
                         <div class="timeline-content">
-                            <strong>Kepler Mission Launch</strong>
-                            <p>NASA's Kepler space telescope begins hunting for Earth-like exoplanets in habitable
-                                zones.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2015</div>
-                        <div class="timeline-content">
-                            <strong>Breakthrough Listen Initiative</strong>
-                            <p>$100M program launched to search for signs of intelligent life using world's most
-                                powerful telescopes.</p>
+                            <strong>Kepler Mission</strong>
+                            <p>NASA launch to hunt for Earth-like exoplanets.</p>
                         </div>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-year">2021</div>
                         <div class="timeline-content">
-                            <strong>James Webb Space Telescope</strong>
-                            <p>JWST launched, capable of analyzing exoplanet atmospheres for biosignatures.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2023</div>
-                        <div class="timeline-content">
-                            <strong>5,000+ Exoplanets Confirmed</strong>
-                            <p>Milestone reached in exoplanet discoveries, with many in habitable zones.</p>
+                            <strong>James Webb</strong>
+                            <p>JWST launch, capable of analyzing biosignatures.</p>
                         </div>
                     </div>
                 </div>
             </details>
-        </div>
+
+            <div class="links-container">
+                <a class="links" href="https://github.com/Mendiak/drake.equation" target="_blank">Source Code</a>
+                <a class="links" href="https://en.wikipedia.org/wiki/Drake_equation" target="_blank">Wikipedia</a>
+            </div>
+        </section>
     </div>
+
     <footer>
         <p>Website by <a href="https://mendiak.github.io/portfolio/" target="_blank" rel="noopener noreferrer">Mikel
                 Aramendia</a></p>
