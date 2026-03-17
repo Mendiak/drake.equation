@@ -224,7 +224,8 @@ const translations = {
             filter_note: "If this number is low, the \"Great Filter\" (life or intelligence) may be behind us. If high but we detect nothing, it may be ahead."
         },
         magnitude_scale: "Order of Magnitude Scale",
-        magnitude_explanation: "Your estimate falls here on the scale of possible outcomes:",
+        magnitude_explanation: "Based on your settings, here's where your estimate lands on the cosmic scale—from a solitary civilization to billions across the galaxy:",
+        references_title: "References & Resources",
         confidence_levels_title: "Scientific Confidence Levels",
         confidence_levels: {
             Rstar: "low",
@@ -467,7 +468,8 @@ const translations = {
             filter_note: "Si este número es bajo, el 'Gran Filtro' (vida o inteligencia) puede estar detrás. Si es alto pero no detectamos nada, puede estar adelante."
         },
         magnitude_scale: "Escala de Orden de Magnitud",
-        magnitude_explanation: "Tu estimación cae aquí en la escala de resultados posibles:",
+        magnitude_explanation: "Según tus configuraciones, aquí es donde se sitúa tu estimación en la escala cósmica—desde apenas una civilización a miles de millones dispersos en la galaxia:",
+        references_title: "Referencias y Recursos",
         confidence_levels_title: "Niveles de Confianza Científica",
         confidence_levels: {
             Rstar: "low",

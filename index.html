@@ -339,24 +339,42 @@
                     <div class="magnitude-container">
                         <h3 data-i18n="magnitude_scale">Order of Magnitude Scale</h3>
                         <p data-i18n="magnitude_explanation">Your estimate falls here on the scale of possible outcomes:</p>
-                        <div class="magnitude-scale" id="magnitude-scale">
-                            <div class="magnitude-point" data-value="1">1</div>
-                            <div class="magnitude-point" data-value="10">10</div>
-                            <div class="magnitude-point" data-value="100">100</div>
-                            <div class="magnitude-point" data-value="1K">1K</div>
-                            <div class="magnitude-point" data-value="100K">100K</div>
-                            <div class="magnitude-point" data-value="1B">1B</div>
+                        <div class="magnitude-ruler">
+                            <div class="ruler-pointer" id="magnitude-indicator" style="left: 0%;"></div>
+                            <div class="ruler-line"></div>
+                            <div class="ruler-scale" id="magnitude-scale">
+                                <div class="ruler-tick" data-value="1">
+                                    <span class="tick-label">1</span>
+                                </div>
+                                <div class="ruler-tick" data-value="10">
+                                    <span class="tick-label">10</span>
+                                </div>
+                                <div class="ruler-tick" data-value="100">
+                                    <span class="tick-label">100</span>
+                                </div>
+                                <div class="ruler-tick" data-value="1K">
+                                    <span class="tick-label">1K</span>
+                                </div>
+                                <div class="ruler-tick" data-value="100K">
+                                    <span class="tick-label">100K</span>
+                                </div>
+                                <div class="ruler-tick" data-value="1B">
+                                    <span class="tick-label">1B</span>
+                                </div>
+                            </div>
                         </div>
-                        <div id="magnitude-indicator" class="magnitude-indicator" style="left: 0%;"></div>
                         <p id="magnitude-label" class="magnitude-label">Start calculating...</p>
                     </div>
         
-                    <div class="links-container">
-                        <a class="links" href="https://en.wikipedia.org/wiki/Drake_equation" target="_blank" data-i18n="link_drake">Drake Equation</a>
-                        <a class="links" href="https://en.wikipedia.org/wiki/Fermi_paradox" target="_blank" data-i18n="link_fermi">Fermi Paradox</a>
-                        <a class="links" href="https://en.wikipedia.org/wiki/Astrobiology" target="_blank" data-i18n="link_astrobiology">Astrobiology</a>
-                        <a class="links" href="https://en.wikipedia.org/wiki/Search_for_extraterrestrial_intelligence" target="_blank" data-i18n="link_seti">SETI Institute</a>
-                        <a class="links" href="https://en.wikipedia.org/wiki/Exoplanet" target="_blank" data-i18n="link_exoplanets">Exoplanets</a>
+                    <div class="references-section">
+                        <h3 data-i18n="references_title">References & Resources</h3>
+                        <div class="links-grid">
+                            <a class="reference-link" href="https://en.wikipedia.org/wiki/Drake_equation" target="_blank" data-i18n="link_drake">Drake Equation</a>
+                            <a class="reference-link" href="https://en.wikipedia.org/wiki/Fermi_paradox" target="_blank" data-i18n="link_fermi">Fermi Paradox</a>
+                            <a class="reference-link" href="https://en.wikipedia.org/wiki/Astrobiology" target="_blank" data-i18n="link_astrobiology">Astrobiology</a>
+                            <a class="reference-link" href="https://en.wikipedia.org/wiki/Search_for_extraterrestrial_intelligence" target="_blank" data-i18n="link_seti">SETI Institute</a>
+                            <a class="reference-link" href="https://en.wikipedia.org/wiki/Exoplanet" target="_blank" data-i18n="link_exoplanets">Exoplanets</a>
+                        </div>
                     </div>
                 </section>
             </main>

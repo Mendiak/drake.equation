@@ -3,7 +3,88 @@
    Inspired by Mies van der Rohe & Dieter Rams
    ======================================== */
 
-/* 1. Reset & Base */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   1. CSS VARIABLES - Design System
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+:root {
+    /* Color Palette */
+    --color-black: #000000;
+    --color-white: #ffffff;
+    --color-text-primary: #1a1a1a;
+    --color-text-secondary: #444444;
+    --color-text-muted: #666666;
+    --color-text-subtle: #999999;
+    --color-border: #eeeeee;
+    --color-bg-light: #fafafa;
+    --color-bg-lighter: #fcfcfc;
+    --color-bg-surface: #f8f8f8;
+    --color-accent-yellow: #ffeb3b;
+    --color-confidence-low: #2ecc71;
+    --color-confidence-low-dark: #27ae60;
+    --color-confidence-medium: #f39c12;
+    --color-confidence-medium-dark: #e67e22;
+    --color-confidence-high: #e74c3c;
+    --color-confidence-high-dark: #c0392b;
+    --color-confidence-very-high: #c0392b;
+    --color-confidence-very-high-dark: #a93226;
+
+    /* Typography Scale */
+    --font-size-sm: 0.65rem;
+    --font-size-xs: 0.7rem;
+    --font-size-sm-base: 0.75rem;
+    --font-size-sm-plus: 0.8125rem;
+    --font-size-sm-text: 0.875rem;
+    --font-size-base: 0.95rem;
+    --font-size-md: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 2.25rem;
+    --font-size-4xl: 3rem;
+    --font-size-5xl: 3.5rem;
+
+    /* Spacing Scale */
+    --space-xs: 0.5rem;
+    --space-sm: 0.75rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 2.5rem;
+    --space-3xl: 3rem;
+    --space-4xl: 4rem;
+    --space-5xl: 5rem;
+
+    /* Typography */
+    --font-family-system: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-family-mono: "Space Mono", monospace;
+    --font-weight-regular: 400;
+    --font-weight-semi: 600;
+    --font-weight-bold: 700;
+    --font-weight-extra: 800;
+    --line-height-tight: 1.5;
+    --line-height-relaxed: 1.6;
+    --line-height-spacious: 1.7;
+
+    /* Transitions */
+    --transition-fast: 0.1s;
+    --transition-base: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: 0.3s;
+    --transition-slow: 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    /* Borders & Radius */
+    --border-width: 1px;
+    --border-width-thick: 3px;
+    --border-width-accent: 4px;
+    --radius-sm: 2px;
+    --radius-md: 4px;
+    --radius-full: 50%;
+
+    /* Shadows & Depth */
+    --shadow-small: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* Reset & Base */
 *, *::before, *::after { 
     box-sizing: border-box; 
 }
@@ -11,42 +92,50 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    line-height: 1.5;
-    background-color: #ffffff;
-    color: #1a1a1a;
+    font-family: var(--font-family-system);
+    line-height: var(--line-height-tight);
+    background-color: var(--color-white);
+    color: var(--color-text-primary);
     -webkit-font-smoothing: antialiased;
 }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   2. LAYOUT & CONTAINER
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .container {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 3rem;
+    padding: var(--space-3xl);
 }
 
 @media (max-width: 768px) {
     .container {
-        padding: 1.5rem;
+        padding: var(--space-lg);
     }
 }
 
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   3. HEADER & LANGUAGE SWITCHER
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
 header {
-    margin-bottom: 4rem;
+    margin-bottom: var(--space-4xl);
 }
 
 .header-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--space-xs);
 }
 
 .lang-switcher {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 0.75rem;
-    font-weight: 700;
+    gap: var(--space-xs);
+    font-size: var(--font-size-sm-base);
+    font-weight: var(--font-weight-extra);
 }
 
 .lang-btn {
@@ -54,143 +143,164 @@ header {
     border: none;
     padding: 0;
     cursor: pointer;
-    color: #999999;
-    transition: color 0.2s;
+    color: var(--color-text-subtle);
+    transition: color var(--transition-base);
 }
 
-.lang-btn:hover {
-    color: #000000;
-}
-
-.lang-btn.active {
-    color: #000000;
+.lang-btn:hover, .lang-btn.active {
+    color: var(--color-black);
 }
 
 .lang-divider {
-    color: #eeeeee;
+    color: var(--color-border);
 }
 
 @media (max-width: 600px) {
     header {
-        margin-bottom: 2rem;
+        margin-bottom: var(--space-xl);
     }
     .header-top {
         flex-direction: column;
         align-items: flex-start;
-        gap: 1rem;
+        gap: var(--space-md);
     }
 }
 
-/* 2. Typography */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   4. TYPOGRAPHY
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
 h1 {
-    font-size: 3rem;
-    font-weight: 800;
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-extra);
     letter-spacing: -0.04em;
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 var(--space-xs) 0;
 }
 
 @media (max-width: 600px) {
-    h1 {
-        font-size: 2.25rem;
-    }
+    h1 { font-size: var(--font-size-3xl); }
+}
+
+h2 {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-extra);
+    margin: 0;
+}
+
+h3 {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0;
 }
 
 .subtitle {
-    font-size: 1.25rem;
-    color: #666666;
+    font-size: var(--font-size-xl);
+    color: var(--color-text-muted);
     margin: 0;
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
 }
 
 .hero-description {
-    margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid #f0f0f0;
+    margin-top: var(--space-xl);
+    padding-top: var(--space-xl);
+    border-top: var(--border-width) solid var(--color-border);
     max-width: 800px;
 }
 
 .hero-description p {
-    font-size: 1.125rem;
-    color: #444444;
-    line-height: 1.6;
-    margin-bottom: 2rem;
+    font-size: var(--font-size-lg);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-xl);
 }
 
 .usage-guide {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 3rem;
+    gap: var(--space-3xl);
 }
 
 .guide-item strong {
     display: block;
-    font-size: 0.75rem;
+    font-size: var(--font-size-sm-base);
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    margin-bottom: 0.75rem;
-    color: #000000;
+    margin-bottom: var(--space-sm);
+    color: var(--color-black);
 }
 
 .guide-item p {
-    font-size: 0.875rem;
-    color: #666666;
+    font-size: var(--font-size-sm-text);
+    color: var(--color-text-muted);
     margin: 0;
-    line-height: 1.5;
+    line-height: var(--line-height-tight);
 }
 
 @media (max-width: 768px) {
     .usage-guide {
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: var(--space-xl);
     }
 }
 
-h2 { font-size: 1.5rem; font-weight: 800; margin: 0; }
-h3 { font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin: 0; }
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   5. DASHBOARD LAYOUT
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
-/* 3. Dashboard Layout */
 .dashboard {
     display: grid;
     grid-template-columns: 360px 1fr;
-    gap: 5rem;
+    gap: var(--space-5xl);
     align-items: start;
 }
 
 @media (max-width: 1100px) {
     .dashboard {
         grid-template-columns: 300px 1fr;
-        gap: 3rem;
+        gap: var(--space-3xl);
     }
 }
 
 @media (max-width: 900px) {
     .dashboard { 
         grid-template-columns: 1fr; 
-        gap: 3rem; 
+        gap: var(--space-3xl); 
     }
 }
 
 @media (max-width: 600px) {
     .dashboard {
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: var(--space-xl);
     }
 }
 
 .parameters-panel {
     position: sticky;
-    top: 2rem;
-    max-height: calc(100vh - 4rem);
+    top: var(--space-xl);
+    max-height: calc(100vh - var(--space-4xl));
     overflow-y: auto;
-    padding-right: 1.5rem;
+    padding: var(--space-lg);
+    background: var(--color-bg-lighter);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-sm);
     scrollbar-width: thin;
-    scrollbar-color: #eeeeee transparent;
+    scrollbar-color: var(--color-text-muted) var(--color-border);
 }
 
-/* Custom scrollbar for minimalist look */
-.parameters-panel::-webkit-scrollbar { width: 4px; }
-.parameters-panel::-webkit-scrollbar-track { background: transparent; }
-.parameters-panel::-webkit-scrollbar-thumb { background: #eeeeee; border-radius: 10px; }
+.parameters-panel::-webkit-scrollbar { width: 6px; }
+.parameters-panel::-webkit-scrollbar-track { background: var(--color-border); border-radius: 3px; }
+.parameters-panel::-webkit-scrollbar-thumb { 
+    background: var(--color-text-muted); 
+    border-radius: 3px;
+    border: 2px solid var(--color-border);
+}
+
+.parameters-panel::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-subtle);
+}
 
 @media (max-width: 900px) {
     .parameters-panel { 
@@ -200,15 +310,18 @@ h3 { font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-s
     }
 }
 
-/* 4. Parameters Panel (Left) */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   6. RESULT CARD (Parameters Panel)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
 .result-card {
-    background: #000000;
-    color: #ffffff;
-    padding: 2rem;
-    margin-bottom: 2.5rem;
+    background: var(--color-black);
+    color: var(--color-white);
+    padding: var(--space-xl);
+    margin-bottom: var(--space-2xl);
     position: relative;
     overflow: hidden;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
 }
 
 .galaxy-container {
@@ -225,9 +338,9 @@ h3 { font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-s
     position: absolute;
     width: 2px;
     height: 2px;
-    background: #ffffff;
-    border-radius: 50%;
-    box-shadow: 0 0 4px #ffffff;
+    background: var(--color-white);
+    border-radius: var(--radius-full);
+    box-shadow: 0 0 4px var(--color-white);
     opacity: 0;
     transition: opacity 1s ease;
 }
@@ -235,7 +348,7 @@ h3 { font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-s
 .result-label { 
     position: relative;
     z-index: 1;
-    font-size: 0.7rem; 
+    font-size: var(--font-size-xs);
     text-transform: uppercase; 
     letter-spacing: 0.12em; 
     opacity: 0.5; 
@@ -244,36 +357,36 @@ h3 { font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-s
 #result {
     position: relative;
     z-index: 1;
-    font-size: 3.5rem;
-    font-weight: 800;
-    margin: 0.5rem 0;
-    font-family: "Space Mono", monospace;
+    font-size: var(--font-size-5xl);
+    font-weight: var(--font-weight-extra);
+    margin: var(--space-xs) 0;
+    font-family: var(--font-family-mono);
     letter-spacing: -0.05em;
 }
 
 .result-unit { 
     position: relative;
     z-index: 1;
-    font-size: 0.8125rem; 
+    font-size: var(--font-size-sm-plus);
     opacity: 0.7; 
     display: block; 
-    margin-bottom: 1.5rem; 
+    margin-bottom: var(--space-lg); 
 }
 
 .result-context {
     position: relative;
     z-index: 1;
-    font-size: 0.875rem;
-    line-height: 1.5;
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
-    padding-top: 1.5rem;
+    font-size: var(--font-size-sm-text);
+    line-height: var(--line-height-tight);
+    border-top: var(--border-width) solid rgba(255, 255, 255, 0.15);
+    padding-top: var(--space-lg);
 }
 
 .result-context strong {
     display: block;
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-    color: #ffffff;
+    font-size: var(--font-size-md);
+    margin-bottom: var(--space-xs);
+    color: var(--color-white);
     letter-spacing: -0.01em;
 }
 
@@ -282,65 +395,79 @@ h3 { font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-s
     opacity: 0.7;
 }
 
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   7. PARAMETER INPUTS & CONTROLS
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
 .panel-header {
-    margin-bottom: 2rem;
-    padding-top: 1rem;
+    margin-bottom: var(--space-xl);
+    padding-top: var(--space-md);
 }
 
 .presets-container { 
     display: flex; 
     flex-wrap: wrap;
-    gap: 0.5rem; 
-    margin-top: 1rem;
+    gap: var(--space-xs); 
+    margin-top: var(--space-md);
 }
 
 .preset-btn {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.7rem;
-    font-weight: 700;
-    background: #ffffff;
-    border: 1px solid #eeeeee;
+    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-extra);
+    background: var(--color-white);
+    border: var(--border-width) solid var(--color-border);
     text-transform: uppercase;
     letter-spacing: 0.03em;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all var(--transition-base);
 }
 
-.preset-btn:hover { border-color: #000000; background: #fcfcfc; }
-.preset-btn.active-preset { background: #000000; color: #ffffff; border-color: #000000; }
+.preset-btn:hover {
+    border-color: var(--color-black);
+    background: var(--color-bg-lighter);
+}
+
+.preset-btn.active-preset {
+    background: var(--color-black);
+    color: var(--color-white);
+    border-color: var(--color-black);
+}
 
 .equation-box {
-    background: #f8f8f8;
-    padding: 1.25rem;
-    margin-bottom: 2.5rem;
+    background: var(--color-bg-surface);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-2xl);
     text-align: center;
-    font-family: "Space Mono", monospace;
-    font-size: 0.85rem;
-    border-radius: 2px;
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-sm-text);
+    border-radius: var(--radius-sm);
 }
 
 .variables-header {
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--space-lg);
 }
 
-.input-group { margin-bottom: 2rem; }
+.input-group {
+    margin-bottom: var(--space-xl);
+}
 
 .param-label {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.75rem;
-    font-weight: 700;
+    font-size: var(--font-size-sm-base);
+    font-weight: var(--font-weight-extra);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    margin-bottom: 1rem;
-    color: #666666;
+    margin-bottom: var(--space-md);
+    color: var(--color-text-muted);
 }
 
 .input-wrapper {
     display: grid;
     grid-template-columns: 1fr 60px;
-    gap: 1rem;
+    gap: var(--space-md);
     align-items: center;
 }
 
@@ -350,17 +477,17 @@ input[type="range"] {
     height: 3px;
     background: #cccccc;
     outline: none;
-    border-radius: 2px;
+    border-radius: var(--radius-sm);
 }
 
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     width: 12px;
     height: 12px;
-    background: #000000;
+    background: var(--color-black);
     cursor: pointer;
-    border-radius: 50%;
-    transition: transform 0.1s;
+    border-radius: var(--radius-full);
+    transition: transform var(--transition-fast);
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {
@@ -368,51 +495,94 @@ input[type="range"]::-webkit-slider-thumb:hover {
 }
 
 .value-display {
-    font-family: "Space Mono", monospace;
-    font-size: 0.8125rem;
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-sm-plus);
     text-align: right;
-    font-weight: 700;
-    color: #000000;
+    font-weight: var(--font-weight-extra);
+    color: var(--color-black);
 }
 
-.button-container { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #eeeeee; }
+.button-container {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-xl);
+    border-top: var(--border-width) solid var(--color-border);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   8. BUTTON COMPONENTS (Unified)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* Base button style */
+button {
+    transition: all var(--transition-base);
+}
 
 button#reset-button {
     width: 100%;
-    padding: 0.75rem;
+    padding: var(--space-sm);
     background: none;
-    border: 1px solid #eeeeee;
-    font-weight: 700;
-    font-size: 0.75rem;
+    border: var(--border-width) solid var(--color-border);
+    font-weight: var(--font-weight-extra);
+    font-size: var(--font-size-xs);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     cursor: pointer;
-    transition: all 0.2s;
-    color: #666666;
+    color: var(--color-text-muted);
 }
 
-button#reset-button:hover { border-color: #000000; color: #000000; background: #fcfcfc; }
+button#reset-button:hover {
+    border-color: var(--color-black);
+    color: var(--color-black);
+    background: var(--color-bg-lighter);
+}
 
-/* 5. Results Panel (Right) */
+#share-btn, #download-chart-btn {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-extra);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--color-white);
+    border: var(--border-width) solid var(--color-border);
+    cursor: pointer;
+}
+
+#share-btn:hover, #download-chart-btn:hover {
+    background: var(--color-black);
+    color: var(--color-white);
+    border-color: var(--color-black);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   9. RESULTS & CHART SECTION
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
 .section-title {
-    font-size: 1.5rem;
-    font-weight: 800;
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-extra);
     letter-spacing: -0.02em;
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-xl);
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: var(--space-md);
 }
 
 .section-title::after {
     content: "";
     flex: 1;
-    height: 1px;
-    background: #eeeeee;
+    height: var(--border-width);
+    background: var(--color-border);
 }
 
 .chart-section {
-    margin-bottom: 5rem;
+    margin-bottom: var(--space-5xl);
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-xl);
 }
 
 .funnel-container {
@@ -631,23 +801,50 @@ details p {
     color: #000000;
 }
 
-.links-container { 
-    margin-top: 4rem; 
-    display: flex; 
-    flex-wrap: wrap;
-    gap: 1.5rem 3rem; 
+.references-section {
+    margin-top: 5rem;
+    padding-top: 3rem;
+    border-top: 1px solid #f0f0f0;
 }
 
-.links { 
-    font-size: 0.875rem; 
+.references-section h3 {
+    font-size: 0.875rem;
     font-weight: 600;
-    color: #000000; 
-    text-decoration: none; 
-    border-bottom: 1px solid #eeeeee; 
-    padding-bottom: 4px; 
-    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #666666;
+    margin-bottom: 1.5rem;
 }
-.links:hover { border-bottom-color: #000000; }
+
+.links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+}
+
+.reference-link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #000000 !important;
+    text-decoration: none;
+    padding: 0.75rem 1rem;
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    text-align: center;
+    background-color: transparent;
+    display: block;
+}
+
+.reference-link:hover {
+    border-color: #000000;
+    background-color: #fafafa;
+    color: #000000 !important;
+}
+
+.reference-link:visited {
+    color: #000000 !important;
+}
 
 /* 8. Tooltip Modal */
 .tooltip-modal {
@@ -993,7 +1190,7 @@ footer a:hover {
     line-height: 1.6;
 }
 
-/* Magnitude Scale */
+/* Magnitude Scale - Ruler Style */
 .magnitude-container {
     background: #fcfcfc;
     padding: 2rem;
@@ -1016,51 +1213,73 @@ footer a:hover {
     margin: 0 0 1.5rem 0;
 }
 
-.magnitude-scale {
+.magnitude-ruler {
+    position: relative;
+    padding: 2rem 0 2.5rem 0;
+    margin: 1rem 0;
+}
+
+.ruler-line {
+    position: absolute;
+    top: 1.5rem;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #1a1a1a;
+    border-radius: 1px;
+}
+
+.ruler-scale {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    gap: 0.25rem;
-    padding: 2rem 0 1rem 0;
+    align-items: flex-start;
     position: relative;
-    height: 60px;
+    height: 3rem;
 }
 
-.magnitude-point {
+.ruler-tick {
     flex: 1;
-    text-align: center;
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: #999999;
-    padding-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     position: relative;
 }
 
-.magnitude-point::before {
+.ruler-tick::before {
     content: "";
     position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%);
+    top: 0;
     width: 2px;
-    height: 8px;
-    background: #eeeeee;
+    height: 12px;
+    background: #1a1a1a;
 }
 
-.magnitude-indicator {
+.tick-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #666666;
+    margin-top: 1.5rem;
+    white-space: nowrap;
+}
+
+.ruler-pointer {
     position: absolute;
     top: 0;
-    width: 3px;
-    height: 40px;
-    background: #000000;
-    border-radius: 3px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 10px solid #000000;
+    z-index: 10;
     transition: left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateX(-50%);
+    pointer-events: none;
 }
 
 .magnitude-label {
     font-size: 0.8rem;
     color: #666666;
     text-align: center;
-    margin-top: 0.5rem;
+    margin-top: 1rem;
     font-weight: 600;
 }
