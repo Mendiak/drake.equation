@@ -101,6 +101,5 @@ header {
     .parameters-panel { 
         position: static; 
         max-height: none; 
-        padding-right: 0; 
     }
 }

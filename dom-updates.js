@@ -105,7 +105,16 @@ function animateValue(start, end, duration) {
 function updateGalaxyVisualization(N) {
     const galaxy = document.getElementById('galaxy-viz');
     if (!galaxy) return;
-    const targetCount = Math.min(Math.floor(N), 500); 
+    
+    let targetCount = 0;
+    if (N > 0) {
+        // Logarithmic scale so even low N values result in at least 20-50 stars
+        // but high values still feel noticeably denser (up to 600 max)
+        const logFactor = Math.log10(N + 1); 
+        targetCount = Math.floor(20 + (logFactor * 60)); 
+    }
+    targetCount = Math.min(targetCount, 600); // Max stars
+    
     const currentDots = galaxy.querySelectorAll('.galaxy-dot');
     const currentCount = currentDots.length;
 

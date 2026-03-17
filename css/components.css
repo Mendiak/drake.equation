@@ -74,6 +74,13 @@
     font-family: var(--font-family-mono);
     font-size: var(--font-size-sm-text);
     border-radius: var(--radius-sm);
+    word-break: break-word;
+}
+
+@media (max-width: 600px) {
+    .equation-box {
+        padding: var(--space-md);
+    }
 }
 
 .variables-header {
@@ -105,6 +112,7 @@
 
 input[type="range"] {
     -webkit-appearance: none;
+    appearance: none;
     width: 100%;
     height: 3px;
     background: #cccccc;
