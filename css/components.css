@@ -224,8 +224,9 @@ button#reset-button:hover {
     z-index: 1000;
     display: flex;
     justify-content: center;
-    align-items: center;
-    padding: var(--space-xl);
+    /* align-items: center is handled by margin: auto on the content for better scroll behavior */
+    overflow-y: auto;
+    padding: var(--space-xl) var(--space-md);
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
@@ -241,6 +242,7 @@ button#reset-button:hover {
     padding: var(--space-3xl);
     max-width: 600px;
     width: 100%;
+    margin: auto; /* Centers content vertically and horizontally, handles overflow correctly */
     position: relative;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     transform: translateY(20px);
@@ -253,23 +255,29 @@ button#reset-button:hover {
 
 .tooltip-close {
     position: absolute;
-    top: var(--space-xl);
-    right: var(--space-xl);
-    background: none;
+    top: var(--space-lg);
+    right: var(--space-lg);
+    background: var(--color-bg-surface);
     border: none;
-    font-size: var(--font-size-2xl);
+    font-size: var(--font-size-xl);
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
     cursor: pointer;
-    color: var(--color-text-muted);
-    padding: var(--space-xs);
+    color: var(--color-black);
+    padding: 0;
     line-height: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: color var(--transition-base);
+    transition: all var(--transition-base);
+    z-index: 10;
 }
 
 .tooltip-close:hover {
-    color: var(--color-black);
+    background: var(--color-black);
+    color: var(--color-white);
+    transform: rotate(90deg);
 }
 
 .tooltip-content h3 {

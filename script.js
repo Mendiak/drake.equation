@@ -111,12 +111,17 @@ function showTooltip(paramId) {
     const uncertaintyLabel = t('uncertainty.' + levelData.labelKey);
     uncertaintyEl.className = 'tooltip-uncertainty ' + data.uncertainty.replace(' ', '-');
     uncertaintyEl.textContent = `${currentLang === 'es' ? 'Nivel de confianza' : 'Confidence Level'}: ${uncertaintyLabel}`;
+    
     modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
 }
 
 function hideTooltip() {
     const modal = document.getElementById('tooltip-modal');
-    if (modal) modal.style.display = 'none';
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
 }
 
 function resetForm() {
