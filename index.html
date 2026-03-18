@@ -16,11 +16,11 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZXLS14C7VJ"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-      gtag('config', 'G-ZXLS14C7VJ');
+        gtag('config', 'G-ZXLS14C7VJ');
     </script>
 </head>
 
@@ -57,22 +57,29 @@
                     <button class="lang-btn" data-lang="es">ES</button>
                 </div>
             </div>
-            <p class="subtitle" data-i18n="subtitle">An interactive estimate of advanced civilizations in our galaxy.</p>
-            
+            <p class="subtitle" data-i18n="subtitle">An interactive estimate of advanced civilizations in our galaxy.
+            </p>
+
             <section class="hero-description">
-                <p data-i18n="hero_description">This tool allows you to explore the <strong>Drake Equation</strong>, a probabilistic framework used to estimate the number of active, communicative extraterrestrial civilizations in the Milky Way.</p>
+                <p data-i18n="hero_description">This tool allows you to explore the <strong>Drake Equation</strong>, a
+                    probabilistic framework used to estimate the number of active, communicative extraterrestrial
+                    civilizations in the Milky Way.</p>
                 <div class="usage-guide">
                     <div class="guide-item">
                         <strong data-i18n="guide_1_title">1. Adjust</strong>
-                        <p data-i18n="guide_1_desc">Move the sliders to set values for each cosmic and biological factor.</p>
+                        <p data-i18n="guide_1_desc">Move the sliders to set values for each cosmic and biological
+                            factor.</p>
                     </div>
                     <div class="guide-item">
                         <strong data-i18n="guide_2_title">2. Analyze</strong>
-                        <p data-i18n="guide_2_desc">Watch how the final result (N) changes in real-time based on your inputs.</p>
+                        <p data-i18n="guide_2_desc">Watch how the final result (N) changes in real-time based on your
+                            inputs.</p>
                     </div>
                     <div class="guide-item">
                         <strong data-i18n="guide_3_title">3. Learn</strong>
-                        <p data-i18n="guide_3_desc">Click the <span class="info-icon" style="display:inline-flex; width:16px; height:16px; font-size:10px;">ⓘ</span> icons to understand the scientific basis of each parameter.</p>
+                        <p data-i18n="guide_3_desc">Click the <span class="info-icon"
+                                style="display:inline-flex; width:16px; height:16px; font-size:10px;">ⓘ</span> icons to
+                            understand the scientific basis of each parameter.</p>
                     </div>
                 </div>
             </section>
@@ -84,12 +91,16 @@
                     <h3 data-i18n="presets_title">Presets</h3>
                     <div class="presets-legend" data-i18n="preset_legend">Optimistic ← → Pessimistic</div>
                     <div class="presets-container">
-                        <button class="preset-btn" data-preset="optimistic" data-i18n="preset_optimistic">Optimistic Scientist</button>
+                        <button class="preset-btn" data-preset="optimistic" data-i18n="preset_optimistic">Optimistic
+                            Scientist</button>
                         <button class="preset-btn" data-preset="sagan" data-i18n="preset_sagan">Sagan Estimate</button>
                         <button class="preset-btn" data-preset="drake" data-i18n="preset_drake">Drake Estimate</button>
-                        <button class="preset-btn" data-preset="scientific" data-i18n="preset_scientific">Modern Consensus</button>
-                        <button class="preset-btn" data-preset="rare_earth" data-i18n="preset_rare_earth">Rare Earth Model</button>
-                        <button class="preset-btn" data-preset="pessimistic" data-i18n="preset_pessimistic">Pessimistic Scientist</button>
+                        <button class="preset-btn" data-preset="scientific" data-i18n="preset_scientific">Modern
+                            Consensus</button>
+                        <button class="preset-btn" data-preset="rare_earth" data-i18n="preset_rare_earth">Rare Earth
+                            Model</button>
+                        <button class="preset-btn" data-preset="pessimistic" data-i18n="preset_pessimistic">Pessimistic
+                            Scientist</button>
                     </div>
                 </div>
 
@@ -195,7 +206,8 @@
                     </div>
 
                     <div class="button-container">
-                        <button type="button" id="reset-button" onclick="resetForm()" data-i18n="reset_button">Reset to Defaults</button>
+                        <button type="button" id="reset-button" onclick="resetForm()" data-i18n="reset_button">Reset to
+                            Defaults</button>
                     </div>
 
                     <div class="confidence-section">
@@ -230,10 +242,14 @@
                                 <div class="confidence-indicator" data-confidence="very_high"></div>
                             </div>
                         </div>
-                        <p class="confidence-legend" style="font-size: 0.7rem; color: #999999; margin-top: 1rem; line-height: 1.4;">
-                            <span style="display: block; margin-bottom: 0.25rem;"><strong style="color: #2ecc71;">●</strong> Observed</span>
-                            <span style="display: block; margin-bottom: 0.25rem;"><strong style="color: #f39c12;">●</strong> Theoretical</span>
-                            <span style="display: block; margin-bottom: 0.25rem;"><strong style="color: #e74c3c;">●</strong> Speculative</span>
+                        <p class="confidence-legend"
+                            style="font-size: 0.7rem; color: #999999; margin-top: 1rem; line-height: 1.4;">
+                            <span style="display: block; margin-bottom: 0.25rem;"><strong
+                                    style="color: #2ecc71;">●</strong> Observed</span>
+                            <span style="display: block; margin-bottom: 0.25rem;"><strong
+                                    style="color: #f39c12;">●</strong> Theoretical</span>
+                            <span style="display: block; margin-bottom: 0.25rem;"><strong
+                                    style="color: #e74c3c;">●</strong> Speculative</span>
                         </p>
                     </div>
                 </form>
@@ -246,24 +262,32 @@
                     <h2 id="result" role="status" aria-live="polite">0</h2>
                     <span class="result-unit" data-i18n="result_unit">Communicative civilizations</span>
                     <div class="result-context">
-                        <p id="result-interpretation" data-i18n="result_initial">Adjust parameters to explore scenarios.</p>
-                        <div id="result-details" style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.15); display: none;">
+                        <p id="result-interpretation" data-i18n="result_initial">Adjust parameters to explore scenarios.
+                        </p>
+                        <div id="result-details"
+                            style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.15); display: none;">
                             <strong id="result-meaning-title"></strong>
-                            <p id="result-meaning-near" style="font-size: 0.8125rem; margin: 0.75rem 0 0 0; opacity: 0.8;"></p>
-                            <p id="result-meaning-ratio" style="font-size: 0.8125rem; margin: 0.5rem 0 0 0; opacity: 0.8;"></p>
-                            <p id="result-meaning-context" style="font-size: 0.75rem; margin: 0.75rem 0 0 0; opacity: 0.6; font-style: italic;"></p>
+                            <p id="result-meaning-near"
+                                style="font-size: 0.8125rem; margin: 0.75rem 0 0 0; opacity: 0.8;"></p>
+                            <p id="result-meaning-ratio"
+                                style="font-size: 0.8125rem; margin: 0.5rem 0 0 0; opacity: 0.8;"></p>
+                            <p id="result-meaning-context"
+                                style="font-size: 0.75rem; margin: 0.75rem 0 0 0; opacity: 0.6; font-style: italic;">
+                            </p>
                         </div>
                     </div>
                 </div>
 
                 <section class="chart-section">
                     <h2 class="section-title" data-i18n="section_sensitivity">Sensitivity Analysis</h2>
-                    <p class="scientific-explanation" data-i18n="sensitivity_intro" style="margin-bottom: 2rem; font-size: 1rem; color: #444; max-width: 800px;"></p>
+                    <p class="scientific-explanation" data-i18n="sensitivity_intro"
+                        style="margin-bottom: 2rem; font-size: 1rem; color: #444; max-width: 800px;"></p>
                     <div class="chart-header">
                         <p class="scientific-explanation" id="chart-explanation"></p>
                         <div class="chart-controls">
                             <button type="button" id="share-btn" title="Copy link" data-i18n="share_btn">Share</button>
-                            <button type="button" id="download-chart-btn" title="Export PNG" data-i18n="export_btn">Export</button>
+                            <button type="button" id="download-chart-btn" title="Export PNG"
+                                data-i18n="export_btn">Export</button>
                             <div class="toggle-group">
                                 <span class="toggle-label" data-i18n="toggle_log">Log</span>
                                 <label class="switch">
@@ -280,7 +304,8 @@
 
                 <section class="chart-section funnel-section">
                     <h2 class="section-title" data-i18n="section_funnel">Cosmic Filter Funnel</h2>
-                    <p class="scientific-explanation" data-i18n="funnel_intro" style="margin-bottom: 2rem; font-size: 1rem; color: #444; max-width: 800px;"></p>
+                    <p class="scientific-explanation" data-i18n="funnel_intro"
+                        style="margin-bottom: 2rem; font-size: 1rem; color: #444; max-width: 800px;"></p>
                     <div class="funnel-container">
                         <div class="funnel-chart-wrapper" style="width: 100%;">
                             <canvas id="funnelChart"></canvas>
@@ -295,29 +320,43 @@
                     <h2 class="section-title" data-i18n="section_learn">Learn More</h2>
                     <details>
                         <summary data-i18n="background_title">Background and Context</summary>
-                        <p data-i18n="background_text_1">The Drake equation was formulated by Dr. Frank Drake in 1961. It serves as a probabilistic argument used to estimate the number of active, communicative extraterrestrial civilizations in the Milky Way galaxy.</p>
-                        <p data-i18n="background_text_2">The equation breaks down a large, unknown problem into smaller, more manageable pieces. While many values remain speculative, it remains a cornerstone of astrobiology and the search for extraterrestrial intelligence.</p>
+                        <p data-i18n="background_text_1">The Drake equation was formulated by Dr. Frank Drake in 1961.
+                            It serves as a probabilistic argument used to estimate the number of active, communicative
+                            extraterrestrial civilizations in the Milky Way galaxy.</p>
+                        <p data-i18n="background_text_2">The equation breaks down a large, unknown problem into smaller,
+                            more manageable pieces. While many values remain speculative, it remains a cornerstone of
+                            astrobiology and the search for extraterrestrial intelligence.</p>
                     </details>
-        
+
                     <details>
                         <summary data-i18n="fermi_title">The Fermi Paradox</summary>
                         <div id="fermi-content">
-                            <p data-i18n="fermi_text_1">The Fermi Paradox highlights the contradiction between the high probability of extraterrestrial civilizations and the lack of evidence for their existence.</p>
+                            <p data-i18n="fermi_text_1">The Fermi Paradox highlights the contradiction between the high
+                                probability of extraterrestrial civilizations and the lack of evidence for their
+                                existence.</p>
                             <div id="fermi-dynamic"></div>
-                            <p data-i18n="fermi_text_2">Possible explanations include the "Great Filter" hypothesis, suggesting that civilizations might inevitably self-destruct or that the emergence of life is rarer than we think.</p>
+                            <p data-i18n="fermi_text_2">Possible explanations include the "Great Filter" hypothesis,
+                                suggesting that civilizations might inevitably self-destruct or that the emergence of
+                                life is rarer than we think.</p>
                         </div>
                     </details>
-        
+
                     <details>
                         <summary data-i18n="habitable_title">The Habitable Zone</summary>
-                        <p data-i18n="habitable_text">A key component of the equation (n<sub>e</sub>) relies on the concept of the "Goldilocks Zone"—the region around a star where liquid water can exist on a planet's surface. Understanding this helps narrow down which of the billions of planets in our galaxy might actually be candidates for life.</p>
+                        <p data-i18n="habitable_text">A key component of the equation (n<sub>e</sub>) relies on the
+                            concept of the "Goldilocks Zone"—the region around a star where liquid water can exist on a
+                            planet's surface. Understanding this helps narrow down which of the billions of planets in
+                            our galaxy might actually be candidates for life.</p>
                     </details>
-        
+
                     <details>
                         <summary data-i18n="tech_title">Technosignatures and SETI</summary>
-                        <p data-i18n="tech_text">The final factors (f<sub>c</sub> and L) relate to how we might actually detect another civilization. Scientists look for "technosignatures" like narrow-band radio signals, laser pulses, or even massive engineering projects like Dyson Spheres. The Search for Extraterrestrial Intelligence (SETI) is the active effort to find these markers.</p>
+                        <p data-i18n="tech_text">The final factors (f<sub>c</sub> and L) relate to how we might actually
+                            detect another civilization. Scientists look for "technosignatures" like narrow-band radio
+                            signals, laser pulses, or even massive engineering projects like Dyson Spheres. The Search
+                            for Extraterrestrial Intelligence (SETI) is the active effort to find these markers.</p>
                     </details>
-        
+
                     <details>
                         <summary data-i18n="timeline_title">Timeline of the Search</summary>
                         <div class="timeline" id="timeline-container">
@@ -330,31 +369,39 @@
                         <div class="concepts-grid">
                             <div class="concept-card">
                                 <h4 data-i18n="concept_habitable.title">Habitable Zone</h4>
-                                <p data-i18n="concept_habitable.desc">The region around a star (the 'Goldilocks Zone') where liquid water can exist on a planet's surface.</p>
+                                <p data-i18n="concept_habitable.desc">The region around a star (the 'Goldilocks Zone')
+                                    where liquid water can exist on a planet's surface.</p>
                             </div>
                             <div class="concept-card">
                                 <h4 data-i18n="concept_technosignature.title">Technosignature</h4>
-                                <p data-i18n="concept_technosignature.desc">Evidence of technological activity—radio signals, laser pulses, or massive engineering projects.</p>
+                                <p data-i18n="concept_technosignature.desc">Evidence of technological activity—radio
+                                    signals, laser pulses, or massive engineering projects.</p>
                             </div>
                             <div class="concept-card">
                                 <h4 data-i18n="concept_great_filter.title">The Great Filter</h4>
-                                <p data-i18n="concept_great_filter.desc">A barrier explaining the Fermi Paradox. Either life is rare, or civilizations self-destruct quickly.</p>
+                                <p data-i18n="concept_great_filter.desc">A barrier explaining the Fermi Paradox. Either
+                                    life is rare, or civilizations self-destruct quickly.</p>
                             </div>
                             <div class="concept-card">
                                 <h4 data-i18n="concept_cosmic_perspective.title">Cosmic Perspective</h4>
-                                <p data-i18n="concept_cosmic_perspective.desc">Even one alien civilization would revolutionize our understanding of life itself.</p>
+                                <p data-i18n="concept_cosmic_perspective.desc">Even one alien civilization would
+                                    revolutionize our understanding of life itself.</p>
                             </div>
                         </div>
                     </details>
 
                     <div class="uncertainty-disclaimer">
                         <h3 data-i18n="uncertainty_title">A Note on Uncertainty</h3>
-                        <p data-i18n="uncertainty_text">The Drake Equation estimates vary by <strong>10 orders of magnitude</strong>—from isolated Earth to billions of civilizations. This isn't a flaw; it's honest uncertainty. We're working with incomplete data, and disagreement itself is scientifically valuable. This tool is speculative, not predictive.</p>
+                        <p data-i18n="uncertainty_text">The Drake Equation estimates vary by <strong>10 orders of
+                                magnitude</strong>—from isolated Earth to billions of civilizations. This isn't a flaw;
+                            it's honest uncertainty. We're working with incomplete data, and disagreement itself is
+                            scientifically valuable. This tool is speculative, not predictive.</p>
                     </div>
 
                     <div class="magnitude-container">
                         <h3 data-i18n="magnitude_scale">Order of Magnitude Scale</h3>
-                        <p data-i18n="magnitude_explanation">Your estimate falls here on the scale of possible outcomes:</p>
+                        <p data-i18n="magnitude_explanation">Your estimate falls here on the scale of possible outcomes:
+                        </p>
                         <div class="magnitude-ruler">
                             <div class="ruler-pointer" id="magnitude-indicator" style="left: 0%;"></div>
                             <div class="ruler-line"></div>
@@ -393,15 +440,25 @@
                         </div>
                         <p id="magnitude-label" class="magnitude-label">Start calculating...</p>
                     </div>
-        
+
                     <div class="references-section">
                         <h3 data-i18n="references_title">References & Resources</h3>
                         <div class="links-grid">
-                            <a class="reference-link" href="https://en.wikipedia.org/wiki/Drake_equation" target="_blank" data-i18n="link_drake">Drake Equation</a>
-                            <a class="reference-link" href="https://en.wikipedia.org/wiki/Fermi_paradox" target="_blank" data-i18n="link_fermi">Fermi Paradox</a>
-                            <a class="reference-link" href="https://en.wikipedia.org/wiki/Astrobiology" target="_blank" data-i18n="link_astrobiology">Astrobiology</a>
-                            <a class="reference-link" href="https://en.wikipedia.org/wiki/Search_for_extraterrestrial_intelligence" target="_blank" data-i18n="link_seti">SETI Institute</a>
-                            <a class="reference-link" href="https://en.wikipedia.org/wiki/Exoplanet" target="_blank" data-i18n="link_exoplanets">Exoplanets</a>
+                            <a class="reference-link" href="https://en.wikipedia.org/wiki/Drake_equation"
+                                target="_blank" data-i18n="link_drake">Drake Equation</a>
+                            <a class="reference-link" href="https://arxiv.org/abs/1806.02404" target="_blank"
+                                data-i18n="link_oxford">Dissolving the Fermi Paradox (Oxford Paper)</a>
+                            <a class="reference-link" href="https://mason.gmu.edu/~rhanson/greatfilter.html" target="_blank"
+                                data-i18n="link_hanson">The Great Filter (Robin Hanson)</a>
+                            <a class="reference-link" href="https://en.wikipedia.org/wiki/Fermi_paradox" target="_blank"
+                                data-i18n="link_fermi">Fermi Paradox</a>
+                            <a class="reference-link" href="https://en.wikipedia.org/wiki/Astrobiology" target="_blank"
+                                data-i18n="link_astrobiology">Astrobiology</a>
+                            <a class="reference-link"
+                                href="https://en.wikipedia.org/wiki/Search_for_extraterrestrial_intelligence"
+                                target="_blank" data-i18n="link_seti">SETI Institute</a>
+                            <a class="reference-link" href="https://en.wikipedia.org/wiki/Exoplanet" target="_blank"
+                                data-i18n="link_exoplanets">Exoplanets</a>
                         </div>
                     </div>
                 </section>
@@ -411,9 +468,11 @@
 
     <footer>
         <div class="footer-content">
-            <p>Website by <a href="https://mendiak.github.io/portfolio/" target="_blank" rel="noopener noreferrer">Mikel Aramendia</a></p>
+            <p>Website by <a href="https://mendiak.github.io/portfolio/" target="_blank" rel="noopener noreferrer">Mikel
+                    Aramendia</a></p>
             <span class="footer-divider">·</span>
-            <p><a href="https://github.com/Mendiak/drake.equation" target="_blank" rel="noopener noreferrer" data-i18n="link_source">Source Code</a></p>
+            <p><a href="https://github.com/Mendiak/drake.equation" target="_blank" rel="noopener noreferrer"
+                    data-i18n="link_source">Source Code</a></p>
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
