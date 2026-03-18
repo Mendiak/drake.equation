@@ -22,6 +22,13 @@ function updateLanguage(lang) {
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         el.innerHTML = t(key);
+        
+        // Also update title if a tooltip key exists
+        const tooltipKey = key + '_tooltip';
+        const tooltipText = t(tooltipKey);
+        if (tooltipText !== tooltipKey) {
+            el.setAttribute('title', tooltipText);
+        }
     });
 
     renderTimeline();

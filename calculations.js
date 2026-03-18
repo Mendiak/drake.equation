@@ -28,8 +28,8 @@ function getScenario(params) {
     const technologicalSuccess = params.fc;
     const longevity = params.L;
 
-    if (longevity < 500) return t('scenarios.shooting_star');
-    if (biologicalSuccess < 0.0001) return t('scenarios.rare_earth');
+    if (longevity < 1000) return t('scenarios.shooting_star');
+    if (biologicalSuccess <= 0.001) return t('scenarios.rare_earth');
     if (technologicalSuccess < 0.05) return t('scenarios.silent_wilderness');
     if (longevity > 100000) return t('scenarios.galactic_club');
     return t('scenarios.balanced');
