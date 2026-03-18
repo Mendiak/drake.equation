@@ -76,6 +76,8 @@ const translations = {
             intelligence: "Does life always lead to brains? Or is intelligence a fluke?",
             tech: "The final filter: how many build radios and how long do they last?"
         },
+        funnel_pass: "{val} pass this stage",
+        funnel_one_in: "Only 1 in {val}",
         label_Rstar: "Star formation rate (R*)",
         label_fp: "Fraction with planets (f<sub>p</sub>)",
         label_ne: "Habitable planets (n<sub>e</sub>)",
@@ -331,6 +333,8 @@ const translations = {
             intelligence: "Incluso con vida, ¿cuántos mundos desarrollan cerebros complejos? La evolución puede favorecer la supervivencia sin necesidad de inteligencia.",
             tech: "El filtro final. Para encontrarlas, deben emitir señales al espacio y sobrevivir lo suficiente como para que sus mensajes nos alcancen."
         },
+        funnel_pass: "{val} pasan esta etapa",
+        funnel_one_in: "Solo 1 de cada {val}",
         label_Rstar: "Tasa de formación estelar (R*)",
         label_fp: "Fracción con planetas (f<sub>p</sub>)",
         label_ne: "Planetas habitables (n<sub>e</sub>)",

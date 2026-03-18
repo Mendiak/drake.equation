@@ -61,7 +61,7 @@
 
 .preset-btn {
     flex: 1 1 calc(50% - var(--space-xs));
-    min-width: 120px;
+    min-width: 100px;
     padding: var(--space-xs) var(--space-sm);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-extra);
@@ -71,6 +71,12 @@
     letter-spacing: 0.03em;
     cursor: pointer;
     transition: all var(--transition-base);
+}
+
+@media (max-width: 400px) {
+    .preset-btn {
+        flex: 1 1 100%;
+    }
 }
 
 .preset-btn:hover {
@@ -98,6 +104,7 @@
 @media (max-width: 600px) {
     .equation-box {
         padding: var(--space-md);
+        font-size: 0.8rem;
     }
 }
 

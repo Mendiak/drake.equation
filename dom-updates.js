@@ -165,8 +165,8 @@ function interpretResult(N) {
     let interpretation = `<strong>${scenario.name}</strong><p>${scenario.desc}</p>`;
     if (N >= 1) {
         interpretation += `<div class="cosmic-context">
-            <div class="context-item"><small>${t('context.nearest')}</small><span>~${avgDistance.toLocaleString(currentLang)} ${t('context.unit_ly')}</span></div>
-            <div class="context-item"><small>${t('context.star_ratio')}</small><span>${t('context.unit_stars').replace('{n}', starRatio)}</span></div>
+            <div class="context-item"><small>${t('context.nearest')}:</small> <span> ~${avgDistance.toLocaleString(currentLang)} ${t('context.unit_ly')}</span></div>
+            <div class="context-item"><small>${t('context.star_ratio')}:</small> <span> ${t('context.unit_stars').replace('{n}', starRatio)}</span></div>
         </div>`;
     }
     if (N < 1) interpretation += `<div class="filter-insight">${t('context.filter_alone')}</div>`;

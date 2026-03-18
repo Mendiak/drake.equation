@@ -27,7 +27,15 @@ function initChart() {
             responsive: true,
             plugins: { customCanvasBackgroundColor: { color: '#ffffff' }, legend: { display: false } },
             scales: {
-                x: { title: { display: true, text: t('chart_axis_x'), font: { size: 11, weight: '600' } }, ticks: { callback: value => Number(drakeChart.data.labels[value]).toFixed(2) } },
+                x: { 
+                    title: { display: true, text: t('chart_axis_x'), font: { size: 11, weight: '600' } }, 
+                    ticks: { 
+                        callback: value => Number(drakeChart.data.labels[value]).toFixed(2),
+                        autoSkip: true,
+                        maxTicksLimit: 6,
+                        maxRotation: 0,
+                    } 
+                },
                 y: { type: 'logarithmic', title: { display: true, text: 'N', font: { size: 11, weight: '600' } }, ticks: { callback: value => value >= 1 ? Math.round(value).toLocaleString(currentLang) : value.toFixed(2) } }
             }
         },
@@ -37,7 +45,18 @@ function initChart() {
     funnelChart = new Chart(funnelCtx, {
         type: 'bar',
         data: { labels: [], datasets: [{ data: [], backgroundColor: '#000000', borderWidth: 0, barPercentage: 0.8 }] },
-        options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } }, scales: { x: { type: 'logarithmic', ticks: { callback: v => v >= 1e9 ? (v/1e9)+'B' : v >= 1e6 ? (v/1e6)+'M' : v >= 1e3 ? (v/1e3)+'k' : v } } } }
+        options: { 
+            indexAxis: 'y', 
+            responsive: true, 
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } }, 
+            scales: { 
+                x: { 
+                    type: 'logarithmic', 
+                    ticks: { callback: v => v >= 1e9 ? (v/1e9)+'B' : v >= 1e6 ? (v/1e6)+'M' : v >= 1e3 ? (v/1e3)+'k' : v } 
+                } 
+            } 
+        } 
     });
     document.getElementById('scale-toggle').addEventListener('change', (e) => { drakeChart.options.scales.y.type = e.target.checked ? 'logarithmic' : 'linear'; drakeChart.update(); });
     document.getElementById('download-chart-btn').addEventListener('click', () => { const link = document.createElement('a'); link.href = drakeChart.toBase64Image(); link.download = 'drake-equation.png'; link.click(); });
@@ -86,9 +105,15 @@ function updateFunnel(currentValues) {
             let retentionText = '';
             if (i > 0) {
                 const ratio = s.val / steps[i-1].val;
-                const percentage = (ratio * 100).toFixed(i === 1 || i === 2 ? 0 : 2);
-                const prob = currentLang === 'es' ? (ratio < 0.1 ? `Solo 1 de cada ${Math.round(1/ratio).toLocaleString(currentLang)}` : `${percentage}%`) : (ratio < 0.1 ? `Only 1 in ${Math.round(1/ratio).toLocaleString(currentLang)}` : `${percentage}%`);
-                retentionText = `<span class="funnel-percentage">${prob} ${currentLang === 'es' ? 'superan este filtro' : 'pass this filter'}</span>`;
+                let probText = '';
+                
+                if (ratio < 0.1) {
+                    probText = t('funnel_one_in').replace('{val}', Math.round(1/ratio).toLocaleString(currentLang));
+                } else {
+                    const percentage = (ratio * 100).toFixed(i === 1 || i === 2 ? 0 : 2);
+                    probText = t('funnel_pass').replace('{val}', percentage + '%');
+                }
+                retentionText = `<span class="funnel-percentage">${probText}</span>`;
             }
             return `<div class="funnel-step-info"><span class="funnel-step-label">${t(`funnel_steps.${s.key}`)}</span><span class="funnel-step-value">${formatResult(s.val)}</span>${retentionText}<p class="funnel-step-desc">${t(`funnel_insights.${s.key}`)}</p></div>`;
         }).join('');

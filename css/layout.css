@@ -10,7 +10,13 @@
 
 @media (max-width: 768px) {
     .container {
-        padding: var(--space-lg);
+        padding: var(--space-md);
+    }
+}
+
+@media (max-width: 400px) {
+    .container {
+        padding: var(--space-sm);
     }
 }
 
@@ -101,5 +107,12 @@ header {
     .parameters-panel { 
         position: static; 
         max-height: none; 
+        padding: var(--space-md);
+    }
+}
+
+@media (max-width: 400px) {
+    .parameters-panel {
+        padding: var(--space-xs);
     }
 }
