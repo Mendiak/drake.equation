@@ -118,8 +118,9 @@
 
 .param-label {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
+    gap: var(--space-xs);
     font-size: var(--font-size-sm-base);
     font-weight: var(--font-weight-extra);
     text-transform: uppercase;
@@ -132,7 +133,15 @@
     display: grid;
     grid-template-columns: 1fr 60px;
     gap: var(--space-md);
-    align-items: center;
+    align-items: flex-start;
+}
+
+.slider-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    position: relative;
 }
 
 input[type="range"] {
@@ -143,6 +152,8 @@ input[type="range"] {
     background: #cccccc;
     outline: none;
     border-radius: var(--radius-sm);
+    position: relative;
+    z-index: 2;
 }
 
 input[type="range"]::-webkit-slider-thumb {
@@ -153,10 +164,53 @@ input[type="range"]::-webkit-slider-thumb {
     cursor: pointer;
     border-radius: var(--radius-full);
     transition: transform var(--transition-fast);
+    position: relative;
+    z-index: 3;
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {
     transform: scale(1.2);
+}
+
+.input-group {
+    margin-bottom: var(--space-xl);
+}
+
+.slider-ticks {
+    position: relative;
+    height: 11px;
+    margin: 0;
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    z-index: 1;
+}
+
+.slider-ticks .tick {
+    position: absolute;
+    width: 1px;
+    height: 4px;
+    background: #d0d0d0;
+    top: 0;
+    transform: translateX(-50%);
+    pointer-events: none;
+    display: flex;
+}
+
+.slider-ticks .tick.labeled {
+    height: 5px;
+    background: #999999;
+}
+
+.tick-label {
+    position: absolute;
+    top: -16px;
+    font-size: 0.52rem;
+    color: #999999;
+    white-space: nowrap;
+    transform: translateX(-50%);
+    left: 0;
+    pointer-events: none;
 }
 
 .value-display {

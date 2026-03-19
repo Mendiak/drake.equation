@@ -25,6 +25,8 @@ function initChart() {
         options: {
             animation: { duration: 400 },
             responsive: true,
+            maintainAspectRatio: true,
+            aspectRatio: 2,
             plugins: { customCanvasBackgroundColor: { color: '#ffffff' }, legend: { display: false } },
             scales: {
                 x: { 

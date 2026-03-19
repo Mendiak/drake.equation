@@ -16,7 +16,7 @@ const translations = {
         preset_sagan: "Sagan Estimate",
         preset_sagan_tooltip: "Carl Sagan's classic 10^6 estimate, assuming advanced civilizations last a million years.",
         preset_scientific: "Modern Consensus",
-        preset_scientific_tooltip: "Based on recent Kepler/TESS data for exoplanets and star formation.",
+        preset_scientific_tooltip: "Uses established data from Kepler/TESS for cosmic factors, and modern conservative estimates for biological and longevity variables.",
         preset_drake: "Drake Estimate",
         preset_drake_tooltip: "Frank Drake's original 1961 estimate, giving a conservative N=10.",
         preset_rare_earth: "Rare Earth Model",
@@ -49,6 +49,8 @@ const translations = {
         habitable_text: "A key component of the equation (n<sub>e</sub>) relies on the concept of the \"Goldilocks Zone\"—the region around a star where liquid water can exist on a planet's surface. Understanding this helps narrow down which of the billions of planets in our galaxy might actually be candidates for life.",
         tech_title: "Technosignatures and SETI",
         tech_text: "The final factors (f<sub>c</sub> and L) relate to how we might actually detect another civilization. Scientists look for \"technosignatures\" like narrow-band radio signals, laser pulses, or even massive engineering projects like Dyson Spheres. The Search for Extraterrestrial Intelligence (SETI) is the active effort to find these markers.",
+        longevity_deep_dive_title: "Longevity and the Modern Consensus",
+        longevity_deep_dive_text: "The 'Modern Consensus' preset gives a small value for N because it assumes civilizations are relatively short-lived (L ≈ 10,000 years). While the probability of life starting elsewhere is high, the probability of it surviving long enough to overlap with us is the 'Great Filter'. If we assume a civilization only lasts a few thousand years before self-destructing or evolving beyond radio communication, the chances of two such 'sparks' existing at the same time in the same galaxy are very slim.",
         timeline_title: "Timeline of the Search",
         link_drake: "Drake Equation",
         link_fermi: "Fermi Paradox",
@@ -135,7 +137,7 @@ const translations = {
         tooltips: {
             Rstar: {
                 title: "Star Formation Rate (R*)",
-                description: "The average number of stars formed in the Milky Way each year.",
+                description: "The average number of stars formed in the Milky Way each year. <br><br><strong>Slider Scale:</strong> Linear. <strong>Steps:</strong> Snaps to increments of 1 (e.g., 1, 2, 3). <strong>Precision:</strong> 1 decimal place.",
                 current: "1.5 – 3.0 stars/year",
                 scientific: "Measured via infrared observations of gas clouds. While the galaxy is billions of years old, it still produces \"nurseries\" where gravity collapses gas into new suns.",
                 uncertainty: "low",
@@ -143,7 +145,7 @@ const translations = {
             },
             fp: {
                 title: "Fraction with Planets (f<sub>p</sub>)",
-                description: "The percentage of stars that possess planetary systems.",
+                description: "The percentage of stars that possess planetary systems. <br><br><strong>Slider Scale:</strong> Linear. <strong>Steps:</strong> Snaps to increments of 0.1 (e.g., 0.1, 0.2, 0.5, 1.0). <strong>Precision:</strong> 2 decimal places.",
                 current: "0.8 – 1.0 (80% to 100%)",
                 scientific: "Recent exoplanet missions (Kepler, TESS) have revolutionized this. We now believe almost every star has at least one planet.",
                 uncertainty: "low",
@@ -151,7 +153,7 @@ const translations = {
             },
             ne: {
                 title: "Habitable Planets (n<sub>e</sub>)",
-                description: "Number of Earth-like planets per system capable of supporting life.",
+                description: "Number of Earth-like planets per system capable of supporting life. <br><br><strong>Slider Scale:</strong> Linear. <strong>Steps:</strong> Snaps to increments of 0.1 (e.g., 0.1, 0.2, 0.5, 1.0). <strong>Precision:</strong> 1 decimal place.",
                 current: "0.1 – 2.0",
                 scientific: "Focuses on the \"Goldilocks Zone\" where liquid water can exist. It considers rocky planets with stable orbits around stable stars.",
                 uncertainty: "medium",
@@ -159,7 +161,7 @@ const translations = {
             },
             fl: {
                 title: "Fraction Developing Life (f<sub>l</sub>)",
-                description: "The probability that life emerges on a habitable planet.",
+                description: "The probability that life emerges on a habitable planet. <br><br><strong>Slider Scale:</strong> Logarithmic (handles wide range from 0.001 to 1.0). <strong>Steps:</strong> Snaps to key values like 0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1.0. <strong>Precision:</strong> 4 decimal places.",
                 current: "Speculative: 0.01 – 1.0",
                 scientific: "We only have one data point: Earth. Life appeared here almost as soon as the planet cooled, suggesting it might be an inevitable chemical process.",
                 uncertainty: "high",
@@ -167,7 +169,7 @@ const translations = {
             },
             fi: {
                 title: "Intelligence (f<sub>i</sub>)",
-                description: "The probability that life evolves to become intelligent.",
+                description: "The probability that life evolves to become intelligent. <br><br><strong>Slider Scale:</strong> Logarithmic (handles wide range from 0.001 to 1.0). <strong>Steps:</strong> Snaps to key values like 0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1.0. <strong>Precision:</strong> 4 decimal places.",
                 current: "Unknown: 0.001 – 1.0",
                 scientific: "Earth had life for 3 billion years before intelligence. Evolution favors survival, not necessarily \"thinking.\" Intelligence may be a rare evolutionary accident.",
                 uncertainty: "very high",
@@ -175,7 +177,7 @@ const translations = {
             },
             fc: {
                 title: "Technology (f<sub>c</sub>)",
-                description: "Fraction of intelligent species that develop detectable technology.",
+                description: "Fraction of intelligent species that develop detectable technology. <br><br><strong>Slider Scale:</strong> Linear. <strong>Steps:</strong> Snaps to increments of 0.01 (e.g., 0.01, 0.02, 0.05, 0.1). <strong>Precision:</strong> 2 decimal places.",
                 current: "Unknown: 0.1 – 0.2",
                 scientific: "Species could be intelligent (like dolphins) but lack the tools, environment, or resources to build radio communication.",
                 uncertainty: "very high",
@@ -183,7 +185,7 @@ const translations = {
             },
             L: {
                 title: "Civilization Lifetime (L)",
-                description: "The number of years a technological species remains detectable.",
+                description: "The number of years a technological species remains detectable. <br><br><strong>Slider Scale:</strong> Linear. <strong>Steps:</strong> Snaps to increments of 100 (e.g., 100, 1,000, 10,000). <strong>Precision:</strong> 0 decimal places (whole years).",
                 current: "Highly Speculative: 100 – 1,000,000 years",
                 scientific: "Do civilizations destroy themselves via climate change, war, or AI? Or do they survive for millions of years?",
                 uncertainty: "very high",
@@ -275,7 +277,7 @@ const translations = {
         preset_sagan: "Estimación de Sagan",
         preset_sagan_tooltip: "La clásica estimación de Carl Sagan de 10^6, asumiendo una larga vida para las civilizaciones.",
         preset_scientific: "Consenso Moderno",
-        preset_scientific_tooltip: "Basado en datos recientes de Kepler/TESS sobre exoplanetas y formación estelar.",
+        preset_scientific_tooltip: "Utiliza datos establecidos de Kepler/TESS para factores cósmicos y estimaciones conservadoras modernas para variables biológicas y de longevidad.",
         preset_drake: "Estimación de Drake",
         preset_drake_tooltip: "La estimación original de Frank Drake en 1961, con un conservador N=10.",
         preset_rare_earth: "Modelo de Tierra Rara",
@@ -307,6 +309,8 @@ const translations = {
         habitable_text: "Un componente clave de la ecuación (n<sub>e</sub>) se basa en el concepto de la \"Zona de Ricitos de Oro\": la región alrededor de una estrella donde puede existir agua líquida en la superficie de un planeta. Entender esto ayuda a reducir cuáles de los miles de millones de planetas en nuestra galaxia podrían ser candidatos para la vida.",
         tech_title: "Tecnofirmas y SETI",
         tech_text: "Los factores finales (f<sub>c</sub> y L) se relacionan con cómo podríamos detectar realmente otra civilización. Los científicos buscan \"tecnofirmas\" como señales de radio de banda estrecha, pulsos láser o incluso proyectos de ingeniería masivos como las Esferas de Dyson. La Búsqueda de Inteligencia Extraterrestre (SETI) es el esfuerzo activo para encontrar estos marcadores.",
+        longevity_deep_dive_title: "La Longevidad y el Consenso Moderno",
+        longevity_deep_dive_text: "El ajuste de 'Consenso Moderno' da un valor pequeño para N porque asume que las civilizaciones tienen una vida relativamente corta (L ≈ 10,000 años). Aunque la probabilidad de que surja la vida es alta, la probabilidad de que sobreviva lo suficiente como para solaparse con nosotros es el 'Gran Filtro'. Si asumimos que una civilización solo dura unos pocos miles de años antes de autodestruirse o evolucionar más allá de la comunicación por radio, las posibilidades de que dos de estas 'chispas' existan al mismo tiempo en la misma galaxia son muy escasas.",
         timeline_title: "Cronología de la Búsqueda",
         link_drake: "Ecuación de Drake",
         link_fermi: "Paradoja de Fermi",
@@ -394,7 +398,7 @@ const translations = {
         tooltips: {
             Rstar: {
                 title: "Tasa de Formación Estelar (R*)",
-                description: "El número promedio de estrellas que se forman en la Vía Láctea cada año.",
+                description: "El número promedio de estrellas que se forman en la Vía Láctea cada año. <br><br><strong>Escala del deslizador:</strong> Lineal. <strong>Pasos:</strong> Salta a incrementos de 1 (ej. 1, 2, 3). <strong>Precisión:</strong> 1 decimal.",
                 current: "1.5 – 3.0 estrellas/año",
                 scientific: "Medido mediante observaciones infrarrojas de nubes de gas. Aunque la galaxia tiene miles de millones de años, todavía produce \"viveros\" donde la gravedad colapsa el gas en nuevos soles.",
                 uncertainty: "low",
@@ -402,7 +406,7 @@ const translations = {
             },
             fp: {
                 title: "Fracción con Planetas (f<sub>p</sub>)",
-                description: "El porcentaje de estrellas que poseen sistemas planetarios.",
+                description: "El porcentaje de estrellas que poseen sistemas planetarios. <br><br><strong>Escala del deslizador:</strong> Lineal. <strong>Pasos:</strong> Salta a incrementos de 0.1 (ej. 0.1, 0.2, 0.5, 1.0). <strong>Precisión:</strong> 2 decimales.",
                 current: "0.8 – 1.0 (80% al 100%)",
                 scientific: "Las misiones recientes de exoplanetas (Kepler, TESS) han revolucionado esto. Ahora creemos que casi cada estrella tiene al menos un planeta.",
                 uncertainty: "low",
@@ -410,7 +414,7 @@ const translations = {
             },
             ne: {
                 title: "Planetas Habitables (n<sub>e</sub>)",
-                description: "Número de planetas tipo Tierra por sistema capaces de soportar vida.",
+                description: "Número de planetas tipo Tierra por sistema capaces de soportar vida. <br><br><strong>Escala del deslizador:</strong> Lineal. <strong>Pasos:</strong> Salta a incrementos de 0.1 (ej. 0.1, 0.2, 0.5, 1.0). <strong>Precisión:</strong> 1 decimal.",
                 current: "0.1 – 2.0",
                 scientific: "Se centra en la \"Zona de Ricitos de Oro\" donde puede existir agua líquida. Considera planetas rocosos con órbitas estables alrededor de estrellas estables.",
                 uncertainty: "medium",
@@ -418,7 +422,7 @@ const translations = {
             },
             fl: {
                 title: "Fracción que Desarrolla Vida (f<sub>l</sub>)",
-                description: "La probabilidad de que surja vida en un planeta habitable.",
+                description: "La probabilidad de que surja vida en un planeta habitable. <br><br><strong>Escala del deslizador:</strong> Logarítmica (maneja rango amplio de 0.001 a 1.0). <strong>Pasos:</strong> Salta a valores clave como 0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1.0. <strong>Precisión:</strong> 4 decimales.",
                 current: "Especulativo: 0.01 – 1.0",
                 scientific: "Solo tenemos un punto de datos: la Tierra. La vida apareció aquí casi tan pronto como el planeta se enfrió, lo que sugiere que podría ser un proceso químico inevitable.",
                 uncertainty: "high",
@@ -426,7 +430,7 @@ const translations = {
             },
             fi: {
                 title: "Inteligencia (f<sub>i</sub>)",
-                description: "La probabilidad de que la vida evolucione hasta volverse inteligente.",
+                description: "La probabilidad de que la vida evolucione hasta volverse inteligente. <br><br><strong>Escala del deslizador:</strong> Logarítmica (maneja rango amplio de 0.001 a 1.0). <strong>Pasos:</strong> Salta a valores clave como 0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1.0. <strong>Precisión:</strong> 4 decimales.",
                 current: "Desconocido: 0.001 – 1.0",
                 scientific: "La Tierra tuvo vida durante 3 mil millones de años antes de la inteligencia. La evolución favorece la supervivencia, no necesariamente el \"pensamiento\". La inteligencia puede ser un accidente evolutivo raro.",
                 uncertainty: "very high",
@@ -434,7 +438,7 @@ const translations = {
             },
             fc: {
                 title: "Tecnología (f<sub>c</sub>)",
-                description: "Fracción de especies inteligentes que desarrollan tecnología detectable.",
+                description: "Fracción de especies inteligentes que desarrollan tecnología detectable. <br><br><strong>Escala del deslizador:</strong> Lineal. <strong>Pasos:</strong> Salta a incrementos de 0.01 (ej. 0.01, 0.02, 0.05, 0.1). <strong>Precisión:</strong> 2 decimales.",
                 current: "Desconocido: 0.1 – 0.2",
                 scientific: "Las especies podrían ser inteligentes (como los delfines) pero carecer de las herramientas, el entorno o los recursos para construir comunicaciones por radio.",
                 uncertainty: "very high",
@@ -442,7 +446,7 @@ const translations = {
             },
             L: {
                 title: "Vida de la Civilización (L)",
-                description: "El número de años que una especie tecnológica permanece detectable.",
+                description: "El número de años que una especie tecnológica permanece detectable. <br><br><strong>Escala del deslizador:</strong> Lineal. <strong>Pasos:</strong> Salta a incrementos de 100 (ej. 100, 1,000, 10,000). <strong>Precisión:</strong> 0 decimales (años enteros).",
                 current: "Altamente Especulativo: 100 – 1,000,000 años",
                 scientific: "¿Se destruyen las civilizaciones a sí mismas mediante el cambio climático, la guerra o la IA? ¿O sobreviven durante millones de años?",
                 uncertainty: "very high",
