@@ -258,6 +258,7 @@
     position: relative;
     width: 100%;
     margin-bottom: var(--space-lg);
+    overflow-x: hidden;
 }
 
 @media (max-width: 600px) {
@@ -278,7 +279,6 @@ input:checked + .slider:before { transform: translateX(16px); }
 #drakeChart {
     width: 100% !important;
     height: auto !important;
-    aspect-ratio: 2/1; /* Maintain a nice ratio on all screens */
 }
 
 .scientific-explanation { font-size: 0.8125rem; color: #888888; margin: 0; line-height: 1.6; }

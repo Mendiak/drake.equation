@@ -207,7 +207,7 @@ function updateValueAndRecalculate(paramId) {
     if (eqSpan) eqSpan.classList.add('active-param');
 
     // 3. Resaltar la etiqueta del slider (el texto dentro del label)
-    const labelSpan = document.querySelector(`label[for="${paramId}"] span:first-child`);
+    const labelSpan = document.querySelector(`label[for="${paramId}"] span[data-i18n]`);
     if (labelSpan) labelSpan.classList.add('active-param');
 
     // Get the actual value (applying log scaling if needed)
@@ -257,7 +257,7 @@ function showTooltip(paramId) {
     const data = t('tooltips.' + paramId);
     if (!data || !modal) return;
     document.getElementById('tooltip-title').innerHTML = data.title;
-    document.getElementById('tooltip-description').textContent = data.description;
+    document.getElementById('tooltip-description').innerHTML = data.description;
     document.getElementById('tooltip-current').textContent = data.current;
     document.getElementById('tooltip-scientific').textContent = data.scientific;
     document.getElementById('tooltip-importance').textContent = data.importance;

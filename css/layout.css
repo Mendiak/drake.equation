@@ -52,7 +52,7 @@ header {
 
 .dashboard {
     display: grid;
-    grid-template-columns: 360px 1fr;
+    grid-template-columns: 440px 1fr;
     gap: var(--space-5xl);
     align-items: start;
 }
