@@ -55,12 +55,14 @@ function initChart() {
             scales: { 
                 x: { 
                     type: 'logarithmic', 
+                    title: { display: true, text: 'N', font: { size: 11, weight: '600' } },
                     ticks: { callback: v => v >= 1e9 ? (v/1e9)+'B' : v >= 1e6 ? (v/1e6)+'M' : v >= 1e3 ? (v/1e3)+'k' : v } 
                 } 
             } 
         } 
     });
     document.getElementById('scale-toggle').addEventListener('change', (e) => { drakeChart.options.scales.y.type = e.target.checked ? 'logarithmic' : 'linear'; drakeChart.update(); });
+    document.getElementById('funnel-scale-toggle').addEventListener('change', (e) => { funnelChart.options.scales.x.type = e.target.checked ? 'logarithmic' : 'linear'; funnelChart.update(); });
     document.getElementById('download-chart-btn').addEventListener('click', () => { const link = document.createElement('a'); link.href = drakeChart.toBase64Image(); link.download = 'drake-equation.png'; link.click(); });
     document.getElementById('share-btn').addEventListener('click', generateShareLink);
 }

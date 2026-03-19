@@ -310,6 +310,7 @@
                             <button type="button" id="download-chart-btn" title="Export PNG"
                                 data-i18n="export_btn">Export</button>
                             <div class="toggle-group">
+                                <span class="toggle-label" data-i18n="scale_label">Scale:</span>
                                 <span class="toggle-label" data-i18n="toggle_log">Log</span>
                                 <label class="switch">
                                     <input type="checkbox" id="scale-toggle" checked>
@@ -327,6 +328,20 @@
                     <h2 class="section-title" data-i18n="section_funnel">Cosmic Filter Funnel</h2>
                     <p class="scientific-explanation" data-i18n="funnel_intro"
                         style="margin-bottom: 2rem; font-size: 1rem; color: #444; max-width: 800px;"></p>
+                    
+                    <div class="chart-header">
+                        <div class="chart-controls">
+                            <div class="toggle-group">
+                                <span class="toggle-label" data-i18n="scale_label">Scale:</span>
+                                <span class="toggle-label" data-i18n="toggle_log">Log</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="funnel-scale-toggle" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="funnel-container">
                         <div class="funnel-chart-wrapper" style="width: 100%;">
                             <canvas id="funnelChart"></canvas>
