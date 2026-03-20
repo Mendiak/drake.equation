@@ -40,7 +40,12 @@ const GALAXY_PARAMS = {
     armDensity: 0.78,           // Fraction of stars in arms (higher = more stars in spiral arms)
     rotationSpeed: 0.0006,      // Rotation speed
     randomScatter: 0.15,        // Random scatter factor for natural appearance
-    armCurvature: 3.5           // Spiral arm curvature multiplier (higher = more curved)
+    armCurvature: 3.5,          // Spiral arm curvature multiplier (higher = more curved)
+    // Star cluster parameters
+    globularClusters: 12,       // Number of globular clusters (Milky Way has ~150, we use fewer for performance)
+    openClusters: 18,           // Number of open clusters in spiral arms
+    clusterStarsMin: 80,        // Minimum stars per cluster
+    clusterStarsMax: 250        // Maximum stars per cluster
 };
 
 function initGalaxySimulation() {
@@ -98,8 +103,95 @@ function updateSliderBackground(input, min, max) {
     input.style.background = `linear-gradient(to right, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.5) ${percentage}%, rgba(255, 255, 255, 0.2) ${percentage}%, rgba(255, 255, 255, 0.2) 100%)`;
 }
 
+// Generate globular cluster position - distributed in galactic halo but closer to disk
+function generateGlobularClusterPosition() {
+    // Globular clusters in a flattened spheroid, mostly within the galactic halo
+    const distance = 20 + Math.random() * 50; // 20-70 light years from center (closer)
+    const theta = Math.random() * Math.PI * 2; // Horizontal angle
+    
+    // Flattened distribution - more concentrated near the disk plane
+    const phi = Math.acos(2 * Math.random() - 1);
+    const verticalFactor = 0.4; // Flatten the sphere (0 = flat disk, 1 = full sphere)
+    
+    const x = distance * Math.sin(phi) * Math.cos(theta);
+    const y = distance * Math.cos(phi) * verticalFactor; // Flattened vertical spread
+    const z = distance * Math.sin(phi) * Math.sin(theta);
+    
+    return { x, y, z };
+}
+
+// Generate open cluster position - in spiral arms (star formation regions)
+function generateOpenClusterPosition() {
+    const armIndex = Math.floor(Math.random() * GALAXY_PARAMS.spiralArms);
+    const baseAngle = (armIndex / GALAXY_PARAMS.spiralArms) * Math.PI * 2;
+    
+    // Open clusters are in spiral arms, mostly in outer regions
+    const radius = 35 + Math.random() * (GALAXY_PARAMS.diskRadius - 45);
+    
+    // Logarithmic spiral position
+    const spiralAngle = baseAngle + Math.log(radius + 1) * GALAXY_PARAMS.armTightness * GALAXY_PARAMS.armCurvature;
+    
+    // Some spread within the arm
+    const armOffset = (Math.random() - 0.5) * 6;
+    const angleOffset = (Math.random() - 0.5) * 0.15;
+    
+    const effectiveRadius = radius + armOffset;
+    const finalAngle = spiralAngle + angleOffset;
+    
+    const x = Math.cos(finalAngle) * effectiveRadius;
+    const y = (Math.random() - 0.5) * 4; // Thin distribution in disk plane
+    const z = Math.sin(finalAngle) * effectiveRadius;
+    
+    return { x, y, z };
+}
+
+// Generate stars within a cluster (soft, realistic distribution)
+function generateClusterStars(centerX, centerY, centerZ, starCount, clusterType) {
+    const positions = [];
+    const colors = [];
+    const sizes = [];
+    
+    for (let i = 0; i < starCount; i++) {
+        // Use Plummer-like distribution for soft, realistic cluster core
+        const u = Math.random();
+        const rScale = clusterType === 'globular' ? 8 : 5;
+        const r = rScale * Math.pow(u, 1/3) / Math.pow(1 - u, 1/3);
+        const clampedR = Math.min(r, clusterType === 'globular' ? 20 : 12);
+        
+        // Spherical distribution
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(2 * Math.random() - 1);
+        
+        const x = centerX + clampedR * Math.sin(phi) * Math.cos(theta);
+        const y = centerY + clampedR * Math.cos(phi);
+        const z = centerZ + clampedR * Math.sin(phi) * Math.sin(theta);
+        
+        positions.push(x, y, z);
+        
+        // Cluster colors based on type
+        if (clusterType === 'globular') {
+            // Old, metal-poor stars - yellowish/reddish
+            const hue = 0.08 + Math.random() * 0.08;
+            const sat = 0.4 + Math.random() * 0.3;
+            const light = 0.65 + Math.random() * 0.2;
+            colors.push(hue, sat, light);
+        } else {
+            // Young, hot stars - blue/white with some variation
+            const hue = 0.52 + Math.random() * 0.18;
+            const sat = 0.5 + Math.random() * 0.4;
+            const light = 0.75 + Math.random() * 0.25;
+            colors.push(hue, sat, light);
+        }
+        
+        // Size variation - brighter stars in cluster
+        sizes.push(0.8 + Math.random() * 1.8);
+    }
+    
+    return { positions, colors, sizes };
+}
+
 function createStarField() {
-    const geometry = new THREE.BufferGeometry();
+    const mainGeometry = new THREE.BufferGeometry();
     const positions = new Float32Array(STAR_COUNT * 3);
     const colors = new Float32Array(STAR_COUNT * 3);
     const sizes = new Float32Array(STAR_COUNT);
@@ -121,14 +213,14 @@ function createStarField() {
         sizes[i] = Math.random() * 1.5 + 0.5;
     }
 
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-    geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+    mainGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    mainGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    mainGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
     // Create circular sprite texture for stars
     const sprite = createStarTexture();
 
-    const material = new THREE.PointsMaterial({
+    const mainMaterial = new THREE.PointsMaterial({
         size: 1.2,
         vertexColors: true,
         transparent: true,
@@ -139,8 +231,114 @@ function createStarField() {
         depthWrite: false
     });
 
-    starSystem = new THREE.Points(geometry, material);
+    starSystem = new THREE.Points(mainGeometry, mainMaterial);
     galaxyScene.add(starSystem);
+    
+    // Create star clusters as children of starSystem so they rotate with the galaxy
+    createStarClusters(sprite);
+}
+
+// Create globular and open clusters
+function createStarClusters(sprite) {
+    // Create globular clusters (flattened halo distribution)
+    for (let i = 0; i < GALAXY_PARAMS.globularClusters; i++) {
+        const clusterPos = generateGlobularClusterPosition();
+        const starCount = Math.floor(
+            GALAXY_PARAMS.clusterStarsMin + 
+            Math.random() * (GALAXY_PARAMS.clusterStarsMax - GALAXY_PARAMS.clusterStarsMin)
+        );
+        
+        const clusterData = generateClusterStars(
+            clusterPos.x, clusterPos.y, clusterPos.z,
+            starCount, 'globular'
+        );
+        
+        const clusterGeometry = new THREE.BufferGeometry();
+        const clusterPositions = new Float32Array(clusterData.positions);
+        const clusterColors = new Float32Array(clusterData.colors.length);
+        const clusterSizes = new Float32Array(clusterData.sizes);
+        
+        // Convert HSL to RGB for colors
+        for (let j = 0; j < clusterData.colors.length / 3; j++) {
+            const hslColor = new THREE.Color();
+            hslColor.setHSL(
+                clusterData.colors[j * 3],
+                clusterData.colors[j * 3 + 1],
+                clusterData.colors[j * 3 + 2]
+            );
+            clusterColors[j * 3] = hslColor.r;
+            clusterColors[j * 3 + 1] = hslColor.g;
+            clusterColors[j * 3 + 2] = hslColor.b;
+        }
+        
+        clusterGeometry.setAttribute('position', new THREE.BufferAttribute(clusterPositions, 3));
+        clusterGeometry.setAttribute('color', new THREE.BufferAttribute(clusterColors, 3));
+        clusterGeometry.setAttribute('size', new THREE.BufferAttribute(clusterSizes, 1));
+        
+        const clusterMaterial = new THREE.PointsMaterial({
+            size: 1.0,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.9,
+            sizeAttenuation: true,
+            map: sprite,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+        
+        const cluster = new THREE.Points(clusterGeometry, clusterMaterial);
+        starSystem.add(cluster); // Add as child of starSystem to rotate with galaxy
+    }
+    
+    // Create open clusters (in spiral arms)
+    for (let i = 0; i < GALAXY_PARAMS.openClusters; i++) {
+        const clusterPos = generateOpenClusterPosition();
+        const starCount = Math.floor(
+            GALAXY_PARAMS.clusterStarsMin * 0.4 + 
+            Math.random() * (GALAXY_PARAMS.clusterStarsMax * 0.6 - GALAXY_PARAMS.clusterStarsMin * 0.4)
+        );
+        
+        const clusterData = generateClusterStars(
+            clusterPos.x, clusterPos.y, clusterPos.z,
+            starCount, 'open'
+        );
+        
+        const clusterGeometry = new THREE.BufferGeometry();
+        const clusterPositions = new Float32Array(clusterData.positions);
+        const clusterColors = new Float32Array(clusterData.colors.length);
+        const clusterSizes = new Float32Array(clusterData.sizes);
+        
+        // Convert HSL to RGB for colors
+        for (let j = 0; j < clusterData.colors.length / 3; j++) {
+            const hslColor = new THREE.Color();
+            hslColor.setHSL(
+                clusterData.colors[j * 3],
+                clusterData.colors[j * 3 + 1],
+                clusterData.colors[j * 3 + 2]
+            );
+            clusterColors[j * 3] = hslColor.r;
+            clusterColors[j * 3 + 1] = hslColor.g;
+            clusterColors[j * 3 + 2] = hslColor.b;
+        }
+        
+        clusterGeometry.setAttribute('position', new THREE.BufferAttribute(clusterPositions, 3));
+        clusterGeometry.setAttribute('color', new THREE.BufferAttribute(clusterColors, 3));
+        clusterGeometry.setAttribute('size', new THREE.BufferAttribute(clusterSizes, 1));
+        
+        const clusterMaterial = new THREE.PointsMaterial({
+            size: 1.1,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.95,
+            sizeAttenuation: true,
+            map: sprite,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+        
+        const cluster = new THREE.Points(clusterGeometry, clusterMaterial);
+        starSystem.add(cluster); // Add as child of starSystem to rotate with galaxy
+    }
 }
 
 // Stellar population colors - realistic Milky Way star types
