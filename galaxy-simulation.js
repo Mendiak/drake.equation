@@ -67,8 +67,35 @@ function initGalaxySimulation() {
 
     createStarField();
     animateGalaxy();
+    
+    // Initialize slider visual positions
+    initGalaxySliders();
 
     window.addEventListener('resize', onGalaxyResize);
+}
+
+// Initialize galaxy control sliders with correct visual positions
+function initGalaxySliders() {
+    const sliders = [
+        { id: 'galaxy-rotation-speed', min: 0, max: 0.01 },
+        { id: 'galaxy-tilt', min: 0, max: 90 },
+        { id: 'galaxy-zoom', min: 50, max: 400 },
+        { id: 'galaxy-star-size', min: 0.5, max: 3 }
+    ];
+    
+    sliders.forEach(slider => {
+        const input = document.getElementById(slider.id);
+        if (input) {
+            updateSliderBackground(input, slider.min, slider.max);
+        }
+    });
+}
+
+// Update slider background gradient to show current value position
+function updateSliderBackground(input, min, max) {
+    const value = parseFloat(input.value);
+    const percentage = ((value - min) / (max - min)) * 100;
+    input.style.background = `linear-gradient(to right, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.5) ${percentage}%, rgba(255, 255, 255, 0.2) ${percentage}%, rgba(255, 255, 255, 0.2) 100%)`;
 }
 
 function createStarField() {
@@ -330,11 +357,17 @@ function onGalaxyResize() {
 function updateGalaxyRotation(value) {
     currentView.rotationSpeed = parseFloat(value);
     document.getElementById('galaxy-rotation-value').textContent = value;
+    // Update slider visual position
+    const slider = document.getElementById('galaxy-rotation-speed');
+    if (slider) updateSliderBackground(slider, 0, 0.01);
 }
 
 function updateGalaxyTilt(value) {
     currentView.tilt = parseFloat(value);
     document.getElementById('galaxy-tilt-value').textContent = value + '°';
+    // Update slider visual position
+    const slider = document.getElementById('galaxy-tilt');
+    if (slider) updateSliderBackground(slider, 0, 90);
     
     // Convert tilt to camera position
     const tiltRad = (value * Math.PI) / 180;
@@ -348,6 +381,9 @@ function updateGalaxyTilt(value) {
 function updateGalaxyZoom(value) {
     currentView.zoom = parseFloat(value);
     document.getElementById('galaxy-zoom-value').textContent = value;
+    // Update slider visual position
+    const slider = document.getElementById('galaxy-zoom');
+    if (slider) updateSliderBackground(slider, 50, 400);
     
     const tiltRad = (currentView.tilt * Math.PI) / 180;
     galaxyCamera.position.y = Math.sin(tiltRad) * currentView.zoom * 0.5;
@@ -358,6 +394,9 @@ function updateGalaxyZoom(value) {
 function updateGalaxyStarSize(value) {
     currentView.starSize = parseFloat(value);
     document.getElementById('galaxy-star-size-value').textContent = value;
+    // Update slider visual position
+    const slider = document.getElementById('galaxy-star-size');
+    if (slider) updateSliderBackground(slider, 0.5, 3);
     
     if (starSystem) {
         starSystem.material.size = currentView.starSize;

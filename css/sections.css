@@ -1285,10 +1285,17 @@ footer a:hover {
     transition: transform var(--transition-base);
     position: relative;
     z-index: 3;
+    margin-top: -5.5px;
 }
 
 .control-group input[type="range"]::-webkit-slider-thumb:hover {
     transform: scale(1.3);
+}
+
+.control-group input[type="range"]::-moz-range-track {
+    height: 3px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-sm);
 }
 
 .control-group input[type="range"]::-moz-range-thumb {
@@ -1297,14 +1304,20 @@ footer a:hover {
     background: var(--color-white);
     cursor: pointer;
     border-radius: var(--radius-full);
-    border: none;
     transition: transform var(--transition-base);
+    border: none;
     position: relative;
     z-index: 3;
 }
 
 .control-group input[type="range"]::-moz-range-thumb:hover {
     transform: scale(1.3);
+}
+
+.control-group input[type="range"]::-moz-range-progress {
+    background: rgba(255, 255, 255, 0.5);
+    height: 3px;
+    border-radius: var(--radius-sm);
 }
 
 .control-value {
