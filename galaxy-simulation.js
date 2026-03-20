@@ -146,130 +146,106 @@ function getStellarPopulationColor(population) {
 }
 
 function generateSpiralGalaxyPosition() {
-    const rand = Math.random();
-
-    // Determine stellar population: core/bulge, bar, thin disk, thick disk, or spiral arms
-    const inCore = rand < 0.10;        // 10% in central bulge
-    const inBar = rand < 0.18;         // 8% in central bar (Milky Way is barred!)
-    const inThickDisk = rand < 0.28;   // 10% in thick disk (older stars)
-    const inSpiralArm = rand < 0.75;   // 47% in spiral arms (density wave)
-    // Remaining 25% are scattered disk stars (more for natural look)
-
-    if (inCore) {
-        // Dense spherical bulge with older stellar population
-        const angle = Math.random() * Math.PI * 2;
-        const radius = Math.pow(Math.random(), 0.5) * GALAXY_PARAMS.coreRadius;
-        const verticalSpread = Math.random() * GALAXY_PARAMS.coreThickness;
-
-        return {
-            x: Math.cos(angle) * radius,
-            y: (Math.random() - 0.5) * verticalSpread,
-            z: Math.sin(angle) * radius,
-            population: 'core'
-        };
-    }
-
-    if (inBar) {
-        // Central bar structure (Milky Way has a ~27k light-year bar)
-        const barX = (Math.random() - 0.5) * GALAXY_PARAMS.barLength;
-        const barZ = (Math.random() - 0.5) * GALAXY_PARAMS.barWidth;
-        const barY = (Math.random() - 0.5) * GALAXY_PARAMS.coreThickness * 0.5;
-
-        // Rotate bar slightly for realism
-        const barAngle = 0.3; // ~17 degree tilt
-        const x = barX * Math.cos(barAngle) - barZ * Math.sin(barAngle);
-        const z = barX * Math.sin(barAngle) + barZ * Math.cos(barAngle);
-
-        return { x, y: barY, z, population: 'bar' };
-    }
-
-    if (inThickDisk) {
-        // Thick disk - older stellar population, larger vertical dispersion
-        const angle = Math.random() * Math.PI * 2;
-        const radius = Math.pow(Math.random(), 0.6) * GALAXY_PARAMS.diskRadius * 0.7;
-        const thickness = GALAXY_PARAMS.thickDisk * (1 - radius / GALAXY_PARAMS.diskRadius * 0.4);
-
-        return {
-            x: Math.cos(angle) * radius,
-            y: (Math.random() - 0.5) * thickness,
-            z: Math.sin(angle) * radius,
-            population: 'thickDisk'
-        };
-    }
-
-    // Thin disk with logarithmic spiral arms
+    // Use a unified approach with continuous distributions
+    // No hard thresholds - all components blend naturally
+    
+    // Primary distribution: spiral disk (majority of stars)
     const armIndex = Math.floor(Math.random() * GALAXY_PARAMS.spiralArms);
     const baseAngle = (armIndex / GALAXY_PARAMS.spiralArms) * Math.PI * 2;
-
-    // IRREGULAR radius distribution - not uniform, with clumps and gaps
-    // Mix different distribution methods for natural variation
+    
+    // Natural radius distribution with exponential falloff toward center
     const radiusRandom = Math.random();
     let radiusNorm;
     
-    // 60% follow main distribution, 25% pushed inward, 15% pushed outward (stragglers)
+    // Mixed distribution: concentration toward center but with smooth gradient
     const distributionType = Math.random();
-    if (distributionType < 0.60) {
-        // Main spiral arm population
-        radiusNorm = Math.pow(radiusRandom, 0.65);
-    } else if (distributionType < 0.85) {
-        // Inner concentration (creates density variations)
-        radiusNorm = Math.pow(radiusRandom, 0.8) * 0.7;
+    if (distributionType < 0.50) {
+        // Main disk population
+        radiusNorm = Math.pow(radiusRandom, 0.55);
+    } else if (distributionType < 0.75) {
+        // Inner concentration (creates denser center without sharp boundary)
+        radiusNorm = Math.pow(radiusRandom, 0.7) * 0.5;
+    } else if (distributionType < 0.90) {
+        // Mid-disk with some spread
+        radiusNorm = Math.pow(radiusRandom, 0.5) * 0.7 + 0.1;
     } else {
-        // Outer stragglers (stars beyond main arm structure)
-        radiusNorm = Math.pow(radiusRandom, 0.5) * 0.9 + 0.1;
+        // Outer stragglers
+        radiusNorm = Math.pow(radiusRandom, 0.4) * 0.6 + 0.35;
     }
     
     const radius = radiusNorm * GALAXY_PARAMS.diskRadius;
-
-    // LOGARITHMIC SPIRAL: angle increases logarithmically with radius
-    // This creates the characteristic spiral arm shape
-    const spiralAngle = baseAngle + Math.log(radius + 1) * GALAXY_PARAMS.armTightness * GALAXY_PARAMS.armCurvature;
-
-    // IRREGULAR arm width - varies along the spiral for natural appearance
-    // Add Perlin-like noise using multiple sine waves
-    const armWidthVariation = 1 + 
-        0.3 * Math.sin(armIndex * 2.1 + radius * 0.05) + 
-        0.2 * Math.cos(armIndex * 1.7 + radius * 0.08) +
-        0.15 * Math.sin(radius * 0.12 - armIndex);
     
-    // Density wave: stars cluster near the arm centerline
-    // Increase spread toward outer edges for natural flare
-    const outerFlare = 1 + (radius / GALAXY_PARAMS.diskRadius) * 0.6;
+    // LOGARITHMIC SPIRAL
+    const spiralAngle = baseAngle + Math.log(radius + 1) * GALAXY_PARAMS.armTightness * GALAXY_PARAMS.armCurvature;
+    
+    // Natural arm width variation with noise
+    const armWidthVariation = 1 +
+        0.2 * Math.sin(armIndex * 2.1 + radius * 0.05) +
+        0.15 * Math.cos(armIndex * 1.7 + radius * 0.08) +
+        0.12 * Math.sin(radius * 0.12 - armIndex);
+    
+    // Density wave with outer flare
+    const outerFlare = 1 + (radius / GALAXY_PARAMS.diskRadius) * 0.4;
     const armOffset = (Math.random() - 0.5) * GALAXY_PARAMS.armSpread * Math.sqrt(radius) * outerFlare * armWidthVariation;
-
-    // Thickness: thin disk gets thinner toward edges
-    const thicknessFactor = Math.max(0.4, 1 - (radius / GALAXY_PARAMS.diskRadius) * 0.5);
-    const thickness = GALAXY_PARAMS.diskThickness * thicknessFactor;
-
-    // IRREGULAR scatter - not uniform, creates clumpy appearance
-    const baseScatter = 4 + (radius / GALAXY_PARAMS.diskRadius) * 6;
-    // Add variation to scatter using pseudo-noise
-    const scatterVariation = 1 + 
-        0.4 * Math.sin(radius * 0.08 + armIndex * 1.5) +
-        0.3 * Math.cos(radius * 0.15 - armIndex * 0.8);
+    
+    // Thickness: thick in center, thin at edges (natural galactic profile)
+    // Use exponential falloff for smooth transition
+    const thicknessProfile = Math.exp(-radius / (GALAXY_PARAMS.diskRadius * 0.4));
+    const thickness = GALAXY_PARAMS.thickDisk * thicknessProfile + GALAXY_PARAMS.diskThickness * (1 - thicknessProfile);
+    
+    // Natural scatter with variation - MORE scatter in center for fuzzy bulge
+    const centerScatter = Math.max(0, 8 - radius * 0.5); // More scatter near center
+    const baseScatter = 3 + centerScatter + (radius / GALAXY_PARAMS.diskRadius) * 4;
+    const scatterVariation = 1 +
+        0.3 * Math.sin(radius * 0.08 + armIndex * 1.5) +
+        0.2 * Math.cos(radius * 0.15 - armIndex * 0.8);
     const scatter = (Math.random() - 0.5) * baseScatter * scatterVariation;
     
-    // Angular scatter for softer arm edges (increases toward outer regions)
-    // Add irregularity to make arm edges wavy
-    const baseAngularScatter = 0.2 * (radius / GALAXY_PARAMS.diskRadius);
-    const angularVariation = 1 + 0.3 * Math.sin(radius * 0.06 + armIndex);
+    // Angular scatter for softer edges
+    const baseAngularScatter = 0.15 * (radius / GALAXY_PARAMS.diskRadius);
+    const angularVariation = 1 + 0.2 * Math.sin(radius * 0.06 + armIndex);
     const angularScatter = (Math.random() - 0.5) * baseAngularScatter * angularVariation;
     
-    // IRREGULAR spiral arm angle - add waviness to the arm structure itself
-    const armWaviness = 0.08 * Math.sin(radius * 0.04 + armIndex * 0.5) +
-                        0.05 * Math.cos(radius * 0.07 - armIndex * 0.3);
+    // Spiral arm waviness
+    const armWaviness = 0.05 * Math.sin(radius * 0.04 + armIndex * 0.5) +
+                        0.03 * Math.cos(radius * 0.07 - armIndex * 0.3);
     
-    // Small chance for stars to be significantly off the main arm (inter-arm stars)
-    const interArmOffset = Math.random() < 0.15 ? (Math.random() - 0.5) * 25 : 0;
-
+    // Inter-arm stars (significant population between arms for natural look)
+    const interArmOffset = Math.random() < 0.25 ? (Math.random() - 0.5) * 18 : 0;
+    
+    // Central bar influence - VERY subtle, only affects inner region
+    // Instead of a separate bar population, subtly modify inner stars
+    let barX = 0, barZ = 0;
+    if (radius < GALAXY_PARAMS.barLength * 0.4) {
+        // Subtle bar influence in center - just a slight elongation
+        const barInfluence = 1 - (radius / (GALAXY_PARAMS.barLength * 0.4));
+        const barAngle = 0.3;
+        barX = (Math.random() - 0.5) * GALAXY_PARAMS.barWidth * 0.6 * barInfluence;
+        barZ = (Math.random() - 0.5) * GALAXY_PARAMS.barWidth * 0.3 * barInfluence;
+        
+        // Rotate bar effect
+        const tempX = barX * Math.cos(barAngle) - barZ * Math.sin(barAngle);
+        barZ = barX * Math.sin(barAngle) + barZ * Math.cos(barAngle);
+        barX = tempX;
+    }
+    
     const effectiveRadius = radius + armOffset + scatter + interArmOffset;
     const finalAngle = spiralAngle + angularScatter + armWaviness;
     
-    const x = Math.cos(finalAngle) * effectiveRadius;
+    const x = Math.cos(finalAngle) * effectiveRadius + barX;
     const y = (Math.random() - 0.5) * thickness;
-    const z = Math.sin(finalAngle) * effectiveRadius;
-
-    return { x, y, z, population: 'spiralArm' };
+    const z = Math.sin(finalAngle) * effectiveRadius + barZ;
+    
+    // Determine population based on radius and position (for coloring)
+    // This is just for visual color, not for structure
+    let population = 'spiralArm';
+    if (radius < GALAXY_PARAMS.coreRadius * 0.4) {
+        population = 'core';
+    } else if (radius < GALAXY_PARAMS.diskRadius * 0.3) {
+        population = Math.random() < 0.3 ? 'thickDisk' : 'spiralArm';
+    }
+    
+    return { x, y, z, population };
 }
 
 function createStarTexture() {
