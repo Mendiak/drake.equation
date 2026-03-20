@@ -241,7 +241,9 @@ function validateAndCalculate(changedParameter) {
     const N = calculateN(currentValues);
     const formattedN = formatResult(N);
     animateValue(currentN, N, 800);
-    updateGalaxyVisualization(N);
+    if (typeof updateGalaxySimulation === 'function') {
+        updateGalaxySimulation(currentValues);
+    }
     document.title = `N = ${formattedN} | ${t('title')}`;
     interpretResult(N);
     updateResultDetails(N);
@@ -415,6 +417,7 @@ function generateSliderTicks(paramId) {
 window.onload = function() {
     applyUrlParameters();
     initChart();
+    initGalaxySimulation();
     updateLanguage(currentLang);
     const scientificBtn = document.querySelector('[data-preset="scientific"]');
     if (scientificBtn) scientificBtn.classList.add('active-preset');

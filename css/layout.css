@@ -3,7 +3,6 @@
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .container {
-    max-width: 1400px;
     margin: 0 auto;
     padding: var(--space-3xl);
 }
@@ -55,6 +54,7 @@ header {
     grid-template-columns: 440px 1fr;
     gap: var(--space-5xl);
     align-items: start;
+    justify-content: center;
 }
 
 @media (max-width: 1100px) {
@@ -76,6 +76,15 @@ header {
         grid-template-columns: 1fr;
         gap: var(--space-xl);
     }
+}
+
+.results-panel {
+    max-width: 800px;
+}
+
+.results-panel > * {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .parameters-panel {

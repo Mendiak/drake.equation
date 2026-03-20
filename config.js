@@ -3,7 +3,7 @@
 
 const defaultValues = {
     Rstar: 1.5,
-    fp: 0.5,
+    fp: 0.8,
     ne: 2,
     fl: 0.1,
     fi: 0.01,

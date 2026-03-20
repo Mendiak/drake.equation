@@ -111,7 +111,15 @@ function animateValue(start, end, duration) {
         const progress = Math.min(elapsed / duration, 1);
         const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
         const value = start + (end - start) * easeProgress;
-        document.getElementById('result').innerText = formatResult(value);
+        const resultEl = document.getElementById('result');
+        if (resultEl) {
+            resultEl.innerText = formatResult(value);
+        }
+        // Sync fullscreen N value
+        const fsResultEl = document.getElementById('fullscreen-n-value');
+        if (fsResultEl) {
+            fsResultEl.textContent = formatResult(value);
+        }
         if (progress < 1) animationFrame = requestAnimationFrame(update);
         else currentN = end;
     }

@@ -301,8 +301,7 @@
 
                 <section class="chart-section">
                     <h2 class="section-title" data-i18n="section_sensitivity">Sensitivity Analysis</h2>
-                    <p class="scientific-explanation" data-i18n="sensitivity_intro"
-                        style="margin-bottom: 2rem; font-size: 1rem; color: #444; max-width: 800px;"></p>
+                    <p class="scientific-explanation" data-i18n="sensitivity_intro"></p>
                     <div class="chart-header">
                         <p class="scientific-explanation" id="chart-explanation"></p>
                         <div class="chart-controls">
@@ -326,8 +325,7 @@
 
                 <section class="chart-section funnel-section">
                     <h2 class="section-title" data-i18n="section_funnel">Cosmic Filter Funnel</h2>
-                    <p class="scientific-explanation" data-i18n="funnel_intro"
-                        style="margin-bottom: 2rem; font-size: 1rem; color: #444; max-width: 800px;"></p>
+                    <p class="scientific-explanation" data-i18n="funnel_intro"></p>
                     
                     <div class="chart-header">
                         <div class="chart-controls">
@@ -348,6 +346,127 @@
                         </div>
                         <div class="funnel-insight-panel" id="funnel-insights">
                             <!-- Dynamic insights will be injected here -->
+                        </div>
+                    </div>
+                </section>
+
+                <section class="chart-section galaxy-sim-section">
+                    <div class="galaxy-sim-header">
+                        <h2 class="section-title" data-i18n="section_galaxy">Galactic Simulation</h2>
+                        <p class="scientific-explanation" data-i18n="galaxy_intro"></p>
+                    </div>
+
+                    <div class="galaxy-sim-wrapper">
+                        <div class="galaxy-fullscreen-wrapper" id="galaxy-fullscreen-wrapper">
+                            <div class="galaxy-controls-panel">
+                                <h3 class="controls-title" data-i18n="galaxy_controls_title">Visualization Controls</h3>
+
+                                <div class="control-group">
+                                    <label for="galaxy-rotation-speed" data-i18n="galaxy_rotation">Rotation Speed</label>
+                                    <input type="range" id="galaxy-rotation-speed" min="0" max="0.01" step="0.0001" value="0.001"
+                                           oninput="updateGalaxyRotation(this.value)">
+                                    <span id="galaxy-rotation-value" class="control-value">0.001</span>
+                                </div>
+
+                                <div class="control-group">
+                                    <label for="galaxy-tilt" data-i18n="galaxy_tilt">View Tilt</label>
+                                    <input type="range" id="galaxy-tilt" min="0" max="90" step="1" value="45"
+                                           oninput="updateGalaxyTilt(this.value)">
+                                    <span id="galaxy-tilt-value" class="control-value">45°</span>
+                                </div>
+
+                                <div class="control-group">
+                                    <label for="galaxy-zoom" data-i18n="galaxy_zoom">Zoom Level</label>
+                                    <input type="range" id="galaxy-zoom" min="50" max="400" step="5" value="200"
+                                           oninput="updateGalaxyZoom(this.value)">
+                                    <span id="galaxy-zoom-value" class="control-value">200</span>
+                                </div>
+
+                                <div class="control-group">
+                                    <label for="galaxy-star-size" data-i18n="galaxy_star_size">Star Size</label>
+                                    <input type="range" id="galaxy-star-size" min="0.5" max="3" step="0.1" value="1.2"
+                                           oninput="updateGalaxyStarSize(this.value)">
+                                    <span id="galaxy-star-size-value" class="control-value">1.2</span>
+                                </div>
+
+                                <button class="reset-view-btn" onclick="resetGalaxyView()" data-i18n="galaxy_reset_view">Reset View</button>
+                                <button class="fullscreen-btn" onclick="toggleGalaxyFullscreen()" data-i18n="galaxy_fullscreen">
+                                    <i class="bi bi-arrows-fullscreen"></i> <span data-i18n="galaxy_fullscreen">Fullscreen</span>
+                                </button>
+                            </div>
+
+                            <div class="galaxy-visualization">
+                                <div class="galaxy-sim-container" id="galaxy-simulation-container">
+                                    <!-- Three.js Canvas will be here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="galaxy-sim-legend" id="galaxy-sim-legend">
+                        <div class="legend-item"><span class="dot" style="background-color: #ffffff;"></span> <span data-i18n="funnel_steps.total">Total Stars</span></div>
+                        <div class="legend-item"><span class="dot" style="background-color: #f39c12;"></span> <span data-i18n="funnel_steps.planets">With Planets</span></div>
+                        <div class="legend-item"><span class="dot" style="background-color: #3498db;"></span> <span data-i18n="funnel_steps.habitable">Habitable</span></div>
+                        <div class="legend-item"><span class="dot" style="background-color: #2ecc71;"></span> <span data-i18n="funnel_steps.life">With Life</span></div>
+                        <div class="legend-item"><span class="dot" style="background-color: #9b59b6;"></span> <span data-i18n="funnel_steps.intelligence">Intelligent</span></div>
+                        <div class="legend-item"><span class="dot" style="background-color: #e74c3c;"></span> <span data-i18n="funnel_steps.tech">Communicative</span></div>
+                    </div>
+
+                    <!-- Fullscreen overlay content (hidden by default) -->
+                    <div class="galaxy-fullscreen-overlay" id="galaxy-fullscreen-overlay" style="display: none;">
+                        <div class="fullscreen-sidebar" id="fullscreen-sidebar">
+                            <h3 class="sidebar-title">Drake Equation Parameters</h3>
+                            <div class="fullscreen-params" id="fullscreen-params">
+                                <!-- Parameters will be cloned here -->
+                            </div>
+                        </div>
+                        <div class="fullscreen-content">
+                            <div class="fullscreen-viz-controls">
+                                <h4>Visualization</h4>
+                                <div class="viz-control-groups">
+                                    <div class="control-group">
+                                        <label>Rotation</label>
+                                        <input type="range" id="fs-galaxy-rotation" min="0" max="0.01" step="0.0001" value="0.001" oninput="updateGalaxyRotation(this.value)">
+                                        <span id="fs-galaxy-rotation-value">0.001</span>
+                                    </div>
+                                    <div class="control-group">
+                                        <label>Tilt</label>
+                                        <input type="range" id="fs-galaxy-tilt" min="0" max="90" step="1" value="45" oninput="updateGalaxyTilt(this.value)">
+                                        <span id="fs-galaxy-tilt-value">45°</span>
+                                    </div>
+                                    <div class="control-group">
+                                        <label>Zoom</label>
+                                        <input type="range" id="fs-galaxy-zoom" min="50" max="400" step="5" value="200" oninput="updateGalaxyZoom(this.value)">
+                                        <span id="fs-galaxy-zoom-value">200</span>
+                                    </div>
+                                    <div class="control-group">
+                                        <label>Star Size</label>
+                                        <input type="range" id="fs-galaxy-star-size" min="0.5" max="3" step="0.1" value="1.2" oninput="updateGalaxyStarSize(this.value)">
+                                        <span id="fs-galaxy-star-size-value">1.2</span>
+                                    </div>
+                                </div>
+                                <button class="exit-fullscreen-btn" onclick="toggleGalaxyFullscreen()">
+                                    <i class="bi bi-fullscreen-exit"></i> Exit Fullscreen
+                                </button>
+                            </div>
+                            <div class="fullscreen-result" id="fullscreen-result">
+                                <span class="result-label">N =</span>
+                                <span class="result-value" id="fullscreen-n-value">0</span>
+                                <span class="result-unit">civilizations</span>
+                            </div>
+                            <div class="fullscreen-galaxy-container">
+                                <div class="galaxy-sim-container" id="galaxy-simulation-container-fullscreen">
+                                    <!-- Three.js Canvas will be rendered here in fullscreen -->
+                                </div>
+                                <div class="galaxy-sim-legend" id="galaxy-sim-legend-fullscreen">
+                                    <div class="legend-item"><span class="dot" style="background-color: #ffffff;"></span> <span data-i18n="funnel_steps.total">Total Stars</span></div>
+                                    <div class="legend-item"><span class="dot" style="background-color: #f39c12;"></span> <span data-i18n="funnel_steps.planets">With Planets</span></div>
+                                    <div class="legend-item"><span class="dot" style="background-color: #3498db;"></span> <span data-i18n="funnel_steps.habitable">Habitable</span></div>
+                                    <div class="legend-item"><span class="dot" style="background-color: #2ecc71;"></span> <span data-i18n="funnel_steps.life">With Life</span></div>
+                                    <div class="legend-item"><span class="dot" style="background-color: #9b59b6;"></span> <span data-i18n="funnel_steps.intelligence">Intelligent</span></div>
+                                    <div class="legend-item"><span class="dot" style="background-color: #e74c3c;"></span> <span data-i18n="funnel_steps.tech">Communicative</span></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -517,10 +636,12 @@
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
     <script src="./config.js"></script>
     <script src="./calculations.js"></script>
     <script src="./chart-utils.js"></script>
     <script src="./dom-updates.js"></script>
+    <script src="./galaxy-simulation.js"></script>
     <script src="./translations.js"></script>
     <script src="./script.js"></script>
 </body>
