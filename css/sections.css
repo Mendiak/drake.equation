@@ -1196,14 +1196,18 @@ footer a:hover {
     bottom: var(--space-lg);
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.7);
-    padding: var(--space-md) var(--space-xl);
+    background: rgba(0, 0, 0, 0.85);
+    padding: var(--space-lg) var(--space-2xl);
     border-radius: var(--radius-sm);
     z-index: 100;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     gap: var(--space-lg);
+    max-width: 90%;
+    width: fit-content;
+    min-width: 600px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 /* Hide original legend in fullscreen */
@@ -1414,6 +1418,25 @@ footer a:hover {
     align-items: center;
     font-size: 0.75rem;
     color: var(--color-light-gray);
+    transition: opacity 0.2s ease;
+    cursor: pointer;
+    user-select: none;
+}
+
+.galaxy-sim-legend .legend-item:hover {
+    opacity: 0.8;
+}
+
+.galaxy-sim-legend .legend-item.active {
+    opacity: 1;
+}
+
+.galaxy-sim-legend .legend-item:not(.active) {
+    opacity: 0.4;
+}
+
+.galaxy-sim-legend .legend-item:not(.active) .dot {
+    filter: grayscale(0.7);
 }
 
 .galaxy-sim-legend .dot {
@@ -1422,6 +1445,30 @@ footer a:hover {
     border-radius: 50%;
     margin-right: var(--space-sm);
     box-shadow: 0 0 8px currentColor;
+}
+
+/* Legend hint for fullscreen */
+.galaxy-sim-legend .legend-hint {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 0.7rem;
+    color: var(--color-light-gray);
+    padding: var(--space-xs) var(--space-sm);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-xs);
+    margin-right: var(--space-lg);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.galaxy-sim-legend .legend-hint i {
+    font-size: 0.9rem;
+    color: var(--color-white);
+}
+
+.galaxy-sim-legend .legend-hint span {
+    font-style: italic;
+    opacity: 0.8;
 }
 
 @media (max-width: 768px) {

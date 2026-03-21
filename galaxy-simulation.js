@@ -15,15 +15,31 @@ const DEFAULT_VIEW = {
 
 let currentView = { ...DEFAULT_VIEW };
 
-// Colors for each stage following minimalist aesthetic
+// Colors for each stage following improved color scheme
+// Based on user feedback: better distinction between categories
 const COLORS = {
-    total: 0xffffff,      // White: Total stars
+    total: 0x8B4545,      // Dim red: Total stars (less prominent)
     planets: 0xf39c12,    // Orange: With planets
     habitable: 0x3498db,  // Blue: Habitable
     life: 0x2ecc71,       // Green: With life
-    intelligence: 0x9b59b6, // Purple: Intelligent
-    tech: 0xe74c3c        // Red: Communicative (N)
+    intelligence: 0x9b59b6, // Purple: Intelligent life
+    tech: 0xffffff        // Bright white: Communicative (most visible)
 };
+
+// Visibility state for each category - defaults to only showing top 3 interesting categories
+const GALAXY_VISIBILITY = {
+    total: false,         // Hidden by default (noise)
+    planets: false,       // Hidden by default (noise)
+    habitable: false,     // Hidden by default (noise)
+    life: true,           // Visible by default (interesting)
+    intelligence: true,   // Visible by default (interesting)
+    tech: true            // Visible by default (most interesting)
+};
+
+// Blinking state for communicative civilizations
+let communicativeBlinkState = true;
+let lastBlinkTime = 0;
+const BLINK_INTERVAL = 1000; // milliseconds
 
 // Milky Way-like barred spiral galaxy parameters - Enhanced spiral effect with natural randomness
 const GALAXY_PARAMS = {
@@ -498,6 +514,7 @@ function updateGalaxySimulation(params) {
     if (!starSystem) return;
 
     const colors = starSystem.geometry.attributes.color.array;
+    const positions = starSystem.geometry.attributes.position.array;
     
     // Calculate thresholds based on Drake Equation steps
     const fpThreshold = STAR_COUNT * params.fp;
@@ -507,18 +524,50 @@ function updateGalaxySimulation(params) {
     const fcThreshold = fiThreshold * params.fc;
 
     for (let i = 0; i < STAR_COUNT; i++) {
-        let colorHex = COLORS.total;
+        let colorHex;
+        let category;
 
-        if (i < fcThreshold) colorHex = COLORS.tech;
-        else if (i < fiThreshold) colorHex = COLORS.intelligence;
-        else if (i < flThreshold) colorHex = COLORS.life;
-        else if (i < neThreshold) colorHex = COLORS.habitable;
-        else if (i < fpThreshold) colorHex = COLORS.planets;
+        if (i < fcThreshold) {
+            colorHex = COLORS.tech;
+            category = 'tech';
+        } else if (i < fiThreshold) {
+            colorHex = COLORS.intelligence;
+            category = 'intelligence';
+        } else if (i < flThreshold) {
+            colorHex = COLORS.life;
+            category = 'life';
+        } else if (i < neThreshold) {
+            colorHex = COLORS.habitable;
+            category = 'habitable';
+        } else if (i < fpThreshold) {
+            colorHex = COLORS.planets;
+            category = 'planets';
+        } else {
+            colorHex = COLORS.total;
+            category = 'total';
+        }
 
-        const color = new THREE.Color(colorHex);
-        colors[i * 3] = color.r;
-        colors[i * 3 + 1] = color.g;
-        colors[i * 3 + 2] = color.b;
+        // Check if this category is visible
+        if (!GALAXY_VISIBILITY[category]) {
+            // Hide by setting to very dim version of background
+            colors[i * 3] = 0.02;
+            colors[i * 3 + 1] = 0.02;
+            colors[i * 3 + 2] = 0.02;
+        } else {
+            const color = new THREE.Color(colorHex);
+            
+            // Apply blinking effect for communicative civilizations (tech)
+            if (category === 'tech' && !communicativeBlinkState) {
+                // Dim the communicative stars during blink off phase
+                colors[i * 3] = color.r * 0.3;
+                colors[i * 3 + 1] = color.g * 0.3;
+                colors[i * 3 + 2] = color.b * 0.3;
+            } else {
+                colors[i * 3] = color.r;
+                colors[i * 3 + 1] = color.g;
+                colors[i * 3 + 2] = color.b;
+            }
+        }
     }
 
     starSystem.geometry.attributes.color.needsUpdate = true;
@@ -629,12 +678,26 @@ function resetGalaxyView() {
     }
 }
 
-// Override animateGalaxy to use dynamic rotation speed
+// Override animateGalaxy to use dynamic rotation speed and handle blinking
 const originalAnimateGalaxy = animateGalaxy;
 animateGalaxy = function() {
     requestAnimationFrame(animateGalaxy);
+    
     if (starSystem) {
         starSystem.rotation.y += currentView.rotationSpeed;
+        
+        // Handle blinking for communicative civilizations
+        const now = Date.now();
+        if (now - lastBlinkTime > BLINK_INTERVAL) {
+            communicativeBlinkState = !communicativeBlinkState;
+            lastBlinkTime = now;
+            
+            // Only update colors if tech category is visible
+            if (GALAXY_VISIBILITY.tech && starSystem) {
+                const params = getCurrentDrakeParams();
+                updateGalaxySimulation(params);
+            }
+        }
     }
     galaxyRenderer.render(galaxyScene, galaxyCamera);
 };
@@ -891,3 +954,97 @@ updateGalaxyStarSize = function(value) {
     const fsInput = document.getElementById('fs-galaxy-star-size');
     if (fsInput) fsInput.value = value;
 };
+
+// Toggle visibility of a category in the galaxy simulation
+function toggleGalaxyCategory(category) {
+    if (GALAXY_VISIBILITY.hasOwnProperty(category)) {
+        GALAXY_VISIBILITY[category] = !GALAXY_VISIBILITY[category];
+        
+        // Update legend UI to reflect the new state
+        updateLegendUI();
+        
+        // Re-render the galaxy with updated visibility
+        const params = getCurrentDrakeParams();
+        updateGalaxySimulation(params);
+    }
+}
+
+// Update legend UI to show active/inactive state
+function updateLegendUI() {
+    const legends = [
+        document.getElementById('galaxy-sim-legend'),
+        document.getElementById('galaxy-sim-legend-fullscreen')
+    ];
+    
+    const categoryMap = {
+        'total': 0,
+        'planets': 1,
+        'habitable': 2,
+        'life': 3,
+        'intelligence': 4,
+        'tech': 5
+    };
+    
+    legends.forEach(legend => {
+        if (!legend) return;
+        
+        const items = legend.querySelectorAll('.legend-item');
+        const categories = ['total', 'planets', 'habitable', 'life', 'intelligence', 'tech'];
+        
+        items.forEach((item, index) => {
+            const category = categories[index];
+            if (GALAXY_VISIBILITY[category]) {
+                item.classList.add('active');
+                item.style.opacity = '1';
+            } else {
+                item.classList.remove('active');
+                item.style.opacity = '0.4';
+            }
+        });
+    });
+}
+
+// Get current Drake equation parameters
+function getCurrentDrakeParams() {
+    return {
+        Rstar: parseFloat(document.getElementById('Rstar').value),
+        fp: parseFloat(document.getElementById('fp').value),
+        ne: parseFloat(document.getElementById('ne').value),
+        fl: parseFloat(document.getElementById('fl').value),
+        fi: parseFloat(document.getElementById('fi').value),
+        fc: parseFloat(document.getElementById('fc').value),
+        L: parseFloat(document.getElementById('L').value)
+    };
+}
+
+// Initialize legend click handlers
+function initGalaxyLegendHandlers() {
+    const legends = [
+        document.getElementById('galaxy-sim-legend'),
+        document.getElementById('galaxy-sim-legend-fullscreen')
+    ];
+    
+    const categories = ['total', 'planets', 'habitable', 'life', 'intelligence', 'tech'];
+    
+    legends.forEach(legend => {
+        if (!legend) return;
+        
+        const items = legend.querySelectorAll('.legend-item');
+        items.forEach((item, index) => {
+            const category = categories[index];
+            item.style.cursor = 'pointer';
+            item.style.transition = 'opacity 0.2s ease';
+            
+            item.addEventListener('click', () => {
+                toggleGalaxyCategory(category);
+            });
+        });
+    });
+}
+
+// Initialize legend handlers when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGalaxyLegendHandlers);
+} else {
+    initGalaxyLegendHandlers();
+}
