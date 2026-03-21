@@ -1023,23 +1023,26 @@ function initGalaxyLegendHandlers() {
         document.getElementById('galaxy-sim-legend'),
         document.getElementById('galaxy-sim-legend-fullscreen')
     ];
-    
+
     const categories = ['total', 'planets', 'habitable', 'life', 'intelligence', 'tech'];
-    
+
     legends.forEach(legend => {
         if (!legend) return;
-        
+
         const items = legend.querySelectorAll('.legend-item');
         items.forEach((item, index) => {
             const category = categories[index];
             item.style.cursor = 'pointer';
             item.style.transition = 'opacity 0.2s ease';
-            
+
             item.addEventListener('click', () => {
                 toggleGalaxyCategory(category);
             });
         });
     });
+    
+    // Initialize legend UI to reflect default visibility state
+    updateLegendUI();
 }
 
 // Initialize legend handlers when DOM is ready
