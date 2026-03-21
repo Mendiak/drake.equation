@@ -822,8 +822,8 @@ footer a:hover {
 .galaxy-sim-section {
     background-color: var(--color-black);
     color: var(--color-white);
-    padding: var(--space-xxl) var(--space-xl);
-    margin-top: var(--space-xxl);
+    padding: var(--space-2xl) var(--space-xl);
+    margin-top: var(--space-2xl);
     text-align: left;
     width: 100%;
     position: relative;

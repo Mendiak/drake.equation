@@ -162,47 +162,66 @@ function generateOpenClusterPosition() {
 }
 
 // Generate stars within a cluster (soft, realistic distribution)
+// Now uses Drake Equation color distribution instead of stellar population colors
 function generateClusterStars(centerX, centerY, centerZ, starCount, clusterType) {
     const positions = [];
     const colors = [];
     const sizes = [];
-    
+
+    // Use default Drake params to distribute cluster star colors proportionally
+    // These will be updated in updateClusterStars when user changes sliders
+    const defaultFp = 0.5;
+    const defaultNe = 2;
+    const defaultFl = 0.5;
+    const defaultFi = 0.1;
+    const defaultFc = 0.1;
+
+    const fpThreshold = starCount * defaultFp;
+    const neThreshold = fpThreshold * (defaultNe / 10);
+    const flThreshold = neThreshold * defaultFl;
+    const fiThreshold = flThreshold * defaultFi;
+    const fcThreshold = fiThreshold * defaultFc;
+
     for (let i = 0; i < starCount; i++) {
         // Use Plummer-like distribution for soft, realistic cluster core
         const u = Math.random();
         const rScale = clusterType === 'globular' ? 8 : 5;
         const r = rScale * Math.pow(u, 1/3) / Math.pow(1 - u, 1/3);
         const clampedR = Math.min(r, clusterType === 'globular' ? 20 : 12);
-        
+
         // Spherical distribution
         const theta = Math.random() * Math.PI * 2;
         const phi = Math.acos(2 * Math.random() - 1);
-        
+
         const x = centerX + clampedR * Math.sin(phi) * Math.cos(theta);
         const y = centerY + clampedR * Math.cos(phi);
         const z = centerZ + clampedR * Math.sin(phi) * Math.sin(theta);
-        
+
         positions.push(x, y, z);
-        
-        // Cluster colors based on type
-        if (clusterType === 'globular') {
-            // Old, metal-poor stars - yellowish/reddish
-            const hue = 0.08 + Math.random() * 0.08;
-            const sat = 0.4 + Math.random() * 0.3;
-            const light = 0.65 + Math.random() * 0.2;
-            colors.push(hue, sat, light);
+
+        // Assign Drake color based on star index (proportional distribution)
+        let colorHex;
+        if (i < fcThreshold) {
+            colorHex = COLORS.tech;
+        } else if (i < fiThreshold) {
+            colorHex = COLORS.intelligence;
+        } else if (i < flThreshold) {
+            colorHex = COLORS.life;
+        } else if (i < neThreshold) {
+            colorHex = COLORS.habitable;
+        } else if (i < fpThreshold) {
+            colorHex = COLORS.planets;
         } else {
-            // Young, hot stars - blue/white with some variation
-            const hue = 0.52 + Math.random() * 0.18;
-            const sat = 0.5 + Math.random() * 0.4;
-            const light = 0.75 + Math.random() * 0.25;
-            colors.push(hue, sat, light);
+            colorHex = COLORS.total;
         }
-        
+
+        const color = new THREE.Color(colorHex);
+        colors.push(color.r, color.g, color.b);
+
         // Size variation - brighter stars in cluster
         sizes.push(0.8 + Math.random() * 1.8);
     }
-    
+
     return { positions, colors, sizes };
 }
 
@@ -212,18 +231,47 @@ function createStarField() {
     const colors = new Float32Array(STAR_COUNT * 3);
     const sizes = new Float32Array(STAR_COUNT);
 
+    // Use default Drake params to initialize star colors
+    // These will be updated when user changes sliders
+    const defaultFp = 0.5;
+    const defaultNe = 2;
+    const defaultFl = 0.5;
+    const defaultFi = 0.1;
+    const defaultFc = 0.1;
+
+    const fpThreshold = STAR_COUNT * defaultFp;
+    const neThreshold = fpThreshold * (defaultNe / 10);
+    const flThreshold = neThreshold * defaultFl;
+    const fiThreshold = flThreshold * defaultFi;
+    const fcThreshold = fiThreshold * defaultFc;
+
     for (let i = 0; i < STAR_COUNT; i++) {
         const starData = generateSpiralGalaxyPosition();
-        
+
         positions[i * 3] = starData.x;
         positions[i * 3 + 1] = starData.y;
         positions[i * 3 + 2] = starData.z;
 
-        // Stellar population colors based on location (realistic Milky Way)
-        const starColor = getStellarPopulationColor(starData.population);
-        colors[i * 3] = starColor.r;
-        colors[i * 3 + 1] = starColor.g;
-        colors[i * 3 + 2] = starColor.b;
+        // Assign Drake color based on star index (proportional distribution)
+        let colorHex;
+        if (i < fcThreshold) {
+            colorHex = COLORS.tech;
+        } else if (i < fiThreshold) {
+            colorHex = COLORS.intelligence;
+        } else if (i < flThreshold) {
+            colorHex = COLORS.life;
+        } else if (i < neThreshold) {
+            colorHex = COLORS.habitable;
+        } else if (i < fpThreshold) {
+            colorHex = COLORS.planets;
+        } else {
+            colorHex = COLORS.total;
+        }
+
+        const color = new THREE.Color(colorHex);
+        colors[i * 3] = color.r;
+        colors[i * 3 + 1] = color.g;
+        colors[i * 3 + 2] = color.b;
 
         // Vary star sizes for more natural look
         sizes[i] = Math.random() * 1.5 + 0.5;
@@ -249,7 +297,7 @@ function createStarField() {
 
     starSystem = new THREE.Points(mainGeometry, mainMaterial);
     galaxyScene.add(starSystem);
-    
+
     // Create star clusters as children of starSystem so they rotate with the galaxy
     createStarClusters(sprite);
 }
@@ -515,7 +563,7 @@ function updateGalaxySimulation(params) {
 
     const colors = starSystem.geometry.attributes.color.array;
     const positions = starSystem.geometry.attributes.position.array;
-    
+
     // Calculate thresholds based on Drake Equation steps
     const fpThreshold = STAR_COUNT * params.fp;
     const neThreshold = fpThreshold * (params.ne / 10); // Normalizing ne (max 10)
@@ -549,13 +597,13 @@ function updateGalaxySimulation(params) {
 
         // Check if this category is visible
         if (!GALAXY_VISIBILITY[category]) {
-            // Hide by setting to very dim version of background
-            colors[i * 3] = 0.02;
-            colors[i * 3 + 1] = 0.02;
-            colors[i * 3 + 2] = 0.02;
+            // Hide by setting to BLACK - with AdditiveBlending, black is invisible
+            colors[i * 3] = 0;
+            colors[i * 3 + 1] = 0;
+            colors[i * 3 + 2] = 0;
         } else {
             const color = new THREE.Color(colorHex);
-            
+
             // Apply blinking effect for communicative civilizations (tech)
             if (category === 'tech' && !communicativeBlinkState) {
                 // Dim the communicative stars during blink off phase
@@ -571,6 +619,84 @@ function updateGalaxySimulation(params) {
     }
 
     starSystem.geometry.attributes.color.needsUpdate = true;
+
+    // Also update cluster stars visibility
+    updateClusterVisibility(params);
+}
+
+// Update visibility and colors of star clusters based on GALAXY_VISIBILITY and Drake params
+function updateClusterVisibility(params) {
+    if (!starSystem) return;
+
+    // Check if any category is visible
+    const anyVisible = Object.values(GALAXY_VISIBILITY).some(v => v === true);
+
+    // Calculate thresholds for cluster stars
+    const fpThreshold = 1 * params.fp;
+    const neThreshold = fpThreshold * (params.ne / 10);
+    const flThreshold = neThreshold * params.fl;
+    const fiThreshold = flThreshold * params.fi;
+    const fcThreshold = fiThreshold * params.fc;
+
+    // Iterate through all cluster children of starSystem
+    starSystem.children.forEach(child => {
+        if (child.isPoints) {
+            const colors = child.geometry.attributes.color.array;
+            const starCount = colors.length / 3;
+
+            // Update colors based on Drake Equation
+            for (let i = 0; i < starCount; i++) {
+                let colorHex;
+                let category;
+
+                if (i < fcThreshold * starCount) {
+                    colorHex = COLORS.tech;
+                    category = 'tech';
+                } else if (i < fiThreshold * starCount) {
+                    colorHex = COLORS.intelligence;
+                    category = 'intelligence';
+                } else if (i < flThreshold * starCount) {
+                    colorHex = COLORS.life;
+                    category = 'life';
+                } else if (i < neThreshold * starCount) {
+                    colorHex = COLORS.habitable;
+                    category = 'habitable';
+                } else if (i < fpThreshold * starCount) {
+                    colorHex = COLORS.planets;
+                    category = 'planets';
+                } else {
+                    colorHex = COLORS.total;
+                    category = 'total';
+                }
+
+                // Check if this category is visible
+                if (!GALAXY_VISIBILITY[category]) {
+                    // Hide by setting to BLACK - with AdditiveBlending, black is invisible
+                    colors[i * 3] = 0;
+                    colors[i * 3 + 1] = 0;
+                    colors[i * 3 + 2] = 0;
+                } else {
+                    const color = new THREE.Color(colorHex);
+
+                    // Apply blinking effect for communicative civilizations (tech)
+                    if (category === 'tech' && !communicativeBlinkState) {
+                        colors[i * 3] = color.r * 0.3;
+                        colors[i * 3 + 1] = color.g * 0.3;
+                        colors[i * 3 + 2] = color.b * 0.3;
+                    } else {
+                        colors[i * 3] = color.r;
+                        colors[i * 3 + 1] = color.g;
+                        colors[i * 3 + 2] = color.b;
+                    }
+                }
+            }
+
+            child.geometry.attributes.color.needsUpdate = true;
+
+            // Also set overall opacity based on visibility
+            child.material.opacity = anyVisible ? 0.9 : 0.02;
+        }
+    });
 }
 
 function animateGalaxy() {
