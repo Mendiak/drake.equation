@@ -415,44 +415,47 @@
                     <!-- Fullscreen overlay content (hidden by default) -->
                     <div class="galaxy-fullscreen-overlay" id="galaxy-fullscreen-overlay" style="display: none;">
                         <div class="fullscreen-sidebar" id="fullscreen-sidebar">
-                            <h3 class="sidebar-title">Drake Equation Parameters</h3>
+                            <h3 class="sidebar-title" data-i18n="fullscreen_sidebar_title">Drake Equation Parameters</h3>
                             <div class="fullscreen-params" id="fullscreen-params">
                                 <!-- Parameters will be cloned here -->
                             </div>
                         </div>
                         <div class="fullscreen-content">
                             <div class="fullscreen-viz-controls">
-                                <h4>Visualization</h4>
+                                <h4 data-i18n="fullscreen_viz_title">Visualization</h4>
                                 <div class="viz-control-groups">
                                     <div class="control-group">
-                                        <label>Rotation</label>
+                                        <label data-i18n="fullscreen_viz_rotation">Rotation</label>
                                         <input type="range" id="fs-galaxy-rotation" min="0" max="0.01" step="0.0001" value="0.001" oninput="updateGalaxyRotation(this.value)">
                                         <span id="fs-galaxy-rotation-value">0.001</span>
                                     </div>
                                     <div class="control-group">
-                                        <label>Tilt</label>
+                                        <label data-i18n="fullscreen_viz_tilt">Tilt</label>
                                         <input type="range" id="fs-galaxy-tilt" min="0" max="90" step="1" value="45" oninput="updateGalaxyTilt(this.value)">
                                         <span id="fs-galaxy-tilt-value">45°</span>
                                     </div>
                                     <div class="control-group">
-                                        <label>Zoom</label>
+                                        <label data-i18n="fullscreen_viz_zoom">Zoom</label>
                                         <input type="range" id="fs-galaxy-zoom" min="50" max="400" step="5" value="200" oninput="updateGalaxyZoom(this.value)">
                                         <span id="fs-galaxy-zoom-value">200</span>
                                     </div>
                                     <div class="control-group">
-                                        <label>Star Size</label>
+                                        <label data-i18n="fullscreen_viz_star_size">Star Size</label>
                                         <input type="range" id="fs-galaxy-star-size" min="0.5" max="3" step="0.1" value="1.2" oninput="updateGalaxyStarSize(this.value)">
                                         <span id="fs-galaxy-star-size-value">1.2</span>
                                     </div>
                                 </div>
-                                <button class="exit-fullscreen-btn" onclick="toggleGalaxyFullscreen()">
-                                    <i class="bi bi-fullscreen-exit"></i> Exit Fullscreen
-                                </button>
+                                <div class="fullscreen-viz-buttons">
+                                    <button class="reset-view-btn" onclick="resetGalaxyView()" data-i18n="galaxy_reset_view">Reset View</button>
+                                    <button class="exit-fullscreen-btn" onclick="toggleGalaxyFullscreen()">
+                                        <i class="bi bi-fullscreen-exit"></i> <span data-i18n="fullscreen_exit_fullscreen">Exit Fullscreen</span>
+                                    </button>
+                                </div>
                             </div>
                             <div class="fullscreen-result" id="fullscreen-result">
                                 <span class="result-label">N =</span>
                                 <span class="result-value" id="fullscreen-n-value">0</span>
-                                <span class="result-unit">civilizations</span>
+                                <span class="result-unit" data-i18n="fullscreen_result_unit">civilizations</span>
                             </div>
                             <div class="fullscreen-galaxy-container">
                                 <div class="galaxy-sim-container" id="galaxy-simulation-container-fullscreen">

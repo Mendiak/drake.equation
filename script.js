@@ -162,7 +162,7 @@ function updateLanguage(lang) {
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         el.innerHTML = t(key);
-        
+
         // Also update title if a tooltip key exists
         const tooltipKey = key + '_tooltip';
         const tooltipText = t(tooltipKey);
@@ -170,6 +170,17 @@ function updateLanguage(lang) {
             el.setAttribute('title', tooltipText);
         }
     });
+
+    // Update fullscreen params if active
+    const overlay = document.getElementById('galaxy-fullscreen-overlay');
+    if (overlay && overlay.classList.contains('active')) {
+        const fullscreenContainer = document.getElementById('fullscreen-params');
+        if (fullscreenContainer) {
+            fullscreenContainer.innerHTML = '';
+            populateFullscreenParams();
+            syncFullscreenValues();
+        }
+    }
 
     renderTimeline();
     renderKeyConceptsCards();

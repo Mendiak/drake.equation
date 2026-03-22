@@ -778,26 +778,48 @@ function updateGalaxyStarSize(value) {
 
 function resetGalaxyView() {
     currentView = { ...DEFAULT_VIEW };
-    
-    // Reset sliders
+
+    // Reset sliders (normal view)
     document.getElementById('galaxy-rotation-speed').value = DEFAULT_VIEW.rotationSpeed;
     document.getElementById('galaxy-tilt').value = DEFAULT_VIEW.tilt;
     document.getElementById('galaxy-zoom').value = DEFAULT_VIEW.zoom;
     document.getElementById('galaxy-star-size').value = DEFAULT_VIEW.starSize;
-    
-    // Update display values
+
+    // Update display values (normal view)
     document.getElementById('galaxy-rotation-value').textContent = DEFAULT_VIEW.rotationSpeed;
     document.getElementById('galaxy-tilt-value').textContent = DEFAULT_VIEW.tilt + '°';
     document.getElementById('galaxy-zoom-value').textContent = DEFAULT_VIEW.zoom;
     document.getElementById('galaxy-star-size-value').textContent = DEFAULT_VIEW.starSize;
+
+    // Reset sliders (fullscreen view)
+    const fsRotation = document.getElementById('fs-galaxy-rotation');
+    const fsTilt = document.getElementById('fs-galaxy-tilt');
+    const fsZoom = document.getElementById('fs-galaxy-zoom');
+    const fsStarSize = document.getElementById('fs-galaxy-star-size');
     
+    if (fsRotation) fsRotation.value = DEFAULT_VIEW.rotationSpeed;
+    if (fsTilt) fsTilt.value = DEFAULT_VIEW.tilt;
+    if (fsZoom) fsZoom.value = DEFAULT_VIEW.zoom;
+    if (fsStarSize) fsStarSize.value = DEFAULT_VIEW.starSize;
+
+    // Update display values (fullscreen view)
+    const fsRotationVal = document.getElementById('fs-galaxy-rotation-value');
+    const fsTiltVal = document.getElementById('fs-galaxy-tilt-value');
+    const fsZoomVal = document.getElementById('fs-galaxy-zoom-value');
+    const fsStarSizeVal = document.getElementById('fs-galaxy-star-size-value');
+    
+    if (fsRotationVal) fsRotationVal.textContent = DEFAULT_VIEW.rotationSpeed;
+    if (fsTiltVal) fsTiltVal.textContent = DEFAULT_VIEW.tilt + '°';
+    if (fsZoomVal) fsZoomVal.textContent = DEFAULT_VIEW.zoom;
+    if (fsStarSizeVal) fsStarSizeVal.textContent = DEFAULT_VIEW.starSize;
+
     // Reset camera position
     const tiltRad = (DEFAULT_VIEW.tilt * Math.PI) / 180;
     galaxyCamera.position.y = Math.sin(tiltRad) * DEFAULT_VIEW.zoom * 0.5;
     galaxyCamera.position.z = Math.cos(tiltRad) * DEFAULT_VIEW.zoom;
     galaxyCamera.position.x = 0;
     galaxyCamera.lookAt(0, 0, 0);
-    
+
     // Reset star size
     if (starSystem) {
         starSystem.material.size = DEFAULT_VIEW.starSize;
@@ -880,46 +902,46 @@ function toggleGalaxyFullscreen() {
 function populateFullscreenParams() {
     const container = document.getElementById('fullscreen-params');
     if (!container) return;
-    
+
     // Add presets section
     const presetsSection = document.createElement('div');
     presetsSection.className = 'fullscreen-presets-section';
     presetsSection.innerHTML = `
-        <h4 class="presets-title">Presets</h4>
-        <div class="presets-legend">Optimistic ← → Pessimistic</div>
+        <h4 class="presets-title" data-i18n="fullscreen_presets_title">${t('fullscreen_presets_title')}</h4>
+        <div class="presets-legend" data-i18n="preset_legend">${t('preset_legend')}</div>
         <div class="fullscreen-presets-grid">
-            <button class="preset-btn" onclick="applyPresetFromFullscreen('optimistic')">Optimistic</button>
-            <button class="preset-btn" onclick="applyPresetFromFullscreen('sagan')">Sagan</button>
-            <button class="preset-btn" onclick="applyPresetFromFullscreen('drake')">Drake</button>
-            <button class="preset-btn" onclick="applyPresetFromFullscreen('scientific')">Modern</button>
-            <button class="preset-btn" onclick="applyPresetFromFullscreen('rare_earth')">Rare Earth</button>
-            <button class="preset-btn" onclick="applyPresetFromFullscreen('pessimistic')">Pessimistic</button>
+            <button class="preset-btn" onclick="applyPresetFromFullscreen('optimistic')" data-i18n="fullscreen_preset_optimistic">${t('fullscreen_preset_optimistic')}</button>
+            <button class="preset-btn" onclick="applyPresetFromFullscreen('sagan')" data-i18n="fullscreen_preset_sagan">${t('fullscreen_preset_sagan')}</button>
+            <button class="preset-btn" onclick="applyPresetFromFullscreen('drake')" data-i18n="fullscreen_preset_drake">${t('fullscreen_preset_drake')}</button>
+            <button class="preset-btn" onclick="applyPresetFromFullscreen('scientific')" data-i18n="fullscreen_preset_scientific">${t('fullscreen_preset_scientific')}</button>
+            <button class="preset-btn" onclick="applyPresetFromFullscreen('rare_earth')" data-i18n="fullscreen_preset_rare_earth">${t('fullscreen_preset_rare_earth')}</button>
+            <button class="preset-btn" onclick="applyPresetFromFullscreen('pessimistic')" data-i18n="fullscreen_preset_pessimistic">${t('fullscreen_preset_pessimistic')}</button>
         </div>
     `;
     container.appendChild(presetsSection);
-    
+
     const params = [
-        { id: 'Rstar', label: 'Star formation rate (R*)' },
-        { id: 'fp', label: 'Fraction with planets (f<sub>p</sub>)' },
-        { id: 'ne', label: 'Habitable planets (n<sub>e</sub>)' },
-        { id: 'fl', label: 'Fraction with life (f<sub>l</sub>)' },
-        { id: 'fi', label: 'Fraction with intelligence (f<sub>i</sub>)' },
-        { id: 'fc', label: 'Fraction with technology (f<sub>c</sub>)' },
-        { id: 'L', label: 'Civilization lifetime (L)' }
+        { id: 'Rstar', label: t('labels.Rstar') },
+        { id: 'fp', label: t('labels.fp') },
+        { id: 'ne', label: t('labels.ne') },
+        { id: 'fl', label: t('labels.fl') },
+        { id: 'fi', label: t('labels.fi') },
+        { id: 'fc', label: t('labels.fc') },
+        { id: 'L', label: t('labels.L') }
     ];
-    
+
     params.forEach(param => {
         const input = document.getElementById(param.id);
         if (!input) return;
-        
+
         const valueDisplay = document.getElementById(param.id + '-value');
         const value = valueDisplay ? valueDisplay.textContent : input.value;
-        
+
         const item = document.createElement('div');
         item.className = 'fullscreen-param-item';
         item.innerHTML = `
             <label>${param.label}</label>
-            <input type="range" id="fs-${param.id}" min="${input.min}" max="${input.max}" step="${input.step}" value="${input.value}" 
+            <input type="range" id="fs-${param.id}" min="${input.min}" max="${input.max}" step="${input.step}" value="${input.value}"
                    oninput="updateParamFromFullscreen('${param.id}', this.value)">
             <span class="fullscreen-param-value" id="fs-${param.id}-value">${value}</span>
         `;

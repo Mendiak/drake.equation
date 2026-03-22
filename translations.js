@@ -268,7 +268,23 @@ const translations = {
             very_high: "Extremely speculative (red): Profound unknowns"
         },
         link_oxford: "Dissolving the Fermi Paradox (Oxford Paper)",
-        link_hanson: "The Great Filter (Robin Hanson)"
+        link_hanson: "The Great Filter (Robin Hanson)",
+        fullscreen_params_title: "Parameters",
+        fullscreen_presets_title: "Presets",
+        fullscreen_preset_optimistic: "Optimistic",
+        fullscreen_preset_sagan: "Sagan",
+        fullscreen_preset_drake: "Drake",
+        fullscreen_preset_scientific: "Modern",
+        fullscreen_preset_rare_earth: "Rare Earth",
+        fullscreen_preset_pessimistic: "Pessimistic",
+        fullscreen_sidebar_title: "Drake Equation Parameters",
+        fullscreen_viz_title: "Visualization",
+        fullscreen_viz_rotation: "Rotation",
+        fullscreen_viz_tilt: "Tilt",
+        fullscreen_viz_zoom: "Zoom",
+        fullscreen_viz_star_size: "Star Size",
+        fullscreen_exit_fullscreen: "Exit Fullscreen",
+        fullscreen_result_unit: "civilizations"
     },
     es: {
         title: "Ecuación de Drake",
@@ -539,6 +555,22 @@ const translations = {
             very_high: "Extremadamente especulativo (rojo): Incógnitas profundas"
         },
         link_oxford: "Disolviendo la Paradoja de Fermi (Paper Oxford)",
-        link_hanson: "El Gran Filtro (Robin Hanson)"
+        link_hanson: "El Gran Filtro (Robin Hanson)",
+        fullscreen_params_title: "Parámetros",
+        fullscreen_presets_title: "Preajustes",
+        fullscreen_preset_optimistic: "Optimista",
+        fullscreen_preset_sagan: "Sagan",
+        fullscreen_preset_drake: "Drake",
+        fullscreen_preset_scientific: "Moderno",
+        fullscreen_preset_rare_earth: "Tierra Rara",
+        fullscreen_preset_pessimistic: "Pesimista",
+        fullscreen_sidebar_title: "Parámetros de la Ecuación de Drake",
+        fullscreen_viz_title: "Visualización",
+        fullscreen_viz_rotation: "Rotación",
+        fullscreen_viz_tilt: "Inclinación",
+        fullscreen_viz_zoom: "Zoom",
+        fullscreen_viz_star_size: "Tamaño de Estrellas",
+        fullscreen_exit_fullscreen: "Salir de Pantalla Completa",
+        fullscreen_result_unit: "civilizaciones"
     }
 };
