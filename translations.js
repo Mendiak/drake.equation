@@ -284,7 +284,8 @@ const translations = {
         fullscreen_viz_zoom: "Zoom",
         fullscreen_viz_star_size: "Star Size",
         fullscreen_exit_fullscreen: "Exit Fullscreen",
-        fullscreen_result_unit: "civilizations"
+        fullscreen_result_label: "Result",
+        fullscreen_result_unit: "detectable communicative civilizations"
     },
     es: {
         title: "Ecuación de Drake",
@@ -571,6 +572,7 @@ const translations = {
         fullscreen_viz_zoom: "Zoom",
         fullscreen_viz_star_size: "Tamaño de Estrellas",
         fullscreen_exit_fullscreen: "Salir de Pantalla Completa",
-        fullscreen_result_unit: "civilizaciones"
+        fullscreen_result_label: "Resultado",
+        fullscreen_result_unit: "civilizaciones comunicativas detectables"
     }
 };

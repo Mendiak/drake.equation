@@ -1012,9 +1012,14 @@ function syncFullscreenValues() {
 function updateFullscreenN() {
     const resultEl = document.getElementById('result');
     const fsResultEl = document.getElementById('fullscreen-n-value');
-    
+    const fsNumberEl = document.getElementById('fullscreen-n-number');
+
     if (resultEl && fsResultEl) {
-        fsResultEl.textContent = resultEl.textContent;
+        const nValue = resultEl.textContent;
+        fsResultEl.textContent = nValue;
+        if (fsNumberEl) {
+            fsNumberEl.textContent = nValue;
+        }
     }
 }
 

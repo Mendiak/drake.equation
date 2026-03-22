@@ -1118,7 +1118,7 @@ footer a:hover {
     background: rgba(255, 255, 255, 0.2);
 }
 
-/* Fullscreen result - large N value */
+/* Fullscreen result - minimal, clean */
 .fullscreen-result {
     position: absolute;
     top: var(--space-lg);
@@ -1126,24 +1126,32 @@ footer a:hover {
     transform: translateX(-50%);
     text-align: center;
     z-index: 100;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
     padding: var(--space-md) var(--space-xl);
     border-radius: var(--radius-sm);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    min-width: 280px;
+}
+
+.fullscreen-result-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
 }
 
 .fullscreen-result .result-label {
     display: block;
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-xs);
     color: var(--color-light-gray);
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    margin-bottom: var(--space-xs);
+    font-weight: 400;
 }
 
 .fullscreen-result .result-value {
     display: block;
-    font-size: var(--font-size-6xl);
+    font-size: var(--font-size-5xl);
     font-weight: var(--font-weight-extra);
     font-family: var(--font-family-mono);
     color: var(--color-white);
@@ -1152,9 +1160,9 @@ footer a:hover {
 
 .fullscreen-result .result-unit {
     display: block;
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-sm);
     color: var(--color-light-gray);
-    margin-top: var(--space-xs);
+    font-weight: 300;
 }
 
 /* Fullscreen galaxy container */
