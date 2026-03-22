@@ -268,6 +268,9 @@ function validateAndCalculate(changedParameter) {
     if (typeof updateGalaxySimulation === 'function') {
         updateGalaxySimulation(currentValues);
     }
+    if (typeof updateGalaxyVisualization === 'function') {
+        updateGalaxyVisualization(N);
+    }
     document.title = `N = ${formattedN} | ${t('title')}`;
     interpretResult(N);
     updateResultDetails(N);

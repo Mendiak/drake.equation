@@ -81,14 +81,23 @@ function initGalaxySimulation() {
     galaxyCamera.position.x = 0;
     galaxyCamera.lookAt(0, 0, 0);
 
-    galaxyRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    galaxyRenderer.setSize(width, height);
-    galaxyRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    container.appendChild(galaxyRenderer.domElement);
+    // Check for WebGL support before creating renderer
+    try {
+        galaxyRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        galaxyRenderer.setSize(width, height);
+        galaxyRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(galaxyRenderer.domElement);
+    } catch (error) {
+        console.warn('WebGL not supported:', error);
+        container.innerHTML = '<div class="webgl-error" style="display:flex;align-items:center;justify-content:center;height:100%;text-align:center;padding:20px;color:#fff;">' +
+            '<div><strong>WebGL not available</strong><br>' +
+            'The galaxy simulation requires WebGL. Please ensure your browser supports WebGL and hardware acceleration is enabled.</div></div>';
+        return;
+    }
 
     createStarField();
     animateGalaxy();
-    
+
     // Initialize slider visual positions
     initGalaxySliders();
 
