@@ -71,6 +71,7 @@ const translations = {
         galaxy_star_size: "Star Size",
         galaxy_reset_view: "Reset View",
         galaxy_fullscreen: "Fullscreen",
+        galaxy_fullscreen_text: "Open Fullscreen Simulation",
         section_learn: "Learn More",
         funnel_steps: {
             total: "Stars in Galaxy",
@@ -360,6 +361,7 @@ const translations = {
         galaxy_star_size: "Tamaño de Estrellas",
         galaxy_reset_view: "Restablecer Vista",
         galaxy_fullscreen: "Pantalla Completa",
+        galaxy_fullscreen_text: "Abrir Simulación en Pantalla Completa",
         sensitivity_intro: "Esta gráfica muestra cómo varía la estimación final (N) al modificar un único parámetro mientras los demás se mantienen constantes. Es útil para identificar qué factores tienen el mayor impacto en el resultado.",
         funnel_intro: "Imagina la galaxia como un gran embudo. Cada factor de la ecuación actúa como un filtro que reduce las posibilidades de encontrar vida. Muchos candidatos entran por arriba, pero muy pocos logran salir por abajo como civilizaciones detectables.",
         section_learn: "Aprender Más",

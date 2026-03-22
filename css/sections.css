@@ -850,30 +850,15 @@ footer a:hover {
 }
 
 .galaxy-sim-wrapper {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: var(--space-2xl);
-    max-width: 1600px;
-    margin: 0 auto;
-    align-items: start;
+    display: block;
+    max-width: 100%;
+    margin: 0;
+    width: 100%;
 }
 
-@media (max-width: 1024px) {
-    .galaxy-sim-wrapper {
-        grid-template-columns: 1fr;
-        gap: var(--space-xl);
-    }
-}
-
-/* Fullscreen wrapper - in normal view, just pass through the grid */
 .galaxy-fullscreen-wrapper {
-    display: contents;
-}
-
-@media (max-width: 1024px) {
-    .galaxy-fullscreen-wrapper {
-        display: contents;
-    }
+    display: block;
+    width: 100%;
 }
 
 /* Fullscreen overlay - hidden by default */
@@ -1393,10 +1378,6 @@ footer a:hover {
     border-color: var(--color-white);
 }
 
-.fullscreen-btn i {
-    font-size: 1rem;
-}
-
 /* Visualization Area */
 .galaxy-visualization {
     position: relative;
@@ -1415,6 +1396,42 @@ footer a:hover {
 
 .galaxy-sim-container:active {
     cursor: grabbing;
+}
+
+/* Fullscreen button overlay - minimal, positioned on galaxy */
+.fullscreen-btn-overlay {
+    position: absolute;
+    top: var(--space-md);
+    right: var(--space-md);
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--radius-sm);
+    color: var(--color-white);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    opacity: 0.7;
+    transition: all var(--transition-base);
+    z-index: 10;
+    backdrop-filter: blur(4px);
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semi);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.fullscreen-btn-overlay:hover {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.8);
+    border-color: var(--color-white);
+    transform: translateY(-1px);
+}
+
+.fullscreen-btn-overlay i {
+    font-size: 0.9rem;
 }
 
 .galaxy-sim-legend {

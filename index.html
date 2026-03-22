@@ -358,47 +358,14 @@
 
                     <div class="galaxy-sim-wrapper">
                         <div class="galaxy-fullscreen-wrapper" id="galaxy-fullscreen-wrapper">
-                            <div class="galaxy-controls-panel">
-                                <h3 class="controls-title" data-i18n="galaxy_controls_title">Visualization Controls</h3>
-
-                                <div class="control-group">
-                                    <label for="galaxy-rotation-speed" data-i18n="galaxy_rotation">Rotation Speed</label>
-                                    <input type="range" id="galaxy-rotation-speed" min="0" max="0.01" step="0.0001" value="0.001"
-                                           oninput="updateGalaxyRotation(this.value)">
-                                    <span id="galaxy-rotation-value" class="control-value">0.001</span>
-                                </div>
-
-                                <div class="control-group">
-                                    <label for="galaxy-tilt" data-i18n="galaxy_tilt">View Tilt</label>
-                                    <input type="range" id="galaxy-tilt" min="0" max="90" step="1" value="45"
-                                           oninput="updateGalaxyTilt(this.value)">
-                                    <span id="galaxy-tilt-value" class="control-value">45°</span>
-                                </div>
-
-                                <div class="control-group">
-                                    <label for="galaxy-zoom" data-i18n="galaxy_zoom">Zoom Level</label>
-                                    <input type="range" id="galaxy-zoom" min="50" max="400" step="5" value="200"
-                                           oninput="updateGalaxyZoom(this.value)">
-                                    <span id="galaxy-zoom-value" class="control-value">200</span>
-                                </div>
-
-                                <div class="control-group">
-                                    <label for="galaxy-star-size" data-i18n="galaxy_star_size">Star Size</label>
-                                    <input type="range" id="galaxy-star-size" min="0.5" max="3" step="0.1" value="1.2"
-                                           oninput="updateGalaxyStarSize(this.value)">
-                                    <span id="galaxy-star-size-value" class="control-value">1.2</span>
-                                </div>
-
-                                <button class="reset-view-btn" onclick="resetGalaxyView()" data-i18n="galaxy_reset_view">Reset View</button>
-                                <button class="fullscreen-btn" onclick="toggleGalaxyFullscreen()" data-i18n="galaxy_fullscreen">
-                                    <i class="bi bi-arrows-fullscreen"></i> <span data-i18n="galaxy_fullscreen">Fullscreen</span>
-                                </button>
-                            </div>
-
                             <div class="galaxy-visualization">
                                 <div class="galaxy-sim-container" id="galaxy-simulation-container">
                                     <!-- Three.js Canvas will be here -->
                                 </div>
+                                <button class="fullscreen-btn-overlay" onclick="toggleGalaxyFullscreen()" title="Fullscreen">
+                                    <i class="bi bi-arrows-fullscreen"></i>
+                                    <span data-i18n="galaxy_fullscreen_text">Open Fullscreen Simulation</span>
+                                </button>
                             </div>
                         </div>
                     </div>
