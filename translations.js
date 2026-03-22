@@ -285,7 +285,10 @@ const translations = {
         fullscreen_viz_star_size: "Star Size",
         fullscreen_exit_fullscreen: "Exit Fullscreen",
         fullscreen_result_label: "Result",
-        fullscreen_result_unit: "detectable communicative civilizations"
+        fullscreen_result_unit: "detectable communicative civilizations",
+        galaxy_note_title: "Why do I see more stars than N?",
+        galaxy_note_en: "The equation estimates civilizations active <strong>right now</strong> (N = 2.4). The galaxy shows all stars that <strong>could potentially</strong> host communicative civilizations based on your parameters. Even with low N, many stars pass the early filters (planets, habitable zones). The blinking white stars represent potential locations, not simultaneous civilizations. With short civilization lifetimes (L), many may have existed but never overlapped in time.",
+        galaxy_note_es: "La ecuación estima civilizaciones activas <strong>ahora mismo</strong> (N = 2.4). La galaxia muestra todas las estrellas que <strong>potencialmente</strong> podrían albergar civilizaciones comunicativas según tus parámetros. Incluso con N bajo, muchas estrellas pasan los primeros filtros (planetas, zonas habitables). Las estrellas blancas parpadeantes representan ubicaciones potenciales, no civilizaciones simultáneas. Con vidas de civilizaciones cortas (L), muchas pudieron existir pero nunca se solaparon en el tiempo."
     },
     es: {
         title: "Ecuación de Drake",

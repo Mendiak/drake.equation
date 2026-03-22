@@ -171,6 +171,19 @@ function updateLanguage(lang) {
         }
     });
 
+    // Show/hide galaxy note based on language
+    const galaxyNoteEn = document.querySelectorAll('.galaxy-note-en');
+    const galaxyNoteEs = document.querySelectorAll('.galaxy-note-es');
+    if (galaxyNoteEn.length && galaxyNoteEs.length) {
+        if (lang === 'es') {
+            galaxyNoteEn.forEach(el => el.style.display = 'none');
+            galaxyNoteEs.forEach(el => el.style.display = 'block');
+        } else {
+            galaxyNoteEn.forEach(el => el.style.display = 'block');
+            galaxyNoteEs.forEach(el => el.style.display = 'none');
+        }
+    }
+
     // Update fullscreen params if active
     const overlay = document.getElementById('galaxy-fullscreen-overlay');
     if (overlay && overlay.classList.contains('active')) {
