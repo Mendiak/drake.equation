@@ -1,3 +1,4 @@
+/* exported translations */
 const translations = {
     en: {
         title: "Drake Equation",

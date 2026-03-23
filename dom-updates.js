@@ -1,3 +1,4 @@
+/* exported renderTimeline, renderKeyConceptsCards, updateResultDetails, updateMagnitudeScale, currentN, animateValue, updateGalaxyVisualization, interpretResult */
 // Drake Equation DOM Updates
 // Visual and textual updates for the interface
 
@@ -188,7 +189,7 @@ function interpretResult(N) {
 function updateFermiParadox(N) {
     const fermiDynamic = document.getElementById('fermi-dynamic');
     if (!fermiDynamic) return;
-    let fermiText = '';
+    let fermiText = ''; // eslint-disable-line no-useless-assignment
     if (N < 1) fermiText = t('fermi_dynamic.weak');
     else if (N < 100) fermiText = t('fermi_dynamic.start').replace('{n}', Math.round(N));
     else if (N < 10000) fermiText = t('fermi_dynamic.significant').replace('{n}', Math.round(N));

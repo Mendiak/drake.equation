@@ -1,0 +1,27 @@
+{
+  "name": "drake.equation",
+  "version": "1.0.0",
+  "description": "A professional, interactive tool for estimating the number of active, communicative extraterrestrial civilizations in the Milky Way galaxy using the Drake Equation framework.",
+  "main": "calculations.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint *.js",
+    "lint:fix": "eslint *.js --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mendiak/drake.equation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Mendiak/drake.equation/issues"
+  },
+  "homepage": "https://github.com/Mendiak/drake.equation#readme",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.1.0"
+  }
+}

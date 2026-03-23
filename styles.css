@@ -8,4 +8,7 @@
 @import url('./css/typography.css');
 @import url('./css/layout.css');
 @import url('./css/components.css');
-@import url('./css/sections.css');
+@import url('./css/sections/performance.css');
+@import url('./css/sections/result-card.css');
+@import url('./css/sections/chart.css');
+@import url('./css/sections/galaxy.css');

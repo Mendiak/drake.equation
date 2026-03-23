@@ -1,0 +1,133 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   6. RESULT CARD (Parameters Panel)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.result-card {
+    background: var(--color-black);
+    color: var(--color-white);
+    padding: var(--space-xl);
+    margin-bottom: var(--space-2xl);
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+}
+
+@media (max-width: 600px) {
+    .result-card {
+        padding: var(--space-lg);
+    }
+}
+
+.galaxy-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0.7; /* Increased from 0.2 to make stars clearly visible */
+}
+
+.galaxy-dot {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--color-white);
+    border-radius: var(--radius-full);
+    box-shadow: 0 0 6px var(--color-white); /* Slightly stronger glow */
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.result-label { 
+    position: relative;
+    z-index: 1;
+    font-size: var(--font-size-xs);
+    text-transform: uppercase; 
+    letter-spacing: 0.12em; 
+    opacity: 0.5; 
+}
+
+#result {
+    position: relative;
+    z-index: 1;
+    font-size: var(--font-size-5xl);
+    font-weight: var(--font-weight-extra);
+    margin: var(--space-xs) 0;
+    font-family: var(--font-family-mono);
+    letter-spacing: -0.05em;
+    word-break: break-all;
+}
+
+@media (max-width: 768px) {
+    #result { font-size: var(--font-size-4xl); }
+}
+
+@media (max-width: 480px) {
+    #result { font-size: var(--font-size-3xl); }
+}
+
+@media (max-width: 360px) {
+    #result { font-size: 2rem; }
+}
+
+.result-unit { 
+    position: relative;
+    z-index: 1;
+    font-size: var(--font-size-sm-plus);
+    opacity: 0.7; 
+    display: block; 
+    margin-bottom: var(--space-lg); 
+}
+
+.result-context {
+    position: relative;
+    z-index: 1;
+    font-size: var(--font-size-sm-text);
+    line-height: var(--line-height-tight);
+    border-top: var(--border-width) solid rgba(255, 255, 255, 0.15);
+    padding-top: var(--space-lg);
+}
+
+.result-context strong {
+    display: block;
+    font-size: var(--font-size-md);
+    margin-bottom: var(--space-xs);
+    color: var(--color-white);
+    letter-spacing: -0.01em;
+}
+
+.result-context p {
+    margin: 0;
+    opacity: 0.7;
+}
+
+.cosmic-context {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    margin-top: var(--space-md);
+    padding: var(--space-md);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-xs);
+}
+
+.context-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: var(--font-size-xs);
+    gap: var(--space-sm);
+}
+
+.context-item small {
+    opacity: 0.5;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: var(--font-weight-bold);
+}
+
+.context-item span {
+    font-family: var(--font-family-mono);
+    font-weight: var(--font-weight-bold);
+}

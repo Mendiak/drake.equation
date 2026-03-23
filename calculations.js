@@ -1,3 +1,4 @@
+/* exported formatResult, calculateN, getScenario */
 // Drake Equation Calculations
 // Pure calculation functions
 

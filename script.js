@@ -1,3 +1,4 @@
+/* exported updateValueAndRecalculate */
 let currentLang = localStorage.getItem('drake-lang') || 'en';
 
 function t(key) {
@@ -407,7 +408,7 @@ function applyPreset(values) {
 function applyUrlParameters() {
     const urlParams = new URLSearchParams(window.location.search);
     for (const [key, value] of urlParams.entries()) {
-        if (defaultValues.hasOwnProperty(key)) {
+        if (Object.hasOwn(defaultValues, key)) {
             const numValue = parseFloat(value);
             if (!isNaN(numValue)) defaultValues[key] = numValue;
         }

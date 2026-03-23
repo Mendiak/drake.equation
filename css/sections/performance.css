@@ -1,0 +1,24 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   PERFORMANCE OPTIMIZATIONS
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* Use content-visibility for off-screen sections to improve rendering performance */
+.chart-section {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
+}
+
+.funnel-section {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 600px;
+}
+
+.galaxy-sim-section {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 700px;
+}
+
+/* Ensure tooltip modal is always rendered */
+#tooltip-modal {
+    content-visibility: visible;
+}

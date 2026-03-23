@@ -1,3 +1,4 @@
+/* exported galaxyControls, galaxyRendererFS, initGalaxySimulation, getStellarPopulationColor, updateGalaxyRotation, updateGalaxyTilt, updateGalaxyZoom, updateGalaxyStarSize, resetGalaxyView, toggleGalaxyFullscreen, applyPresetFromFullscreen, updateParamFromFullscreen, categoryMap */
 // Galactic Simulation using Three.js
 // Visualizes the Drake Equation steps across a simulated Milky Way-like spiral galaxy
 
@@ -107,6 +108,14 @@ function initGalaxySimulation() {
 
     createStarField();
     animateGalaxy();
+    
+    // Enable fullscreen button now that galaxy is initialized
+    const fullscreenBtn = document.querySelector('.fullscreen-btn-overlay');
+    if (fullscreenBtn) {
+        fullscreenBtn.disabled = false;
+        fullscreenBtn.style.opacity = '0.7';
+        fullscreenBtn.style.cursor = 'pointer';
+    }
 
     // Initialize slider visual positions
     initGalaxySliders();
@@ -758,15 +767,22 @@ function onGalaxyResize() {
 // Control functions for galaxy visualization
 function updateGalaxyRotation(value) {
     currentView.rotationSpeed = parseFloat(value);
-    document.getElementById('galaxy-rotation-value').textContent = value;
+    // Update display values for both normal and fullscreen views
+    const displayEl = document.getElementById('galaxy-rotation-value');
+    if (displayEl) displayEl.textContent = value;
+    const fsDisplayEl = document.getElementById('fs-galaxy-rotation-value');
+    if (fsDisplayEl) fsDisplayEl.textContent = value;
     // Update slider visual position
     const slider = document.getElementById('galaxy-rotation-speed');
     if (slider) updateSliderBackground(slider, 0, 0.01);
+    const fsSlider = document.getElementById('fs-galaxy-rotation');
+    if (fsSlider) updateSliderBackground(fsSlider, 0, 0.01);
 }
 
 function updateGalaxyTilt(value) {
     currentView.tilt = parseFloat(value);
-    document.getElementById('galaxy-tilt-value').textContent = value + '°';
+    const displayEl = document.getElementById('galaxy-tilt-value');
+    if (displayEl) displayEl.textContent = value + '°';
     // Update slider visual position
     const slider = document.getElementById('galaxy-tilt');
     if (slider) updateSliderBackground(slider, 0, 90);
@@ -782,7 +798,8 @@ function updateGalaxyTilt(value) {
 
 function updateGalaxyZoom(value) {
     currentView.zoom = parseFloat(value);
-    document.getElementById('galaxy-zoom-value').textContent = value;
+    const displayEl = document.getElementById('galaxy-zoom-value');
+    if (displayEl) displayEl.textContent = value;
     // Update slider visual position
     const slider = document.getElementById('galaxy-zoom');
     if (slider) updateSliderBackground(slider, 50, 400);
@@ -795,7 +812,8 @@ function updateGalaxyZoom(value) {
 
 function updateGalaxyStarSize(value) {
     currentView.starSize = parseFloat(value);
-    document.getElementById('galaxy-star-size-value').textContent = value;
+    const displayEl = document.getElementById('galaxy-star-size-value');
+    if (displayEl) displayEl.textContent = value;
     // Update slider visual position
     const slider = document.getElementById('galaxy-star-size');
     if (slider) updateSliderBackground(slider, 0.5, 3);
@@ -807,18 +825,6 @@ function updateGalaxyStarSize(value) {
 
 function resetGalaxyView() {
     currentView = { ...DEFAULT_VIEW };
-
-    // Reset sliders (normal view)
-    document.getElementById('galaxy-rotation-speed').value = DEFAULT_VIEW.rotationSpeed;
-    document.getElementById('galaxy-tilt').value = DEFAULT_VIEW.tilt;
-    document.getElementById('galaxy-zoom').value = DEFAULT_VIEW.zoom;
-    document.getElementById('galaxy-star-size').value = DEFAULT_VIEW.starSize;
-
-    // Update display values (normal view)
-    document.getElementById('galaxy-rotation-value').textContent = DEFAULT_VIEW.rotationSpeed;
-    document.getElementById('galaxy-tilt-value').textContent = DEFAULT_VIEW.tilt + '°';
-    document.getElementById('galaxy-zoom-value').textContent = DEFAULT_VIEW.zoom;
-    document.getElementById('galaxy-star-size-value').textContent = DEFAULT_VIEW.starSize;
 
     // Reset sliders (fullscreen view)
     const fsRotation = document.getElementById('fs-galaxy-rotation');
@@ -856,13 +862,12 @@ function resetGalaxyView() {
 }
 
 // Override animateGalaxy to use dynamic rotation speed and handle blinking
-const originalAnimateGalaxy = animateGalaxy;
-animateGalaxy = function() {
-    requestAnimationFrame(animateGalaxy);
-    
+function animateGalaxyWithRotation() {
+    requestAnimationFrame(animateGalaxyWithRotation);
+
     if (starSystem) {
         starSystem.rotation.y += currentView.rotationSpeed;
-        
+
         // Handle blinking for communicative civilizations
         const now = Date.now();
         if (now - lastBlinkTime > BLINK_INTERVAL) {
@@ -873,18 +878,29 @@ animateGalaxy = function() {
         }
     }
     galaxyRenderer.render(galaxyScene, galaxyCamera);
-};
+}
+
+// Start the enhanced animation loop
+animateGalaxyWithRotation();
 
 // Fullscreen functionality
 function toggleGalaxyFullscreen() {
+    // Check if galaxy is initialized
+    if (!galaxyRenderer) {
+        console.error('Galaxy renderer not initialized yet');
+        return;
+    }
+    
     const overlay = document.getElementById('galaxy-fullscreen-overlay');
     const section = document.querySelector('.galaxy-sim-section');
-    const fullscreenBtn = document.querySelector('.fullscreen-btn');
+    const fullscreenBtn = document.querySelector('.fullscreen-btn-overlay');
     const icon = fullscreenBtn ? fullscreenBtn.querySelector('i') : null;
     const normalContainer = document.getElementById('galaxy-simulation-container');
     const fullscreenContainer = document.getElementById('galaxy-simulation-container-fullscreen');
 
     if (!overlay || !normalContainer || !fullscreenContainer) return;
+
+    const isEnteringFullscreen = !overlay.classList.contains('active');
 
     // Toggle active class on overlay
     overlay.classList.toggle('active');
@@ -892,11 +908,13 @@ function toggleGalaxyFullscreen() {
     if (overlay.classList.contains('active')) {
         // Entering fullscreen
         section.classList.add('fullscreen');
-        
+
         // Move canvas to fullscreen container
-        const canvas = galaxyRenderer.domElement;
-        fullscreenContainer.appendChild(canvas);
-        
+        if (galaxyRenderer && galaxyRenderer.domElement) {
+            const canvas = galaxyRenderer.domElement;
+            fullscreenContainer.appendChild(canvas);
+        }
+
         populateFullscreenParams();
         syncFullscreenValues();
         syncFullscreenVizControls();
@@ -907,19 +925,39 @@ function toggleGalaxyFullscreen() {
         // Force resize after overlay is visible
         setTimeout(() => {
             onGalaxyResize();
-        }, 100);
+            // Force re-render
+            if (galaxyRenderer) {
+                galaxyRenderer.render(galaxyScene, galaxyCamera);
+            }
+        }, 50);
     } else {
         // Exiting fullscreen
         section.classList.remove('fullscreen');
-        
+
         // Move canvas back to normal container
-        const canvas = galaxyRenderer.domElement;
-        normalContainer.appendChild(canvas);
-        
+        if (galaxyRenderer && galaxyRenderer.domElement) {
+            const canvas = galaxyRenderer.domElement;
+            normalContainer.appendChild(canvas);
+        }
+
         if (icon) {
             icon.classList.remove('bi-fullscreen-exit');
             icon.classList.add('bi-arrows-fullscreen');
         }
+        
+        // Force resize when exiting fullscreen
+        setTimeout(() => {
+            onGalaxyResize();
+            // Force re-render
+            if (galaxyRenderer) {
+                galaxyRenderer.render(galaxyScene, galaxyCamera);
+            }
+        }, 50);
+    }
+    
+    // Update galaxy renderer to use correct container
+    if (isEnteringFullscreen) {
+        galaxyRendererFS = galaxyRenderer;
     }
 }
 
@@ -1048,30 +1086,27 @@ function updateFullscreenN() {
     }
 }
 
-// Sync viz controls in fullscreen
+// Sync fullscreen viz controls with current view settings
 function syncFullscreenVizControls() {
-    const mappings = [
-        { original: 'galaxy-rotation-speed', fs: 'fs-galaxy-rotation', display: 'fs-galaxy-rotation-value' },
-        { original: 'galaxy-tilt', fs: 'fs-galaxy-tilt', display: 'fs-galaxy-tilt-value' },
-        { original: 'galaxy-zoom', fs: 'fs-galaxy-zoom', display: 'fs-galaxy-zoom-value' },
-        { original: 'galaxy-star-size', fs: 'fs-galaxy-star-size', display: 'fs-galaxy-star-size-value' }
-    ];
+    const fsRotation = document.getElementById('fs-galaxy-rotation');
+    const fsTilt = document.getElementById('fs-galaxy-tilt');
+    const fsZoom = document.getElementById('fs-galaxy-zoom');
+    const fsStarSize = document.getElementById('fs-galaxy-star-size');
     
-    mappings.forEach(map => {
-        const originalInput = document.getElementById(map.original);
-        const fsInput = document.getElementById(map.fs);
-        const originalDisplay = document.getElementById(map.original.replace('-speed', '') + '-value') || 
-                               document.getElementById(map.original + '-value');
-        const fsDisplay = document.getElementById(map.display);
-        
-        if (originalInput && fsInput) {
-            fsInput.value = originalInput.value;
-        }
-        
-        if (originalDisplay && fsDisplay) {
-            fsDisplay.textContent = originalDisplay.textContent;
-        }
-    });
+    const fsRotationVal = document.getElementById('fs-galaxy-rotation-value');
+    const fsTiltVal = document.getElementById('fs-galaxy-tilt-value');
+    const fsZoomVal = document.getElementById('fs-galaxy-zoom-value');
+    const fsStarSizeVal = document.getElementById('fs-galaxy-star-size-value');
+    
+    if (fsRotation) fsRotation.value = currentView.rotationSpeed;
+    if (fsTilt) fsTilt.value = currentView.tilt;
+    if (fsZoom) fsZoom.value = currentView.zoom;
+    if (fsStarSize) fsStarSize.value = currentView.starSize;
+    
+    if (fsRotationVal) fsRotationVal.textContent = currentView.rotationSpeed;
+    if (fsTiltVal) fsTiltVal.textContent = currentView.tilt + '°';
+    if (fsZoomVal) fsZoomVal.textContent = currentView.zoom;
+    if (fsStarSizeVal) fsStarSizeVal.textContent = currentView.starSize;
 }
 
 // Listen for fullscreen change events
@@ -1096,46 +1131,11 @@ document.addEventListener('fullscreenchange', () => {
     }, 100);
 });
 
-// Override update functions to sync fullscreen values
-const originalUpdateGalaxyRotation = updateGalaxyRotation;
-updateGalaxyRotation = function(value) {
-    originalUpdateGalaxyRotation(value);
-    const fsDisplay = document.getElementById('fs-galaxy-rotation-value');
-    if (fsDisplay) fsDisplay.textContent = value;
-    const fsInput = document.getElementById('fs-galaxy-rotation');
-    if (fsInput) fsInput.value = value;
-};
-
-const originalUpdateGalaxyTilt = updateGalaxyTilt;
-updateGalaxyTilt = function(value) {
-    originalUpdateGalaxyTilt(value);
-    const fsDisplay = document.getElementById('fs-galaxy-tilt-value');
-    if (fsDisplay) fsDisplay.textContent = value + '°';
-    const fsInput = document.getElementById('fs-galaxy-tilt');
-    if (fsInput) fsInput.value = value;
-};
-
-const originalUpdateGalaxyZoom = updateGalaxyZoom;
-updateGalaxyZoom = function(value) {
-    originalUpdateGalaxyZoom(value);
-    const fsDisplay = document.getElementById('fs-galaxy-zoom-value');
-    if (fsDisplay) fsDisplay.textContent = value;
-    const fsInput = document.getElementById('fs-galaxy-zoom');
-    if (fsInput) fsInput.value = value;
-};
-
-const originalUpdateGalaxyStarSize = updateGalaxyStarSize;
-updateGalaxyStarSize = function(value) {
-    originalUpdateGalaxyStarSize(value);
-    const fsDisplay = document.getElementById('fs-galaxy-star-size-value');
-    if (fsDisplay) fsDisplay.textContent = value;
-    const fsInput = document.getElementById('fs-galaxy-star-size');
-    if (fsInput) fsInput.value = value;
-};
+// Fullscreen synchronization is now handled within the original update functions
 
 // Toggle visibility of a category in the galaxy simulation
 function toggleGalaxyCategory(category) {
-    if (GALAXY_VISIBILITY.hasOwnProperty(category)) {
+    if (Object.hasOwn(GALAXY_VISIBILITY, category)) {
         GALAXY_VISIBILITY[category] = !GALAXY_VISIBILITY[category];
         
         // Update legend UI to reflect the new state

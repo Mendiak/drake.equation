@@ -1,3 +1,4 @@
+/* exported initChart, updateChart */
 // Drake Equation Charts & Visualization
 // Chart.js initialization and management
 
@@ -129,7 +130,7 @@ function updateFunnel(currentValues) {
             let retentionText = '';
             if (i > 0) {
                 const ratio = s.val / steps[i-1].val;
-                let probText = '';
+                let probText = ''; // eslint-disable-line no-useless-assignment
                 
                 if (ratio < 0.1) {
                     probText = t('funnel_one_in').replace('{val}', Math.round(1/ratio).toLocaleString(currentLang));
