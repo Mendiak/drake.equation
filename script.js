@@ -260,23 +260,84 @@ function getParameterValues() {
 
 
 
+// Throttle guard: coalesces rapid calls into a single execution per frame
+let _calcPending = false;
+let _calcLastParam = 'Rstar';
+let _calcThrottleTimer = null;
+const CALC_THROTTLE_MS = 50; // Throttle calculations to max 20 updates per second
+
 function validateAndCalculate(changedParameter) {
+    _calcLastParam = changedParameter || _calcLastParam;
+    
+    // Clear any pending throttled call
+    if (_calcThrottleTimer) clearTimeout(_calcThrottleTimer);
+    
+    // If already in a frame, throttle the call
+    if (_calcPending) {
+        _calcThrottleTimer = setTimeout(() => {
+            _calcThrottleTimer = null;
+            _doValidateAndCalculate();
+        }, CALC_THROTTLE_MS);
+        return;
+    }
+    
+    _calcPending = true;
+
+    requestAnimationFrame(() => {
+        _calcPending = false;
+        _doValidateAndCalculate();
+    });
+}
+
+function _doValidateAndCalculate() {
     const currentValues = getParameterValues();
     const N = calculateN(currentValues);
     const formattedN = formatResult(N);
+    
+    // Update result with animation
     animateValue(currentN, N, 800);
-    if (typeof updateGalaxySimulation === 'function') {
-        updateGalaxySimulation(currentValues);
+    
+    // Defer non-critical updates using requestIdleCallback
+    const updates = {
+        galaxy: typeof updateGalaxySimulation === 'function',
+        galaxyViz: typeof updateGalaxyVisualization === 'function',
+        chart: _calcLastParam,
+        values: currentValues,
+        N: N
+    };
+    
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => {
+            _applyNonCriticalUpdates(updates);
+        }, { timeout: 200 });
+    } else {
+        // Fallback: use setTimeout for non-critical updates
+        setTimeout(() => {
+            _applyNonCriticalUpdates(updates);
+        }, 16); // ~1 frame
     }
-    if (typeof updateGalaxyVisualization === 'function') {
-        updateGalaxyVisualization(N);
-    }
+    
+    // Critical updates (run immediately)
     document.title = `N = ${formattedN} | ${t('title')}`;
     interpretResult(N);
     updateResultDetails(N);
     updateMagnitudeScale(N);
-    const parameterToChart = changedParameter || 'Rstar';
-    updateChart(parameterToChart, currentValues);
+}
+
+function _applyNonCriticalUpdates(updates) {
+    if (updates.galaxy) {
+        if (typeof updateGalaxySimulation === 'function') {
+            updateGalaxySimulation(updates.values);
+        }
+    }
+    if (updates.galaxyViz) {
+        if (typeof updateGalaxyVisualization === 'function') {
+            updateGalaxyVisualization(updates.N);
+        }
+    }
+    if (updates.chart) {
+        updateChart(updates.chart, updates.values);
+    }
 }
 
 
@@ -314,36 +375,34 @@ function resetForm() {
 }
 
 function applyPreset(values) {
+    // Batch DOM reads and writes for better performance
+    const updates = [];
+    
+    // First pass: collect all updates
     for (const paramId in values) {
         const slider = document.getElementById(paramId);
         const display = document.getElementById(paramId + '-value');
         let value = values[paramId];
-        
+
         // Convert log values back to linear slider positions
         const sliderPosition = logToLinear(value, paramId);
-        
+
         if (slider && display) {
-            slider.value = sliderPosition;
-            // Display the original actual value with correct decimal places
-            const decimals = getDecimalPlaces(paramId);
-            display.textContent = paramId === 'L' ? Number(value).toLocaleString(currentLang) : roundToDecimals(value, decimals).toString();
+            updates.push({ paramId, slider, display, sliderPosition, value });
         }
+    }
+    
+    // Second pass: apply all updates in a single batch
+    for (const update of updates) {
+        update.slider.value = update.sliderPosition;
+        const decimals = getDecimalPlaces(update.paramId);
+        update.display.textContent = update.paramId === 'L' 
+            ? Number(update.value).toLocaleString(currentLang) 
+            : roundToDecimals(update.value, decimals).toString();
     }
 }
 
 
-
-function generateShareLink() {
-    const params = new URLSearchParams();
-    for (const paramId in defaultValues) params.append(paramId, document.getElementById(paramId).value);
-    const shareUrl = `${window.location.origin}${window.location.pathname}?${params.toString()}`;
-    navigator.clipboard.writeText(shareUrl).then(() => {
-        const shareButton = document.getElementById('share-btn');
-        const originalContent = shareButton.innerHTML;
-        shareButton.innerHTML = currentLang === 'es' ? '¡Copiado!' : 'Copied!';
-        setTimeout(() => { shareButton.innerHTML = originalContent; }, 2000);
-    });
-}
 
 function applyUrlParameters() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -441,37 +500,41 @@ function generateSliderTicks(paramId) {
 
 
 
-window.onload = function() {
+// Critical initialization - runs immediately on DOMContentLoaded
+function _initCritical() {
     applyUrlParameters();
-    initChart();
-    initGalaxySimulation();
     updateLanguage(currentLang);
+    
     const scientificBtn = document.querySelector('[data-preset="scientific"]');
     if (scientificBtn) scientificBtn.classList.add('active-preset');
-    
+
     // Generate slider ticks for all parameters
     for (const paramId of Object.keys(defaultValues)) {
         generateSliderTicks(paramId);
     }
-    
+
     resetForm();
-    document.querySelectorAll('.lang-btn').forEach(btn => { btn.addEventListener('click', () => updateLanguage(btn.getAttribute('data-lang'))); });
-    document.querySelectorAll('.preset-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const presetName = this.getAttribute('data-preset');
-            if (presets[presetName]) {
-                document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active-preset'));
-                this.classList.add('active-preset');
-                applyPreset(presets[presetName]);
-                validateAndCalculate('Rstar');
-            }
-        });
-    });
-    document.querySelectorAll('.info-icon').forEach(icon => { icon.addEventListener('click', (e) => showTooltip(e.target.getAttribute('data-param'))); });
-    const tooltipModal = document.getElementById('tooltip-modal');
-    if (tooltipModal) { tooltipModal.addEventListener('click', (e) => { if (e.target === tooltipModal || e.target.classList.contains('tooltip-close')) hideTooltip(); }); }
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hideTooltip(); });
     
+    // Critical event listeners
+    document.querySelectorAll('.lang-btn').forEach(btn => { 
+        btn.addEventListener('click', () => updateLanguage(btn.getAttribute('data-lang'))); 
+    });
+    
+    document.querySelectorAll('.info-icon').forEach(icon => { 
+        icon.addEventListener('click', (e) => showTooltip(e.target.getAttribute('data-param'))); 
+    });
+    
+    const tooltipModal = document.getElementById('tooltip-modal');
+    if (tooltipModal) { 
+        tooltipModal.addEventListener('click', (e) => { 
+            if (e.target === tooltipModal || e.target.classList.contains('tooltip-close')) hideTooltip(); 
+        }); 
+    }
+    
+    document.addEventListener('keydown', (e) => { 
+        if (e.key === 'Escape') hideTooltip(); 
+    });
+
     const detailsElements = document.querySelectorAll('details');
     detailsElements.forEach(details => {
         details.addEventListener('toggle', () => {
@@ -484,4 +547,55 @@ window.onload = function() {
             }
         });
     });
-};
+}
+
+// Non-critical initialization - deferred for better LCP
+function _initNonCritical() {
+    initChart();
+    initGalaxySimulation();
+    
+    // Preset button listeners
+    let presetDebounceTimer = null;
+    document.querySelectorAll('.preset-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const presetName = this.getAttribute('data-preset');
+            if (presets[presetName]) {
+                document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active-preset'));
+                this.classList.add('active-preset');
+
+                if (presetDebounceTimer) clearTimeout(presetDebounceTimer);
+
+                const presetValues = presets[presetName];
+                if ('requestIdleCallback' in window) {
+                    requestIdleCallback(() => {
+                        applyPreset(presetValues);
+                        validateAndCalculate('Rstar');
+                    }, { timeout: 100 });
+                } else {
+                    presetDebounceTimer = setTimeout(() => {
+                        applyPreset(presetValues);
+                        validateAndCalculate('Rstar');
+                    }, 50);
+                }
+            }
+        });
+    });
+}
+
+// Use DOMContentLoaded for faster initial render
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _initCritical);
+    // Defer non-critical work using requestIdleCallback
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(_initNonCritical, { timeout: 2000 });
+    } else {
+        setTimeout(_initNonCritical, 100);
+    }
+} else {
+    _initCritical();
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(_initNonCritical, { timeout: 2000 });
+    } else {
+        setTimeout(_initNonCritical, 100);
+    }
+}

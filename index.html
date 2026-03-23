@@ -10,7 +10,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-        rel="stylesheet">
+        rel="stylesheet" media="print" onload="this.media='all'">
+    <link rel="preload" as="style" href="./styles.css" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="./styles.css"></noscript>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <meta name="google-site-verification" content="7tAbK2WB9Cx4uF76izgXcrBdBXVeqDfUd9A97KrLewU" />
     <!-- Google tag (gtag.js) -->
@@ -305,9 +307,6 @@
                     <div class="chart-header">
                         <p class="scientific-explanation" id="chart-explanation"></p>
                         <div class="chart-controls">
-                            <button type="button" id="share-btn" title="Copy link" data-i18n="share_btn">Share</button>
-                            <button type="button" id="download-chart-btn" title="Export PNG"
-                                data-i18n="export_btn">Export</button>
                             <div class="toggle-group">
                                 <span class="toggle-label" data-i18n="scale_label">Scale:</span>
                                 <span class="toggle-label" data-i18n="toggle_log">Log</span>
@@ -617,15 +616,15 @@
                     data-i18n="link_source">Source Code</a></p>
         </div>
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
-    <script src="./config.js"></script>
-    <script src="./calculations.js"></script>
-    <script src="./chart-utils.js"></script>
-    <script src="./dom-updates.js"></script>
-    <script src="./galaxy-simulation.js"></script>
-    <script src="./translations.js"></script>
-    <script src="./script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js" defer></script>
+    <script src="./config.js" defer></script>
+    <script src="./calculations.js" defer></script>
+    <script src="./chart-utils.js" defer></script>
+    <script src="./dom-updates.js" defer></script>
+    <script src="./galaxy-simulation.js" defer></script>
+    <script src="./translations.js" defer></script>
+    <script src="./script.js" defer></script>
 </body>
 
 </html>

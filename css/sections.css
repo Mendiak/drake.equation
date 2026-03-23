@@ -1,4 +1,29 @@
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   PERFORMANCE OPTIMIZATIONS
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* Use content-visibility for off-screen sections to improve rendering performance */
+.chart-section {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
+}
+
+.funnel-section {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 600px;
+}
+
+.galaxy-sim-section {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 700px;
+}
+
+/* Ensure tooltip modal is always rendered */
+#tooltip-modal {
+    content-visibility: visible;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    6. RESULT CARD (Parameters Panel)
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
@@ -303,6 +328,8 @@ input:checked + .slider:before { transform: translateX(16px); }
     max-width: 800px;
     margin: 0 auto 2rem auto;
     line-height: 1.6;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 100px;
 }
 
 /* 7. Educational Content Refinement */

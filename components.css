@@ -12,35 +12,20 @@
     letter-spacing: 0.03em;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    will-change: background-color, border-color;
 }
 
-.preset-btn:hover { 
-    border-color: #000000; 
-    background: #fcfcfc; 
+.preset-btn:hover {
+    border-color: #000000;
+    background: #fcfcfc;
 }
 
-.preset-btn.active-preset { 
-    background: #000000; 
-    color: #ffffff; 
-    border-color: #000000; 
-}
-
-#share-btn, #download-chart-btn {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.65rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    background: #ffffff;
-    border: 1px solid #eeeeee;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-#share-btn:hover, #download-chart-btn:hover { 
-    background: #000000; 
-    color: #ffffff; 
-    border-color: #000000; 
+.preset-btn.active-preset {
+    background: #000000;
+    color: #ffffff;
+    border-color: #000000;
 }
 
 button#reset-button {

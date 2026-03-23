@@ -26,6 +26,16 @@ const COLORS = {
     tech: 0xffffff        // Bright white: Communicative (most visible)
 };
 
+// PRE-COMPUTED COLORS for high performance (Zero-allocation inside loops)
+const RGB_COLORS = {};
+(function precomputeColors() {
+    const tempColor = new THREE.Color();
+    for (const key in COLORS) {
+        tempColor.setHex(COLORS[key]);
+        RGB_COLORS[key] = { r: tempColor.r, g: tempColor.g, b: tempColor.b };
+    }
+})();
+
 // Visibility state for each category - defaults to only showing top 3 interesting categories
 const GALAXY_VISIBILITY = {
     total: false,         // Hidden by default (noise)
@@ -567,144 +577,154 @@ function createStarTexture() {
     return texture;
 }
 
+// Stores last thresholds so blink-only updates can skip a full repaint
+let _lastFcIdx = 0;
+
 function updateGalaxySimulation(params) {
     if (!starSystem) return;
 
     const colors = starSystem.geometry.attributes.color.array;
-    const positions = starSystem.geometry.attributes.position.array;
 
-    // Calculate thresholds based on Drake Equation steps
-    const fpThreshold = STAR_COUNT * params.fp;
-    const neThreshold = fpThreshold * (params.ne / 10); // Normalizing ne (max 10)
-    const flThreshold = neThreshold * params.fl;
-    const fiThreshold = flThreshold * params.fi;
-    const fcThreshold = fiThreshold * params.fc;
+    // Strict proportional thresholds — scientifically honest.
+    // Each segment covers exactly its fraction of STAR_COUNT.
+    // If a fraction rounds to 0, that category shows no stars (intentional).
+    const fpFrac = params.fp;
+    const neFrac = fpFrac * (params.ne / 10);
+    const flFrac = neFrac * params.fl;
+    const fiFrac = flFrac * params.fi;
+    const fcFrac = fiFrac * params.fc;
 
-    for (let i = 0; i < STAR_COUNT; i++) {
-        let colorHex;
-        let category;
+    const fc  = Math.min(STAR_COUNT, Math.max(0, Math.round(STAR_COUNT * fcFrac)));
+    const fi  = Math.min(STAR_COUNT, Math.max(0, Math.round(STAR_COUNT * fiFrac)));
+    const fl  = Math.min(STAR_COUNT, Math.max(0, Math.round(STAR_COUNT * flFrac)));
+    const ne  = Math.min(STAR_COUNT, Math.max(0, Math.round(STAR_COUNT * neFrac)));
+    const fp  = Math.min(STAR_COUNT, Math.max(0, Math.round(STAR_COUNT * fpFrac)));
+    _lastFcIdx = fc;
 
-        if (i < fcThreshold) {
-            colorHex = COLORS.tech;
-            category = 'tech';
-        } else if (i < fiThreshold) {
-            colorHex = COLORS.intelligence;
-            category = 'intelligence';
-        } else if (i < flThreshold) {
-            colorHex = COLORS.life;
-            category = 'life';
-        } else if (i < neThreshold) {
-            colorHex = COLORS.habitable;
-            category = 'habitable';
-        } else if (i < fpThreshold) {
-            colorHex = COLORS.planets;
-            category = 'planets';
-        } else {
-            colorHex = COLORS.total;
-            category = 'total';
-        }
+    const blinkMult = communicativeBlinkState ? 1.0 : 0.3;
+    const cT   = RGB_COLORS.tech;
+    const techR = cT.r * blinkMult, techG = cT.g * blinkMult, techB = cT.b * blinkMult;
+    const cI   = RGB_COLORS.intelligence;
+    const cL   = RGB_COLORS.life;
+    const cH   = RGB_COLORS.habitable;
+    const cP   = RGB_COLORS.planets;
+    const cTot = RGB_COLORS.total;
 
-        // Check if this category is visible
-        if (!GALAXY_VISIBILITY[category]) {
-            // Hide by setting to BLACK - with AdditiveBlending, black is invisible
-            colors[i * 3] = 0;
-            colors[i * 3 + 1] = 0;
-            colors[i * 3 + 2] = 0;
-        } else {
-            const color = new THREE.Color(colorHex);
+    // Flat segment loops — no branching inside each loop
+    if (GALAXY_VISIBILITY.tech) {
+        for (let i = 0; i < fc; i++) { const i3=i*3; colors[i3]=techR; colors[i3+1]=techG; colors[i3+2]=techB; }
+    } else {
+        for (let i = 0; i < fc; i++) { const i3=i*3; colors[i3]=0; colors[i3+1]=0; colors[i3+2]=0; }
+    }
 
-            // Apply blinking effect for communicative civilizations (tech)
-            if (category === 'tech' && !communicativeBlinkState) {
-                // Dim the communicative stars during blink off phase
-                colors[i * 3] = color.r * 0.3;
-                colors[i * 3 + 1] = color.g * 0.3;
-                colors[i * 3 + 2] = color.b * 0.3;
-            } else {
-                colors[i * 3] = color.r;
-                colors[i * 3 + 1] = color.g;
-                colors[i * 3 + 2] = color.b;
-            }
-        }
+    if (GALAXY_VISIBILITY.intelligence) {
+        for (let i = fc; i < fi; i++) { const i3=i*3; colors[i3]=cI.r; colors[i3+1]=cI.g; colors[i3+2]=cI.b; }
+    } else {
+        for (let i = fc; i < fi; i++) { const i3=i*3; colors[i3]=0; colors[i3+1]=0; colors[i3+2]=0; }
+    }
+
+    if (GALAXY_VISIBILITY.life) {
+        for (let i = fi; i < fl; i++) { const i3=i*3; colors[i3]=cL.r; colors[i3+1]=cL.g; colors[i3+2]=cL.b; }
+    } else {
+        for (let i = fi; i < fl; i++) { const i3=i*3; colors[i3]=0; colors[i3+1]=0; colors[i3+2]=0; }
+    }
+
+    if (GALAXY_VISIBILITY.habitable) {
+        for (let i = fl; i < ne; i++) { const i3=i*3; colors[i3]=cH.r; colors[i3+1]=cH.g; colors[i3+2]=cH.b; }
+    } else {
+        for (let i = fl; i < ne; i++) { const i3=i*3; colors[i3]=0; colors[i3+1]=0; colors[i3+2]=0; }
+    }
+
+    if (GALAXY_VISIBILITY.planets) {
+        for (let i = ne; i < fp; i++) { const i3=i*3; colors[i3]=cP.r; colors[i3+1]=cP.g; colors[i3+2]=cP.b; }
+    } else {
+        for (let i = ne; i < fp; i++) { const i3=i*3; colors[i3]=0; colors[i3+1]=0; colors[i3+2]=0; }
+    }
+
+    if (GALAXY_VISIBILITY.total) {
+        for (let i = fp; i < STAR_COUNT; i++) { const i3=i*3; colors[i3]=cTot.r; colors[i3+1]=cTot.g; colors[i3+2]=cTot.b; }
+    } else {
+        for (let i = fp; i < STAR_COUNT; i++) { const i3=i*3; colors[i3]=0; colors[i3+1]=0; colors[i3+2]=0; }
     }
 
     starSystem.geometry.attributes.color.needsUpdate = true;
-
-    // Also update cluster stars visibility
     updateClusterVisibility(params);
+}
+
+// Lightweight blink: only touch the tech segment (0.._lastFcIdx)
+// Called by the animation loop every BLINK_INTERVAL — avoids full 80k repaint
+function blinkTechStars() {
+    if (!starSystem || !GALAXY_VISIBILITY.tech || _lastFcIdx === 0) return;
+    const colors = starSystem.geometry.attributes.color.array;
+    const cT = RGB_COLORS.tech;
+    const blinkMult = communicativeBlinkState ? 1.0 : 0.3;
+    const r = cT.r * blinkMult, g = cT.g * blinkMult, b = cT.b * blinkMult;
+    for (let i = 0; i < _lastFcIdx; i++) { const i3 = i*3; colors[i3]=r; colors[i3+1]=g; colors[i3+2]=b; }
+    starSystem.geometry.attributes.color.needsUpdate = true;
 }
 
 // Update visibility and colors of star clusters based on GALAXY_VISIBILITY and Drake params
 function updateClusterVisibility(params) {
-    if (!starSystem) return;
+    if (!starSystem || !starSystem.children || starSystem.children.length === 0) return;
 
-    // Check if any category is visible
-    const anyVisible = Object.values(GALAXY_VISIBILITY).some(v => v === true);
+    const blinkMult = communicativeBlinkState ? 1.0 : 0.3;
+    const cT   = RGB_COLORS.tech;
+    const techR = cT.r * blinkMult, techG = cT.g * blinkMult, techB = cT.b * blinkMult;
+    const cI   = RGB_COLORS.intelligence;
+    const cL   = RGB_COLORS.life;
+    const cH   = RGB_COLORS.habitable;
+    const cP   = RGB_COLORS.planets;
+    const cTot = RGB_COLORS.total;
 
-    // Calculate thresholds for cluster stars
-    const fpThreshold = 1 * params.fp;
-    const neThreshold = fpThreshold * (params.ne / 10);
-    const flThreshold = neThreshold * params.fl;
-    const fiThreshold = flThreshold * params.fi;
-    const fcThreshold = fiThreshold * params.fc;
+    const vTech  = GALAXY_VISIBILITY.tech;
+    const vIntel = GALAXY_VISIBILITY.intelligence;
+    const vLife  = GALAXY_VISIBILITY.life;
+    const vHabit = GALAXY_VISIBILITY.habitable;
+    const vPlanets = GALAXY_VISIBILITY.planets;
+    const vTotal = GALAXY_VISIBILITY.total;
+    const anyVisible = vTech || vIntel || vLife || vHabit || vPlanets || vTotal;
 
-    // Iterate through all cluster children of starSystem
+    // Proportional fractions — same as updateGalaxySimulation
+    const fpFrac = params.fp;
+    const neFrac = fpFrac * (params.ne / 10);
+    const flFrac = neFrac * params.fl;
+    const fiFrac = flFrac * params.fi;
+    const fcFrac = fiFrac * params.fc;
+
     starSystem.children.forEach(child => {
-        if (child.isPoints) {
-            const colors = child.geometry.attributes.color.array;
-            const starCount = colors.length / 3;
+        if (!child.isPoints) return;
 
-            // Update colors based on Drake Equation
-            for (let i = 0; i < starCount; i++) {
-                let colorHex;
-                let category;
+        const colors = child.geometry.attributes.color.array;
+        const N = colors.length / 3;   // star count for this cluster
 
-                if (i < fcThreshold * starCount) {
-                    colorHex = COLORS.tech;
-                    category = 'tech';
-                } else if (i < fiThreshold * starCount) {
-                    colorHex = COLORS.intelligence;
-                    category = 'intelligence';
-                } else if (i < flThreshold * starCount) {
-                    colorHex = COLORS.life;
-                    category = 'life';
-                } else if (i < neThreshold * starCount) {
-                    colorHex = COLORS.habitable;
-                    category = 'habitable';
-                } else if (i < fpThreshold * starCount) {
-                    colorHex = COLORS.planets;
-                    category = 'planets';
-                } else {
-                    colorHex = COLORS.total;
-                    category = 'total';
-                }
+        // Compute integer thresholds once per cluster
+        const fc = Math.min(N, Math.max(0, Math.round(N * fcFrac)));
+        const fi = Math.min(N, Math.max(0, Math.round(N * fiFrac)));
+        const fl = Math.min(N, Math.max(0, Math.round(N * flFrac)));
+        const ne = Math.min(N, Math.max(0, Math.round(N * neFrac)));
+        const fp = Math.min(N, Math.max(0, Math.round(N * fpFrac)));
 
-                // Check if this category is visible
-                if (!GALAXY_VISIBILITY[category]) {
-                    // Hide by setting to BLACK - with AdditiveBlending, black is invisible
-                    colors[i * 3] = 0;
-                    colors[i * 3 + 1] = 0;
-                    colors[i * 3 + 2] = 0;
-                } else {
-                    const color = new THREE.Color(colorHex);
+        // Flat segment loops — zero branching inside each loop
+        if (vTech)   { for (let i=0;  i<fc; i++) { const i3=i*3; colors[i3]=techR; colors[i3+1]=techG; colors[i3+2]=techB; } }
+        else         { for (let i=0;  i<fc; i++) { const i3=i*3; colors[i3]=0;     colors[i3+1]=0;     colors[i3+2]=0;     } }
 
-                    // Apply blinking effect for communicative civilizations (tech)
-                    if (category === 'tech' && !communicativeBlinkState) {
-                        colors[i * 3] = color.r * 0.3;
-                        colors[i * 3 + 1] = color.g * 0.3;
-                        colors[i * 3 + 2] = color.b * 0.3;
-                    } else {
-                        colors[i * 3] = color.r;
-                        colors[i * 3 + 1] = color.g;
-                        colors[i * 3 + 2] = color.b;
-                    }
-                }
-            }
+        if (vIntel)  { for (let i=fc; i<fi; i++) { const i3=i*3; colors[i3]=cI.r;  colors[i3+1]=cI.g;  colors[i3+2]=cI.b;  } }
+        else         { for (let i=fc; i<fi; i++) { const i3=i*3; colors[i3]=0;     colors[i3+1]=0;     colors[i3+2]=0;     } }
 
-            child.geometry.attributes.color.needsUpdate = true;
+        if (vLife)   { for (let i=fi; i<fl; i++) { const i3=i*3; colors[i3]=cL.r;  colors[i3+1]=cL.g;  colors[i3+2]=cL.b;  } }
+        else         { for (let i=fi; i<fl; i++) { const i3=i*3; colors[i3]=0;     colors[i3+1]=0;     colors[i3+2]=0;     } }
 
-            // Also set overall opacity based on visibility
-            child.material.opacity = anyVisible ? 0.9 : 0.02;
-        }
+        if (vHabit)  { for (let i=fl; i<ne; i++) { const i3=i*3; colors[i3]=cH.r;  colors[i3+1]=cH.g;  colors[i3+2]=cH.b;  } }
+        else         { for (let i=fl; i<ne; i++) { const i3=i*3; colors[i3]=0;     colors[i3+1]=0;     colors[i3+2]=0;     } }
+
+        if (vPlanets){ for (let i=ne; i<fp; i++) { const i3=i*3; colors[i3]=cP.r;  colors[i3+1]=cP.g;  colors[i3+2]=cP.b;  } }
+        else         { for (let i=ne; i<fp; i++) { const i3=i*3; colors[i3]=0;     colors[i3+1]=0;     colors[i3+2]=0;     } }
+
+        if (vTotal)  { for (let i=fp; i<N;  i++) { const i3=i*3; colors[i3]=cTot.r;colors[i3+1]=cTot.g;colors[i3+2]=cTot.b;} }
+        else         { for (let i=fp; i<N;  i++) { const i3=i*3; colors[i3]=0;     colors[i3+1]=0;     colors[i3+2]=0;     } }
+
+        child.geometry.attributes.color.needsUpdate = true;
+        child.material.opacity = anyVisible ? 0.9 : 0.02;
     });
 }
 
@@ -848,12 +868,8 @@ animateGalaxy = function() {
         if (now - lastBlinkTime > BLINK_INTERVAL) {
             communicativeBlinkState = !communicativeBlinkState;
             lastBlinkTime = now;
-            
-            // Only update colors if tech category is visible
-            if (GALAXY_VISIBILITY.tech && starSystem) {
-                const params = getCurrentDrakeParams();
-                updateGalaxySimulation(params);
-            }
+            // Use lightweight blink function — only updates the tech segment (fraction of 80k)
+            blinkTechStars();
         }
     }
     galaxyRenderer.render(galaxyScene, galaxyCamera);

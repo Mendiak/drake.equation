@@ -255,23 +255,6 @@ button#reset-button:hover {
     background: var(--color-bg-lighter);
 }
 
-#share-btn, #download-chart-btn {
-    padding: var(--space-xs) var(--space-sm);
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-extra);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    background: var(--color-white);
-    border: var(--border-width) solid var(--color-border);
-    cursor: pointer;
-}
-
-#share-btn:hover, #download-chart-btn:hover {
-    background: var(--color-black);
-    color: var(--color-white);
-    border-color: var(--color-black);
-}
-
 /* Tooltip Modal components */
 .tooltip-modal {
     position: fixed;
