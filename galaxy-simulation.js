@@ -4,7 +4,27 @@
 
 let galaxyScene, galaxyCamera, galaxyRenderer, starSystem, galaxyControls;
 let galaxyRendererFS; // Separate renderer for fullscreen
-const STAR_COUNT = 80000; // Increased star count for denser, more realistic galaxy
+
+// Configurable quality settings - can be adjusted based on device performance
+const QUALITY_SETTINGS = {
+    high: { starCount: 50000, globularClusters: 10, openClusters: 12 },
+    medium: { starCount: 30000, globularClusters: 6, openClusters: 8 },
+    low: { starCount: 15000, globularClusters: 3, openClusters: 4 }
+};
+
+// Auto-detect performance tier based on device capabilities
+function detectPerformanceTier() {
+    // Simple heuristic: check device memory and hardware concurrency
+    const hasHighEndDevice = navigator.deviceMemory && navigator.deviceMemory >= 8;
+    const hasManyCores = navigator.hardwareConcurrency && navigator.hardwareConcurrency >= 8;
+    
+    if (hasHighEndDevice && hasManyCores) return 'high';
+    if (navigator.deviceMemory && navigator.deviceMemory <= 4) return 'low';
+    return 'medium'; // Default to medium
+}
+
+const CURRENT_QUALITY = QUALITY_SETTINGS[detectPerformanceTier()];
+const STAR_COUNT = CURRENT_QUALITY.starCount;
 
 // Default view settings
 const DEFAULT_VIEW = {
@@ -862,18 +882,30 @@ function resetGalaxyView() {
 }
 
 // Override animateGalaxy to use dynamic rotation speed and handle blinking
+// Optimized with delta time to avoid unnecessary calculations
+let lastFrameTime = 0;
+
 function animateGalaxyWithRotation() {
     requestAnimationFrame(animateGalaxyWithRotation);
 
+    const currentTime = performance.now();
+    const deltaTime = currentTime - lastFrameTime;
+    lastFrameTime = currentTime;
+
+    // Only update if enough time has passed (avoid sub-frame updates)
+    if (deltaTime < 8) { // Cap at ~120 FPS
+        return;
+    }
+
     if (starSystem) {
-        starSystem.rotation.y += currentView.rotationSpeed;
+        // Use delta time for smooth rotation regardless of frame rate
+        starSystem.rotation.y += currentView.rotationSpeed * (deltaTime / 16.67);
 
         // Handle blinking for communicative civilizations
-        const now = Date.now();
-        if (now - lastBlinkTime > BLINK_INTERVAL) {
+        if (currentTime - lastBlinkTime > BLINK_INTERVAL) {
             communicativeBlinkState = !communicativeBlinkState;
-            lastBlinkTime = now;
-            // Use lightweight blink function — only updates the tech segment (fraction of 80k)
+            lastBlinkTime = currentTime;
+            // Use lightweight blink function — only updates the tech segment (fraction of stars)
             blinkTechStars();
         }
     }
