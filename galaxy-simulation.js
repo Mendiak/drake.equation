@@ -127,7 +127,11 @@ function initGalaxySimulation() {
     }
 
     createStarField();
-    animateGalaxy();
+    animateGalaxyWithRotation();
+
+    // Apply current Drake params to the galaxy simulation
+    const params = getCurrentDrakeParams();
+    updateGalaxySimulation(params);
 
     // Enable fullscreen button now that galaxy is initialized
     const fullscreenBtn = document.querySelector('.fullscreen-btn-overlay');
@@ -219,19 +223,13 @@ function generateClusterStars(centerX, centerY, centerZ, starCount, clusterType)
     const colors = [];
     const sizes = [];
 
-    // Use default Drake params to distribute cluster star colors proportionally
+    // Use default Drake params from config.js to distribute cluster star colors proportionally
     // These will be updated in updateClusterStars when user changes sliders
-    const defaultFp = 0.5;
-    const defaultNe = 2;
-    const defaultFl = 0.5;
-    const defaultFi = 0.1;
-    const defaultFc = 0.1;
-
-    const fpThreshold = starCount * defaultFp;
-    const neThreshold = fpThreshold * (defaultNe / 10);
-    const flThreshold = neThreshold * defaultFl;
-    const fiThreshold = flThreshold * defaultFi;
-    const fcThreshold = fiThreshold * defaultFc;
+    const fpThreshold = starCount * defaultValues.fp;
+    const neThreshold = fpThreshold * (defaultValues.ne / 10);
+    const flThreshold = neThreshold * defaultValues.fl;
+    const fiThreshold = flThreshold * defaultValues.fi;
+    const fcThreshold = fiThreshold * defaultValues.fc;
 
     for (let i = 0; i < starCount; i++) {
         // Use Plummer-like distribution for soft, realistic cluster core
@@ -291,19 +289,12 @@ function createStarField() {
     const glowPositions = [];
     const glowIndices = [];
 
-    // Use default Drake params to initialize star colors
-    // These will be updated when user changes sliders
-    const defaultFp = 0.5;
-    const defaultNe = 2;
-    const defaultFl = 0.5;
-    const defaultFi = 0.1;
-    const defaultFc = 0.1;
-
-    const fpThreshold = STAR_COUNT * defaultFp;
-    const neThreshold = fpThreshold * (defaultNe / 10);
-    const flThreshold = neThreshold * defaultFl;
-    const fiThreshold = flThreshold * defaultFi;
-    const fcThreshold = fiThreshold * defaultFc;
+    // Use default Drake params from config.js to initialize star colors
+    const fpThreshold = STAR_COUNT * defaultValues.fp;
+    const neThreshold = fpThreshold * (defaultValues.ne / 10);
+    const flThreshold = neThreshold * defaultValues.fl;
+    const fiThreshold = flThreshold * defaultValues.fi;
+    const fcThreshold = fiThreshold * defaultValues.fc;
 
     for (let i = 0; i < STAR_COUNT; i++) {
         const starData = generateSpiralGalaxyPosition();
@@ -739,6 +730,7 @@ function updateGalaxySimulation(params) {
     const fl  = Math.min(STAR_COUNT, Math.max(0, Math.round(STAR_COUNT * flFrac)));
     const ne  = Math.min(STAR_COUNT, Math.max(0, Math.round(STAR_COUNT * neFrac)));
     const fp  = Math.min(STAR_COUNT, Math.max(0, Math.round(STAR_COUNT * fpFrac)));
+    
     _lastFcIdx = fc;
 
     const blinkMult = communicativeBlinkState ? 1.0 : 0.3;
@@ -840,6 +832,7 @@ function updateClusterVisibility(params) {
 
     starSystem.children.forEach(child => {
         if (!child.isPoints) return;
+        if (!child.geometry || !child.geometry.attributes || !child.geometry.attributes.color) return;
 
         const colors = child.geometry.attributes.color.array;
         const N = colors.length / 3;   // star count for this cluster
@@ -873,14 +866,6 @@ function updateClusterVisibility(params) {
         child.geometry.attributes.color.needsUpdate = true;
         child.material.opacity = anyVisible ? 0.9 : 0.02;
     });
-}
-
-function animateGalaxy() {
-    requestAnimationFrame(animateGalaxy);
-    if (starSystem) {
-        starSystem.rotation.y += 0.001;
-    }
-    galaxyRenderer.render(galaxyScene, galaxyCamera);
 }
 
 function onGalaxyResize() {
@@ -1041,9 +1026,6 @@ function animateGalaxyWithRotation() {
     }
     galaxyRenderer.render(galaxyScene, galaxyCamera);
 }
-
-// Start the enhanced animation loop
-animateGalaxyWithRotation();
 
 // Fullscreen functionality
 function toggleGalaxyFullscreen() {
@@ -1349,41 +1331,57 @@ function updateLegendUI() {
 
 // Get current Drake equation parameters
 function getCurrentDrakeParams() {
+    // For fi and fl, we need to convert from linear slider position to log value
+    const getParamValue = (paramId) => {
+        const slider = document.getElementById(paramId);
+        if (!slider) return 0;
+        
+        const value = parseFloat(slider.value);
+        const logParams = ['fi', 'fl'];
+        
+        if (!logParams.includes(paramId)) return value;
+        
+        // Convert from linear slider position to log value
+        const min = parseFloat(slider.min);
+        const max = parseFloat(slider.max);
+        if (max / min < 100) return value;
+        
+        const position = (value - min) / (max - min);
+        const logValue = min * Math.pow(max / min, position);
+        return logValue;
+    };
+    
     return {
-        Rstar: parseFloat(document.getElementById('Rstar').value),
-        fp: parseFloat(document.getElementById('fp').value),
-        ne: parseFloat(document.getElementById('ne').value),
-        fl: parseFloat(document.getElementById('fl').value),
-        fi: parseFloat(document.getElementById('fi').value),
-        fc: parseFloat(document.getElementById('fc').value),
-        L: parseFloat(document.getElementById('L').value)
+        Rstar: getParamValue('Rstar'),
+        fp: getParamValue('fp'),
+        ne: getParamValue('ne'),
+        fl: getParamValue('fl'),
+        fi: getParamValue('fi'),
+        fc: getParamValue('fc'),
+        L: getParamValue('L')
     };
 }
 
 // Initialize legend click handlers
 function initGalaxyLegendHandlers() {
-    const legends = [
-        document.getElementById('galaxy-sim-legend'),
-        document.getElementById('galaxy-sim-legend-fullscreen')
-    ];
-
     const categories = ['total', 'planets', 'habitable', 'life', 'intelligence', 'tech'];
 
-    legends.forEach(legend => {
+    // Use event delegation at document level for maximum reliability
+    document.addEventListener('click', (e) => {
+        const item = e.target.closest('.legend-item');
+        if (!item) return;
+
+        const legend = item.closest('.galaxy-sim-legend');
         if (!legend) return;
 
-        const items = legend.querySelectorAll('.legend-item');
-        items.forEach((item, index) => {
-            const category = categories[index];
-            item.style.cursor = 'pointer';
-            item.style.transition = 'opacity 0.2s ease';
+        const items = Array.from(legend.querySelectorAll('.legend-item'));
+        const index = items.indexOf(item);
+        if (index === -1) return;
 
-            item.addEventListener('click', () => {
-                toggleGalaxyCategory(category);
-            });
-        });
+        const category = categories[index];
+        toggleGalaxyCategory(category);
     });
-    
+
     // Initialize legend UI to reflect default visibility state
     updateLegendUI();
 }
