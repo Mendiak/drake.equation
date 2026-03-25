@@ -608,7 +608,7 @@
 }
 
 .fullscreen-btn-overlay i {
-    font-size: 0.9rem;
+    font-size: var(--text-base);
 }
 
 .galaxy-sim-legend {
@@ -618,15 +618,15 @@
     gap: var(--space-lg);
     margin-top: var(--space-2xl);
     padding-top: var(--space-xl);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: var(--border-width) solid rgba(255, 255, 255, 0.1);
 }
 
 .galaxy-sim-legend .legend-item {
     display: flex;
     align-items: center;
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     color: var(--color-white);
-    transition: opacity 0.2s ease;
+    transition: opacity var(--transition-base);
     cursor: pointer;
     user-select: none;
 }
@@ -657,14 +657,14 @@
 
 /* Compact fullscreen legend */
 #galaxy-sim-legend-fullscreen .legend-item {
-    font-size: 0.68rem;
-    gap: 4px;
+    font-size: var(--text-xs);
+    gap: var(--space-xs);
 }
 
 #galaxy-sim-legend-fullscreen .dot {
     width: 8px;
     height: 8px;
-    margin-right: 2px;
+    margin-right: var(--space-xs);
 }
 
 /* Legend hint for fullscreen */
@@ -672,17 +672,17 @@
     display: flex;
     align-items: center;
     gap: var(--space-sm);
-    font-size: 0.7rem;
+    font-size: var(--text-xs);
     color: var(--color-white);
     padding: var(--space-xs) var(--space-sm);
     background: rgba(255, 255, 255, 0.1);
     border-radius: var(--radius-xs);
     margin-right: var(--space-lg);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: var(--border-width) solid rgba(255, 255, 255, 0.15);
 }
 
 .galaxy-sim-legend .legend-hint i {
-    font-size: 0.9rem;
+    font-size: var(--text-base);
     color: var(--color-white);
 }
 
@@ -779,7 +779,7 @@
 
     .fullscreen-btn-overlay::after {
         content: '📱';
-        font-size: 0.7rem;
+        font-size: var(--text-xs);
         margin-left: var(--space-xs);
     }
 }
@@ -811,7 +811,7 @@
 }
 
 .mobile-fullscreen-alert-content i {
-    font-size: 1.5rem;
+    font-size: var(--text-xl);
     color: var(--color-white);
 }
 

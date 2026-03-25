@@ -2,38 +2,63 @@
    4. TYPOGRAPHY
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
+/* Headings - Consistent negative letter-spacing for tightness */
 h1 {
-    font-size: var(--font-size-4xl);
+    font-size: var(--text-4xl);
     font-weight: var(--font-weight-extra);
-    letter-spacing: -0.04em;
+    letter-spacing: -0.03em;
     margin: 0 0 var(--space-xs) 0;
+    line-height: 1.1;
 }
 
 @media (max-width: 600px) {
-    h1 { font-size: var(--font-size-3xl); }
+    h1 { font-size: var(--text-3xl); }
 }
 
 h2 {
-    font-size: var(--font-size-2xl);
+    font-size: var(--text-2xl);
     font-weight: var(--font-weight-extra);
+    letter-spacing: -0.02em;
     margin: 0;
+    line-height: 1.2;
 }
 
 h3 {
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
     font-weight: var(--font-weight-bold);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
+    margin: 0;
+    line-height: 1.4;
+}
+
+h4 {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: -0.01em;
+    margin: 0;
+    line-height: 1.3;
+}
+
+/* Body text - Consistent positive letter-spacing for readability */
+p, .body-text {
+    font-size: var(--text-base);
+    line-height: 1.6;
+    letter-spacing: 0.01em;
     margin: 0;
 }
 
+/* Secondary/muted text */
 .subtitle {
-    font-size: var(--font-size-xl);
+    font-size: var(--text-xl);
     color: var(--color-text-muted);
     margin: 0;
     font-weight: var(--font-weight-regular);
+    letter-spacing: 0em;
+    line-height: 1.3;
 }
 
+/* Hero section */
 .hero-description {
     margin-top: var(--space-xl);
     padding-top: var(--space-xl);
@@ -42,12 +67,14 @@ h3 {
 }
 
 .hero-description p {
-    font-size: var(--font-size-lg);
+    font-size: var(--text-lg);
     color: var(--color-text-secondary);
-    line-height: var(--line-height-relaxed);
+    line-height: 1.6;
+    letter-spacing: 0.01em;
     margin-bottom: var(--space-xl);
 }
 
+/* Usage guide */
 .usage-guide {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -56,18 +83,20 @@ h3 {
 
 .guide-item strong {
     display: block;
-    font-size: var(--font-size-sm-base);
+    font-size: var(--text-xs);
     text-transform: uppercase;
     letter-spacing: 0.08em;
     margin-bottom: var(--space-sm);
     color: var(--color-black);
+    font-weight: var(--font-weight-bold);
 }
 
 .guide-item p {
-    font-size: var(--font-size-sm-text);
+    font-size: var(--text-sm);
     color: var(--color-text-muted);
     margin: 0;
-    line-height: var(--line-height-tight);
+    line-height: 1.5;
+    letter-spacing: 0.01em;
 }
 
 @media (max-width: 768px) {
@@ -75,4 +104,22 @@ h3 {
         grid-template-columns: 1fr;
         gap: var(--space-xl);
     }
+}
+
+/* Labels and captions - smallest text */
+.label, .caption {
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+}
+
+/* Value displays - monospace numbers */
+.value-display, .mono-value {
+    font-family: var(--font-family-mono);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-extra);
+    letter-spacing: -0.02em;
+    line-height: 1.3;
 }

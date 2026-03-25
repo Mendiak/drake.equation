@@ -30,20 +30,29 @@
     --color-confidence-very-high: #c0392b;
     --color-confidence-very-high-dark: #a93226;
 
-    /* Typography Scale */
-    --font-size-sm: 0.65rem;
-    --font-size-xs: 0.7rem;
-    --font-size-sm-base: 0.75rem;
-    --font-size-sm-plus: 0.8125rem;
-    --font-size-sm-text: 0.875rem;
-    --font-size-base: 0.95rem;
-    --font-size-md: 1rem;
-    --font-size-lg: 1.125rem;
-    --font-size-xl: 1.25rem;
-    --font-size-2xl: 1.5rem;
-    --font-size-3xl: 2.25rem;
-    --font-size-4xl: 3rem;
-    --font-size-5xl: 3.5rem;
+    /* Typography Scale - Simplified 6-step system */
+    --text-xs:   0.75rem;   /* 12px - Labels, captions */
+    --text-sm:   0.875rem;  /* 14px - Secondary text */
+    --text-base: 1rem;      /* 16px - Body text */
+    --text-lg:   1.25rem;   /* 20px - Lead paragraphs */
+    --text-xl:   1.5rem;    /* 24px - H3, section titles */
+    --text-2xl:  2rem;      /* 32px - H2 */
+    --text-3xl:  3rem;      /* 48px - H1 (mobile) */
+    --text-4xl:  4rem;      /* 64px - H1 (desktop) */
+    
+    /* Legacy aliases for backward compatibility - remove after migration */
+    --font-size-xs: var(--text-xs);
+    --font-size-sm-base: var(--text-xs);
+    --font-size-sm-plus: var(--text-sm);
+    --font-size-sm-text: var(--text-sm);
+    --font-size-base: var(--text-base);
+    --font-size-md: var(--text-base);
+    --font-size-lg: var(--text-lg);
+    --font-size-xl: var(--text-xl);
+    --font-size-2xl: var(--text-2xl);
+    --font-size-3xl: var(--text-3xl);
+    --font-size-4xl: var(--text-4xl);
+    --font-size-5xl: var(--text-4xl);
 
     /* Spacing Scale */
     --space-xs: 0.5rem;
