@@ -273,11 +273,20 @@ function generateClusterStars(centerX, centerY, centerZ, starCount, clusterType)
     return { positions, colors, sizes };
 }
 
+// Global reference for communicative stars glow system
+let communicativeGlowSystem = null;
+
 function createStarField() {
     const mainGeometry = new THREE.BufferGeometry();
+    const glowGeometry = new THREE.BufferGeometry(); // Separate geometry for glowing communicative stars
+    
     const positions = new Float32Array(STAR_COUNT * 3);
     const colors = new Float32Array(STAR_COUNT * 3);
     const sizes = new Float32Array(STAR_COUNT);
+    
+    // Arrays for glow particles (only communicative stars)
+    const glowPositions = [];
+    const glowIndices = [];
 
     // Use default Drake params to initialize star colors
     // These will be updated when user changes sliders
@@ -304,6 +313,9 @@ function createStarField() {
         let colorHex;
         if (i < fcThreshold) {
             colorHex = COLORS.tech;
+            // Store position for glow effect
+            glowPositions.push(starData.x, starData.y, starData.z);
+            glowIndices.push(i);
         } else if (i < fiThreshold) {
             colorHex = COLORS.intelligence;
         } else if (i < flThreshold) {
@@ -331,6 +343,7 @@ function createStarField() {
 
     // Create circular sprite texture for stars
     const sprite = createStarTexture();
+    const glowSprite = createGlowTexture();
 
     const mainMaterial = new THREE.PointsMaterial({
         size: 1.2,
@@ -345,6 +358,27 @@ function createStarField() {
 
     starSystem = new THREE.Points(mainGeometry, mainMaterial);
     galaxyScene.add(starSystem);
+
+    // Create glow system for communicative stars
+    if (glowPositions.length > 0) {
+        const glowGeometry = new THREE.BufferGeometry();
+        glowGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(glowPositions), 3));
+        
+        const glowMaterial = new THREE.PointsMaterial({
+            size: 3.5, // Larger than normal stars
+            vertexColors: false,
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.6,
+            sizeAttenuation: true,
+            map: glowSprite,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+        
+        communicativeGlowSystem = new THREE.Points(glowGeometry, glowMaterial);
+        starSystem.add(communicativeGlowSystem);
+    }
 
     // Create star clusters as children of starSystem so they rotate with the galaxy
     createStarClusters(sprite);
@@ -606,8 +640,82 @@ function createStarTexture() {
     return texture;
 }
 
+// Create a larger, more pronounced glow texture for communicative stars
+function createGlowTexture() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 64;
+    canvas.height = 64;
+    const ctx = canvas.getContext('2d');
+    
+    // Create a larger, more diffuse glow for communicative stars
+    const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+    gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+    gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.9)');
+    gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.6)');
+    gradient.addColorStop(0.8, 'rgba(255, 255, 255, 0.2)');
+    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 64, 64);
+    
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.needsUpdate = true;
+    
+    return texture;
+}
+
 // Stores last thresholds so blink-only updates can skip a full repaint
 let _lastFcIdx = 0;
+
+// Rebuild the glow system for communicative stars based on current params
+function rebuildGlowSystem(params) {
+    if (!starSystem) return;
+    
+    // Remove old glow system
+    if (communicativeGlowSystem) {
+        starSystem.remove(communicativeGlowSystem);
+        communicativeGlowSystem.geometry.dispose();
+        communicativeGlowSystem = null;
+    }
+    
+    // Only create glow if tech is visible and there are communicative stars
+    if (!GALAXY_VISIBILITY.tech) return;
+    
+    const positions = starSystem.geometry.attributes.position.array;
+    const fpFrac = params.fp;
+    const neFrac = fpFrac * (params.ne / 10);
+    const flFrac = neFrac * params.fl;
+    const fiFrac = flFrac * params.fi;
+    const fcFrac = fiFrac * params.fc;
+    const fc = Math.min(STAR_COUNT, Math.max(0, Math.round(STAR_COUNT * fcFrac)));
+    
+    if (fc === 0) return;
+    
+    // Collect positions of communicative stars
+    const glowPositions = [];
+    for (let i = 0; i < fc; i++) {
+        glowPositions.push(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]);
+    }
+    
+    const glowGeometry = new THREE.BufferGeometry();
+    glowGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(glowPositions), 3));
+    
+    const glowSprite = createGlowTexture();
+    const glowMaterial = new THREE.PointsMaterial({
+        size: 3.5,
+        vertexColors: false,
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.6,
+        sizeAttenuation: true,
+        map: glowSprite,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+    });
+    
+    communicativeGlowSystem = new THREE.Points(glowGeometry, glowMaterial);
+    starSystem.add(communicativeGlowSystem);
+}
 
 function updateGalaxySimulation(params) {
     if (!starSystem) return;
@@ -677,11 +785,12 @@ function updateGalaxySimulation(params) {
     }
 
     starSystem.geometry.attributes.color.needsUpdate = true;
+    rebuildGlowSystem(params);
     updateClusterVisibility(params);
 }
 
 // Lightweight blink: only touch the tech segment (0.._lastFcIdx)
-// Called by the animation loop every BLINK_INTERVAL — avoids full 80k repaint
+// Called by the animation loop every BLINK_INTERVAL — avoids full repaint
 function blinkTechStars() {
     if (!starSystem || !GALAXY_VISIBILITY.tech || _lastFcIdx === 0) return;
     const colors = starSystem.geometry.attributes.color.array;
@@ -690,6 +799,12 @@ function blinkTechStars() {
     const r = cT.r * blinkMult, g = cT.g * blinkMult, b = cT.b * blinkMult;
     for (let i = 0; i < _lastFcIdx; i++) { const i3 = i*3; colors[i3]=r; colors[i3+1]=g; colors[i3+2]=b; }
     starSystem.geometry.attributes.color.needsUpdate = true;
+    
+    // Also blink the glow system
+    if (communicativeGlowSystem) {
+        const glowOpacity = communicativeBlinkState ? 0.6 : 0.15;
+        communicativeGlowSystem.material.opacity = glowOpacity;
+    }
 }
 
 // Update visibility and colors of star clusters based on GALAXY_VISIBILITY and Drake params
