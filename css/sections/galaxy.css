@@ -156,7 +156,9 @@
 }
 
 .fullscreen-param-item label {
-    display: block;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: var(--font-size-xs);
     color: var(--color-white);
     margin-bottom: var(--space-xs);
@@ -181,12 +183,11 @@
 }
 
 .fullscreen-param-value {
-    display: block;
     font-family: var(--font-family-mono);
     font-size: var(--font-size-xs);
     color: var(--color-white);
-    text-align: right;
-    margin-top: var(--space-xs);
+    margin-left: var(--space-sm);
+    white-space: nowrap;
 }
 
 /* Main fullscreen content */

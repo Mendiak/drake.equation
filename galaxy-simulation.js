@@ -1166,10 +1166,12 @@ function populateFullscreenParams() {
         const item = document.createElement('div');
         item.className = 'fullscreen-param-item';
         item.innerHTML = `
-            <label>${param.label}</label>
+            <label>
+                ${param.label}
+                <span class="fullscreen-param-value" id="fs-${param.id}-value">${value}</span>
+            </label>
             <input type="range" id="fs-${param.id}" min="${input.min}" max="${input.max}" step="${input.step}" value="${input.value}"
                    oninput="updateParamFromFullscreen('${param.id}', this.value)">
-            <span class="fullscreen-param-value" id="fs-${param.id}-value">${value}</span>
         `;
         container.appendChild(item);
     });
