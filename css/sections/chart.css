@@ -55,21 +55,21 @@
 .funnel-container {
     display: flex;
     flex-direction: column;
-    gap: 4rem;
+    gap: var(--space-2xl);
     background: #fcfcfc;
-    padding: 3rem;
-    border-radius: 2px;
-    border: 1px solid #f0f0f0;
+    padding: var(--space-xl);
+    border-radius: var(--radius-sm);
+    border: var(--border-width) solid #f0f0f0;
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
-    padding: 3rem var(--space-xl);
+    padding: var(--space-xl) var(--space-xl);
 }
 
 @media (max-width: 900px) {
     .funnel-container {
-        gap: 2rem;
-        padding: 1.5rem;
+        gap: var(--space-lg);
+        padding: var(--space-md);
     }
 }
 
@@ -88,16 +88,16 @@
 .funnel-insight-panel {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
-    border-top: 1px solid #eeeeee;
-    padding-top: 3rem;
+    gap: var(--space-lg);
+    border-top: var(--border-width) solid #eeeeee;
+    padding-top: var(--space-xl);
 }
 
 @media (max-width: 480px) {
     .funnel-insight-panel {
         grid-template-columns: 1fr;
-        padding-top: 2rem;
-        gap: 1.5rem;
+        padding-top: var(--space-lg);
+        gap: var(--space-md);
     }
 }
 
@@ -130,7 +130,7 @@
 }
 
 /* 6. Chart Section Refinement */
-.chart-controls { display: flex; align-items: center; gap: 1rem; }
+.chart-controls { display: flex; align-items: center; gap: var(--space-sm); }
 
 .chart-wrapper {
     position: relative;
@@ -149,7 +149,7 @@
     }
 }
 
-.toggle-group { display: flex; align-items: center; gap: 0.75rem; }
+.toggle-group { display: flex; align-items: center; gap: var(--space-xs); }
 .switch { position: relative; width: 34px; height: 18px; }
 .switch input { opacity: 0; width: 0; height: 0; }
 .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #eeeeee; transition: .3s; border-radius: 34px; }
@@ -175,23 +175,23 @@ input:checked + .slider:before { transform: translateX(16px); }
 
 /* 7. Educational Content Refinement */
 .educational-content {
-    margin-top: 2rem;
+    margin-top: var(--space-lg);
     background: #fafafa;
-    padding: 3rem;
-    border-radius: 4px;
-    border: 1px solid #f0f0f0;
+    padding: var(--space-xl);
+    border-radius: var(--radius-sm);
+    border: var(--border-width) solid #f0f0f0;
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
-    padding: 3rem var(--space-xl);
+    padding: var(--space-xl) var(--space-xl);
 }
 
 @media (max-width: 600px) {
     .educational-content {
-        padding: 1.5rem;
+        padding: var(--space-md);
     }
     .result-card {
-        padding: 1.5rem;
+        padding: var(--space-md);
     }
     #result {
         font-size: var(--font-size-4xl);
@@ -200,7 +200,7 @@ input:checked + .slider:before { transform: translateX(16px); }
     .chart-header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 1rem;
+        gap: var(--space-sm);
     }
     .chart-controls {
         width: 100%;
@@ -208,17 +208,17 @@ input:checked + .slider:before { transform: translateX(16px); }
     }
 }
 
-details { 
-    border-top: 1px solid #eeeeee; 
-    padding: 1.5rem 0; 
-    transition: all 0.3s;
+details {
+    border-top: var(--border-width) solid #eeeeee;
+    padding: var(--space-md) 0;
+    transition: all var(--transition-smooth);
 }
 
 details[open] {
-    background: #ffffff;
-    padding: 1.5rem;
-    border-radius: 2px;
-    border: 1px solid #eeeeee;
+    background: var(--color-white);
+    padding: var(--space-md);
+    border-radius: var(--radius-sm);
+    border: var(--border-width) solid #eeeeee;
     border-top: none;
 }
 
@@ -413,10 +413,10 @@ footer a:hover {
     background-color: #ffeb3b;
     color: #000000 !important;
     padding: 2px 6px;
-    border-radius: 2px;
-    font-weight: 800;
+    border-radius: var(--radius-sm);
+    font-weight: var(--font-weight-extra);
     box-shadow: 0 0 10px rgba(255, 235, 59, 0.5);
-    transition: all 0.2s ease;
+    transition: all var(--transition-base);
 }
 
 /* Confidence Levels */
@@ -507,8 +507,8 @@ footer a:hover {
 .concepts-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-    margin-top: 1.5rem;
+    gap: var(--space-md);
+    margin-top: var(--space-md);
 }
 
 .concept-card {
@@ -601,8 +601,8 @@ footer a:hover {
 
 .magnitude-ruler {
     position: relative;
-    padding: 2rem 0 2.5rem 0;
-    margin: 1rem 0;
+    padding: var(--space-lg) 0 var(--space-xl) 0;
+    margin: var(--space-sm) 0;
 }
 
 .ruler-line {
@@ -612,7 +612,7 @@ footer a:hover {
     right: 0;
     height: 2px;
     background: #1a1a1a;
-    border-radius: 1px;
+    border-radius: var(--radius-sm);
 }
 
 .ruler-scale {

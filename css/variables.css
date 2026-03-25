@@ -54,16 +54,18 @@
     --font-size-4xl: var(--text-4xl);
     --font-size-5xl: var(--text-4xl);
 
-    /* Spacing Scale */
-    --space-xs: 0.5rem;
-    --space-sm: 0.75rem;
-    --space-md: 1rem;
-    --space-lg: 1.5rem;
-    --space-xl: 2rem;
-    --space-2xl: 2.5rem;
-    --space-3xl: 3rem;
-    --space-4xl: 4rem;
-    --space-5xl: 5rem;
+    /* Spacing Scale - Simplified 6-step system */
+    --space-xs: 0.5rem;   /* 8px - Tight spacing */
+    --space-sm: 1rem;     /* 16px - Small gaps */
+    --space-md: 1.5rem;   /* 24px - Default gap */
+    --space-lg: 2rem;     /* 32px - Section padding */
+    --space-xl: 3rem;     /* 48px - Large sections */
+    --space-2xl: 4rem;    /* 64px - Major sections */
+    
+    /* Legacy aliases for backward compatibility */
+    --space-3xl: var(--space-2xl);
+    --space-4xl: var(--space-2xl);
+    --space-5xl: var(--space-2xl);
 
     /* Typography */
     --font-family-system: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;

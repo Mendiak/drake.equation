@@ -101,10 +101,10 @@ header {
 }
 
 .parameters-panel::-webkit-scrollbar { width: 6px; }
-.parameters-panel::-webkit-scrollbar-track { background: var(--color-border); border-radius: 3px; }
-.parameters-panel::-webkit-scrollbar-thumb { 
-    background: var(--color-text-muted); 
-    border-radius: 3px;
+.parameters-panel::-webkit-scrollbar-track { background: var(--color-border); border-radius: var(--radius-sm); }
+.parameters-panel::-webkit-scrollbar-thumb {
+    background: var(--color-text-muted);
+    border-radius: var(--radius-sm);
     border: 2px solid var(--color-border);
 }
 
