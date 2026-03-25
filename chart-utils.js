@@ -74,16 +74,26 @@ function initChart() {
             } 
         } 
     });
-    document.getElementById('scale-toggle').addEventListener('change', (e) => { 
+    document.getElementById('scale-toggle').addEventListener('change', (e) => {
         requestAnimationFrame(() => {
-            drakeChart.options.scales.y.type = e.target.checked ? 'logarithmic' : 'linear'; 
-            drakeChart.update(); 
+            drakeChart.options.scales.y.type = e.target.checked ? 'logarithmic' : 'linear';
+            drakeChart.update();
+            // Update toggle label
+            const label = e.target.closest('.toggle-group').querySelector('.toggle-label:last-of-type');
+            if (label) {
+                label.textContent = e.target.checked ? 'Log' : 'Lin';
+            }
         });
     });
-    document.getElementById('funnel-scale-toggle').addEventListener('change', (e) => { 
+    document.getElementById('funnel-scale-toggle').addEventListener('change', (e) => {
         requestAnimationFrame(() => {
-            funnelChart.options.scales.x.type = e.target.checked ? 'logarithmic' : 'linear'; 
-            funnelChart.update(); 
+            funnelChart.options.scales.x.type = e.target.checked ? 'logarithmic' : 'linear';
+            funnelChart.update();
+            // Update toggle label
+            const label = e.target.closest('.toggle-group').querySelector('.toggle-label:last-of-type');
+            if (label) {
+                label.textContent = e.target.checked ? 'Log' : 'Lin';
+            }
         });
     });
 }
