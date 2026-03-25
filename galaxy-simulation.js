@@ -128,7 +128,7 @@ function initGalaxySimulation() {
 
     createStarField();
     animateGalaxy();
-    
+
     // Enable fullscreen button now that galaxy is initialized
     const fullscreenBtn = document.querySelector('.fullscreen-btn-overlay');
     if (fullscreenBtn) {
@@ -139,6 +139,9 @@ function initGalaxySimulation() {
 
     // Initialize slider visual positions
     initGalaxySliders();
+
+    // Update legend UI to reflect default visibility state
+    updateLegendUI();
 
     window.addEventListener('resize', onGalaxyResize);
 }
@@ -918,14 +921,18 @@ function updateGalaxyTilt(value) {
     currentView.tilt = parseFloat(value);
     const displayEl = document.getElementById('galaxy-tilt-value');
     if (displayEl) displayEl.textContent = value + '°';
+    const fsDisplayEl = document.getElementById('fs-galaxy-tilt-value');
+    if (fsDisplayEl) fsDisplayEl.textContent = value + '°';
     // Update slider visual position
     const slider = document.getElementById('galaxy-tilt');
     if (slider) updateSliderBackground(slider, 0, 90);
-    
+    const fsSlider = document.getElementById('fs-galaxy-tilt');
+    if (fsSlider) updateSliderBackground(fsSlider, 0, 90);
+
     // Convert tilt to camera position
     const tiltRad = (value * Math.PI) / 180;
     const distance = currentView.zoom;
-    
+
     galaxyCamera.position.y = Math.sin(tiltRad) * distance * 0.5;
     galaxyCamera.position.z = Math.cos(tiltRad) * distance;
     galaxyCamera.lookAt(0, 0, 0);
@@ -935,10 +942,14 @@ function updateGalaxyZoom(value) {
     currentView.zoom = parseFloat(value);
     const displayEl = document.getElementById('galaxy-zoom-value');
     if (displayEl) displayEl.textContent = value;
+    const fsDisplayEl = document.getElementById('fs-galaxy-zoom-value');
+    if (fsDisplayEl) fsDisplayEl.textContent = value;
     // Update slider visual position
     const slider = document.getElementById('galaxy-zoom');
     if (slider) updateSliderBackground(slider, 50, 400);
-    
+    const fsSlider = document.getElementById('fs-galaxy-zoom');
+    if (fsSlider) updateSliderBackground(fsSlider, 50, 400);
+
     const tiltRad = (currentView.tilt * Math.PI) / 180;
     galaxyCamera.position.y = Math.sin(tiltRad) * currentView.zoom * 0.5;
     galaxyCamera.position.z = Math.cos(tiltRad) * currentView.zoom;
@@ -949,10 +960,14 @@ function updateGalaxyStarSize(value) {
     currentView.starSize = parseFloat(value);
     const displayEl = document.getElementById('galaxy-star-size-value');
     if (displayEl) displayEl.textContent = value;
+    const fsDisplayEl = document.getElementById('fs-galaxy-star-size-value');
+    if (fsDisplayEl) fsDisplayEl.textContent = value;
     // Update slider visual position
     const slider = document.getElementById('galaxy-star-size');
     if (slider) updateSliderBackground(slider, 0.5, 3);
-    
+    const fsSlider = document.getElementById('fs-galaxy-star-size');
+    if (fsSlider) updateSliderBackground(fsSlider, 0.5, 3);
+
     if (starSystem) {
         starSystem.material.size = currentView.starSize;
     }
@@ -1065,6 +1080,7 @@ function toggleGalaxyFullscreen() {
         populateFullscreenParams();
         syncFullscreenValues();
         syncFullscreenVizControls();
+        updateLegendUI();
         if (icon) {
             icon.classList.remove('bi-arrows-fullscreen');
             icon.classList.add('bi-fullscreen-exit');
