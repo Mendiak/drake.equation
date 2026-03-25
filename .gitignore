@@ -26,3 +26,4 @@ yarn-error.log*
 .agents/
 .qwen/
 skills-lock.json
+firebase-debug.log
