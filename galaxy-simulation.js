@@ -1,4 +1,5 @@
 /* exported galaxyControls, galaxyRendererFS, initGalaxySimulation, getStellarPopulationColor, updateGalaxyRotation, updateGalaxyTilt, updateGalaxyZoom, updateGalaxyStarSize, resetGalaxyView, toggleGalaxyFullscreen, applyPresetFromFullscreen, updateParamFromFullscreen, categoryMap */
+/* global currentLang */
 // Galactic Simulation using Three.js
 // Visualizes the Drake Equation steps across a simulated Milky Way-like spiral galaxy
 
@@ -1034,7 +1035,13 @@ function toggleGalaxyFullscreen() {
         console.error('Galaxy renderer not initialized yet');
         return;
     }
-    
+
+    // Check if device is mobile (screen width <= 768px)
+    if (window.innerWidth <= 768) {
+        showMobileFullscreenAlert();
+        return;
+    }
+
     const overlay = document.getElementById('galaxy-fullscreen-overlay');
     const section = document.querySelector('.galaxy-sim-section');
     const fullscreenBtn = document.querySelector('.fullscreen-btn-overlay');
@@ -1384,6 +1391,39 @@ function initGalaxyLegendHandlers() {
 
     // Initialize legend UI to reflect default visibility state
     updateLegendUI();
+}
+
+// Show alert when mobile users try to access fullscreen
+function showMobileFullscreenAlert() {
+    // Use hardcoded translations to avoid dependency on t() function
+    const alertMsg = currentLang === 'es' 
+        ? 'La vista en pantalla completa de la simulación solo está disponible en pantallas grandes.'
+        : 'Fullscreen view is only available on large screens.';
+    
+    // Remove existing alert if any
+    const existingAlert = document.querySelector('.mobile-fullscreen-alert');
+    if (existingAlert) {
+        existingAlert.remove();
+    }
+
+    const alertEl = document.createElement('div');
+    alertEl.className = 'mobile-fullscreen-alert';
+    alertEl.innerHTML = `
+        <div class="mobile-fullscreen-alert-content">
+            <i class="bi bi-phone"></i>
+            <p>${alertMsg}</p>
+        </div>
+    `;
+    
+    document.body.appendChild(alertEl);
+    
+    // Auto-remove after 3 seconds
+    setTimeout(() => {
+        if (alertEl && alertEl.parentNode) {
+            alertEl.classList.add('fade-out');
+            setTimeout(() => alertEl.remove(), 300);
+        }
+    }, 3000);
 }
 
 // Initialize legend handlers when DOM is ready
