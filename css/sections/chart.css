@@ -6,23 +6,13 @@
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
-    font-size: var(--font-size-2xl);
+    font-size: var(--text-2xl);
     font-weight: var(--font-weight-extra);
     letter-spacing: -0.02em;
     margin-bottom: var(--space-xl);
-    display: flex;
-    align-items: center;
-    gap: var(--space-md);
     padding: 0 var(--space-xl);
-    overflow-x: hidden;
 }
 
-.section-title::after {
-    content: "";
-    flex: 1;
-    height: var(--border-width);
-    background: var(--color-border);
-}
 
 .chart-section {
     margin-bottom: var(--space-5xl);
@@ -206,7 +196,7 @@ canvas {
 }
 
 .scientific-explanation {
-    font-size: 1rem;
+    font-size: var(--text-base);
     color: #444;
     max-width: 100%;
     margin: 0 auto 2rem auto;
@@ -218,7 +208,7 @@ canvas {
 
 @media (max-width: 600px) {
     .scientific-explanation {
-        font-size: 0.875rem;
+        font-size: var(--text-sm);
     }
 }
 
@@ -241,7 +231,7 @@ canvas {
     }
 
     #result {
-        font-size: var(--font-size-4xl);
+        font-size: var(--text-4xl);
         word-break: break-word;
     }
 
