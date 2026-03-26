@@ -20,7 +20,7 @@
     overflow-x: hidden;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
     .chart-section {
         margin-bottom: var(--space-3xl);
     }
@@ -39,7 +39,7 @@
     overflow-x: hidden;
 }
 
-@media (max-width: 600px) {
+@media (width <= 600px) {
     .chart-header {
         flex-direction: column;
         align-items: flex-start;
@@ -51,7 +51,6 @@
     flex-direction: column;
     gap: var(--space-2xl);
     background: #fcfcfc;
-    padding: var(--space-xl);
     border-radius: var(--radius-sm);
     border: var(--border-width) solid #f0f0f0;
     max-width: 100%;
@@ -61,7 +60,7 @@
     overflow-x: hidden;
 }
 
-@media (max-width: 900px) {
+@media (width <= 900px) {
     .funnel-container {
         gap: var(--space-lg);
         padding: var(--space-md);
@@ -76,7 +75,7 @@
     overflow-x: hidden;
 }
 
-@media (max-width: 600px) {
+@media (width <= 600px) {
     .funnel-chart-wrapper {
         height: 400px; /* Additional height to prevent vertical compression of labels */
     }
@@ -86,13 +85,13 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: var(--space-lg);
-    border-top: var(--border-width) solid #eeeeee;
+    border-top: var(--border-width) solid #eee;
     padding-top: var(--space-xl);
     max-width: 100%;
     overflow-x: hidden;
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
     .funnel-insight-panel {
         grid-template-columns: 1fr;
         padding-top: var(--space-lg);
@@ -145,7 +144,7 @@
     max-width: 100%;
 }
 
-@media (max-width: 600px) {
+@media (width <= 600px) {
     .chart-controls {
         gap: var(--space-xs);
     }
@@ -162,7 +161,7 @@
     padding: 0 var(--space-xl);
 }
 
-@media (max-width: 600px) {
+@media (width <= 600px) {
     .chart-wrapper {
         margin-bottom: 0;
         padding: 0 var(--space-md);
@@ -176,15 +175,50 @@
     flex-wrap: wrap;
     max-width: 100%;
 }
-.switch { position: relative; width: 34px; height: 18px; }
-.switch input { opacity: 0; width: 0; height: 0; }
-.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #eeeeee; transition: .3s; border-radius: 34px; }
-.slider:before { position: absolute; content: ""; height: 12px; width: 12px; left: 3px; bottom: 3px; background: white; transition: .3s; border-radius: 50%; }
-input:checked + .slider { background: #000000; }
-input:checked + .slider:before { transform: translateX(16px); }
+
+.switch {
+    position: relative;
+    width: 34px;
+    height: 18px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider { 
+    position: absolute; 
+    cursor: pointer; 
+    inset: 0; 
+    background: #eee; 
+    transition: .3s;
+    border-radius: 34px;
+}
+
+.slider::before {
+    position: absolute;
+    content: "";
+    height: 12px;
+    width: 12px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    transition: .3s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background: #000;
+}
+
+input:checked + .slider::before {
+    transform: translateX(16px);
+}
 
 /* Specific height for sensitivity chart */
-#drakeChart, #funnelChart {
+#drake-chart, #funnel-chart {
     width: 100% !important;
     height: auto !important;
     max-width: 100%;
@@ -199,14 +233,14 @@ canvas {
     font-size: var(--text-base);
     color: #444;
     max-width: 100%;
-    margin: 0 auto 2rem auto;
+    margin: 0 auto 2rem;
     line-height: 1.6;
     content-visibility: auto;
     contain-intrinsic-size: auto 100px;
     overflow-wrap: break-word;
 }
 
-@media (max-width: 600px) {
+@media (width <= 600px) {
     .scientific-explanation {
         font-size: var(--text-sm);
     }
@@ -225,14 +259,13 @@ canvas {
     overflow-x: hidden;
 }
 
-@media (max-width: 600px) {
+@media (width <= 600px) {
     .educational-content {
         padding: var(--space-md);
     }
 
     #result {
         font-size: var(--text-4xl);
-        word-break: break-word;
     }
 
     .chart-header {
@@ -248,7 +281,7 @@ canvas {
 }
 
 details {
-    border-top: var(--border-width) solid #eeeeee;
+    border-top: var(--border-width) solid #eee;
     padding: var(--space-md) 0;
     transition: all var(--transition-smooth);
 }
@@ -257,7 +290,7 @@ details[open] {
     background: var(--color-white);
     padding: var(--space-md);
     border-radius: var(--radius-sm);
-    border: var(--border-width) solid #eeeeee;
+    border: var(--border-width) solid #eee;
     border-top: none;
 }
 
@@ -280,6 +313,7 @@ summary::after {
     font-weight: var(--font-weight-regular);
     transition: transform var(--transition-smooth);
 }
+
 details[open] summary::after {
     content: "−";
     color: var(--color-black);
@@ -294,8 +328,8 @@ details p {
 }
 
 .timeline { margin-top: var(--space-2xl); }
+
 .timeline-item {
-    border-left: 3px solid var(--color-black);
     padding: var(--space-xl);
     padding-left: var(--space-2xl);
     margin-bottom: var(--space-2xl);
@@ -338,6 +372,10 @@ details p {
     color: var(--color-text-primary);
 }
 
+footer p {
+    margin: 0;
+}
+
 .timeline-content p {
     font-size: var(--text-sm);
     color: var(--color-text-muted);
@@ -357,13 +395,12 @@ details p {
 }
 
 .timeline-link:hover {
-    border-bottom-color: #000000;
-    color: #000000;
+    border-bottom-color: #000;
+    color: #000;
 }
 
 .references-section {
     margin-top: var(--space-5xl);
-    padding-top: var(--space-3xl);
     border-top: var(--border-width) solid var(--color-border);
     max-width: 800px;
     margin-left: auto;
@@ -428,29 +465,25 @@ footer {
     flex-wrap: wrap;
 }
 
-footer p {
-    margin: 0;
-}
-
 .footer-divider {
     color: var(--color-border);
 }
 
 footer a {
-    color: #666666; 
+    color: #666; 
     text-decoration: none; 
     font-weight: 600;
     transition: all 0.2s;
 }
 
 footer a:hover { 
-    color: #000000; 
+    color: #000; 
 }
 
 /* Utilities */
 .active-param {
     background-color: #ffeb3b;
-    color: #000000 !important;
+    color: #000 !important;
     padding: 2px 6px;
     border-radius: var(--radius-sm);
     font-weight: var(--font-weight-extra);
@@ -461,7 +494,7 @@ footer a:hover {
 .confidence-section {
     margin-top: var(--space-3xl);
     padding-top: var(--space-2xl);
-    border-top: var(--border-width) solid rgba(255, 255, 255, 0.1);
+    border-top: var(--border-width) solid rgb(255 255 255 / 10%);
 }
 
 .confidence-section h4 {
@@ -519,7 +552,7 @@ footer a:hover {
     border-color: #a93226;
 }
 
-@media (max-width: 600px) {
+@media (width <= 600px) {
     .confidence-grid {
         grid-template-columns: repeat(4, 1fr);
     }
@@ -576,7 +609,7 @@ footer a:hover {
     line-height: 1.5;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
     .concepts-grid {
         grid-template-columns: 1fr;
     }
@@ -585,7 +618,6 @@ footer a:hover {
 /* Uncertainty Disclaimer */
 .uncertainty-disclaimer {
     background: var(--color-bg-lighter);
-    padding: var(--space-2xl);
     border-radius: var(--radius-md);
     border: var(--border-width) solid var(--color-border);
     border-left: 4px solid var(--color-confidence-high);
@@ -688,10 +720,11 @@ footer a:hover {
     left: 50%;
 }
 
-@media (max-width: 600px) {
+@media (width <= 600px) {
     .magnitude-container {
         padding: var(--space-md) var(--space-md);
     }
+
     .tick-label {
         font-size: var(--text-xs);
     }
@@ -704,7 +737,7 @@ footer a:hover {
     height: 0;
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
-    border-top: 10px solid #000000;
+    border-top: 10px solid #000;
     z-index: 10;
     transition: left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     transform: translateX(-50%);

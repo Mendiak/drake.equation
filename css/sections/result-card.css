@@ -13,7 +13,7 @@
     max-width: 100%;
 }
 
-@media (max-width: 600px) {
+@media (width <= 600px) {
     .result-card {
         padding: var(--space-xl);
     }
@@ -56,18 +56,17 @@
     margin: var(--space-xs) 0;
     font-family: var(--font-family-mono);
     letter-spacing: -0.05em;
-    word-break: break-all;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
     #result { font-size: var(--text-4xl); }
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
     #result { font-size: var(--text-3xl); }
 }
 
-@media (max-width: 360px) {
+@media (width <= 360px) {
     #result { font-size: var(--text-2xl); }
 }
 
@@ -85,7 +84,7 @@
     z-index: 1;
     font-size: var(--text-sm);
     line-height: var(--line-height-tight);
-    border-top: var(--border-width) solid rgba(255, 255, 255, 0.15);
+    border-top: var(--border-width) solid rgb(255 255 255 / 15%);
     padding-top: var(--space-lg);
 }
 
@@ -108,7 +107,7 @@
     gap: var(--space-xs);
     margin-top: var(--space-md);
     padding: var(--space-md);
-    background: rgba(255, 255, 255, 0.05);
+    background: rgb(255 255 255 / 5%);
     border-radius: var(--radius-xs);
 }
 
