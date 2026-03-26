@@ -506,16 +506,17 @@ function generateSliderTicks(paramId) {
 function _initCritical() {
     applyUrlParameters();
     updateLanguage(currentLang);
-    
-    const scientificBtn = document.querySelector('[data-preset="scientific"]');
-    if (scientificBtn) scientificBtn.classList.add('active-preset');
+
+    const saganBtn = document.querySelector('[data-preset="sagan"]');
+    if (saganBtn) saganBtn.classList.add('active-preset');
 
     // Generate slider ticks for all parameters
     for (const paramId of Object.keys(defaultValues)) {
         generateSliderTicks(paramId);
     }
 
-    resetForm();
+    applyPreset(presets.sagan);
+    validateAndCalculate('Rstar');
     
     // Critical event listeners
     document.querySelectorAll('.lang-btn').forEach(btn => { 
