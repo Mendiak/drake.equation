@@ -10,6 +10,7 @@
     position: relative;
     overflow: hidden;
     border-radius: var(--radius-sm);
+    max-width: 100%;
 }
 
 @media (max-width: 600px) {
@@ -34,7 +35,6 @@
     height: 2px;
     background: var(--color-white);
     border-radius: var(--radius-full);
-    box-shadow: 0 0 6px var(--color-white); /* Slightly stronger glow */
     opacity: 0;
     transition: opacity 1s ease;
 }

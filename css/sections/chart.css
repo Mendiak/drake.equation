@@ -3,7 +3,7 @@
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .section-title {
-    max-width: 800px;
+    max-width: 100%;
     margin-left: auto;
     margin-right: auto;
     font-size: var(--font-size-2xl);
@@ -14,6 +14,7 @@
     align-items: center;
     gap: var(--space-md);
     padding: 0 var(--space-xl);
+    overflow-x: hidden;
 }
 
 .section-title::after {
@@ -25,6 +26,8 @@
 
 .chart-section {
     margin-bottom: var(--space-5xl);
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 @media (max-width: 768px) {
@@ -34,7 +37,7 @@
 }
 
 .chart-header {
-    max-width: 800px;
+    max-width: 100%;
     margin-left: auto;
     margin-right: auto;
     display: flex;
@@ -43,6 +46,7 @@
     margin-bottom: var(--space-xl);
     gap: var(--space-md);
     padding: 0 var(--space-xl);
+    overflow-x: hidden;
 }
 
 @media (max-width: 600px) {
@@ -60,10 +64,11 @@
     padding: var(--space-xl);
     border-radius: var(--radius-sm);
     border: var(--border-width) solid #f0f0f0;
-    max-width: 800px;
+    max-width: 100%;
     margin-left: auto;
     margin-right: auto;
     padding: var(--space-xl) var(--space-xl);
+    overflow-x: hidden;
 }
 
 @media (max-width: 900px) {
@@ -77,6 +82,8 @@
     width: 100%;
     height: 350px;
     position: relative;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 @media (max-width: 600px) {
@@ -91,6 +98,8 @@
     gap: var(--space-lg);
     border-top: var(--border-width) solid #eeeeee;
     padding-top: var(--space-xl);
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 @media (max-width: 480px) {
@@ -104,6 +113,8 @@
 .funnel-step-info {
     display: flex;
     flex-direction: column;
+    max-width: 100%;
+    overflow-wrap: break-word;
 }
 
 .funnel-step-label {
@@ -113,6 +124,8 @@
     color: var(--color-text-subtle);
     margin-bottom: var(--space-sm);
     display: block;
+    max-width: 100%;
+    overflow-wrap: break-word;
 }
 
 .funnel-step-value {
@@ -121,21 +134,37 @@
     font-weight: var(--font-weight-bold);
     margin-bottom: var(--space-sm);
     display: block;
+    max-width: 100%;
+    overflow-wrap: break-word;
 }
 
 .funnel-step-desc {
     font-size: var(--text-sm);
     line-height: 1.5;
     color: var(--color-text-muted);
+    max-width: 100%;
+    overflow-wrap: break-word;
 }
 
 /* 6. Chart Section Refinement */
-.chart-controls { display: flex; align-items: center; gap: var(--space-sm); }
+.chart-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+    max-width: 100%;
+}
+
+@media (max-width: 600px) {
+    .chart-controls {
+        gap: var(--space-xs);
+    }
+}
 
 .chart-wrapper {
     position: relative;
     width: 100%;
-    max-width: 800px;
+    max-width: 100%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: var(--space-lg);
@@ -146,10 +175,17 @@
 @media (max-width: 600px) {
     .chart-wrapper {
         margin-bottom: 0;
+        padding: 0 var(--space-md);
     }
 }
 
-.toggle-group { display: flex; align-items: center; gap: var(--space-xs); }
+.toggle-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    flex-wrap: wrap;
+    max-width: 100%;
+}
 .switch { position: relative; width: 34px; height: 18px; }
 .switch input { opacity: 0; width: 0; height: 0; }
 .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #eeeeee; transition: .3s; border-radius: 34px; }
@@ -158,50 +194,67 @@ input:checked + .slider { background: #000000; }
 input:checked + .slider:before { transform: translateX(16px); }
 
 /* Specific height for sensitivity chart */
-#drakeChart {
+#drakeChart, #funnelChart {
     width: 100% !important;
     height: auto !important;
+    max-width: 100%;
+}
+
+canvas {
+    max-width: 100%;
+    height: auto;
 }
 
 .scientific-explanation {
     font-size: 1rem;
     color: #444;
-    max-width: 800px;
+    max-width: 100%;
     margin: 0 auto 2rem auto;
     line-height: 1.6;
     content-visibility: auto;
     contain-intrinsic-size: auto 100px;
+    overflow-wrap: break-word;
+}
+
+@media (max-width: 600px) {
+    .scientific-explanation {
+        font-size: 0.875rem;
+    }
 }
 
 /* 7. Educational Content Refinement */
 .educational-content {
     margin-top: var(--space-lg);
     background: #fafafa;
-    padding: var(--space-xl);
     border-radius: var(--radius-sm);
     border: var(--border-width) solid #f0f0f0;
-    max-width: 800px;
+    max-width: 100%;
     margin-left: auto;
     margin-right: auto;
     padding: var(--space-xl) var(--space-xl);
+    overflow-x: hidden;
 }
 
 @media (max-width: 600px) {
     .educational-content {
         padding: var(--space-md);
     }
+
     .result-card {
         padding: var(--space-md);
     }
+
     #result {
         font-size: var(--font-size-4xl);
         word-break: break-word;
     }
+
     .chart-header {
         flex-direction: column;
         align-items: flex-start;
         gap: var(--space-sm);
     }
+
     .chart-controls {
         width: 100%;
         flex-wrap: wrap;
@@ -415,7 +468,6 @@ footer a:hover {
     padding: 2px 6px;
     border-radius: var(--radius-sm);
     font-weight: var(--font-weight-extra);
-    box-shadow: 0 0 10px rgba(255, 235, 59, 0.5);
     transition: all var(--transition-base);
 }
 
@@ -575,15 +627,14 @@ footer a:hover {
 /* Magnitude Scale - Ruler Style */
 .magnitude-container {
     background: var(--color-bg-lighter);
-    padding: var(--space-2xl);
     border-radius: var(--radius-md);
     border: var(--border-width) solid var(--color-border);
     margin: var(--space-2xl) 0;
     position: relative;
-    max-width: 800px;
+    max-width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding: var(--space-3xl) var(--space-xl);
+    padding: var(--space-xl) var(--space-xl);
 }
 
 .magnitude-container h3 {
@@ -653,7 +704,7 @@ footer a:hover {
 
 @media (max-width: 600px) {
     .magnitude-container {
-        padding: var(--space-md);
+        padding: var(--space-md) var(--space-md);
     }
     .tick-label {
         font-size: var(--text-xs);

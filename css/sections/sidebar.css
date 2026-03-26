@@ -18,6 +18,13 @@
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--color-text-muted) var(--color-border);
+    max-width: 100%;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+.parameters-panel * {
+    box-sizing: border-box;
 }
 
 .parameters-panel::-webkit-scrollbar { width: 6px; }
@@ -37,6 +44,8 @@
         position: static;
         max-height: none;
         padding: var(--space-md);
+        width: 100%;
+        max-width: 100%;
     }
 }
 
@@ -53,16 +62,22 @@
     color: var(--color-text-primary);
     margin: 0 0 var(--space-md) 0;
     padding: 0;
+    max-width: 100%;
+    overflow-wrap: break-word;
 }
 
 .panel-header {
     margin-bottom: var(--space-xl);
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 .variables-header {
     margin: var(--space-2xl) 0 var(--space-lg) 0;
     padding-top: var(--space-lg);
     border-top: var(--border-width) solid var(--color-border);
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -77,6 +92,8 @@
     letter-spacing: 0;
     margin-bottom: var(--space-sm);
     opacity: 1;
+    max-width: 100%;
+    overflow-wrap: break-word;
 }
 
 .presets-container {
@@ -88,6 +105,8 @@
     background: transparent;
     border-radius: 0;
     border: none;
+    min-width: 0;
+    width: 100%;
 }
 
 .preset-btn {
@@ -101,9 +120,12 @@
     cursor: pointer;
     transition: all var(--transition-base);
     text-align: center;
-    white-space: normal;
-    word-wrap: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     line-height: var(--line-height-tight);
+    min-width: 0;
+    max-width: 100%;
 }
 
 .preset-btn:hover {
@@ -123,6 +145,17 @@
     }
 }
 
+@media (max-width: 360px) {
+    .presets-container {
+        grid-template-columns: 1fr;
+    }
+
+    .preset-btn {
+        padding: var(--space-xs);
+        font-size: var(--text-xs);
+    }
+}
+
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    Equation Display Box
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -136,7 +169,15 @@
     font-size: var(--text-sm);
     border-radius: 0;
     border: var(--border-width) solid var(--color-border);
-    word-break: break-word;
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+.equation-box code {
+    white-space: nowrap;
+    display: inline-block;
+    max-width: 100%;
+    overflow-x: auto;
 }
 
 .equation-box .active-param {
@@ -152,6 +193,8 @@
     margin-bottom: var(--space-lg);
     padding-bottom: var(--space-lg);
     border-bottom: var(--border-width) solid var(--color-border);
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 .input-group:last-of-type {
@@ -168,6 +211,13 @@
     letter-spacing: 0;
     margin-bottom: var(--space-sm);
     color: var(--color-text-primary);
+    max-width: 100%;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+.param-label sub {
+    font-size: 0.75em;
 }
 
 .param-label .active-param {
@@ -180,6 +230,20 @@
     grid-template-columns: 1fr auto;
     gap: var(--space-md);
     align-items: center;
+    min-width: 0;
+    max-width: 100%;
+}
+
+@media (max-width: 400px) {
+    .input-wrapper {
+        grid-template-columns: 1fr;
+        gap: var(--space-xs);
+    }
+
+    .value-display {
+        text-align: left;
+        padding-left: 0;
+    }
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -189,6 +253,8 @@
 .slider-container {
     position: relative;
     width: 100%;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 input[type="range"] {
@@ -385,6 +451,13 @@ button#reset-button:hover {
 @media (max-width: 600px) {
     .confidence-grid {
         grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 400px) {
+    .confidence-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-sm);
     }
 }
 

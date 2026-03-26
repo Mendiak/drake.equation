@@ -44,12 +44,9 @@ button {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
     z-index: 1000;
     display: flex;
     justify-content: center;
-    /* align-items: center is handled by margin: auto on the content for better scroll behavior */
     overflow-y: auto;
     padding: var(--space-xl) var(--space-md);
     opacity: 0;
@@ -67,11 +64,34 @@ button {
     padding: var(--space-3xl);
     max-width: 600px;
     width: 100%;
-    margin: auto; /* Centers content vertically and horizontally, handles overflow correctly */
+    margin: auto;
     position: relative;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-small);
     transform: translateY(20px);
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+@media (max-width: 600px) {
+    .tooltip-content {
+        padding: var(--space-xl) var(--space-md);
+        margin: var(--space-md);
+    }
+
+    .tooltip-content h3 {
+        font-size: var(--text-xl);
+        padding-right: var(--space-2xl);
+    }
+
+    .tooltip-close {
+        top: var(--space-md);
+        right: var(--space-md);
+        width: 32px;
+        height: 32px;
+        font-size: var(--text-lg);
+    }
 }
 
 .tooltip-modal[style*="display: flex"] .tooltip-content {
