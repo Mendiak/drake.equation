@@ -15,7 +15,7 @@
 
 @media (max-width: 600px) {
     .result-card {
-        padding: var(--space-lg);
+        padding: var(--space-xl);
     }
 }
 

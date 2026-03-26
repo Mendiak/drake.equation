@@ -240,10 +240,6 @@ canvas {
         padding: var(--space-md);
     }
 
-    .result-card {
-        padding: var(--space-md);
-    }
-
     #result {
         font-size: var(--font-size-4xl);
         word-break: break-word;
