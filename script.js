@@ -196,6 +196,7 @@ function updateLanguage(lang) {
         }
     }
 
+    renderMagnitudeContext();
     renderTimeline();
     renderKeyConceptsCards();
     validateAndCalculate();
@@ -532,21 +533,8 @@ function _initCritical() {
         }); 
     }
     
-    document.addEventListener('keydown', (e) => { 
-        if (e.key === 'Escape') hideTooltip(); 
-    });
-
-    const detailsElements = document.querySelectorAll('details');
-    detailsElements.forEach(details => {
-        details.addEventListener('toggle', () => {
-            if (details.open) {
-                detailsElements.forEach(otherDetails => {
-                    if (otherDetails !== details && otherDetails.open) {
-                        otherDetails.removeAttribute('open');
-                    }
-                });
-            }
-        });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') hideTooltip();
     });
 }
 

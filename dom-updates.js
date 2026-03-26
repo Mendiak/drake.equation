@@ -1,6 +1,16 @@
-/* exported renderTimeline, renderKeyConceptsCards, updateResultDetails, updateMagnitudeScale, currentN, animateValue, updateGalaxyVisualization, interpretResult */
+/* exported renderTimeline, renderKeyConceptsCards, updateResultDetails, updateMagnitudeScale, renderMagnitudeContext, currentN, animateValue, updateGalaxyVisualization, interpretResult */
 // Drake Equation DOM Updates
 // Visual and textual updates for the interface
+
+function renderMagnitudeContext() {
+    const container = document.getElementById('magnitude-context-list');
+    if (!container) return;
+
+    const contextList = translations[currentLang].magnitude_context_list;
+    container.innerHTML = contextList.map(item => `
+        <li><strong>${item.range}:</strong> ${item.meaning}</li>
+    `).join('');
+}
 
 function renderTimeline() {
     const container = document.getElementById('timeline-container');

@@ -252,6 +252,14 @@ const translations = {
             filter_note: "If N is low, the hardest challenge (the 'Great Filter') is likely behind us: life is a rare miracle. If N is high but we see nothing, the filter may be ahead: civilizations might tend to self-destruct before they can be found."
         },
         magnitude_scale: "Order of Magnitude Scale",
+        magnitude_intro: "This scale helps you understand what your result <strong>really means</strong> in cosmic terms. The Drake Equation can produce vastly different answers depending on your assumptions—from a lonely universe to one teeming with life.",
+        magnitude_context_title: "What Does This Scale Tell Us?",
+        magnitude_context_list: [
+            { range: "N = 1", meaning: "We are alone in the Milky Way. Either life never starts, or civilizations always destroy themselves before becoming detectable." },
+            { range: "N = 10–1,000", meaning: "Civilizations are extremely rare. The vast distances between them make contact nearly impossible." },
+            { range: "N = 1,000–1,000,000", meaning: "Life is moderately common, but civilizations are either short-lived or widely separated in space and time." },
+            { range: "N > 1,000,000", meaning: "The galaxy should be bustling with activity. This raises the Fermi Paradox: if so many exist, where is everybody?" }
+        ],
         magnitude_explanation: "Based on your settings, here's where your estimate lands on the cosmic scale—from a solitary civilization to billions across the galaxy:",
         references_title: "References & Resources",
         confidence_levels_title: "Scientific Confidence Levels",
@@ -545,6 +553,14 @@ const translations = {
             filter_note: "Si N es bajo, lo más difícil (el 'Gran Filtro') ya ha pasado: la vida es un milagro. Si N es alto y no vemos a nadie, el peligro puede estar en el futuro: las civilizaciones podrían tender a autodestruirse rápido."
         },
         magnitude_scale: "Escala de Orden de Magnitud",
+        magnitude_intro: "Esta escala te ayuda a entender lo que tu resultado <strong>realmente significa</strong> en términos cósmicos. La Ecuación de Drake puede producir respuestas muy diferentes dependiendo de tus suposiciones: desde un universo solitario hasta uno lleno de vida.",
+        magnitude_context_title: "¿Qué Nos Dice Esta Escala?",
+        magnitude_context_list: [
+            { range: "N = 1", meaning: "Estamos solos en la Vía Láctea. O la vida nunca comienza, o las civilizaciones siempre se destruyen antes de volverse detectables." },
+            { range: "N = 10–1.000", meaning: "Las civilizaciones son extremadamente raras. Las vastas distancias entre ellas hacen que el contacto sea casi imposible." },
+            { range: "N = 1.000–1.000.000", meaning: "La vida es moderadamente común, pero las civilizaciones tienen vidas cortas o están muy separadas en el espacio y el tiempo." },
+            { range: "N > 1.000.000", meaning: "La galaxia debería estar llena de actividad. Esto plantea la Paradoja de Fermi: si hay tantas, ¿dónde está todo el mundo?" }
+        ],
         magnitude_explanation: "Según tus configuraciones, aquí es donde se sitúa tu estimación en la escala cósmica—desde apenas una civilización a miles de millones dispersos en la galaxia:",
         references_title: "Referencias y Recursos",
         confidence_levels_title: "Niveles de Confianza Científica",

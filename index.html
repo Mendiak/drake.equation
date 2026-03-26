@@ -442,6 +442,64 @@
 
                 </section>
 
+                <!-- Order of Magnitude Scale -->
+                <section class="magnitude-section">
+                    <div class="magnitude-container">
+                        <h3 data-i18n="magnitude_scale">Order of Magnitude Scale</h3>
+                        <p class="magnitude-intro" data-i18n="magnitude_intro">
+                            This scale helps you understand what your result <strong>really means</strong> in cosmic terms. 
+                            The Drake Equation can produce vastly different answers depending on your assumptions—ranging 
+                            from a lonely universe to one teeming with life.
+                        </p>
+                        
+                        <div class="magnitude-ruler">
+                            <div class="ruler-pointer" id="magnitude-indicator" style="left: 0%;"></div>
+                            <div class="ruler-line"></div>
+                            <div class="ruler-scale" id="magnitude-scale">
+                                <div class="ruler-tick" data-value="1">
+                                    <span class="tick-label">1</span>
+                                </div>
+                                <div class="ruler-tick" data-value="10">
+                                    <span class="tick-label">10</span>
+                                </div>
+                                <div class="ruler-tick" data-value="100">
+                                    <span class="tick-label">100</span>
+                                </div>
+                                <div class="ruler-tick" data-value="1K">
+                                    <span class="tick-label">1K</span>
+                                </div>
+                                <div class="ruler-tick" data-value="10K">
+                                    <span class="tick-label">10K</span>
+                                </div>
+                                <div class="ruler-tick" data-value="100K">
+                                    <span class="tick-label">100K</span>
+                                </div>
+                                <div class="ruler-tick" data-value="1M">
+                                    <span class="tick-label">1M</span>
+                                </div>
+                                <div class="ruler-tick" data-value="10M">
+                                    <span class="tick-label">10M</span>
+                                </div>
+                                <div class="ruler-tick" data-value="100M">
+                                    <span class="tick-label">100M</span>
+                                </div>
+                                <div class="ruler-tick" data-value="1B">
+                                    <span class="tick-label">1B</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p id="magnitude-label" class="magnitude-label">Start calculating...</p>
+                        
+                        <div class="magnitude-context">
+                            <h4 data-i18n="magnitude_context_title">What Does This Scale Tell Us?</h4>
+                            <ul class="magnitude-list" id="magnitude-context-list">
+                                <!-- Dynamic content injected via JavaScript -->
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
                 <!-- Fullscreen overlay content (hidden by default) -->
                 <div class="galaxy-fullscreen-overlay" id="galaxy-fullscreen-overlay">
                     <div class="fullscreen-sidebar" id="fullscreen-sidebar">
@@ -594,49 +652,6 @@
                                 magnitude</strong>—from isolated Earth to billions of civilizations. This isn't a flaw;
                             it's honest uncertainty. We're working with incomplete data, and disagreement itself is
                             scientifically valuable. This tool is speculative, not predictive.</p>
-                    </div>
-
-                    <div class="magnitude-container">
-                        <h3 data-i18n="magnitude_scale">Order of Magnitude Scale</h3>
-                        <p data-i18n="magnitude_explanation">Your estimate falls here on the scale of possible outcomes:
-                        </p>
-                        <div class="magnitude-ruler">
-                            <div class="ruler-pointer" id="magnitude-indicator" style="left: 0%;"></div>
-                            <div class="ruler-line"></div>
-                            <div class="ruler-scale" id="magnitude-scale">
-                                <div class="ruler-tick" data-value="1">
-                                    <span class="tick-label">1</span>
-                                </div>
-                                <div class="ruler-tick" data-value="10">
-                                    <span class="tick-label">10</span>
-                                </div>
-                                <div class="ruler-tick" data-value="100">
-                                    <span class="tick-label">100</span>
-                                </div>
-                                <div class="ruler-tick" data-value="1K">
-                                    <span class="tick-label">1K</span>
-                                </div>
-                                <div class="ruler-tick" data-value="10K">
-                                    <span class="tick-label">10K</span>
-                                </div>
-                                <div class="ruler-tick" data-value="100K">
-                                    <span class="tick-label">100K</span>
-                                </div>
-                                <div class="ruler-tick" data-value="1M">
-                                    <span class="tick-label">1M</span>
-                                </div>
-                                <div class="ruler-tick" data-value="10M">
-                                    <span class="tick-label">10M</span>
-                                </div>
-                                <div class="ruler-tick" data-value="100M">
-                                    <span class="tick-label">100M</span>
-                                </div>
-                                <div class="ruler-tick" data-value="1B">
-                                    <span class="tick-label">1B</span>
-                                </div>
-                            </div>
-                        </div>
-                        <p id="magnitude-label" class="magnitude-label">Start calculating...</p>
                     </div>
 
                     <div class="references-section">
