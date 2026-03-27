@@ -115,8 +115,15 @@ function snapToDetent(value, paramId) {
             for (let i = 0; i <= 10; i++) snapPoints.push(roundToDecimals(min + (i * 0.1), 2));
         } else if (paramId === 'Rstar' || paramId === 'ne') {
             // For 0.1-10 ranges: snap to 0.5 increments
-            for (let i = Math.ceil(min * 10) / 10; i <= max; i += 0.5) {
-                snapPoints.push(roundToDecimals(i, 1));
+            // Use integer loop to avoid floating-point precision issues
+            const start = Math.ceil(min * 10) / 10;
+            const end = Math.floor(max * 10) / 10;
+            for (let i = start * 10; i <= end * 10; i += 5) {
+                snapPoints.push(roundToDecimals(i / 10, 1));
+            }
+            // Ensure max value is included
+            if (!snapPoints.includes(max)) {
+                snapPoints.push(max);
             }
         } else if (paramId === 'L') {
             // For large ranges: snap to round values
