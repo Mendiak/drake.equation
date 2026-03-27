@@ -83,6 +83,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--color-black);
+    -webkit-text-fill-color: var(--color-black);
 }
 
 .preset-btn:hover {
