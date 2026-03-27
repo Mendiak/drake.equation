@@ -94,7 +94,8 @@
 
 .preset-btn.active-preset {
     background: var(--color-black);
-    color: var(--color-white);
+    color: var(--color-white) !important;
+    -webkit-text-fill-color: var(--color-white) !important;
     border-color: var(--color-black);
 }
 
@@ -130,8 +131,8 @@
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .input-group {
-    margin-bottom: var(--space-xl);
-    padding-bottom: var(--space-lg);
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-md);
     border-bottom: var(--border-width) solid var(--color-border);
 }
 
@@ -314,7 +315,6 @@ input[type="range"]::-moz-range-thumb:focus {
     font-size: var(--text-sm);
     font-weight: var(--font-weight-regular);
     color: var(--color-text-primary);
-    min-width: 64px;
     max-width: 80px;
     text-align: right;
     flex-shrink: 0;

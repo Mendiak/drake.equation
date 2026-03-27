@@ -39,7 +39,6 @@
     margin-bottom: var(--space-xl);
     gap: var(--space-md);
     padding: 0 var(--space-xl);
-    overflow-x: hidden;
 }
 
 .funnel-container {

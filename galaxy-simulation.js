@@ -1172,6 +1172,16 @@ function applyPresetFromFullscreen(preset) {
     const originalBtn = document.querySelector(`.preset-btn[data-preset="${preset}"]`);
     if (originalBtn) {
         originalBtn.click();
+        
+        // Update active-preset class in fullscreen buttons
+        document.querySelectorAll('.fullscreen-presets-grid .preset-btn').forEach(btn => {
+            btn.classList.remove('active-preset');
+        });
+        const activeFullscreenBtn = document.querySelector(`.fullscreen-presets-grid .preset-btn[onclick*="${preset}"]`);
+        if (activeFullscreenBtn) {
+            activeFullscreenBtn.classList.add('active-preset');
+        }
+        
         // Update fullscreen values after preset is applied
         setTimeout(() => {
             syncFullscreenValues();

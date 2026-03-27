@@ -278,6 +278,11 @@ const translations = {
             high: "Highly speculative (orange): Educated guesses",
             very_high: "Extremely speculative (red): Profound unknowns"
         },
+        confidence_legend_labels: {
+            observed: "Observed",
+            theoretical: "Theoretical",
+            speculative: "Speculative"
+        },
         link_oxford: "Dissolving the Fermi Paradox (Oxford Paper)",
         link_hanson: "The Great Filter (Robin Hanson)",
         fullscreen_params_title: "Parameters",
@@ -578,6 +583,11 @@ const translations = {
             medium: "Teórico pero fundamentado (amarillo): Ciencia establecida",
             high: "Muy especulativo (naranja): Conjeturas educadas",
             very_high: "Extremadamente especulativo (rojo): Incógnitas profundas"
+        },
+        confidence_legend_labels: {
+            observed: "Observado",
+            theoretical: "Teórico",
+            speculative: "Especulativo"
         },
         link_oxford: "Disolviendo la Paradoja de Fermi (Paper Oxford)",
         link_hanson: "El Gran Filtro (Robin Hanson)",
