@@ -13,10 +13,15 @@
 .lang-btn {
     background: none;
     border: none;
-    padding: 0;
+    padding: var(--space-xs) var(--space-sm);
+    min-width: 44px;
+    min-height: 44px;
     cursor: pointer;
     color: var(--color-text-subtle);
     transition: color var(--transition-base);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .lang-btn:hover, .lang-btn.active {
@@ -62,7 +67,7 @@ button {
 .tooltip-content {
     background: var(--color-white);
     padding: var(--space-3xl);
-    max-width: 600px;
+    max-width: 800px;
     width: 100%;
     margin: auto;
     position: relative;
@@ -72,26 +77,6 @@ button {
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     max-height: 90vh;
     overflow-y: auto;
-}
-
-@media (width <= 600px) {
-    .tooltip-content {
-        padding: var(--space-xl) var(--space-md);
-        margin: var(--space-md);
-    }
-
-    .tooltip-content h3 {
-        font-size: var(--text-xl);
-        padding-right: var(--space-2xl);
-    }
-
-    .tooltip-close {
-        top: var(--space-md);
-        right: var(--space-md);
-        width: 32px;
-        height: 32px;
-        font-size: var(--text-lg);
-    }
 }
 
 .tooltip-modal[style*="display: flex"] .tooltip-content {
@@ -185,7 +170,6 @@ button {
     font-size: var(--text-xs);
     font-style: normal;
     cursor: pointer;
-    opacity: 0.5;
     transition: all var(--transition-base);
 }
 
@@ -194,4 +178,28 @@ button {
     background: var(--color-black);
     color: var(--color-white);
     border-color: var(--color-black);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   MOBILE RESPONSIVE - Consolidated
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+@media (width <= 600px) {
+    .tooltip-content {
+        padding: var(--space-xl) var(--space-md);
+        margin: var(--space-md);
+    }
+
+    .tooltip-content h3 {
+        font-size: var(--text-xl);
+        padding-right: var(--space-2xl);
+    }
+
+    .tooltip-close {
+        top: var(--space-md);
+        right: var(--space-md);
+        width: 32px;
+        height: 32px;
+        font-size: var(--text-lg);
+    }
 }

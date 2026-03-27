@@ -9,7 +9,7 @@ const translations = {
         guide_2_title: "2. Analyze",
         guide_2_desc: "Watch how the final result (N) changes in real-time based on your inputs.",
         guide_3_title: "3. Learn",
-        guide_3_desc: "Click the <span class=\"info-icon\" style=\"display:inline-flex; width:16px; height:16px; font-size:10px;\">ⓘ</span> icons to understand the scientific basis of each parameter.",
+        guide_3_desc: "Click the <span class=\"info-icon\" style=\"display:inline-flex; width:16px; height:16px; font-size:10px;\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-info\"><path d=\"M12 16v-4\"/><path d=\"M12 8h.01\"/></svg></span> icons to understand the scientific basis of each parameter.",
         presets_title: "Presets",
         preset_legend: "Optimistic ← → Pessimistic",
         preset_optimistic: "Optimistic Scientist",
@@ -76,7 +76,7 @@ const translations = {
         galaxy_fullscreen_mobile_only: "Fullscreen view is only available on large screens.",
         section_learn: "Learn More",
         funnel_steps: {
-            total: "Stars in Galaxy",
+            total: "Without Planets",
             planets: "With Planets",
             habitable: "Habitable",
             life: "Developing Life",
@@ -84,7 +84,7 @@ const translations = {
             tech: "Communicative (N)"
         },
         funnel_insights: {
-            total: "The starting point: ~200 billion stars in the Milky Way.",
+            total: "Stars without planetary systems. These never enter the cosmic filter.",
             planets: "Most stars have planets, but not all are in stable systems.",
             habitable: "Only planets in the 'Goldilocks Zone' can support liquid water.",
             life: "The jump from organic chemistry to biology. A major unknown.",
@@ -310,7 +310,7 @@ const translations = {
         guide_2_title: "2. Analizar",
         guide_2_desc: "Observa cómo cambia el resultado final (N) en tiempo real según tus entradas.",
         guide_3_title: "3. Aprender",
-        guide_3_desc: "Haz clic en los iconos <span class=\"info-icon\" style=\"display:inline-flex; width:16px; height:16px; font-size:10px;\">ⓘ</span> para entender la base científica de cada parámetro.",
+        guide_3_desc: "Haz clic en los iconos <span class=\"info-icon\" style=\"display:inline-flex; width:16px; height:16px; font-size:10px;\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-info\"><path d=\"M12 16v-4\"/><path d=\"M12 8h.01\"/></svg></span> para entender la base científica de cada parámetro.",
         presets_title: "Preajustes",
         preset_legend: "Optimista ← → Pesimista",
         preset_optimistic: "Científico Optimista",
@@ -377,15 +377,15 @@ const translations = {
         funnel_intro: "Imagina la galaxia como un gran embudo. Cada factor de la ecuación actúa como un filtro que reduce las posibilidades de encontrar vida. Muchos candidatos entran por arriba, pero muy pocos logran salir por abajo como civilizaciones detectables.",
         section_learn: "Aprender Más",
         funnel_steps: {
-            total: "Estrellas en la Vía Láctea",
-            planets: "Sistemas con Planetas",
-            habitable: "Mundos Habitables",
-            life: "Donde surge la Vida",
-            intelligence: "Vida Inteligente",
-            tech: "Civilizaciones Detectables (N)"
+            total: "Sin Planetas",
+            planets: "Con Planetas",
+            habitable: "Habitables",
+            life: "Con Vida",
+            intelligence: "Inteligente",
+            tech: "Detectables (N)"
         },
         funnel_insights: {
-            total: "Nuestra galaxia es inmensa, con unos 200 mil millones de soles. Cada uno es una oportunidad para la vida.",
+            total: "Estrellas sin sistemas planetarios. Nunca entran en el filtro cósmico.",
             planets: "Hoy sabemos que casi todas las estrellas tienen planetas. La mayoría de los soles de la galaxia poseen su propio sistema planetario.",
             habitable: "No todos los planetas son aptos. Solo los que están a la distancia justa de su sol (Zona de Ricitos de Oro) pueden albergar agua líquida.",
             life: "Este es un gran salto: de la química a la biología. ¿Es la vida un proceso inevitable o un milagro químico extremadamente raro?",

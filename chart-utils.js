@@ -99,6 +99,12 @@ function initChart() {
 }
 
 function updateChart(parameter, currentValues) {
+    // Check if chart is initialized
+    if (!drakeChart || !drakeChart.data) {
+        console.warn('Chart not initialized yet');
+        return;
+    }
+    
     const values = [];
     const results = [];
     const baseValue = currentValues[parameter];

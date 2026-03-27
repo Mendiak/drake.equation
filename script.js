@@ -1,6 +1,9 @@
 /* exported updateValueAndRecalculate */
 let currentLang = localStorage.getItem('drake-lang') || 'en';
 
+// Drake chart instances (defined in chart-utils.js)
+/* global drakeChart */
+
 function t(key) {
     const keys = key.split('.');
     let value = translations[currentLang];
@@ -151,6 +154,13 @@ function snapToDetent(value, paramId) {
     return value;
 }
 
+// Initialize Lucide icons
+function initLucideIcons() {
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+}
+
 function updateLanguage(lang) {
     currentLang = lang;
     localStorage.setItem('drake-lang', lang);
@@ -171,6 +181,9 @@ function updateLanguage(lang) {
             el.setAttribute('title', tooltipText);
         }
     });
+
+    // Re-initialize Lucide icons after language change
+    initLucideIcons();
 
     // Show/hide galaxy note based on language
     const galaxyNoteEn = document.querySelectorAll('.galaxy-note-en');
@@ -515,25 +528,28 @@ function _initCritical() {
         generateSliderTicks(paramId);
     }
 
+    // Initialize chart first (before validateAndCalculate)
+    initChart();
+
     applyPreset(presets.sagan);
     validateAndCalculate('Rstar');
-    
+
     // Critical event listeners
-    document.querySelectorAll('.lang-btn').forEach(btn => { 
-        btn.addEventListener('click', () => updateLanguage(btn.getAttribute('data-lang'))); 
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => updateLanguage(btn.getAttribute('data-lang')));
     });
-    
-    document.querySelectorAll('.info-icon').forEach(icon => { 
-        icon.addEventListener('click', (e) => showTooltip(e.target.getAttribute('data-param'))); 
+
+    document.querySelectorAll('.info-icon').forEach(icon => {
+        icon.addEventListener('click', (e) => showTooltip(e.currentTarget.getAttribute('data-param')));
     });
-    
+
     const tooltipModal = document.getElementById('tooltip-modal');
-    if (tooltipModal) { 
-        tooltipModal.addEventListener('click', (e) => { 
-            if (e.target === tooltipModal || e.target.classList.contains('tooltip-close')) hideTooltip(); 
-        }); 
+    if (tooltipModal) {
+        tooltipModal.addEventListener('click', (e) => {
+            if (e.target === tooltipModal || e.target.classList.contains('tooltip-close')) hideTooltip();
+        });
     }
-    
+
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') hideTooltip();
     });
@@ -541,7 +557,6 @@ function _initCritical() {
 
 // Non-critical initialization - deferred for better LCP
 function _initNonCritical() {
-    initChart();
     initGalaxySimulation();
     
     // Preset button listeners
@@ -581,11 +596,23 @@ if (document.readyState === 'loading') {
     } else {
         setTimeout(_initNonCritical, 100);
     }
+    // Initialize Lucide after everything is loaded
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(initLucideIcons, { timeout: 1000 });
+    } else {
+        setTimeout(initLucideIcons, 50);
+    }
 } else {
     _initCritical();
     if ('requestIdleCallback' in window) {
         requestIdleCallback(_initNonCritical, { timeout: 2000 });
     } else {
         setTimeout(_initNonCritical, 100);
+    }
+    // Initialize Lucide after everything is loaded
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(initLucideIcons, { timeout: 1000 });
+    } else {
+        setTimeout(initLucideIcons, 50);
     }
 }

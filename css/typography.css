@@ -1,22 +1,31 @@
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    4. TYPOGRAPHY
+   Mobile-first typography scale
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 /* Headings - Consistent negative letter-spacing for tightness */
 h1 {
-    font-size: var(--text-4xl);
+    font-size: var(--text-2xl);
     font-weight: var(--font-weight-extra);
     letter-spacing: -0.03em;
     margin: 0 0 var(--space-xs) 0;
     line-height: 1.1;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
 }
 
-@media (width <= 600px) {
-    h1 { font-size: var(--text-3xl); }
+h1 [data-lucide] {
+    flex-shrink: 0;
+}
+
+h1 span[data-i18n] {
+    display: inline-block;
 }
 
 h2 {
-    font-size: var(--text-2xl);
+    font-size: var(--text-xl);
     font-weight: var(--font-weight-extra);
     letter-spacing: -0.02em;
     margin: 0;
@@ -50,7 +59,7 @@ p, .body-text {
 
 /* Secondary/muted text */
 .subtitle {
-    font-size: var(--text-xl);
+    font-size: var(--text-lg);
     color: var(--color-text-muted);
     margin: 0;
     font-weight: var(--font-weight-regular);
@@ -63,32 +72,42 @@ p, .body-text {
     margin-top: var(--space-xl);
     padding-top: var(--space-xl);
     border-top: var(--border-width) solid var(--color-border);
-    max-width: 800px;
+    max-width: 100%;
 }
 
 .hero-description p {
-    font-size: var(--text-lg);
+    font-size: var(--text-base);
     color: var(--color-text-secondary);
     line-height: 1.6;
     letter-spacing: 0.01em;
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--space-lg);
 }
 
 /* Usage guide */
 .usage-guide {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-3xl);
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
 }
 
 .guide-item strong {
-    display: block;
+    display: inline-flex;
+    align-items: center;
     font-size: var(--text-xs);
     text-transform: uppercase;
     letter-spacing: 0.08em;
     margin-bottom: var(--space-sm);
     color: var(--color-black);
     font-weight: var(--font-weight-bold);
+    gap: var(--space-xs);
+}
+
+.guide-item strong [data-lucide] {
+    flex-shrink: 0;
+}
+
+.guide-item strong span[data-i18n] {
+    display: inline-block;
 }
 
 .guide-item p {
@@ -97,13 +116,6 @@ p, .body-text {
     margin: 0;
     line-height: 1.5;
     letter-spacing: 0.01em;
-}
-
-@media (width <= 768px) {
-    .usage-guide {
-        grid-template-columns: 1fr;
-        gap: var(--space-xl);
-    }
 }
 
 /* Labels and captions - smallest text */
@@ -122,4 +134,41 @@ p, .body-text {
     font-weight: var(--font-weight-extra);
     letter-spacing: -0.02em;
     line-height: 1.3;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TABLET BREAKPOINT (768px)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+@media (width >= 768px) {
+    h1 {
+        font-size: var(--text-3xl);
+    }
+
+    h2 {
+        font-size: var(--text-2xl);
+    }
+
+    .hero-description p {
+        font-size: var(--text-lg);
+    }
+
+    .usage-guide {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-2xl);
+    }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   DESKTOP BREAKPOINT (1024px)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+@media (width >= 1024px) {
+    h1 {
+        font-size: var(--text-4xl);
+    }
+
+    .hero-description {
+        max-width: 800px;
+    }
 }

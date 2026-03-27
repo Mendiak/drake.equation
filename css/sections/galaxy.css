@@ -576,22 +576,6 @@
     text-overflow: ellipsis;
 }
 
-@media (width <= 600px) {
-    .fullscreen-btn-overlay {
-        padding: var(--space-xs);
-        font-size: var(--text-xs);
-    }
-
-    .fullscreen-btn-overlay span {
-        display: none;
-    }
-
-    .fullscreen-btn-overlay i {
-        font-size: var(--text-sm);
-        margin: 0;
-    }
-}
-
 .fullscreen-btn-overlay:hover {
     opacity: 1;
     background: rgb(0 0 0 / 80%);
@@ -726,71 +710,6 @@
 
 .galaxy-note-en {
     display: block;
-}
-
-@media (width <= 768px) {
-    .galaxy-sim-section {
-        padding: var(--space-xl) var(--space-md);
-        max-width: 100%;
-        overflow-x: hidden;
-    }
-
-    .galaxy-sim-container {
-        height: 400px;
-        max-width: 100%;
-    }
-
-    .galaxy-controls-panel {
-        padding: var(--space-lg);
-    }
-
-    .galaxy-sim-section.fullscreen .galaxy-sim-legend {
-        position: relative;
-        bottom: auto;
-        left: auto;
-        transform: none;
-        background: transparent;
-        flex-direction: column;
-        gap: var(--space-sm);
-    }
-
-    #galaxy-sim-legend-fullscreen {
-        position: relative;
-        bottom: auto;
-        left: auto;
-        transform: none;
-        background: transparent;
-        padding: var(--space-md);
-        flex-direction: column;
-        gap: var(--space-xs);
-    }
-
-    .fullscreen-sidebar {
-        width: 100%;
-        max-width: 100%;
-    }
-
-    .fullscreen-result .result-value {
-        font-size: var(--font-size-5xl);
-    }
-
-    .galaxy-note {
-        padding: var(--space-md) var(--space-md);
-        margin: var(--space-lg) auto;
-        max-width: 100%;
-    }
-
-    /* Disable fullscreen button on mobile */
-    .fullscreen-btn-overlay {
-        cursor: not-allowed;
-        opacity: 0.5 !important;
-    }
-
-    .fullscreen-btn-overlay::after {
-        content: '📱';
-        font-size: var(--text-xs);
-        margin-left: var(--space-xs);
-    }
 }
 
 /* Mobile fullscreen alert toast */
@@ -1010,7 +929,74 @@
     margin-right: var(--space-xs);
 }
 
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   MOBILE RESPONSIVE - Consolidated
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
 @media (width <= 768px) {
+    .galaxy-sim-section {
+        padding: var(--space-xl) var(--space-md);
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .galaxy-sim-container {
+        height: 400px;
+        max-width: 100%;
+    }
+
+    .galaxy-controls-panel {
+        padding: var(--space-lg);
+    }
+
+    .galaxy-sim-section.fullscreen .galaxy-sim-legend {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        transform: none;
+        background: transparent;
+        flex-direction: column;
+        gap: var(--space-sm);
+    }
+
+    #galaxy-sim-legend-fullscreen {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        transform: none;
+        background: transparent;
+        padding: var(--space-md);
+        flex-direction: column;
+        gap: var(--space-xs);
+    }
+
+    .fullscreen-sidebar {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .fullscreen-result .result-value {
+        font-size: var(--font-size-5xl);
+    }
+
+    .galaxy-note {
+        padding: var(--space-md) var(--space-md);
+        margin: var(--space-lg) auto;
+        max-width: 100%;
+    }
+
+    /* Disable fullscreen button on mobile */
+    .fullscreen-btn-overlay {
+        cursor: not-allowed;
+        opacity: 0.5 !important;
+    }
+
+    .fullscreen-btn-overlay::after {
+        content: '📱';
+        font-size: var(--text-xs);
+        margin-left: var(--space-xs);
+    }
+
     .magnitude-section {
         padding: var(--space-xl) 0;
     }
@@ -1035,5 +1021,21 @@
 
     .tick-label {
         font-size: 9px;
+    }
+}
+
+@media (width <= 600px) {
+    .fullscreen-btn-overlay {
+        padding: var(--space-xs);
+        font-size: var(--text-xs);
+    }
+
+    .fullscreen-btn-overlay span {
+        display: none;
+    }
+
+    .fullscreen-btn-overlay i {
+        font-size: var(--text-sm);
+        margin: 0;
     }
 }

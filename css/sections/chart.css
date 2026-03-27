@@ -3,14 +3,23 @@
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .section-title {
-    max-width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    font-size: var(--text-2xl);
+    font-size: var(--text-xl);
     font-weight: var(--font-weight-extra);
     letter-spacing: -0.02em;
-    margin-bottom: var(--space-xl);
-    padding: 0 var(--space-xl);
+    margin-bottom: var(--space-lg);
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.section-title [data-lucide] {
+    flex-shrink: 0;
+}
+
+.section-title span[data-i18n] {
+    display: inline-block;
 }
 
 
@@ -18,12 +27,6 @@
     margin-bottom: var(--space-5xl);
     max-width: 100%;
     overflow-x: hidden;
-}
-
-@media (width <= 768px) {
-    .chart-section {
-        margin-bottom: var(--space-3xl);
-    }
 }
 
 .chart-header {
@@ -37,13 +40,6 @@
     gap: var(--space-md);
     padding: 0 var(--space-xl);
     overflow-x: hidden;
-}
-
-@media (width <= 600px) {
-    .chart-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
 }
 
 .funnel-container {
@@ -60,25 +56,12 @@
     overflow-x: hidden;
 }
 
-@media (width <= 900px) {
-    .funnel-container {
-        gap: var(--space-lg);
-        padding: var(--space-md);
-    }
-}
-
 .funnel-chart-wrapper {
     width: 100%;
     height: 350px;
     position: relative;
     max-width: 100%;
     overflow-x: hidden;
-}
-
-@media (width <= 600px) {
-    .funnel-chart-wrapper {
-        height: 400px; /* Additional height to prevent vertical compression of labels */
-    }
 }
 
 .funnel-insight-panel {
@@ -89,14 +72,6 @@
     padding-top: var(--space-xl);
     max-width: 100%;
     overflow-x: hidden;
-}
-
-@media (width <= 480px) {
-    .funnel-insight-panel {
-        grid-template-columns: 1fr;
-        padding-top: var(--space-lg);
-        gap: var(--space-md);
-    }
 }
 
 .funnel-step-info {
@@ -144,12 +119,6 @@
     max-width: 100%;
 }
 
-@media (width <= 600px) {
-    .chart-controls {
-        gap: var(--space-xs);
-    }
-}
-
 .chart-wrapper {
     position: relative;
     width: 100%;
@@ -159,13 +128,6 @@
     margin-bottom: var(--space-lg);
     overflow-x: hidden;
     padding: 0 var(--space-xl);
-}
-
-@media (width <= 600px) {
-    .chart-wrapper {
-        margin-bottom: 0;
-        padding: 0 var(--space-md);
-    }
 }
 
 .toggle-group {
@@ -240,12 +202,6 @@ canvas {
     overflow-wrap: break-word;
 }
 
-@media (width <= 600px) {
-    .scientific-explanation {
-        font-size: var(--text-sm);
-    }
-}
-
 /* 7. Educational Content Refinement */
 .educational-content {
     margin-top: var(--space-lg);
@@ -257,27 +213,6 @@ canvas {
     margin-right: auto;
     padding: var(--space-xl) var(--space-xl);
     overflow-x: hidden;
-}
-
-@media (width <= 600px) {
-    .educational-content {
-        padding: var(--space-md);
-    }
-
-    #result {
-        font-size: var(--text-4xl);
-    }
-
-    .chart-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: var(--space-sm);
-    }
-
-    .chart-controls {
-        width: 100%;
-        flex-wrap: wrap;
-    }
 }
 
 details {
@@ -552,12 +487,6 @@ footer a:hover {
     border-color: #a93226;
 }
 
-@media (width <= 600px) {
-    .confidence-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
 #equation-text span {
     padding: 2px 4px;
     display: inline-block;
@@ -607,12 +536,6 @@ footer a:hover {
     color: var(--color-text-muted);
     margin: 0;
     line-height: 1.5;
-}
-
-@media (width <= 768px) {
-    .concepts-grid {
-        grid-template-columns: 1fr;
-    }
 }
 
 /* Uncertainty Disclaimer */
@@ -720,16 +643,6 @@ footer a:hover {
     left: 50%;
 }
 
-@media (width <= 600px) {
-    .magnitude-container {
-        padding: var(--space-md) var(--space-md);
-    }
-
-    .tick-label {
-        font-size: var(--text-xs);
-    }
-}
-
 .ruler-pointer {
     position: absolute;
     top: -12px;
@@ -750,4 +663,80 @@ footer a:hover {
     text-align: center;
     margin-top: var(--space-md);
     font-weight: var(--font-weight-semi);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   10. RESPONSIVE ADJUSTMENTS
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+@media (width <= 900px) {
+    .funnel-container {
+        gap: var(--space-lg);
+        padding: var(--space-md);
+    }
+}
+
+@media (width <= 768px) {
+    .chart-section {
+        margin-bottom: var(--space-3xl);
+    }
+
+    .concepts-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (width <= 600px) {
+    .chart-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-sm);
+    }
+
+    .funnel-chart-wrapper {
+        height: 400px; /* Additional height to prevent vertical compression of labels */
+    }
+
+    .chart-controls {
+        width: 100%;
+        flex-wrap: wrap;
+        gap: var(--space-xs);
+    }
+
+    .chart-wrapper {
+        margin-bottom: 0;
+        padding: 0 var(--space-md);
+    }
+
+    .scientific-explanation {
+        font-size: var(--text-sm);
+    }
+
+    .educational-content {
+        padding: var(--space-md);
+    }
+
+    #result {
+        font-size: var(--text-4xl);
+    }
+
+    .confidence-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .magnitude-container {
+        padding: var(--space-md) var(--space-md);
+    }
+
+    .tick-label {
+        font-size: var(--text-xs);
+    }
+}
+
+@media (width <= 480px) {
+    .funnel-insight-panel {
+        grid-template-columns: 1fr;
+        padding-top: var(--space-lg);
+        gap: var(--space-md);
+    }
 }

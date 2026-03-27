@@ -13,12 +13,6 @@
     max-width: 100%;
 }
 
-@media (width <= 600px) {
-    .result-card {
-        padding: var(--space-xl);
-    }
-}
-
 .galaxy-container {
     position: absolute;
     top: 0;
@@ -56,18 +50,6 @@
     margin: var(--space-xs) 0;
     font-family: var(--font-family-mono);
     letter-spacing: -0.05em;
-}
-
-@media (width <= 768px) {
-    #result { font-size: var(--text-4xl); }
-}
-
-@media (width <= 480px) {
-    #result { font-size: var(--text-3xl); }
-}
-
-@media (width <= 360px) {
-    #result { font-size: var(--text-2xl); }
 }
 
 .result-unit { 
@@ -129,4 +111,16 @@
 .context-item span {
     font-family: var(--font-family-mono);
     font-weight: var(--font-weight-bold);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   MOBILE RESPONSIVE - Consolidated
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+@media (width <= 480px) {
+    #result { font-size: var(--text-3xl); }
+}
+
+@media (width <= 360px) {
+    #result { font-size: var(--text-2xl); }
 }
