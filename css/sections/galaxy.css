@@ -188,6 +188,17 @@
     background: var(--color-white);
     border-radius: var(--radius-full);
     cursor: pointer;
+    position: relative;
+    top: -4.5px;
+}
+
+.fullscreen-param-item input[type="range"]::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background: var(--color-white);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    border: none;
 }
 
 .fullscreen-param-value {
@@ -272,6 +283,20 @@
 .viz-control-groups .control-group input[type="range"]::-webkit-slider-thumb {
     width: 10px;
     height: 10px;
+    background: var(--color-white);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    position: relative;
+    top: -4px;
+}
+
+.viz-control-groups .control-group input[type="range"]::-moz-range-thumb {
+    width: 10px;
+    height: 10px;
+    background: var(--color-white);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    border: none;
 }
 
 .viz-control-groups .control-value,
@@ -497,6 +522,11 @@
 .fullscreen-sidebar .control-group input[type="range"]::-webkit-slider-thumb {
     width: 10px;
     height: 10px;
+    background: var(--color-white);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    position: relative;
+    top: -4px;
 }
 
 .fullscreen-sidebar .control-group input[type="range"]::-webkit-slider-thumb:hover {
