@@ -1,5 +1,5 @@
 // NASA Exoplanet Data Integration
-// Uses All About Space CORS proxy for API access
+// Uses corsproxy.io for CORS-enabled API access
 
 /* global currentLang, translations */
 
@@ -7,9 +7,10 @@ let cachedExoplanetData = null;
 let lastFetchTime = null;
 let currentExoplanetIndex = -1;
 
-// CORS Proxy for NASA API (All About Space)
-const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+// NASA Exoplanet Archive API
 const NASA_API_BASE = 'https://exoplanetarchive.ipac.caltech.edu/TAP/sync';
+// CORS proxy to bypass browser CORS restrictions
+const CORS_PROXY = 'https://corsproxy.io/?';
 
 // Curated list of notable exoplanets with educational descriptions
 const FEATURED_EXOPLANETS = [
@@ -133,6 +134,7 @@ const NASA_LATEST_VALUES = {
 
 /**
  * Fetch exoplanet count data from NASA API via CORS proxy
+ * Uses corsproxy.io which reliably handles CORS for NASA API
  */
 async function fetchNasaExoplanetData() {
     const totalEl = document.getElementById('nasa-total-exoplanets');
@@ -151,44 +153,53 @@ async function fetchNasaExoplanetData() {
         refreshBtn.classList.add('loading');
     }
 
-    // Use fallback values initially
+    // Use fallback values
     const fallbackTotal = NASA_LATEST_VALUES.total;
     const fallbackHabitable = NASA_LATEST_VALUES.habitable;
 
-    cachedExoplanetData = {
-        total: fallbackTotal,
-        habitable: fallbackHabitable
-    };
-    lastFetchTime = now;
-
-    // Display with animation
-    animateCounter(totalEl, 0, cachedExoplanetData.total, 2000);
-    animateCounter(habitableEl, 0, cachedExoplanetData.habitable, 2000);
-
-    // Try NASA API via CORS proxy
+    // Try NASA API via CORS proxy FIRST, before displaying anything
+    let apiTotal = null;
     try {
-        const encodedQuery = encodeURIComponent('SELECT COUNT(*) FROM PSCompPars');
-        const url = `${CORS_PROXY}${encodeURIComponent(`${NASA_API_BASE}?query=${encodedQuery}&format=json`)}`;
-        
+        const query = 'SELECT COUNT(*) FROM PSCompPars';
+        const nasaUrl = `${NASA_API_BASE}?query=${encodeURIComponent(query)}&format=json`;
+        const url = `${CORS_PROXY}${encodeURIComponent(nasaUrl)}`;
+
         const response = await fetch(url, {
-            headers: { 'Accept': 'application/json' }
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
         });
-        
+
         if (response.ok) {
             const data = await response.json();
-            const apiTotal = parseInt(data[0]?.COUNT?.[0]) || fallbackTotal;
-            
-            if (apiTotal > fallbackTotal) {
-                cachedExoplanetData.total = apiTotal;
-                updateCounterDisplay(apiTotal, fallbackHabitable);
-            }
+            // NASA API returns: [{"count(*)": 6153}]
+            apiTotal = parseInt(data[0]?.['count(*)']);
         }
     } catch (error) {
-        console.log('Using cached NASA data (API unavailable)');
+        console.log('NASA API unavailable, using fallback');
     } finally {
         if (refreshBtn) {
             refreshBtn.classList.remove('loading');
         }
+    }
+
+    // Use API value if successful and greater than fallback, otherwise use fallback
+    const finalTotal = (apiTotal && apiTotal > fallbackTotal) ? apiTotal : fallbackTotal;
+
+    // Cache the data
+    cachedExoplanetData = {
+        total: finalTotal,
+        habitable: fallbackHabitable
+    };
+    lastFetchTime = now;
+
+    // Display with animation (only once, with correct value)
+    animateCounter(totalEl, 0, cachedExoplanetData.total, 2000);
+    animateCounter(habitableEl, 0, cachedExoplanetData.habitable, 2000);
+
+    if (apiTotal && apiTotal > fallbackTotal) {
+        console.log(`NASA API: ${apiTotal} exoplanets found`);
     }
 }
 
