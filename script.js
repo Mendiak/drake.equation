@@ -192,6 +192,11 @@ function updateLanguage(lang) {
     // Re-initialize Lucide icons after language change
     initLucideIcons();
 
+    // Update NASA exoplanet section language
+    if (typeof updateExoplanetLanguage === 'function') {
+        updateExoplanetLanguage();
+    }
+
     // Show/hide galaxy note based on language
     const galaxyNoteEn = document.querySelectorAll('.galaxy-note-en');
     const galaxyNoteEs = document.querySelectorAll('.galaxy-note-es');
@@ -540,6 +545,12 @@ function _initCritical() {
 
     applyPreset(presets.sagan);
     validateAndCalculate('Rstar');
+
+    // Initialize NASA Exoplanet data
+    if (typeof fetchNasaExoplanetData === 'function') {
+        fetchNasaExoplanetData();
+        loadRandomExoplanet();
+    }
 
     // Critical event listeners
     document.querySelectorAll('.lang-btn').forEach(btn => {

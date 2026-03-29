@@ -1,0 +1,392 @@
+/* ========================================
+   NASA Exoplanet Section - less-is-more-ui
+   ======================================== */
+
+.nasa-section {
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    margin: var(--space-lg) 0;
+}
+
+.nasa-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-md);
+}
+
+.nasa-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.nasa-logo {
+    height: 28px;
+    width: auto;
+    filter: brightness(0) invert(0);
+    opacity: 0.8;
+}
+
+.nasa-divider {
+    width: 1px;
+    height: 20px;
+    background: var(--color-text-subtle);
+    opacity: 0.3;
+}
+
+.nasa-brand h3 {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semi);
+    color: var(--color-text-primary);
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+.nasa-refresh-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.nasa-refresh-btn:hover {
+    background: var(--color-bg-light);
+    border-color: var(--color-text-subtle);
+    color: var(--color-text-primary);
+}
+
+.nasa-refresh-btn:active {
+    transform: scale(0.95);
+}
+
+.nasa-external-link svg {
+    opacity: 0.6;
+}
+
+.nasa-refresh-btn.loading svg {
+    animation: spin 1s linear infinite;
+}
+
+/* Content Grid */
+.nasa-content-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-lg);
+    border-bottom: 1px solid var(--color-border);
+}
+
+/* Counter Cards */
+.nasa-counters {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.counter-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.counter-value {
+    font-size: var(--text-3xl);
+    font-weight: var(--font-weight-extra);
+    color: var(--color-text-primary);
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+}
+
+.counter-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semi);
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.counter-context {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    line-height: var(--line-height-tight);
+}
+
+.counter-divider {
+    width: 1px;
+    height: 60px;
+    background: var(--color-border);
+}
+
+/* Exoplanet Card */
+.exoplanet-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.exoplanet-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.exoplanet-card-header h4 {
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semi);
+    color: var(--color-text-secondary);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.exoplanet-shuffle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.exoplanet-shuffle-btn:hover {
+    background: var(--color-bg-light);
+    color: var(--color-text-primary);
+    transform: rotate(15deg);
+}
+
+.exoplanet-card-content {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-sm);
+    min-height: 120px;
+}
+
+.exoplanet-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    color: var(--color-text-subtle);
+}
+
+.exoplanet-loading .spin {
+    animation: spin 1s linear infinite;
+}
+
+.exoplanet-info {
+    animation: fade-in 0.3s ease;
+}
+
+.exoplanet-name {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-xs);
+    letter-spacing: -0.01em;
+}
+
+.exoplanet-host {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-sm);
+}
+
+.exoplanet-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xs);
+}
+
+.exoplanet-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.exoplanet-stat-label {
+    font-size: 9px;
+    color: var(--color-text-subtle);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.exoplanet-stat-value {
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semi);
+    color: var(--color-text-primary);
+    font-variant-numeric: tabular-nums;
+}
+
+.exoplanet-habitable-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    background: rgb(46 204 113 / 10%);
+    border: 1px solid rgb(46 204 113 / 30%);
+    border-radius: var(--radius-sm);
+    color: #2ecc71;
+    font-size: 9px;
+    font-weight: var(--font-weight-semi);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: var(--space-xs);
+}
+
+/* Educational Section */
+.nasa-educational {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.educational-intro p {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin: 0;
+}
+
+.educational-intro em {
+    font-style: italic;
+    color: var(--color-text-primary);
+}
+
+.educational-facts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
+}
+
+.fact-item {
+    display: flex;
+    gap: var(--space-sm);
+}
+
+.fact-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--color-text-secondary);
+    flex-shrink: 0;
+}
+
+.fact-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.fact-content strong {
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semi);
+    color: var(--color-text-primary);
+}
+
+.fact-content p {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    line-height: var(--line-height-tight);
+    margin: 0;
+}
+
+.nasa-external-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-sm);
+    background: var(--color-bg-light);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-secondary);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semi);
+    text-decoration: none;
+    transition: all var(--transition-base);
+    width: fit-content;
+}
+
+.nasa-external-link:hover {
+    background: var(--color-bg-lighter);
+    border-color: var(--color-text-subtle);
+    color: var(--color-text-primary);
+}
+
+/* Animations */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (width <= 1024px) {
+    .nasa-content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .nasa-counters {
+        justify-content: center;
+    }
+
+    .educational-facts {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (width <= 640px) {
+    .nasa-section {
+        padding: var(--space-md);
+    }
+
+    .nasa-section-header {
+        flex-direction: column;
+        gap: var(--space-sm);
+        align-items: flex-start;
+    }
+
+    .nasa-counters {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .counter-divider {
+        width: 100%;
+        height: 1px;
+    }
+
+    .counter-value {
+        font-size: var(--text-2xl);
+    }
+
+    .exoplanet-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

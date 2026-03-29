@@ -304,7 +304,41 @@ const translations = {
         fullscreen_result_unit: "detectable communicative civilizations",
         galaxy_note_title: "Why do I see more stars than N?",
         galaxy_note_en: "The equation estimates civilizations active <strong>right now</strong> (N = 2.4). The galaxy shows all stars that <strong>could potentially</strong> host communicative civilizations based on your parameters. Even with low N, many stars pass the early filters (planets, habitable zones). The blinking white stars represent potential locations, not simultaneous civilizations. With short civilization lifetimes (L), many may have existed but never overlapped in time.",
-        galaxy_note_es: "La ecuación estima civilizaciones activas <strong>ahora mismo</strong> (N = 2.4). La galaxia muestra todas las estrellas que <strong>potencialmente</strong> podrían albergar civilizaciones comunicativas según tus parámetros. Incluso con N bajo, muchas estrellas pasan los primeros filtros (planetas, zonas habitables). Las estrellas blancas parpadeantes representan ubicaciones potenciales, no civilizaciones simultáneas. Con vidas de civilizaciones cortas (L), muchas pudieron existir pero nunca se solaparon en el tiempo."
+        galaxy_note_es: "La ecuación estima civilizaciones activas <strong>ahora mismo</strong> (N = 2.4). La galaxia muestra todas las estrellas que <strong>potencialmente</strong> podrían albergar civilizaciones comunicativas según tus parámetros. Incluso con N bajo, muchas estrellas pasan los primeros filtros (planetas, zonas habitables). Las estrellas blancas parpadeantes representan ubicaciones potenciales, no civilizaciones simultáneas. Con vidas de civilizaciones cortas (L), muchas pudieron existir pero nunca se solaparon en el tiempo.",
+
+        // NASA Exoplanet Section
+        nasa_section_title: "Exoplanet Archive",
+        nasa_confirmed_exoplanets: "Confirmed Exoplanets",
+        nasa_confirmed_context: "Planets orbiting other stars",
+        nasa_habitable_candidates: "In Habitable Zones",
+        nasa_habitable_context: "Where liquid water may exist",
+        nasa_featured_label: "Notable Exoplanet",
+        nasa_educational_intro: "Since the first discovery in 1992, over 5,000 exoplanets have been confirmed. Each represents a potential answer to the question: <em>Are we alone?</em>",
+        nasa_fact_detection_title: "Detection Methods",
+        nasa_fact_detection_desc: "Most exoplanets are found via transit (brightness dips) or radial velocity (stellar wobble).",
+        nasa_fact_habitable_title: "Habitable Zone",
+        nasa_fact_habitable_desc: "The region where temperatures allow liquid water—neither boiling nor frozen.",
+        nasa_fact_jwst_title: "James Webb Impact",
+        nasa_fact_jwst_desc: "JWST can analyze exoplanet atmospheres, searching for biosignatures like oxygen or methane.",
+        nasa_explore_full: "Explore NASA Exoplanet Archive",
+
+        // Exoplanet Details
+        exoplanet_star_label: "Star:",
+        exoplanet_year_label: "Year",
+        exoplanet_method_label: "Method",
+        exoplanet_orbit_label: "Orbit",
+        exoplanet_radius_label: "Radius",
+        exoplanet_mass_label: "Mass",
+        exoplanet_temp_label: "Temp",
+        exoplanet_habitable_zone: "Habitable Zone",
+        exoplanet_day_unit: "d",
+        exoplanet_discovery_methods: {
+            'Transit': 'Transit',
+            'Radial Velocity': 'Radial Vel.',
+            'Microlensing': 'Microlens',
+            'Imaging': 'Imaging',
+            'Astrometry': 'Astrometry'
+        }
     },
     es: {
         title: "Ecuación de Drake",
@@ -585,28 +619,62 @@ const translations = {
             very_high: "Extremadamente especulativo (rojo): Incógnitas profundas"
         },
         confidence_legend_labels: {
-            observed: "Observado",
-            theoretical: "Teórico",
-            speculative: "Especulativo"
+            observed: "Observed",
+            theoretical: "Theoretical",
+            speculative: "Speculative"
         },
-        link_oxford: "Disolviendo la Paradoja de Fermi (Paper Oxford)",
-        link_hanson: "El Gran Filtro (Robin Hanson)",
-        fullscreen_params_title: "Parámetros",
-        fullscreen_presets_title: "Preajustes",
-        fullscreen_preset_optimistic: "Optimista",
+        link_oxford: "Dissolving the Fermi Paradox (Oxford Paper)",
+        link_hanson: "The Great Filter (Robin Hanson)",
+        fullscreen_params_title: "Parameters",
+        fullscreen_presets_title: "Presets",
+        fullscreen_preset_optimistic: "Optimistic",
         fullscreen_preset_sagan: "Sagan",
         fullscreen_preset_drake: "Drake",
-        fullscreen_preset_scientific: "Moderno",
-        fullscreen_preset_rare_earth: "Tierra Rara",
-        fullscreen_preset_pessimistic: "Pesimista",
-        fullscreen_sidebar_title: "Parámetros de la Ecuación de Drake",
-        fullscreen_viz_title: "Visualización",
-        fullscreen_viz_rotation: "Rotación",
-        fullscreen_viz_tilt: "Inclinación",
+        fullscreen_preset_scientific: "Modern",
+        fullscreen_preset_rare_earth: "Rare Earth",
+        fullscreen_preset_pessimistic: "Pessimistic",
+        fullscreen_sidebar_title: "Drake Equation Parameters",
+        fullscreen_viz_title: "Visualization",
+        fullscreen_viz_rotation: "Rotation",
+        fullscreen_viz_tilt: "Tilt",
         fullscreen_viz_zoom: "Zoom",
-        fullscreen_viz_star_size: "Tamaño de Estrellas",
-        fullscreen_exit_fullscreen: "Salir de Pantalla Completa",
-        fullscreen_result_label: "Resultado",
-        fullscreen_result_unit: "civilizaciones comunicativas detectables"
+        fullscreen_viz_star_size: "Star Size",
+        fullscreen_exit_fullscreen: "Exit Fullscreen",
+        fullscreen_result_label: "Result",
+        fullscreen_result_unit: "detectable communicative civilizations",
+
+        // NASA Exoplanet Section
+        nasa_section_title: "Archivo de Exoplanetas",
+        nasa_confirmed_exoplanets: "Exoplanetas Confirmados",
+        nasa_confirmed_context: "Planetas orbitando otras estrellas",
+        nasa_habitable_candidates: "En Zonas Habitables",
+        nasa_habitable_context: "Donde puede existir agua líquida",
+        nasa_featured_label: "Exoplaneta Destacado",
+        nasa_educational_intro: "Desde el primer descubrimiento en 1992, se han confirmado más de 5.000 exoplanetas. Cada uno representa una posible respuesta a la pregunta: <em>¿Estamos solos?</em>",
+        nasa_fact_detection_title: "Métodos de Detección",
+        nasa_fact_detection_desc: "La mayoría se encuentran por tránsito (caídas de brillo) o velocidad radial (oscilación estelar).",
+        nasa_fact_habitable_title: "Zona Habitable",
+        nasa_fact_habitable_desc: "La región donde las temperaturas permiten agua líquida, ni hirviendo ni congelada.",
+        nasa_fact_jwst_title: "Impacto de James Webb",
+        nasa_fact_jwst_desc: "JWST puede analizar atmósferas de exoplanetas, buscando biofirmas como oxígeno o metano.",
+        nasa_explore_full: "Explorar Archivo de Exoplanetas de la NASA",
+
+        // Exoplanet Details
+        exoplanet_star_label: "Estrella:",
+        exoplanet_year_label: "Año",
+        exoplanet_method_label: "Método",
+        exoplanet_orbit_label: "Órbita",
+        exoplanet_radius_label: "Radio",
+        exoplanet_mass_label: "Masa",
+        exoplanet_temp_label: "Temp",
+        exoplanet_habitable_zone: "Zona Habitable",
+        exoplanet_day_unit: "d",
+        exoplanet_discovery_methods: {
+            'Transit': 'Tránsito',
+            'Radial Velocity': 'Vel. Radial',
+            'Microlensing': 'Microlente',
+            'Imaging': 'Imagen',
+            'Astrometry': 'Astrometría'
+        }
     }
 };
