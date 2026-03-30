@@ -449,6 +449,26 @@ button#reset-button span[data-i18n] {
     margin-bottom: var(--space-xs) !important;
 }
 
+.confidence-legend span span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.confidence-legend span span[style*="background: #2ecc71"] {
+    background: #2ecc71 !important;
+}
+
+.confidence-legend span span[style*="background: #f39c12"] {
+    background: #f39c12 !important;
+}
+
+.confidence-legend span span[style*="background: #e74c3c"] {
+    background: #e74c3c !important;
+}
+
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    MOBILE RESPONSIVE - Consolidated
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */

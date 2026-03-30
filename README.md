@@ -47,12 +47,12 @@ drake.equation/
 ├── script.js               # Main application logic, UI updates, chart handling
 ├── calculations.js         # Pure calculation functions (formatResult, calculateN, getScenario)
 ├── galaxy-simulation.js    # Three.js galactic visualization engine
+├── nasa-exoplanets.js      # NASA exoplanet data integration and fetching
 ├── chart-utils.js          # Chart.js initialization and update utilities
 ├── dom-updates.js          # DOM manipulation helpers
 ├── config.js               # Default values, presets, and configuration constants
 ├── translations.js         # Bilingual (EN/ES) translation strings
 ├── styles.css              # Main stylesheet importing modular CSS
-├── base.css                # Base resets and global styles
 ├── css/
 │   ├── variables.css       # CSS custom properties (colors, spacing, typography)
 │   ├── base.css            # Reset and base element styles

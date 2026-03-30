@@ -107,7 +107,7 @@
         <header>
             <div class="header-top">
                 <h1>
-                    <i data-lucide="telescope" style="width: 48px; height: 48px; margin-right: 0.5rem;"></i>
+                    <i data-lucide="telescope" class="icon-xl"></i>
                     <span data-i18n="title">Drake Equation</span>
                 </h1>
                 <div class="lang-switcher">
@@ -126,7 +126,7 @@
                 <div class="usage-guide">
                     <div class="guide-item">
                         <strong>
-                            <i data-lucide="sliders-horizontal" style="width: 14px; height: 14px; margin-right: 0.25rem;"></i>
+                            <i data-lucide="sliders-horizontal" class="icon-sm"></i>
                             <span data-i18n="guide_1_title">1. Adjust</span>
                         </strong>
                         <p data-i18n="guide_1_desc">Move the sliders to set values for each cosmic and biological
@@ -134,7 +134,7 @@
                     </div>
                     <div class="guide-item">
                         <strong>
-                            <i data-lucide="circle-help" style="width: 14px; height: 14px; margin-right: 0.25rem;"></i>
+                            <i data-lucide="circle-help" class="icon-sm"></i>
                             <span data-i18n="guide_2_title">2. Analyze</span>
                         </strong>
                         <p data-i18n="guide_2_desc">Watch how the final result (N) changes in real-time based on your
@@ -142,11 +142,12 @@
                     </div>
                     <div class="guide-item">
                         <strong>
-                            <i data-lucide="lightbulb" style="width: 14px; height: 14px; margin-right: 0.25rem;"></i>
+                            <i data-lucide="lightbulb" class="icon-sm"></i>
                             <span data-i18n="guide_3_title">3. Learn</span>
                         </strong>
-                        <p data-i18n="guide_3_desc">Click the <span class="info-icon"
-                                style="display:inline-flex; width:16px; height:16px; font-size:var(--text-xs);"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span> icons to
+                        <p data-i18n="guide_3_desc">Click the <span class="info-icon" data-param="info">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                            </span> icons to
                             understand the scientific basis of each parameter.</p>
                     </div>
                 </div>
@@ -296,7 +297,7 @@
 
                     <div class="button-container">
                         <button type="button" id="reset-button" onclick="resetForm()">
-                            <i data-lucide="rotate-ccw" style="width: 16px; height: 16px; margin-right: 0.5rem;"></i>
+                            <i data-lucide="rotate-ccw" class="icon-md"></i>
                             <span data-i18n="reset_button">Reset to Defaults</span>
                         </button>
                     </div>
@@ -360,23 +361,18 @@
                     <div class="result-context">
                         <p id="result-interpretation" data-i18n="result_initial">Adjust parameters to explore scenarios.
                         </p>
-                        <div id="result-details"
-                            style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.15); display: none;">
+                        <div id="result-details" class="result-details" style="display: none;">
                             <strong id="result-meaning-title"></strong>
-                            <p id="result-meaning-near"
-                                style="font-size: var(--text-sm); margin: 0.75rem 0 0 0; opacity: 0.8;"></p>
-                            <p id="result-meaning-ratio"
-                                style="font-size: var(--text-sm); margin: 0.5rem 0 0 0; opacity: 0.8;"></p>
-                            <p id="result-meaning-context"
-                                style="font-size: var(--text-xs); margin: 0.75rem 0 0 0; opacity: 0.6; font-style: italic;">
-                            </p>
+                            <p id="result-meaning-near" class="result-meaning-near"></p>
+                            <p id="result-meaning-ratio" class="result-meaning-ratio"></p>
+                            <p id="result-meaning-context" class="result-meaning-context"></p>
                         </div>
                     </div>
                 </div>
 
                 <section class="chart-section">
                     <h2 class="section-title">
-                        <i data-lucide="circle-help" style="width: 20px; height: 20px; margin-right: 0.5rem;"></i>
+                        <i data-lucide="circle-help" class="icon-lg"></i>
                         <span data-i18n="section_sensitivity">Sensitivity Analysis</span>
                     </h2>
                     <p class="scientific-explanation" data-i18n="sensitivity_intro"></p>
@@ -400,7 +396,7 @@
 
                 <section class="chart-section funnel-section">
                     <h2 class="section-title">
-                        <i data-lucide="funnel" style="width: 20px; height: 20px; margin-right: 0.5rem;"></i>
+                        <i data-lucide="funnel" class="icon-lg"></i>
                         <span data-i18n="section_funnel">Cosmic Filter Funnel</span>
                     </h2>
                     <p class="scientific-explanation" data-i18n="funnel_intro"></p>
@@ -431,7 +427,7 @@
                 <section class="chart-section galaxy-sim-section">
                     <div class="galaxy-sim-header">
                         <h2 class="section-title">
-                            <i data-lucide="sparkles" style="width: 20px; height: 20px; margin-right: 0.5rem;"></i>
+                            <i data-lucide="sparkles" class="icon-lg"></i>
                             <span data-i18n="section_galaxy">Galactic Simulation</span>
                         </h2>
                         <p class="scientific-explanation" data-i18n="galaxy_intro"></p>
@@ -452,19 +448,19 @@
                     </div>
 
                     <div class="galaxy-sim-legend" id="galaxy-sim-legend">
-                        <div class="legend-item"><span class="dot" style="background-color: #8B4545;"></span> <span data-i18n="funnel_steps.total">Total Stars</span></div>
-                        <div class="legend-item"><span class="dot" style="background-color: #f39c12;"></span> <span data-i18n="funnel_steps.planets">With Planets</span></div>
-                        <div class="legend-item"><span class="dot" style="background-color: #3498db;"></span> <span data-i18n="funnel_steps.habitable">Habitable</span></div>
-                        <div class="legend-item"><span class="dot" style="background-color: #2ecc71;"></span> <span data-i18n="funnel_steps.life">With Life</span></div>
-                        <div class="legend-item"><span class="dot" style="background-color: #9b59b6;"></span> <span data-i18n="funnel_steps.intelligence">Intelligent</span></div>
-                        <div class="legend-item"><span class="dot" style="background-color: #ffffff;"></span> <span data-i18n="funnel_steps.tech">Communicative</span></div>
+                        <div class="legend-item"><span class="dot dot-total"></span> <span data-i18n="funnel_steps.total">Total Stars</span></div>
+                        <div class="legend-item"><span class="dot dot-planets"></span> <span data-i18n="funnel_steps.planets">With Planets</span></div>
+                        <div class="legend-item"><span class="dot dot-habitable"></span> <span data-i18n="funnel_steps.habitable">Habitable</span></div>
+                        <div class="legend-item"><span class="dot dot-life"></span> <span data-i18n="funnel_steps.life">With Life</span></div>
+                        <div class="legend-item"><span class="dot dot-intelligence"></span> <span data-i18n="funnel_steps.intelligence">Intelligent</span></div>
+                        <div class="legend-item"><span class="dot dot-tech"></span> <span data-i18n="funnel_steps.tech">Communicative</span></div>
                     </div>
 
                     <div class="galaxy-note">
                         <p><strong class="galaxy-note-en">Why do I see more stars than N?</strong><strong class="galaxy-note-es">¿Por qué veo más estrellas que N?</strong></p>
                         <p class="galaxy-note-en">The equation estimates civilizations active <strong>right now</strong> (N). The galaxy shows all stars that <strong>could potentially</strong> host communicative civilizations based on your parameters. Even with low N, many stars pass the early filters (planets, habitable zones). The blinking white stars represent potential locations, not simultaneous civilizations. With short civilization lifetimes (L), many may have existed but never overlapped in time.</p>
                         <p class="galaxy-note-es">La ecuación estima civilizaciones activas <strong>ahora mismo</strong> (N). La galaxia muestra todas las estrellas que <strong>potencialmente</strong> podrían albergar civilizaciones comunicativas según tus parámetros. Incluso con N bajo, muchas estrellas pasan los primeros filtros (planetas, zonas habitables). Las estrellas blancas parpadeantes representan ubicaciones potenciales, no civilizaciones simultáneas. Con vidas de civilizaciones cortas (L), muchas pudieron existir pero nunca se solaparon en el tiempo.</p>
-                        <p class="galaxy-note-en" style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(255, 255, 255, 0.1);"><strong class="galaxy-note-en">Why don't I see blinking stars?</strong><strong class="galaxy-note-es">¿Por qué no veo estrellas parpadeantes?</strong></p>
+                        <p class="galaxy-note-en galaxy-note-separator"><strong class="galaxy-note-en">Why don't I see blinking stars?</strong><strong class="galaxy-note-es">¿Por qué no veo estrellas parpadeantes?</strong></p>
                         <p class="galaxy-note-en">The simulation displays ~30,000 stars. With conservative parameters (e.g., Modern Consensus: N≈2.4 in the entire galaxy), statistically there may be zero communicative civilizations in this sample. To see blinking stars, try presets with higher N (Optimistic, Sagan) or increase L (civilization lifetime), fi (intelligence fraction), or fc (technology fraction).</p>
                         <p class="galaxy-note-es">La simulación muestra ~30,000 estrellas. Con parámetros conservadores (ej. Consenso Moderno: N≈2.4 en toda la galaxia), estadísticamente puede haber cero civilizaciones comunicativas en esta muestra. Para ver estrellas parpadeantes, prueba presets con N más alto (Optimista, Sagan) o aumenta L (vida de la civilización), fi (fracción con inteligencia), o fc (fracción con tecnología).</p>
                     </div>
@@ -474,7 +470,7 @@
                                 <!-- NASA Exoplanet Data & Educational Section -->
                 <section class="nasa-section">
                     <h2 class="section-title">
-                        <i data-lucide="telescope" style="width: 20px; height: 20px; margin-right: 0.5rem;"></i>
+                        <i data-lucide="telescope" class="icon-inline-md"></i>
                         <span data-i18n="nasa_section_title">Exoplanet Archive</span>
                     </h2>
 
@@ -499,7 +495,7 @@
                             <div class="exoplanet-card-header">
                                 <h4 data-i18n="nasa_featured_label">Notable Exoplanet</h4>
                                 <button class="exoplanet-shuffle-btn" onclick="loadRandomExoplanet()" title="Load another">
-                                    <i data-lucide="shuffle" style="width: 14px; height: 14px;"></i>
+                                    <i data-lucide="shuffle" class="icon-inline-sm"></i>
                                 </button>
                             </div>
                             <div class="exoplanet-card-content" id="exoplanet-content">

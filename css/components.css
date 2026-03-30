@@ -33,6 +33,146 @@
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ICON UTILITIES - Less Is More UI
+   Consistent icon sizing across the app
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.icon-sm {
+    width: 14px;
+    height: 14px;
+    margin-right: 0.25rem;
+}
+
+.icon-md {
+    width: 16px;
+    height: 16px;
+    margin-right: 0.5rem;
+}
+
+.icon-lg {
+    width: 20px;
+    height: 20px;
+    margin-right: 0.5rem;
+}
+
+.icon-xl {
+    width: 48px;
+    height: 48px;
+    margin-right: 0.5rem;
+}
+
+/* Icon-only utilities for inline icon replacements */
+.icon-inline-sm {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+}
+
+.icon-inline-md {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+}
+
+/* Info icon - circular info button */
+.info-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: var(--radius-full);
+    border: var(--border-width) solid currentcolor;
+    font-size: var(--text-xs);
+    font-style: normal;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.info-icon:hover {
+    opacity: 1;
+    background: var(--color-black);
+    color: var(--color-white);
+    border-color: var(--color-black);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   LEGEND UTILITIES - Confidence & Charts
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: var(--text-xs);
+    line-height: 1.4;
+}
+
+.legend-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.legend-dot-observed {
+    background: #2ecc71;
+}
+
+.legend-dot-theoretical {
+    background: #f39c12;
+}
+
+.legend-dot-speculative {
+    background: #e74c3c;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   RESULT DETAILS - Context Panel
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.result-details {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgb(255 255 255 / 15%);
+}
+
+.result-details[style*="display: none"] {
+    display: none;
+}
+
+.result-meaning-title {
+    display: block;
+    font-size: var(--text-base);
+    color: var(--color-white);
+    letter-spacing: -0.01em;
+    margin-bottom: var(--space-xs);
+}
+
+.result-meaning-near,
+.result-meaning-ratio {
+    font-size: var(--text-sm);
+    margin: 0.75rem 0 0;
+    opacity: 0.8;
+}
+
+.result-meaning-ratio {
+    margin-top: 0.5rem;
+}
+
+.result-meaning-context {
+    font-size: var(--text-xs);
+    margin: 0.75rem 0 0;
+    opacity: 0.6;
+    font-style: italic;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    8. BUTTON COMPONENTS (Unified)
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
@@ -159,26 +299,7 @@ button {
     gap: var(--space-sm);
 }
 
-.info-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 18px;
-    height: 18px;
-    border-radius: var(--radius-full);
-    border: var(--border-width) solid currentcolor;
-    font-size: var(--text-xs);
-    font-style: normal;
-    cursor: pointer;
-    transition: all var(--transition-base);
-}
-
-.info-icon:hover {
-    opacity: 1;
-    background: var(--color-black);
-    color: var(--color-white);
-    border-color: var(--color-black);
-}
+/* .info-icon and .info-icon:hover are already defined in the ICON UTILITIES section (lines 56-74) */
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    MOBILE RESPONSIVE - Consolidated

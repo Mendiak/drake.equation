@@ -131,3 +131,93 @@ header {
         gap: var(--space-4xl);
     }
 }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   GALAXY NOTE - Information Box
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.galaxy-note {
+    padding: var(--space-lg);
+    background: rgb(0 0 0 / 20%);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    line-height: var(--line-height-relaxed);
+}
+
+.galaxy-note p {
+    margin: 0 0 var(--space-sm) 0;
+}
+
+.galaxy-note p:last-child {
+    margin-bottom: 0;
+}
+
+.galaxy-note strong {
+    display: block;
+    margin-bottom: var(--space-xs);
+    color: var(--color-white);
+}
+
+.galaxy-note-en,
+.galaxy-note-es {
+    display: block;
+}
+
+.galaxy-note-es {
+    display: none;
+}
+
+html[lang="es"] .galaxy-note-en {
+    display: none;
+}
+
+html[lang="es"] .galaxy-note-es {
+    display: block;
+}
+
+.galaxy-note p + p {
+    margin-top: var(--space-sm);
+}
+
+.galaxy-note-separator {
+    margin-top: 0.75rem !important;
+    padding-top: 0.75rem !important;
+    border-top: 1px solid rgb(255 255 255 / 10%) !important;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   GALAXY SIM LEGEND - Dot Colors
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.galaxy-sim-legend .legend-item .dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.galaxy-sim-legend .legend-item .dot-total {
+    background-color: #8B4545;
+}
+
+.galaxy-sim-legend .legend-item .dot-planets {
+    background-color: #f39c12;
+}
+
+.galaxy-sim-legend .legend-item .dot-habitable {
+    background-color: #3498db;
+}
+
+.galaxy-sim-legend .legend-item .dot-life {
+    background-color: #2ecc71;
+}
+
+.galaxy-sim-legend .legend-item .dot-intelligence {
+    background-color: #9b59b6;
+}
+
+.galaxy-sim-legend .legend-item .dot-tech {
+    background-color: #ffffff;
+}
+
