@@ -3,9 +3,6 @@
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .section-title {
-    font-size: var(--text-xl);
-    font-weight: var(--font-weight-extra);
-    letter-spacing: -0.02em;
     margin-bottom: var(--space-lg);
     width: 100%;
     max-width: 100%;
@@ -624,8 +621,9 @@ footer a:hover {
     display: flex;
     justify-content: space-between;
     position: relative;
-    height: 12px;
+    height: 60px;
     width: 100%;
+    padding-top: 12px;
 }
 
 .ruler-tick {
@@ -633,7 +631,8 @@ footer a:hover {
     flex-direction: column;
     align-items: center;
     position: relative;
-    width: 0; /* Let flex-basis or space-between handle it */
+    min-width: 20px;
+    flex: 0 0 auto;
 }
 
 .ruler-tick::before {
@@ -649,11 +648,12 @@ footer a:hover {
     font-size: var(--text-xs);
     font-weight: var(--font-weight-bold);
     color: var(--color-text-muted);
-    margin-top: var(--space-xl);
+    margin-top: var(--space-lg);
     white-space: nowrap;
     position: absolute;
     transform: translateX(-50%);
     left: 50%;
+    top: 12px;
 }
 
 .ruler-pointer {

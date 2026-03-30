@@ -77,7 +77,7 @@ header {
    TABLET BREAKPOINT (768px)
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
     .container {
         padding: var(--space-lg);
     }
@@ -98,7 +98,7 @@ header {
    Two-column dashboard layout
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
     .container {
         padding: var(--space-2xl);
     }
@@ -121,7 +121,7 @@ header {
    DESKTOP BREAKPOINT (1440px)
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
-@media (min-width: 1440px) {
+@media (width >= 1440px) {
     .container {
         padding: var(--space-3xl);
     }
@@ -218,6 +218,6 @@ html[lang="es"] .galaxy-note-es {
 }
 
 .galaxy-sim-legend .legend-item .dot-tech {
-    background-color: #ffffff;
+    background-color: #fff;
 }
 
