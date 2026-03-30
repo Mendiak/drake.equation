@@ -5,7 +5,7 @@
 .result-card {
     background: var(--color-black);
     color: var(--color-white);
-    padding: var(--space-xl);
+    padding: var(--space-lg);
     margin-bottom: var(--space-2xl);
     position: relative;
     overflow: hidden;
@@ -50,6 +50,10 @@
     margin: var(--space-xs) 0;
     font-family: var(--font-family-mono);
     letter-spacing: -0.05em;
+    line-height: 1;
+    max-width: 100%;
+    word-break: normal;
+    overflow-wrap: anywhere;
 }
 
 .result-unit { 
@@ -118,9 +122,15 @@
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 @media (width <= 480px) {
-    #result { font-size: var(--text-3xl); }
+    #result { 
+        font-size: var(--text-3xl);
+        letter-spacing: -0.08em;
+    }
 }
 
 @media (width <= 360px) {
-    #result { font-size: var(--text-2xl); }
+    #result { 
+        font-size: var(--text-2xl);
+        letter-spacing: -0.1em;
+    }
 }
