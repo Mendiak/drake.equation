@@ -34,7 +34,7 @@
     font-size: var(--text-xs);
     font-weight: var(--font-weight-extra);
     text-transform: uppercase;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.08em;
     color: var(--color-text-muted);
     margin: 0 0 var(--space-lg) 0;
 }
