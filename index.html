@@ -333,14 +333,19 @@
                                 <div class="confidence-indicator" data-confidence="very_high"></div>
                             </div>
                         </div>
-                        <p class="confidence-legend"
-                            style="font-size: var(--text-xs); margin-top: 1rem; line-height: 1.4;">
-                            <span style="display: block; margin-bottom: 0.25rem;"><strong
-                                    style="color: #2ecc71;">●</strong> <span data-i18n="confidence_legend_labels.observed">Observed</span></span>
-                            <span style="display: block; margin-bottom: 0.25rem;"><strong
-                                    style="color: #f39c12;">●</strong> <span data-i18n="confidence_legend_labels.theoretical">Theoretical</span></span>
-                            <span style="display: block; margin-bottom: 0.25rem;"><strong
-                                    style="color: #e74c3c;">●</strong> <span data-i18n="confidence_legend_labels.speculative">Speculative</span></span>
+                        <p class="confidence-legend" style="font-size: var(--text-xs); margin-top: 1rem; line-height: 1.4; display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <span style="display: inline-flex; align-items: center; gap: 0.25rem;">
+                                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #2ecc71; flex-shrink: 0;"></span>
+                                <span data-i18n="confidence_legend_labels.observed">Observed</span>
+                            </span>
+                            <span style="display: inline-flex; align-items: center; gap: 0.25rem;">
+                                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #f39c12; flex-shrink: 0;"></span>
+                                <span data-i18n="confidence_legend_labels.theoretical">Theoretical</span>
+                            </span>
+                            <span style="display: inline-flex; align-items: center; gap: 0.25rem;">
+                                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #e74c3c; flex-shrink: 0;"></span>
+                                <span data-i18n="confidence_legend_labels.speculative">Speculative</span>
+                            </span>
                         </p>
                     </div>
                 </form>
