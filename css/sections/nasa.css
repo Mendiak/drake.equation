@@ -10,18 +10,6 @@
     margin: var(--space-lg) 0;
 }
 
-.nasa-section-header {
-    margin-bottom: var(--space-md);
-}
-
-.nasa-section-header h3 {
-    font-size: var(--text-sm);
-    font-weight: var(--font-weight-semi);
-    color: var(--color-text-primary);
-    margin: 0;
-    letter-spacing: -0.01em;
-}
-
 /* Content Grid */
 .nasa-content-grid {
     display: grid;
