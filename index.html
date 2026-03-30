@@ -377,25 +377,8 @@
                 <!-- NASA Exoplanet Data & Educational Section -->
                 <section class="nasa-section">
                     <div class="nasa-section-header">
-                        <div class="nasa-brand">
-                            <img src="https://exoplanets.nasa.gov/assets/images/nasa-logo.svg" alt="NASA" class="nasa-logo">
-                            <span class="nasa-divider"></span>
-                            <h3 data-i18n="nasa_section_title">Exoplanet Archive</h3>
-                        </div>
-                        <div class="nasa-header-actions">
-                            <span class="nasa-live-badge" title="Data loaded directly from NASA API">
-                                <span class="live-dot"></span>
-                                Live API Data
-                            </span>
-                            <button class="nasa-refresh-btn" onclick="fetchNasaExoplanetData()" title="Refresh data">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
-                            </button>
-                        </div>
+                        <h3 data-i18n="nasa_section_title">Exoplanet Archive</h3>
                     </div>
-                    <p class="nasa-api-note">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-                        <span data-i18n="nasa_data_source"></span>
-                    </p>
 
                     <div class="nasa-content-grid">
                         <!-- Counter Cards -->
@@ -418,7 +401,7 @@
                             <div class="exoplanet-card-header">
                                 <h4 data-i18n="nasa_featured_label">Notable Exoplanet</h4>
                                 <button class="exoplanet-shuffle-btn" onclick="loadRandomExoplanet()" title="Load another">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l14.2-12.6c.8-1.1 2-1.7 3.3-1.7H26"/><path d="M2 6h1.4c1.3 0 2.5.6 3.3 1.7l14.2 12.6c.8 1.1 2 1.7 3.3 1.7H26"/></svg>
+                                    <i data-lucide="shuffle" style="width: 14px; height: 14px;"></i>
                                 </button>
                             </div>
                             <div class="exoplanet-card-content" id="exoplanet-content">

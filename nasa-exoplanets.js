@@ -139,7 +139,6 @@ const NASA_LATEST_VALUES = {
 async function fetchNasaExoplanetData() {
     const totalEl = document.getElementById('nasa-total-exoplanets');
     const habitableEl = document.getElementById('nasa-habitable-candidates');
-    const refreshBtn = document.querySelector('.nasa-refresh-btn');
 
     // Check cache first (1 hour)
     const now = Date.now();
@@ -148,16 +147,11 @@ async function fetchNasaExoplanetData() {
         return;
     }
 
-    // Show loading state
-    if (refreshBtn) {
-        refreshBtn.classList.add('loading');
-    }
-
     // Use fallback values
     const fallbackTotal = NASA_LATEST_VALUES.total;
     const fallbackHabitable = NASA_LATEST_VALUES.habitable;
 
-    // Try NASA API via CORS proxy FIRST, before displaying anything
+    // Try NASA API via CORS proxy FIRST
     let apiTotal = null;
     try {
         const query = 'SELECT COUNT(*) FROM PSCompPars';
@@ -178,10 +172,6 @@ async function fetchNasaExoplanetData() {
         }
     } catch (error) {
         console.log('NASA API unavailable, using fallback');
-    } finally {
-        if (refreshBtn) {
-            refreshBtn.classList.remove('loading');
-        }
     }
 
     // Use API value if successful and greater than fallback, otherwise use fallback
@@ -194,7 +184,7 @@ async function fetchNasaExoplanetData() {
     };
     lastFetchTime = now;
 
-    // Display with animation (only once, with correct value)
+    // Display with animation
     animateCounter(totalEl, 0, cachedExoplanetData.total, 2000);
     animateCounter(habitableEl, 0, cachedExoplanetData.habitable, 2000);
 
