@@ -18,7 +18,7 @@ function t(key) {
 function getDecimalPlaces(paramId) {
     const decimalMap = {
         'Rstar': 1, 'fp': 2, 'ne': 1,
-        'fl': 4, 'fi': 4, 'fc': 2, 'L': 0
+        'fl': 2, 'fi': 2, 'fc': 2, 'L': 0
     };
     return decimalMap[paramId] || 2;
 }
@@ -35,6 +35,10 @@ function roundToDecimals(value, decimals) {
 function linearToLog(sliderValue, paramId) {
     const slider = document.getElementById(paramId);
     if (!slider) return sliderValue;
+    
+    // Simplify: no log scaling for fractional parameters
+    const noLogParams = ['fp', 'fl', 'fi', 'fc'];
+    if (noLogParams.includes(paramId)) return sliderValue;
     
     // Apply log scaling only to parameters with very small minimum values
     const logParams = ['fi', 'fl'];
@@ -58,6 +62,10 @@ function logToLinear(value, paramId) {
     const slider = document.getElementById(paramId);
     if (!slider) return value;
     
+    // Simplify: no log scaling for fractional parameters
+    const noLogParams = ['fp', 'fl', 'fi', 'fc'];
+    if (noLogParams.includes(paramId)) return value;
+    
     const logParams = ['fi', 'fl'];
     if (!logParams.includes(paramId)) return value;
     
@@ -77,6 +85,10 @@ function logToLinear(value, paramId) {
 function snapToDetent(value, paramId) {
     const slider = document.getElementById(paramId);
     if (!slider) return value;
+    
+    // Simplify: no snapping for fractional parameters
+    const noSnapParams = ['fp', 'fl', 'fi', 'fc'];
+    if (noSnapParams.includes(paramId)) return value;
     
     const min = parseFloat(slider.min);
     const max = parseFloat(slider.max);
@@ -266,7 +278,7 @@ function updateValueAndRecalculate(paramId) {
     const decimals = getDecimalPlaces(paramId);
     
     if (paramId === 'L') display.textContent = Number(actualValue).toLocaleString(currentLang);
-    else display.textContent = roundToDecimals(actualValue, decimals).toString();
+    else display.textContent = roundToDecimals(actualValue, decimals).toFixed(decimals);
     
     validateAndCalculate(paramId);
 }
@@ -425,7 +437,7 @@ function applyPreset(values) {
         const decimals = getDecimalPlaces(update.paramId);
         update.display.textContent = update.paramId === 'L' 
             ? Number(update.value).toLocaleString(currentLang) 
-            : roundToDecimals(update.value, decimals).toString();
+            : roundToDecimals(update.value, decimals).toFixed(decimals);
     }
 }
 
@@ -442,79 +454,9 @@ function applyUrlParameters() {
 }
 
 function generateSliderTicks(paramId) {
-    const slider = document.getElementById(paramId);
     const ticksContainer = document.getElementById(`ticks-${paramId}`);
-    
-    if (!slider || !ticksContainer) return;
-    
-    const min = parseFloat(slider.min);
-    const max = parseFloat(slider.max);
-    const logParams = ['fi', 'fl'];
-    const isLog = logParams.includes(paramId);
-    
-    let tickValues = [];
-    
-    if (isLog) {
-        // Log scale: specific values for better readability
-        tickValues = [0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1.0].filter(v => v >= min && v <= max);
-    } else {
-        // Linear scale: 5 ticks evenly spaced
-        const count = 5;
-        for (let i = 0; i <= count; i++) {
-            tickValues.push(min + (max - min) * (i / count));
-        }
-    }
-    
-    // Clear container
-    ticksContainer.innerHTML = '';
-    
-    // Generate tick marks and labels
-    for (let idx = 0; idx < tickValues.length; idx++) {
-        const value = tickValues[idx];
-        const tick = document.createElement('div');
-        tick.className = 'tick';
-        
-        // Calculate position
-        let percent;
-        if (isLog) {
-            const logValue = logToLinear(value, paramId);
-            percent = ((logValue - min) / (max - min)) * 100;
-        } else {
-            percent = ((value - min) / (max - min)) * 100;
-        }
-        
-        tick.style.left = percent + '%';
-        
-        // Add label for first, middle, and last ticks
-        let showLabel = false;
-        if (idx === 0 || idx === Math.floor(tickValues.length / 2) || idx === tickValues.length - 1) {
-            showLabel = true;
-        }
-        // Also show labels for log scale
-        if (isLog && [0.001, 0.01, 0.1, 1.0].includes(value)) {
-            showLabel = true;
-        }
-        
-        if (showLabel) {
-            tick.classList.add('labeled');
-            const label = document.createElement('span');
-            label.className = 'tick-label';
-            
-            // Format label
-            if (value < 0.01) {
-                label.textContent = value.toFixed(4).replace(/\.?0+$/, '');
-            } else if (value < 1) {
-                label.textContent = value.toFixed(2).replace(/\.?0+$/, '');
-            } else if (value >= 1000) {
-                label.textContent = (value / 1000).toFixed(0) + 'k';
-            } else {
-                label.textContent = value.toFixed(0);
-            }
-            
-            tick.appendChild(label);
-        }
-        
-        ticksContainer.appendChild(tick);
+    if (ticksContainer) {
+        ticksContainer.innerHTML = '';
     }
 }
 

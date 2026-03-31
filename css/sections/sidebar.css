@@ -268,40 +268,6 @@ input[type="range"]::-moz-range-thumb:focus {
     box-shadow: 0 0 0 3px rgb(0 0 0 / 15%);
 }
 
-/* Slider Ticks - Minimal Indicators */
-.slider-ticks {
-    position: relative;
-    height: 6px;
-    display: flex;
-    align-items: flex-start;
-    width: 100%;
-    overflow: hidden;
-}
-
-.slider-ticks .tick {
-    position: absolute;
-    width: 1px;
-    height: 4px;
-    background: var(--color-border);
-    top: 0;
-    transform: translateX(-50%);
-}
-
-.slider-ticks .tick.labeled {
-    height: 6px;
-    background: var(--color-text-muted);
-}
-
-.tick-label {
-    position: absolute;
-    top: 8px;
-    font-size: var(--text-xs);
-    color: var(--color-text-muted);
-    font-family: var(--font-family-mono);
-    transform: translateX(-50%);
-    white-space: nowrap;
-}
-
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    Value Display - Mono Clarity
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
