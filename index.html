@@ -760,21 +760,42 @@
                     <div class="references-section">
                         <h3 data-i18n="references_title">References & Resources</h3>
                         <div class="links-grid">
-                            <a class="reference-link" href="https://en.wikipedia.org/wiki/Drake_equation"
-                                target="_blank" data-i18n="link_drake">Drake Equation</a>
-                            <a class="reference-link" href="https://arxiv.org/abs/1806.02404" target="_blank"
-                                data-i18n="link_oxford">Dissolving the Fermi Paradox (Oxford Paper)</a>
-                            <a class="reference-link" href="https://mason.gmu.edu/~rhanson/greatfilter.html" target="_blank"
-                                data-i18n="link_hanson">The Great Filter (Robin Hanson)</a>
-                            <a class="reference-link" href="https://en.wikipedia.org/wiki/Fermi_paradox" target="_blank"
-                                data-i18n="link_fermi">Fermi Paradox</a>
-                            <a class="reference-link" href="https://en.wikipedia.org/wiki/Astrobiology" target="_blank"
-                                data-i18n="link_astrobiology">Astrobiology</a>
-                            <a class="reference-link"
-                                href="https://en.wikipedia.org/wiki/Search_for_extraterrestrial_intelligence"
-                                target="_blank" data-i18n="link_seti">SETI Institute</a>
-                            <a class="reference-link" href="https://en.wikipedia.org/wiki/Exoplanet" target="_blank"
-                                data-i18n="link_exoplanets">Exoplanets</a>
+                            <div class="reference-item">
+                                <a class="reference-link" href="https://en.wikipedia.org/wiki/Drake_equation"
+                                    target="_blank" data-i18n="link_drake">Drake Equation</a>
+                                <p class="reference-desc" data-i18n="desc_drake">The original probabilistic formula for estimating the number of communicative civilizations in the galaxy.</p>
+                            </div>
+                            <div class="reference-item">
+                                <a class="reference-link" href="https://arxiv.org/abs/1806.02404" target="_blank"
+                                    data-i18n="link_oxford">Dissolving the Fermi Paradox (Oxford Paper)</a>
+                                <p class="reference-desc" data-i18n="desc_oxford">A comprehensive analysis exploring why we haven't found evidence of extraterrestrial civilizations despite high probabilities.</p>
+                            </div>
+                            <div class="reference-item">
+                                <a class="reference-link" href="https://mason.gmu.edu/~rhanson/greatfilter.html" target="_blank"
+                                    data-i18n="link_hanson">The Great Filter (Robin Hanson)</a>
+                                <p class="reference-desc" data-i18n="desc_hanson">The hypothesis that a significant barrier prevents life from becoming interstellar, explaining the Fermi Paradox.</p>
+                            </div>
+                            <div class="reference-item">
+                                <a class="reference-link" href="https://en.wikipedia.org/wiki/Fermi_paradox" target="_blank"
+                                    data-i18n="link_fermi">Fermi Paradox</a>
+                                <p class="reference-desc" data-i18n="desc_fermi">The apparent contradiction between the likelihood of extraterrestrial life and the lack of evidence for it.</p>
+                            </div>
+                            <div class="reference-item">
+                                <a class="reference-link" href="https://en.wikipedia.org/wiki/Astrobiology" target="_blank"
+                                    data-i18n="link_astrobiology">Astrobiology</a>
+                                <p class="reference-desc" data-i18n="desc_astrobiology">The scientific study of the origins, evolution, distribution, and future of life in the universe.</p>
+                            </div>
+                            <div class="reference-item">
+                                <a class="reference-link"
+                                    href="https://en.wikipedia.org/wiki/Search_for_extraterrestrial_intelligence"
+                                    target="_blank" data-i18n="link_seti">SETI Institute</a>
+                                <p class="reference-desc" data-i18n="desc_seti">The Search for Extraterrestrial Intelligence, an organization dedicated to finding signs of intelligent life beyond Earth.</p>
+                            </div>
+                            <div class="reference-item">
+                                <a class="reference-link" href="https://en.wikipedia.org/wiki/Exoplanet" target="_blank"
+                                    data-i18n="link_exoplanets">Exoplanets</a>
+                                <p class="reference-desc" data-i18n="desc_exoplanets">Planets orbiting stars other than our Sun, key to understanding habitable worlds.</p>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -784,10 +805,8 @@
 
     <footer>
         <div class="footer-content">
-            <p>Website by <a href="https://mendiak.github.io/portfolio/" target="_blank" rel="noopener noreferrer">Mikel
-                    Aramendia</a></p>
-            <span class="footer-divider">·</span>
-            <p><a href="https://github.com/Mendiak/drake.equation" target="_blank" rel="noopener noreferrer"
+            <p>&copy; <span id="current-year"></span> <a href="https://mendiak.github.io/portfolio/" target="_blank" rel="noopener noreferrer">Mikel
+                    Aramendia</a> | <a href="https://github.com/Mendiak/drake.equation" target="_blank" rel="noopener noreferrer"
                     data-i18n="link_source">Source Code</a></p>
         </div>
     </footer>
@@ -805,6 +824,9 @@
     <script src="./nasa-exoplanets.js" defer></script>
     <script src="./script.js" defer></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
 </body>
 
 </html>

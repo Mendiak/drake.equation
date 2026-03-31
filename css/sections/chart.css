@@ -355,37 +355,51 @@ footer p {
 
 .references-section h3 {
     font-size: var(--text-sm);
-    font-weight: var(--font-weight-semi);
+    font-weight: var(--font-weight-bold);
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: var(--color-text-muted);
+    color: var(--color-text-primary);
     margin-bottom: var(--space-xl);
 }
 
 .links-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.reference-item {
+    margin-bottom: var(--space-lg);
+    padding: var(--space-sm) 0;
+    border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.reference-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
 }
 
 .reference-link {
     font-size: var(--text-sm);
-    font-weight: var(--font-weight-semi);
-    color: var(--color-black) !important;
+    font-weight: var(--font-weight-extra);
+    color: var(--color-text-primary);
     text-decoration: none;
-    padding: var(--space-md) var(--space-lg);
-    border: var(--border-width) solid var(--color-border);
-    border-radius: var(--radius-md);
-    transition: all var(--transition-base);
-    text-align: center;
-    background-color: transparent;
     display: block;
+    margin-bottom: var(--space-xs);
+    letter-spacing: -0.01em;
 }
 
 .reference-link:hover {
-    border-color: var(--color-black);
-    background-color: var(--color-bg-lighter);
-    color: var(--color-black) !important;
+    text-decoration: underline;
+    color: var(--color-black);
+}
+
+.reference-desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin: 0;
+    max-width: 600px;
 }
 
 .reference-link:visited {
@@ -403,15 +417,7 @@ footer {
 }
 
 .footer-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: var(--space-md);
-    flex-wrap: wrap;
-}
-
-.footer-divider {
-    color: var(--color-border);
+    text-align: center;
 }
 
 footer a {
