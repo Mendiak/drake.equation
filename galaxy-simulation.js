@@ -1045,7 +1045,6 @@ function toggleGalaxyFullscreen() {
     const overlay = document.getElementById('galaxy-fullscreen-overlay');
     const section = document.querySelector('.galaxy-sim-section');
     const fullscreenBtn = document.querySelector('.fullscreen-btn-overlay');
-    const icon = fullscreenBtn ? fullscreenBtn.querySelector('i') : null;
     const normalContainer = document.getElementById('galaxy-simulation-container');
     const fullscreenContainer = document.getElementById('galaxy-simulation-container-fullscreen');
 
@@ -1070,9 +1069,12 @@ function toggleGalaxyFullscreen() {
         syncFullscreenValues();
         syncFullscreenVizControls();
         updateLegendUI();
-        if (icon) {
-            icon.classList.remove('bi-arrows-fullscreen');
-            icon.classList.add('bi-fullscreen-exit');
+        // Update button icon to minimize (Lucide SVG)
+        if (fullscreenBtn) {
+            fullscreenBtn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minimize"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg>
+                <span data-i18n="fullscreen_exit_fullscreen">Exit Fullscreen</span>
+            `;
         }
         // Force resize after overlay is visible
         setTimeout(() => {
@@ -1092,11 +1094,14 @@ function toggleGalaxyFullscreen() {
             normalContainer.appendChild(canvas);
         }
 
-        if (icon) {
-            icon.classList.remove('bi-fullscreen-exit');
-            icon.classList.add('bi-arrows-fullscreen');
+        // Update button icon to maximize (Lucide SVG)
+        if (fullscreenBtn) {
+            fullscreenBtn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-maximize"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+                <span data-i18n="galaxy_fullscreen_text">Open Fullscreen Simulation</span>
+            `;
         }
-        
+
         // Force resize when exiting fullscreen
         setTimeout(() => {
             onGalaxyResize();
@@ -1280,14 +1285,6 @@ document.addEventListener('fullscreenchange', () => {
         if (section) {
             section.classList.remove('fullscreen');
         }
-        const fullscreenBtn = document.querySelector('.fullscreen-btn');
-        if (fullscreenBtn) {
-            const icon = fullscreenBtn.querySelector('i');
-            if (icon) {
-                icon.classList.remove('bi-fullscreen-exit');
-                icon.classList.add('bi-arrows-fullscreen');
-            }
-        }
     }
     
     setTimeout(() => {
@@ -1420,7 +1417,7 @@ function showMobileFullscreenAlert() {
     alertEl.className = 'mobile-fullscreen-alert';
     alertEl.innerHTML = `
         <div class="mobile-fullscreen-alert-content">
-            <i class="bi bi-phone"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-smartphone"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
             <p>${alertMsg}</p>
         </div>
     `;

@@ -870,8 +870,11 @@
         opacity: 0.5 !important;
     }
 
+    .fullscreen-btn-overlay span {
+        display: none;
+    }
+
     .fullscreen-btn-overlay::after {
-        content: '📱';
         font-size: var(--text-xs);
         margin-left: var(--space-xs);
     }
