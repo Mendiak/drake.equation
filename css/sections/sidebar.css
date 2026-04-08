@@ -25,6 +25,19 @@
     box-sizing: border-box;
 }
 
+/* Reset sub element spacing globally within this panel */
+.parameters-panel sub {
+    font-size: 0.75em !important;
+    vertical-align: sub !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    letter-spacing: normal !important;
+    word-spacing: 0 !important;
+    white-space: nowrap !important;
+    display: inline !important;
+    line-height: 1 !important;
+}
+
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    Section Headers - Typography Hierarchy
@@ -147,8 +160,20 @@
     margin-bottom: var(--space-md);
 }
 
-.param-label sub {
+/* Separated label parts - isolated from flex */
+.param-label .param-label-main {
+    display: inline-block;
+}
+
+.param-label .param-label-var {
+    display: inline-block;
+}
+
+.param-label .param-label-var sub {
     font-size: 0.75em;
+    vertical-align: sub;
+    white-space: nowrap;
+    display: inline;
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

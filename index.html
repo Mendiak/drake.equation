@@ -191,7 +191,7 @@
                     <div class="input-group">
                         <label for="Rstar" class="param-label">
                             <span class="info-icon" data-param="Rstar"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>
-                            <span data-i18n="label_Rstar">Star formation rate (R*)</span>
+                            <span class="param-label-main" data-i18n="label_Rstar">Star formation rate (R*)</span>
                         </label>
                         <div class="input-wrapper">
                             <div class="slider-container">
@@ -206,7 +206,8 @@
                     <div class="input-group">
                         <label for="fp" class="param-label">
                             <span class="info-icon" data-param="fp"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>
-                            <span data-i18n="label_fp">Fraction with planets (f<sub>p</sub>)</span>
+                            <span class="param-label-main" data-i18n="label_fp">Fraction with planets</span>
+                            <span class="param-label-var" data-i18n="label_fp_var">(f<sub>p</sub>)</span>
                         </label>
                         <div class="input-wrapper">
                             <div class="slider-container">
@@ -221,7 +222,8 @@
                     <div class="input-group">
                         <label for="ne" class="param-label">
                             <span class="info-icon" data-param="ne"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>
-                            <span data-i18n="label_ne">Habitable planets (n<sub>e</sub>)</span>
+                            <span class="param-label-main" data-i18n="label_ne">Habitable planets</span>
+                            <span class="param-label-var" data-i18n="label_ne_var">(n<sub>e</sub>)</span>
                         </label>
                         <div class="input-wrapper">
                             <div class="slider-container">
@@ -236,7 +238,8 @@
                     <div class="input-group">
                         <label for="fl" class="param-label">
                             <span class="info-icon" data-param="fl"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>
-                            <span data-i18n="label_fl">Fraction with life (f<sub>l</sub>)</span>
+                            <span class="param-label-main" data-i18n="label_fl">Fraction with life</span>
+                            <span class="param-label-var" data-i18n="label_fl_var">(f<sub>l</sub>)</span>
                         </label>
                         <div class="input-wrapper">
                             <div class="slider-container">
@@ -251,7 +254,8 @@
                     <div class="input-group">
                         <label for="fi" class="param-label">
                             <span class="info-icon" data-param="fi"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>
-                            <span data-i18n="label_fi">Fraction with intelligence (f<sub>i</sub>)</span>
+                            <span class="param-label-main" data-i18n="label_fi">Fraction with intelligence</span>
+                            <span class="param-label-var" data-i18n="label_fi_var">(f<sub>i</sub>)</span>
                         </label>
                         <div class="input-wrapper">
                             <div class="slider-container">
@@ -266,7 +270,8 @@
                     <div class="input-group">
                         <label for="fc" class="param-label">
                             <span class="info-icon" data-param="fc"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>
-                            <span data-i18n="label_fc">Fraction with technology (f<sub>c</sub>)</span>
+                            <span class="param-label-main" data-i18n="label_fc">Fraction with technology</span>
+                            <span class="param-label-var" data-i18n="label_fc_var">(f<sub>c</sub>)</span>
                         </label>
                         <div class="input-wrapper">
                             <div class="slider-container">
@@ -281,7 +286,7 @@
                     <div class="input-group">
                         <label for="L" class="param-label">
                             <span class="info-icon" data-param="L"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>
-                            <span data-i18n="label_L">Civilization lifetime (L)</span>
+                            <span class="param-label-main" data-i18n="label_L">Civilization lifetime (L)</span>
                         </label>
                         <div class="input-wrapper">
                             <div class="slider-container">
@@ -615,23 +620,39 @@
                             <div class="viz-control-groups">
                                 <div class="control-group">
                                     <label data-i18n="fullscreen_viz_rotation">Rotation</label>
-                                    <input type="range" id="fs-galaxy-rotation" min="0" max="0.01" step="0.0001" value="0.001" oninput="updateGalaxyRotation(this.value)">
-                                    <span id="fs-galaxy-rotation-value">0.001</span>
+                                    <div class="control-input-wrapper">
+                                        <div class="control-slider-container">
+                                            <input type="range" id="fs-galaxy-rotation" min="0" max="0.01" step="0.0001" value="0.001" oninput="updateGalaxyRotation(this.value)">
+                                        </div>
+                                        <span id="fs-galaxy-rotation-value" class="control-value">0.001</span>
+                                    </div>
                                 </div>
                                 <div class="control-group">
                                     <label data-i18n="fullscreen_viz_tilt">Tilt</label>
-                                    <input type="range" id="fs-galaxy-tilt" min="0" max="90" step="1" value="45" oninput="updateGalaxyTilt(this.value)">
-                                    <span id="fs-galaxy-tilt-value">45°</span>
+                                    <div class="control-input-wrapper">
+                                        <div class="control-slider-container">
+                                            <input type="range" id="fs-galaxy-tilt" min="0" max="90" step="1" value="45" oninput="updateGalaxyTilt(this.value)">
+                                        </div>
+                                        <span id="fs-galaxy-tilt-value" class="control-value">45°</span>
+                                    </div>
                                 </div>
                                 <div class="control-group">
                                     <label data-i18n="fullscreen_viz_zoom">Zoom</label>
-                                    <input type="range" id="fs-galaxy-zoom" min="50" max="400" step="5" value="200" oninput="updateGalaxyZoom(this.value)">
-                                    <span id="fs-galaxy-zoom-value">200</span>
+                                    <div class="control-input-wrapper">
+                                        <div class="control-slider-container">
+                                            <input type="range" id="fs-galaxy-zoom" min="50" max="400" step="5" value="200" oninput="updateGalaxyZoom(this.value)">
+                                        </div>
+                                        <span id="fs-galaxy-zoom-value" class="control-value">200</span>
+                                    </div>
                                 </div>
                                 <div class="control-group">
                                     <label data-i18n="fullscreen_viz_star_size">Star Size</label>
-                                    <input type="range" id="fs-galaxy-star-size" min="0.5" max="3" step="0.1" value="1.2" oninput="updateGalaxyStarSize(this.value)">
-                                    <span id="fs-galaxy-star-size-value">1.2</span>
+                                    <div class="control-input-wrapper">
+                                        <div class="control-slider-container">
+                                            <input type="range" id="fs-galaxy-star-size" min="0.5" max="3" step="0.1" value="1.2" oninput="updateGalaxyStarSize(this.value)">
+                                        </div>
+                                        <span id="fs-galaxy-star-size-value" class="control-value">1.2</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="fullscreen-viz-buttons">

@@ -170,26 +170,15 @@ function initGalaxySimulation() {
 
 // Initialize galaxy control sliders with correct visual positions
 function initGalaxySliders() {
-    const sliders = [
-        { id: 'galaxy-rotation-speed', min: 0, max: 0.01 },
-        { id: 'galaxy-tilt', min: 0, max: 90 },
-        { id: 'galaxy-zoom', min: 50, max: 400 },
-        { id: 'galaxy-star-size', min: 0.5, max: 3 }
-    ];
-    
-    sliders.forEach(slider => {
-        const input = document.getElementById(slider.id);
-        if (input) {
-            updateSliderBackground(input, slider.min, slider.max);
-        }
-    });
+    // No background gradient needed for transparent sliders (matches left sidebar style)
 }
-
 // Update slider background gradient to show current value position
 function updateSliderBackground(input, min, max) {
     const value = parseFloat(input.value);
     const percentage = ((value - min) / (max - min)) * 100;
-    input.style.background = `linear-gradient(to right, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.5) ${percentage}%, rgba(255, 255, 255, 0.2) ${percentage}%, rgba(255, 255, 255, 0.2) 100%)`;
+    // Use transparent background with subtle track fill via CSS custom properties
+    // This avoids the persistent grey background issue while still showing value position
+    input.style.setProperty('--slider-fill', `${percentage}%`);
 }
 
 // Generate globular cluster position - distributed in galactic halo but closer to disk
@@ -908,11 +897,12 @@ function onGalaxyResize() {
 // Control functions for galaxy visualization
 function updateGalaxyRotation(value) {
     currentView.rotationSpeed = parseFloat(value);
+    const formattedValue = parseFloat(value).toFixed(4);
     // Update display values for both normal and fullscreen views
     const displayEl = document.getElementById('galaxy-rotation-value');
-    if (displayEl) displayEl.textContent = value;
+    if (displayEl) displayEl.textContent = formattedValue;
     const fsDisplayEl = document.getElementById('fs-galaxy-rotation-value');
-    if (fsDisplayEl) fsDisplayEl.textContent = value;
+    if (fsDisplayEl) fsDisplayEl.textContent = formattedValue;
     // Update slider visual position
     const slider = document.getElementById('galaxy-rotation-speed');
     if (slider) updateSliderBackground(slider, 0, 0.01);
@@ -961,10 +951,11 @@ function updateGalaxyZoom(value) {
 
 function updateGalaxyStarSize(value) {
     currentView.starSize = parseFloat(value);
+    const formattedValue = parseFloat(value).toFixed(1);
     const displayEl = document.getElementById('galaxy-star-size-value');
-    if (displayEl) displayEl.textContent = value;
+    if (displayEl) displayEl.textContent = formattedValue;
     const fsDisplayEl = document.getElementById('fs-galaxy-star-size-value');
-    if (fsDisplayEl) fsDisplayEl.textContent = value;
+    if (fsDisplayEl) fsDisplayEl.textContent = formattedValue;
     // Update slider visual position
     const slider = document.getElementById('galaxy-star-size');
     if (slider) updateSliderBackground(slider, 0.5, 3);
@@ -1159,11 +1150,11 @@ function populateFullscreenParams() {
 
     const params = [
         { id: 'Rstar', label: t('labels.Rstar') },
-        { id: 'fp', label: t('labels.fp') },
-        { id: 'ne', label: t('labels.ne') },
-        { id: 'fl', label: t('labels.fl') },
-        { id: 'fi', label: t('labels.fi') },
-        { id: 'fc', label: t('labels.fc') },
+        { id: 'fp', label: t('labels.fp'), varLabel: t('labels.fp_var') },
+        { id: 'ne', label: t('labels.ne'), varLabel: t('labels.ne_var') },
+        { id: 'fl', label: t('labels.fl'), varLabel: t('labels.fl_var') },
+        { id: 'fi', label: t('labels.fi'), varLabel: t('labels.fi_var') },
+        { id: 'fc', label: t('labels.fc'), varLabel: t('labels.fc_var') },
         { id: 'L', label: t('labels.L') }
     ];
 
@@ -1174,11 +1165,15 @@ function populateFullscreenParams() {
         const valueDisplay = document.getElementById(param.id + '-value');
         const value = valueDisplay ? valueDisplay.textContent : input.value;
 
+        const labelContent = param.varLabel 
+            ? `${param.label} <span class="param-var">${param.varLabel}</span>`
+            : param.label;
+
         const item = document.createElement('div');
         item.className = 'fullscreen-param-item';
         item.innerHTML = `
             <label>
-                ${param.label}
+                ${labelContent}
                 <span class="fullscreen-param-value" id="fs-${param.id}-value">${value}</span>
             </label>
             <input type="range" id="fs-${param.id}" min="${input.min}" max="${input.max}" step="${input.step}" value="${input.value}"

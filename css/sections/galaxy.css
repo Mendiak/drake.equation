@@ -197,6 +197,38 @@
     border: none;
 }
 
+.fullscreen-sidebar .control-group input[type="range"] {
+    height: 2px;
+    appearance: none;
+}
+
+.fullscreen-sidebar .control-group input[type="range"]::-webkit-slider-thumb {
+    width: 10px;
+    height: 10px;
+    background: var(--color-white);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    position: relative;
+    top: -4px;
+}
+
+.fullscreen-sidebar .control-group input[type="range"]::-moz-range-thumb {
+    width: 10px;
+    height: 10px;
+    background: var(--color-white);
+    cursor: pointer;
+    border-radius: var(--radius-full);
+    border: none;
+}
+
+.fullscreen-sidebar .control-value {
+    font-size: var(--text-xs);
+    text-align: right;
+    display: block;
+    font-family: var(--font-family-mono);
+    color: var(--color-white);
+}
+
 .fullscreen-param-value {
     font-family: var(--font-family-mono);
     font-size: var(--text-xs);
@@ -240,7 +272,11 @@
     border-radius: var(--radius-sm);
     border: 1px solid rgb(255 255 255 / 10%);
     z-index: 100;
-    min-width: 200px;
+    min-width: 220px;
+}
+
+.fullscreen-sidebar .control-group {
+    margin-bottom: 0;
 }
 
 .fullscreen-viz-controls h4 {
@@ -262,46 +298,153 @@
 
 .viz-control-groups .control-group {
     margin-bottom: 0;
+    padding-bottom: var(--space-md);
+    border-bottom: var(--border-width) solid rgb(255 255 255 / 10%);
+    background: transparent !important;
 }
 
-.viz-control-groups .control-group label {
-    font-size: var(--text-xs);
-    color: var(--color-white);
-    margin-bottom: 2px;
-    text-transform: uppercase;
+.viz-control-groups .control-group:focus-within {
+    background: transparent !important;
+}
+
+.control-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    min-width: 0;
+    max-width: 100%;
+}
+
+.control-input-wrapper:focus-within {
+    background: transparent !important;
+}
+
+.control-slider-container {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    min-width: 0;
+    justify-content: center;
+}
+
+.control-slider-container:focus-within {
+    background: transparent !important;
 }
 
 .viz-control-groups .control-group input[type="range"] {
-    height: 2px;
     appearance: none;
+    width: 100%;
+    height: 20px;
+    background: transparent;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    border: none;
+}
+
+.viz-control-groups .control-group input[type="range"]:focus,
+.viz-control-groups .control-group input[type="range"]:focus-visible,
+.viz-control-groups .control-group input[type="range"]:active {
+    outline: none;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.viz-control-groups .control-group input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to right, 
+        rgb(255 255 255 / 50%) 0%, 
+        rgb(255 255 255 / 50%) var(--slider-fill, 0%), 
+        rgb(255 255 255 / 20%) var(--slider-fill, 0%), 
+        rgb(255 255 255 / 20%) 100%);
+    border-radius: var(--radius-full);
+    border: none;
+}
+
+.viz-control-groups .control-group input[type="range"]:focus::-webkit-slider-runnable-track,
+.viz-control-groups .control-group input[type="range"]:active::-webkit-slider-runnable-track {
+    background: linear-gradient(to right, 
+        rgb(255 255 255 / 50%) 0%, 
+        rgb(255 255 255 / 50%) var(--slider-fill, 0%), 
+        rgb(255 255 255 / 20%) var(--slider-fill, 0%), 
+        rgb(255 255 255 / 20%) 100%);
+    outline: none;
 }
 
 .viz-control-groups .control-group input[type="range"]::-webkit-slider-thumb {
-    width: 10px;
-    height: 10px;
+    appearance: none;
+    width: 18px;
+    height: 18px;
     background: var(--color-white);
+    border: 2px solid rgb(255 255 255 / 60%);
     border-radius: var(--radius-full);
     cursor: pointer;
     position: relative;
-    top: -4px;
+    top: -7px;
+    transition: all var(--transition-base);
+    box-shadow: 0 2px 4px rgb(0 0 0 / 15%);
+    touch-action: none;
+}
+
+.viz-control-groups .control-group input[type="range"]::-webkit-slider-thumb:hover {
+    border-color: var(--color-white);
+    transform: scale(1.15);
+    box-shadow: 0 3px 8px rgb(0 0 0 / 20%);
+}
+
+.viz-control-groups .control-group input[type="range"]::-webkit-slider-thumb:active {
+    background: var(--color-white);
+    border-color: var(--color-white);
+    transform: scale(1.2);
+}
+
+.viz-control-groups .control-group input[type="range"]::-moz-range-track {
+    width: 100%;
+    height: 4px;
+    background: rgb(255 255 255 / 20%);
+    border-radius: var(--radius-full);
+    border: none;
 }
 
 .viz-control-groups .control-group input[type="range"]::-moz-range-thumb {
     width: 10px;
     height: 10px;
     background: var(--color-white);
+    border: 2px solid rgb(255 255 255 / 60%);
     border-radius: var(--radius-full);
     cursor: pointer;
-    border: none;
+    transition: all var(--transition-base);
+    box-shadow: 0 2px 4px rgb(0 0 0 / 15%);
+    touch-action: none;
+}
+
+.viz-control-groups .control-group input[type="range"]::-moz-range-thumb:hover {
+    border-color: var(--color-white);
+    transform: scale(1.15);
+    box-shadow: 0 3px 8px rgb(0 0 0 / 20%);
+}
+
+.viz-control-groups .control-group input[type="range"]::-moz-range-thumb:active {
+    background: var(--color-white);
+    border-color: var(--color-white);
+    transform: scale(1.2);
 }
 
 .viz-control-groups .control-value,
 .viz-control-groups .control-group span {
-    font-size: var(--text-xs);
-    text-align: right;
-    display: block;
     font-family: var(--font-family-mono);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-regular);
     color: var(--color-white);
+    max-width: 80px;
+    text-align: right;
+    flex-shrink: 0;
+    overflow-wrap: break-word;
 }
 
 .fullscreen-viz-buttons {
@@ -499,10 +642,6 @@
     border-bottom: 1px solid rgb(255 255 255 / 10%);
 }
 
-.fullscreen-sidebar .control-group {
-    margin-bottom: 0;
-}
-
 .fullscreen-sidebar .control-group label {
     font-size: var(--text-xs);
     color: var(--color-white);
@@ -510,19 +649,15 @@
     text-transform: uppercase;
 }
 
-.fullscreen-sidebar .control-group input[type="range"] {
-    height: 2px;
-    appearance: none;
-}
-
-.fullscreen-sidebar .control-group input[type="range"]::-webkit-slider-thumb {
-    width: 10px;
-    height: 10px;
-    background: var(--color-white);
-    border-radius: var(--radius-full);
-    cursor: pointer;
-    position: relative;
-    top: -4px;
+/* Ensure viz control labels are bright white, not dimmed */
+.viz-control-groups .control-group > label {
+    font-size: var(--text-xs);
+    color: var(--color-white);
+    font-weight: var(--font-weight-regular);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+    margin-bottom: var(--space-xs);
 }
 
 .fullscreen-sidebar .control-group input[type="range"]::-webkit-slider-thumb:hover {
@@ -535,15 +670,6 @@
     border-radius: var(--radius-sm);
 }
 
-.fullscreen-sidebar .control-group input[type="range"]::-moz-range-thumb {
-    width: 10px;
-    height: 10px;
-    background: var(--color-white);
-    cursor: pointer;
-    border-radius: var(--radius-full);
-    border: none;
-}
-
 .fullscreen-sidebar .control-group input[type="range"]::-moz-range-thumb:hover {
     transform: scale(1.3);
 }
@@ -552,14 +678,6 @@
     background: rgb(255 255 255 / 50%);
     height: 2px;
     border-radius: var(--radius-sm);
-}
-
-.fullscreen-sidebar .control-value {
-    font-size: var(--text-xs);
-    text-align: right;
-    display: block;
-    font-family: var(--font-family-mono);
-    color: var(--color-white);
 }
 
 
