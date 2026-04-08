@@ -44,8 +44,19 @@ const COLORS = {
     planets: 0xf39c12,    // Orange: With planets
     habitable: 0x3498db,  // Blue: Habitable
     life: 0x2ecc71,       // Green: With life
-    intelligence: 0x9b59b6, // Purple: Intelligent life
+    intelligence: 0xb060d0, // Brighter purple: Intelligent life (enhanced visibility)
     tech: 0xffffff        // Bright white: Communicative (most visible)
+};
+
+// Brightness multipliers per category to compensate for perceived brightness differences
+// Purple appears dimmer to human eye, so we boost it more
+const BRIGHTNESS_MULTIPLIERS = {
+    total: 0.85,          // Slightly dimmer (background stars)
+    planets: 1.05,        // Slightly boosted
+    habitable: 1.1,       // Boosted for visibility
+    life: 1.15,           // Green boosted
+    intelligence: 1.35,   // Purple significantly boosted to match other colors
+    tech: 1.0             // Already bright white
 };
 
 // PRE-COMPUTED COLORS for high performance (Zero-allocation inside loops)
@@ -54,7 +65,13 @@ const RGB_COLORS = {};
     const tempColor = new THREE.Color();
     for (const key in COLORS) {
         tempColor.setHex(COLORS[key]);
-        RGB_COLORS[key] = { r: tempColor.r, g: tempColor.g, b: tempColor.b };
+        // Apply brightness multiplier during precomputation
+        const multiplier = BRIGHTNESS_MULTIPLIERS[key] || 1.0;
+        RGB_COLORS[key] = { 
+            r: Math.min(1.0, tempColor.r * multiplier), 
+            g: Math.min(1.0, tempColor.g * multiplier), 
+            b: Math.min(1.0, tempColor.b * multiplier) 
+        };
     }
 })();
 
