@@ -322,8 +322,9 @@ const translations = {
         fullscreen_result_unit: "detectable communicative civilizations",
         fullscreen_legend_toggle_hint: "Click to show/hide categories",
         galaxy_note_title: "Why do I see more stars than N?",
-        galaxy_note_en: "The equation estimates civilizations active <strong>right now</strong> (N = 2.4). The galaxy shows all stars that <strong>could potentially</strong> host communicative civilizations based on your parameters. Even with low N, many stars pass the early filters (planets, habitable zones). The blinking white stars represent potential locations, not simultaneous civilizations. With short civilization lifetimes (L), many may have existed but never overlapped in time.",
-        galaxy_note_es: "La ecuación estima civilizaciones activas <strong>ahora mismo</strong> (N = 2.4). La galaxia muestra todas las estrellas que <strong>potencialmente</strong> podrían albergar civilizaciones comunicativas según tus parámetros. Incluso con N bajo, muchas estrellas pasan los primeros filtros (planetas, zonas habitables). Las estrellas blancas parpadeantes representan ubicaciones potenciales, no civilizaciones simultáneas. Con vidas de civilizaciones cortas (L), muchas pudieron existir pero nunca se solaparon en el tiempo.",
+        galaxy_note_body: "The equation estimates civilizations active <strong>right now</strong> (N). The galaxy shows all stars that <strong>could potentially</strong> host communicative civilizations based on your parameters. The blinking white stars represent potential locations, not simultaneous civilizations.",
+        galaxy_note_blinking_title: "Why don't I see blinking stars?",
+        galaxy_note_blinking_body: "The simulation displays about 30,000 stars. With conservative parameters, statistically there may be zero communicative civilizations in this sample. To see blinking stars, try presets with higher N or increase L, fi, or fc.",
 
         // NASA Exoplanet Section
         nasa_section_title: "Exoplanet Archive",
@@ -678,6 +679,10 @@ const translations = {
         fullscreen_result_label: "Resultado",
         fullscreen_result_unit: "civilizaciones comunicativas detectables",
         fullscreen_legend_toggle_hint: "Haz clic para mostrar/ocultar categorías",
+        galaxy_note_title: "¿Por qué veo más estrellas que N?",
+        galaxy_note_body: "La ecuación estima civilizaciones activas <strong>ahora mismo</strong> (N). La galaxia muestra todas las estrellas que <strong>potencialmente</strong> podrían albergar civilizaciones comunicativas según tus parámetros. Las estrellas blancas parpadeantes representan ubicaciones potenciales, no civilizaciones simultáneas.",
+        galaxy_note_blinking_title: "¿Por qué no veo estrellas parpadeantes?",
+        galaxy_note_blinking_body: "La simulación muestra unas 30.000 estrellas. Con parámetros conservadores, estadísticamente puede no haber civilizaciones comunicativas en esta muestra. Para ver estrellas parpadeantes, prueba presets con N más alto o aumenta L, fi o fc.",
 
         // NASA Exoplanet Section
         nasa_section_title: "Archivo de Exoplanetas",

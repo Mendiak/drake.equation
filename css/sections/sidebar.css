@@ -230,27 +230,26 @@ input[type="range"]::-webkit-slider-thumb {
     cursor: pointer;
     position: relative;
     top: -10px;
-    transition: all var(--transition-base);
-    box-shadow: 0 2px 4px rgb(0 0 0 / 15%);
+    transition: border-color var(--transition-base), background-color var(--transition-base);
+    box-shadow: none;
     touch-action: none;
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {
     border-color: var(--color-black);
-    transform: scale(1.15);
-    box-shadow: 0 3px 8px rgb(0 0 0 / 20%);
+    box-shadow: none;
 }
 
 input[type="range"]::-webkit-slider-thumb:active {
     background: var(--color-black);
     border-color: var(--color-black);
-    transform: scale(1.2);
+    transform: none;
 }
 
 input[type="range"]::-webkit-slider-thumb:focus {
     outline: none;
     border-color: var(--color-black);
-    box-shadow: 0 0 0 3px rgb(0 0 0 / 15%);
+    box-shadow: 0 0 0 3px rgb(0 0 0 / 10%);
 }
 
 /* Slider Track - Firefox */
@@ -270,27 +269,26 @@ input[type="range"]::-moz-range-thumb {
     border: 2px solid var(--color-text-muted);
     border-radius: var(--radius-full);
     cursor: pointer;
-    transition: all var(--transition-base);
-    box-shadow: 0 2px 4px rgb(0 0 0 / 15%);
+    transition: border-color var(--transition-base), background-color var(--transition-base);
+    box-shadow: none;
     touch-action: none;
 }
 
 input[type="range"]::-moz-range-thumb:hover {
     border-color: var(--color-black);
-    transform: scale(1.15);
-    box-shadow: 0 3px 8px rgb(0 0 0 / 20%);
+    box-shadow: none;
 }
 
 input[type="range"]::-moz-range-thumb:active {
     background: var(--color-black);
     border-color: var(--color-black);
-    transform: scale(1.2);
+    transform: none;
 }
 
 input[type="range"]::-moz-range-thumb:focus {
     outline: none;
     border-color: var(--color-black);
-    box-shadow: 0 0 0 3px rgb(0 0 0 / 15%);
+    box-shadow: 0 0 0 3px rgb(0 0 0 / 10%);
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -445,15 +443,15 @@ button#reset-button span[data-i18n] {
 }
 
 .confidence-legend span span[style*="background: #2ecc71"] {
-    background: #2ecc71 !important;
+    background: var(--color-confidence-low) !important;
 }
 
 .confidence-legend span span[style*="background: #f39c12"] {
-    background: #f39c12 !important;
+    background: var(--color-confidence-medium) !important;
 }
 
 .confidence-legend span span[style*="background: #e74c3c"] {
-    background: #e74c3c !important;
+    background: var(--color-confidence-high) !important;
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

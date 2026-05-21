@@ -162,23 +162,6 @@ header {
     color: var(--color-white);
 }
 
-.galaxy-note-en,
-.galaxy-note-es {
-    display: block;
-}
-
-.galaxy-note-es {
-    display: none;
-}
-
-html[lang="es"] .galaxy-note-en {
-    display: none;
-}
-
-html[lang="es"] .galaxy-note-es {
-    display: block;
-}
-
 .galaxy-note-separator {
     margin-top: 0.75rem !important;
     padding-top: 0.75rem !important;

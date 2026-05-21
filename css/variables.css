@@ -20,15 +20,15 @@
     --color-bg-light: #fafafa;
     --color-bg-lighter: #fcfcfc;
     --color-bg-surface: #f8f8f8;
-    --color-accent-yellow: #ffeb3b;
-    --color-confidence-low: #2ecc71;
-    --color-confidence-low-dark: #27ae60;
-    --color-confidence-medium: #f39c12;
-    --color-confidence-medium-dark: #e67e22;
-    --color-confidence-high: #e74c3c;
-    --color-confidence-high-dark: #c0392b;
-    --color-confidence-very-high: #c0392b;
-    --color-confidence-very-high-dark: #a93226;
+    --color-accent-yellow: #f0dc72;
+    --color-confidence-low: #2f7d4f;
+    --color-confidence-low-dark: #25633f;
+    --color-confidence-medium: #b36b00;
+    --color-confidence-medium-dark: #8f5500;
+    --color-confidence-high: #b43f35;
+    --color-confidence-high-dark: #8f312a;
+    --color-confidence-very-high: #7f2420;
+    --color-confidence-very-high-dark: #651c19;
 
     /* Typography Scale - Simplified 6-step system */
     --text-xs:   0.75rem;   /* 12px - Labels, captions */
@@ -95,5 +95,5 @@
     --radius-full: 50%;
 
     /* Shadows & Depth */
-    --shadow-small: 0 1px 4px rgb(0 0 0 / 15%);
+    --shadow-small: none;
 }

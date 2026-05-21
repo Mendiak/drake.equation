@@ -121,15 +121,15 @@
 }
 
 .legend-dot-observed {
-    background: #2ecc71;
+    background: var(--color-confidence-low);
 }
 
 .legend-dot-theoretical {
-    background: #f39c12;
+    background: var(--color-confidence-medium);
 }
 
 .legend-dot-speculative {
-    background: #e74c3c;
+    background: var(--color-confidence-high);
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -150,7 +150,7 @@
     display: block;
     font-size: var(--text-base);
     color: var(--color-white);
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
     margin-bottom: var(--space-xs);
 }
 
@@ -212,9 +212,8 @@ button {
     margin: auto;
     position: relative;
     border: 1px solid var(--color-border);
-    box-shadow: var(--shadow-small);
     transform: translateY(20px);
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform var(--transition-smooth);
     max-height: 90vh;
     overflow-y: auto;
 }
@@ -240,21 +239,20 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all var(--transition-base);
+    transition: background-color var(--transition-base), color var(--transition-base);
     z-index: 10;
 }
 
 .tooltip-close:hover {
     background: var(--color-black);
     color: var(--color-white);
-    transform: rotate(90deg);
 }
 
 .tooltip-content h3 {
     font-size: var(--text-2xl);
     font-weight: var(--font-weight-extra);
     margin: 0 0 var(--space-lg) 0;
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
     padding-right: var(--space-3xl);
     text-transform: none;
 }

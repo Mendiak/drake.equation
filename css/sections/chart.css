@@ -388,7 +388,7 @@ footer p {
     align-items: center;
     gap: var(--space-xs);
     margin-bottom: var(--space-xs);
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
 }
 
 .reference-link:hover {
@@ -502,23 +502,23 @@ footer a:hover {
 }
 
 .confidence-indicator[data-confidence="low"] {
-    background: #2ecc71;
-    border-color: #27ae60;
+    background: var(--color-confidence-low);
+    border-color: var(--color-confidence-low-dark);
 }
 
 .confidence-indicator[data-confidence="medium"] {
-    background: #f39c12;
-    border-color: #e67e22;
+    background: var(--color-confidence-medium);
+    border-color: var(--color-confidence-medium-dark);
 }
 
 .confidence-indicator[data-confidence="high"] {
-    background: #e74c3c;
-    border-color: #c0392b;
+    background: var(--color-confidence-high);
+    border-color: var(--color-confidence-high-dark);
 }
 
 .confidence-indicator[data-confidence="very_high"] {
-    background: #c0392b;
-    border-color: #a93226;
+    background: var(--color-confidence-very-high);
+    border-color: var(--color-confidence-very-high-dark);
 }
 
 #equation-text span {
