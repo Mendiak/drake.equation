@@ -1,5 +1,6 @@
 /* exported updateValueAndRecalculate */
 let currentLang = localStorage.getItem('drake-lang') || 'en';
+let lastTooltipTrigger = null;
 
 // Drake chart instances (defined in chart-utils.js)
 /* global drakeChart */
@@ -209,6 +210,11 @@ function updateLanguage(lang) {
         el.setAttribute('title', t(el.getAttribute('data-i18n-title')));
     });
 
+    document.querySelectorAll('.info-icon').forEach(icon => {
+        icon.setAttribute('aria-label', t('info_icon_label'));
+        icon.setAttribute('title', t('info_icon_label'));
+    });
+
     // Re-initialize Lucide icons after language change
     initLucideIcons();
 
@@ -380,6 +386,7 @@ function showTooltip(paramId) {
     const modal = document.getElementById('tooltip-modal');
     const data = t('tooltips.' + paramId);
     if (!data || !modal) return;
+    lastTooltipTrigger = document.activeElement;
     document.getElementById('tooltip-title').innerHTML = data.title;
     document.getElementById('tooltip-description').innerHTML = data.description;
     document.getElementById('tooltip-current').textContent = data.current;
@@ -391,15 +398,22 @@ function showTooltip(paramId) {
     uncertaintyEl.className = 'tooltip-uncertainty ' + data.uncertainty.replace(' ', '-');
     uncertaintyEl.textContent = `${currentLang === 'es' ? 'Nivel de confianza' : 'Confidence Level'}: ${uncertaintyLabel}`;
     
+    modal.setAttribute('aria-hidden', 'false');
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
+    modal.querySelector('.tooltip-close')?.focus();
 }
 
 function hideTooltip() {
     const modal = document.getElementById('tooltip-modal');
     if (modal) {
+        modal.setAttribute('aria-hidden', 'true');
         modal.style.display = 'none';
         document.body.style.overflow = '';
+        if (lastTooltipTrigger && typeof lastTooltipTrigger.focus === 'function') {
+            lastTooltipTrigger.focus();
+        }
+        lastTooltipTrigger = null;
     }
 }
 
@@ -495,7 +509,17 @@ function _initCritical() {
     });
 
     document.querySelectorAll('.info-icon').forEach(icon => {
+        icon.setAttribute('role', 'button');
+        icon.setAttribute('tabindex', '0');
+        icon.setAttribute('aria-label', t('info_icon_label'));
+        icon.setAttribute('title', t('info_icon_label'));
         icon.addEventListener('click', (e) => showTooltip(e.currentTarget.getAttribute('data-param')));
+        icon.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                showTooltip(e.currentTarget.getAttribute('data-param'));
+            }
+        });
     });
 
     const tooltipModal = document.getElementById('tooltip-modal');

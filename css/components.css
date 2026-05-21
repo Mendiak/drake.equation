@@ -90,14 +90,16 @@
     font-size: var(--text-xs);
     font-style: normal;
     cursor: pointer;
-    transition: all var(--transition-base);
+    transition: background-color var(--transition-base), color var(--transition-base), border-color var(--transition-base);
 }
 
-.info-icon:hover {
+.info-icon:hover,
+.info-icon:focus-visible {
     opacity: 1;
     background: var(--color-black);
     color: var(--color-white);
     border-color: var(--color-black);
+    outline: none;
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
