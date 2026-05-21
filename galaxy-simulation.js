@@ -1,5 +1,4 @@
 /* exported galaxyControls, galaxyRendererFS, initGalaxySimulation, getStellarPopulationColor, updateGalaxyRotation, updateGalaxyTilt, updateGalaxyZoom, updateGalaxyStarSize, resetGalaxyView, toggleGalaxyFullscreen, applyPresetFromFullscreen, updateParamFromFullscreen, categoryMap */
-/* global currentLang */
 // Galactic Simulation using Three.js
 // Visualizes the Drake Equation steps across a simulated Milky Way-like spiral galaxy
 
@@ -1083,6 +1082,8 @@ function toggleGalaxyFullscreen() {
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minimize"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg>
                 <span data-i18n="fullscreen_exit_fullscreen">Exit Fullscreen</span>
             `;
+            fullscreenBtn.setAttribute('aria-label', t('fullscreen_exit_fullscreen'));
+            fullscreenBtn.setAttribute('title', t('fullscreen_exit_fullscreen'));
         }
         // Force resize after overlay is visible
         setTimeout(() => {
@@ -1108,6 +1109,8 @@ function toggleGalaxyFullscreen() {
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-maximize"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
                 <span data-i18n="galaxy_fullscreen_text">Open Fullscreen Simulation</span>
             `;
+            fullscreenBtn.setAttribute('aria-label', t('galaxy_fullscreen_text'));
+            fullscreenBtn.setAttribute('title', t('galaxy_fullscreen'));
         }
 
         // Force resize when exiting fullscreen

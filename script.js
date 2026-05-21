@@ -201,6 +201,14 @@ function updateLanguage(lang) {
         }
     });
 
+    document.querySelectorAll('[data-i18n-aria-label]').forEach(el => {
+        el.setAttribute('aria-label', t(el.getAttribute('data-i18n-aria-label')));
+    });
+
+    document.querySelectorAll('[data-i18n-title]').forEach(el => {
+        el.setAttribute('title', t(el.getAttribute('data-i18n-title')));
+    });
+
     // Re-initialize Lucide icons after language change
     initLucideIcons();
 

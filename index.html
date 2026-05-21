@@ -16,7 +16,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
         rel="stylesheet" media="print" onload="this.media='all'">
-    <link rel="preload" as="style" href="./styles.css" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="./styles.css"></noscript>
     <meta name="google-site-verification" content="7tAbK2WB9Cx4uF76izgXcrBdBXVeqDfUd9A97KrLewU" />
     
@@ -25,7 +24,7 @@
     <meta property="og:url" content="https://mendiak.github.io/drake.equation/">
     <meta property="og:title" content="Drake Equation Calculator | Estimate Extraterrestrial Civilizations">
     <meta property="og:description" content="Interactive tool to explore the Drake Equation and estimate communicative civilizations in the Milky Way. Features 3D galaxy simulation and sensitivity analysis.">
-    <meta property="og:image" content="https://mendiak.github.io/drake.equation/assets/images/og-image.png">
+    <meta property="og:image" content="https://mendiak.github.io/drake.equation/assets/images/og_image.png">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="es_ES">
     
@@ -34,7 +33,7 @@
     <meta name="twitter:url" content="https://mendiak.github.io/drake.equation/">
     <meta name="twitter:title" content="Drake Equation Calculator | Estimate Extraterrestrial Civilizations">
     <meta name="twitter:description" content="Interactive tool to explore the Drake Equation and estimate communicative civilizations in the Milky Way. Features 3D galaxy simulation.">
-    <meta name="twitter:image" content="https://mendiak.github.io/drake.equation/assets/images/og-image.png">
+    <meta name="twitter:image" content="https://mendiak.github.io/drake.equation/assets/images/og_image.png">
     
     <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">
@@ -83,7 +82,7 @@
         <!-- Tooltip Modal -->
         <div id="tooltip-modal" class="tooltip-modal" style="display: none;">
             <div class="tooltip-content">
-                <button class="tooltip-close">&times;</button>
+                <button type="button" class="tooltip-close" data-i18n-aria-label="tooltip_close" data-i18n-title="tooltip_close">&times;</button>
                 <h3 id="tooltip-title"></h3>
                 <p id="tooltip-description"></p>
                 <div class="tooltip-section">
@@ -109,9 +108,9 @@
                     <span data-i18n="title">Drake Equation</span>
                 </h1>
                 <div class="lang-switcher">
-                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button type="button" class="lang-btn active" data-lang="en">EN</button>
                     <span class="lang-divider">|</span>
-                    <button class="lang-btn" data-lang="es">ES</button>
+                    <button type="button" class="lang-btn" data-lang="es">ES</button>
                 </div>
             </div>
             <p class="subtitle" data-i18n="subtitle">An interactive estimate of advanced civilizations in our galaxy.
@@ -158,15 +157,15 @@
                     <h3 data-i18n="presets_title">Presets</h3>
                     <div class="presets-legend" data-i18n="preset_legend">Optimistic ← → Pessimistic</div>
                     <div class="presets-container">
-                        <button class="preset-btn" data-preset="optimistic" data-i18n="preset_optimistic">Optimistic
+                        <button type="button" class="preset-btn" data-preset="optimistic" data-i18n="preset_optimistic">Optimistic
                             Scientist</button>
-                        <button class="preset-btn" data-preset="sagan" data-i18n="preset_sagan">Sagan Estimate</button>
-                        <button class="preset-btn" data-preset="drake" data-i18n="preset_drake">Drake Estimate</button>
-                        <button class="preset-btn" data-preset="scientific" data-i18n="preset_scientific">Modern
+                        <button type="button" class="preset-btn" data-preset="sagan" data-i18n="preset_sagan">Sagan Estimate</button>
+                        <button type="button" class="preset-btn" data-preset="drake" data-i18n="preset_drake">Drake Estimate</button>
+                        <button type="button" class="preset-btn" data-preset="scientific" data-i18n="preset_scientific">Modern
                             Consensus</button>
-                        <button class="preset-btn" data-preset="rare_earth" data-i18n="preset_rare_earth">Rare Earth
+                        <button type="button" class="preset-btn" data-preset="rare_earth" data-i18n="preset_rare_earth">Rare Earth
                             Model</button>
-                        <button class="preset-btn" data-preset="pessimistic" data-i18n="preset_pessimistic">Pessimistic
+                        <button type="button" class="preset-btn" data-preset="pessimistic" data-i18n="preset_pessimistic">Pessimistic
                             Scientist</button>
                     </div>
                 </div>
@@ -442,7 +441,7 @@
                                 <div class="galaxy-sim-container" id="galaxy-simulation-container">
                                     <!-- Three.js Canvas will be here -->
                                 </div>
-                                <button class="fullscreen-btn-overlay" onclick="toggleGalaxyFullscreen()" title="Fullscreen">
+                                <button type="button" class="fullscreen-btn-overlay" onclick="toggleGalaxyFullscreen()" data-i18n-aria-label="galaxy_fullscreen_text" data-i18n-title="galaxy_fullscreen">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-maximize"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
                                     <span data-i18n="galaxy_fullscreen_text">Open Fullscreen Simulation</span>
                                 </button>
@@ -497,7 +496,7 @@
                         <div class="exoplanet-card">
                             <div class="exoplanet-card-header">
                                 <h4 data-i18n="nasa_featured_label">Notable Exoplanet</h4>
-                                <button class="exoplanet-shuffle-btn" onclick="loadRandomExoplanet()" title="Load another">
+                                <button type="button" class="exoplanet-shuffle-btn" onclick="loadRandomExoplanet()" data-i18n-aria-label="exoplanet_load_another" data-i18n-title="exoplanet_load_another">
                                     <i data-lucide="shuffle" class="icon-inline-sm"></i>
                                 </button>
                             </div>
@@ -656,8 +655,8 @@
                                 </div>
                             </div>
                             <div class="fullscreen-viz-buttons">
-                                <button class="reset-view-btn" onclick="resetGalaxyView()" data-i18n="galaxy_reset_view">Reset View</button>
-                                <button class="exit-fullscreen-btn" onclick="toggleGalaxyFullscreen()">
+                                <button type="button" class="reset-view-btn" onclick="resetGalaxyView()" data-i18n="galaxy_reset_view">Reset View</button>
+                                <button type="button" class="exit-fullscreen-btn" onclick="toggleGalaxyFullscreen()" data-i18n-aria-label="fullscreen_exit_fullscreen">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minimize"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg> <span data-i18n="fullscreen_exit_fullscreen">Exit Fullscreen</span>
                                 </button>
                             </div>
@@ -676,7 +675,7 @@
                             <div class="galaxy-sim-legend" id="galaxy-sim-legend-fullscreen">
                                 <div class="legend-hint">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pointer"><path d="M22 14a8 8 0 0 1-8 8"/><path d="M18 11v-1a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"/><path d="M14 10V9a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v1"/><path d="M10 9.5V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v10"/><path d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>
-                                    <span>Click para mostrar/ocultar categorías</span>
+                                    <span data-i18n="fullscreen_legend_toggle_hint">Click to show/hide categories</span>
                                 </div>
                                 <div class="legend-item"><span class="dot" style="background-color: #8B4545;"></span> <span data-i18n="funnel_steps.total">Total Stars</span></div>
                                 <div class="legend-item"><span class="dot" style="background-color: #f39c12;"></span> <span data-i18n="funnel_steps.planets">With Planets</span></div>
@@ -730,7 +729,7 @@
                             for Extraterrestrial Intelligence (SETI) is the active effort to find these markers.</p>
                     </details>
                     
-                    <details toggle>
+                    <details open>
                         <summary data-i18n="longevity_deep_dive_title">Longevity and the Modern Consensus</summary>
                         <p data-i18n="longevity_deep_dive_text">The 'Modern Consensus' preset gives a small value for N because it assumes civilizations are relatively short-lived. This highlights the 'Great Filter'—the idea that something prevents life from reaching a point of long-term cosmic communication.</p>
                     </details>

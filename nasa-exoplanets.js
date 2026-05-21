@@ -1,8 +1,6 @@
 // NASA Exoplanet Data Integration
 // Uses corsproxy.io for CORS-enabled API access
 
-/* global currentLang, translations */
-
 let cachedExoplanetData = null;
 let lastFetchTime = null;
 let currentExoplanetIndex = -1;

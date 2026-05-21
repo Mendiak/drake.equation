@@ -148,6 +148,10 @@ header {
     margin: 0 0 var(--space-sm) 0;
 }
 
+.galaxy-note p + p {
+    margin-top: var(--space-sm);
+}
+
 .galaxy-note p:last-child {
     margin-bottom: 0;
 }
@@ -173,10 +177,6 @@ html[lang="es"] .galaxy-note-en {
 
 html[lang="es"] .galaxy-note-es {
     display: block;
-}
-
-.galaxy-note p + p {
-    margin-top: var(--space-sm);
 }
 
 .galaxy-note-separator {
@@ -220,4 +220,3 @@ html[lang="es"] .galaxy-note-es {
 .galaxy-sim-legend .legend-item .dot-tech {
     background-color: #fff;
 }
-
