@@ -62,8 +62,8 @@ function updateResultDetails(N) {
             const avgDistance = Math.round(100000 / Math.sqrt(N));
             const starRatio = Math.round(200000000000 / N);
             
-            nearEl.innerHTML = t('result_interpretation.near').replace('{distance}', avgDistance.toLocaleString(currentLang));
-            ratioEl.innerHTML = t('result_interpretation.ratio').replace('{ratio}', starRatio.toLocaleString(currentLang));
+            nearEl.innerHTML = t('result_interpretation.near').replace('{distance}', avgDistance.toLocaleString(getLocale()));
+            ratioEl.innerHTML = t('result_interpretation.ratio').replace('{ratio}', starRatio.toLocaleString(getLocale()));
             
             nearEl.style.display = 'block';
             ratioEl.style.display = 'block';
@@ -180,11 +180,11 @@ function interpretResult(N) {
     const scenario = getScenario(currentValues);
     if (!interpretationEl) return;
     const avgDistance = N >= 1 ? Math.round(100000 / Math.sqrt(N)) : null;
-    const starRatio = N >= 1 ? (200000000000 / N).toLocaleString(currentLang, { maximumFractionDigits: 0 }) : null;
+    const starRatio = N >= 1 ? (200000000000 / N).toLocaleString(getLocale(), { maximumFractionDigits: 0 }) : null;
     let interpretation = `<strong>${scenario.name}</strong><p>${scenario.desc}</p>`;
     if (N >= 1) {
         interpretation += `<div class="cosmic-context">
-            <div class="context-item"><small>${t('context.nearest')}:</small> <span> ~${avgDistance.toLocaleString(currentLang)} ${t('context.unit_ly')}</span></div>
+            <div class="context-item"><small>${t('context.nearest')}:</small> <span> ~${avgDistance.toLocaleString(getLocale())} ${t('context.unit_ly')}</span></div>
             <div class="context-item"><small>${t('context.star_ratio')}:</small> <span> ${t('context.unit_stars').replace('{n}', starRatio)}</span></div>
         </div>`;
     }

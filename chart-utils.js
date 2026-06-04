@@ -64,7 +64,7 @@ function initChart() {
                         maxRotation: 0,
                     } 
                 },
-                y: { type: 'logarithmic', title: { display: true, text: 'N', font: { size: 10, weight: '700' } }, ticks: { callback: value => value >= 1 ? Math.round(value).toLocaleString(currentLang) : value.toFixed(2) } }
+                y: { type: 'logarithmic', title: { display: true, text: 'N', font: { size: 10, weight: '700' } }, ticks: { callback: value => value >= 1 ? Math.round(value).toLocaleString(getLocale()) : value.toFixed(2) } }
             }
         },
         plugins: [backgroundPlugin, currentValuePlugin]

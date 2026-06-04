@@ -282,7 +282,7 @@ function updateValueAndRecalculate(paramId) {
     const actualValue = linearToLog(parseFloat(input.value), paramId);
     const decimals = getDecimalPlaces(paramId);
     
-    if (paramId === 'L') display.textContent = Number(actualValue).toLocaleString(currentLang);
+    if (paramId === 'L') display.textContent = Number(actualValue).toLocaleString(getLocale());
     else display.textContent = roundToDecimals(actualValue, decimals).toFixed(decimals);
     
     validateAndCalculate(paramId);
@@ -479,7 +479,7 @@ function applyPreset(values) {
         update.slider.value = update.sliderPosition;
         const decimals = getDecimalPlaces(update.paramId);
         update.display.textContent = update.paramId === 'L' 
-            ? Number(update.value).toLocaleString(currentLang) 
+            ? Number(update.value).toLocaleString(getLocale()) 
             : roundToDecimals(update.value, decimals).toFixed(decimals);
     }
 }
