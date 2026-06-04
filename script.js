@@ -496,67 +496,6 @@ function applyUrlParameters() {
     }
 }
 
-function generateSliderTicks(paramId) {
-    const ticksContainer = document.getElementById(`ticks-${paramId}`);
-    if (!ticksContainer) return;
-
-    const slider = document.getElementById(paramId);
-    if (!slider) return;
-
-    ticksContainer.innerHTML = '';
-
-    const min = parseFloat(slider.min);
-    const max = parseFloat(slider.max);
-    const range = max - min;
-
-    let tickValues = getTickValues(paramId, min, max);
-    if (!tickValues.length) return;
-
-    for (const value of tickValues) {
-        const percent = ((value - min) / range) * 100;
-        const tick = document.createElement('div');
-        tick.className = 'slider-tick';
-        tick.style.left = percent + '%';
-        ticksContainer.appendChild(tick);
-    }
-}
-
-function getTickValues(paramId, min, max) {
-    const logParams = ['fl', 'fi'];
-    if (logParams.includes(paramId)) {
-        const ticks = [];
-        for (let v = 0.001; v <= 1; v *= 10) {
-            if (v >= min && v <= max) ticks.push(v);
-            const mid = v * 3;
-            if (mid >= min && mid <= max && mid < v * 10) ticks.push(mid);
-        }
-        return ticks;
-    }
-
-    if (paramId === 'L') {
-        return [100, 1000, 10000, 100000, 1000000].filter(v => v >= min && v <= max);
-    }
-
-    const count = 5;
-    const range = max - min;
-    const ticks = [];
-    for (let i = 0; i <= count; i++) {
-        const value = min + (range * i / count);
-        const rounded = roundToDecimals(value, 1);
-        if (!ticks.includes(rounded)) ticks.push(rounded);
-    }
-    return ticks;
-}
-
-
-
-
-
-
-
-
-
-
 // Critical initialization - runs immediately on DOMContentLoaded
 function _initCritical() {
     applyUrlParameters();
@@ -564,11 +503,6 @@ function _initCritical() {
 
     const saganBtn = document.querySelector('[data-preset="sagan"]');
     if (saganBtn) saganBtn.classList.add('active-preset');
-
-    // Generate slider ticks for all parameters
-    for (const paramId of Object.keys(defaultValues)) {
-        generateSliderTicks(paramId);
-    }
 
     // Initialize chart first (before validateAndCalculate)
     initChart();

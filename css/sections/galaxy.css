@@ -356,7 +356,7 @@
 
 .viz-control-groups .control-group input[type="range"]::-webkit-slider-runnable-track {
     width: 100%;
-    height: 4px;
+    height: 3px;
     background: linear-gradient(to right, 
         rgb(255 255 255 / 50%) 0%, 
         rgb(255 255 255 / 50%) var(--slider-fill, 0%), 
@@ -378,10 +378,10 @@
 
 .viz-control-groups .control-group input[type="range"]::-webkit-slider-thumb {
     appearance: none;
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     background: var(--color-white);
-    border: 2px solid rgb(255 255 255 / 60%);
+    border: 1.5px solid rgb(255 255 255 / 60%);
     border-radius: var(--radius-full);
     cursor: pointer;
     position: relative;
@@ -404,17 +404,17 @@
 
 .viz-control-groups .control-group input[type="range"]::-moz-range-track {
     width: 100%;
-    height: 4px;
+    height: 3px;
     background: rgb(255 255 255 / 20%);
     border-radius: var(--radius-full);
     border: none;
 }
 
 .viz-control-groups .control-group input[type="range"]::-moz-range-thumb {
-    width: 10px;
-    height: 10px;
+    width: 16px;
+    height: 16px;
     background: var(--color-white);
-    border: 2px solid rgb(255 255 255 / 60%);
+    border: 1.5px solid rgb(255 255 255 / 60%);
     border-radius: var(--radius-full);
     cursor: pointer;
     transition: border-color var(--transition-base), background-color var(--transition-base);

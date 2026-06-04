@@ -142,11 +142,9 @@
 .input-group {
     margin-bottom: var(--space-md);
     padding-bottom: var(--space-md);
-    border-bottom: var(--border-width) solid var(--color-border);
 }
 
 .input-group:last-of-type {
-    border-bottom: none;
     margin-bottom: var(--space-lg);
 }
 
@@ -160,20 +158,17 @@
     margin-bottom: var(--space-md);
 }
 
-/* Separated label parts - isolated from flex */
 .param-label .param-label-main {
     display: inline-block;
 }
 
-.param-label .param-label-var {
-    display: inline-block;
+.info-icon {
+    opacity: 0;
+    transition: opacity 0.2s;
 }
 
-.param-label .param-label-var sub {
-    font-size: 0.75em;
-    vertical-align: sub;
-    white-space: nowrap;
-    display: inline;
+.param-label:hover .info-icon {
+    opacity: 1;
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -191,7 +186,6 @@
 
 .slider-container {
     flex: 1;
-    position: relative;
     display: flex;
     flex-direction: column;
     gap: var(--space-xs);
@@ -213,7 +207,7 @@ input[type="range"] {
 /* Slider Track - Webkit */
 input[type="range"]::-webkit-slider-runnable-track {
     width: 100%;
-    height: 4px;
+    height: 3px;
     background: var(--color-border);
     border-radius: var(--radius-full);
     border: none;
@@ -222,14 +216,14 @@ input[type="range"]::-webkit-slider-runnable-track {
 /* Slider Thumb - Webkit (Soft Circle) */
 input[type="range"]::-webkit-slider-thumb {
     appearance: none;
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     background: var(--color-white);
-    border: 2px solid var(--color-text-muted);
+    border: 1.5px solid var(--color-text-muted);
     border-radius: var(--radius-full);
     cursor: pointer;
     position: relative;
-    top: -10px;
+    top: -8.5px;
     transition: border-color var(--transition-base), background-color var(--transition-base);
     box-shadow: none;
     touch-action: none;
@@ -255,7 +249,7 @@ input[type="range"]::-webkit-slider-thumb:focus {
 /* Slider Track - Firefox */
 input[type="range"]::-moz-range-track {
     width: 100%;
-    height: 4px;
+    height: 3px;
     background: var(--color-border);
     border-radius: var(--radius-full);
     border: none;
@@ -263,10 +257,10 @@ input[type="range"]::-moz-range-track {
 
 /* Slider Thumb - Firefox (Soft Circle) */
 input[type="range"]::-moz-range-thumb {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     background: var(--color-white);
-    border: 2px solid var(--color-text-muted);
+    border: 1.5px solid var(--color-text-muted);
     border-radius: var(--radius-full);
     cursor: pointer;
     transition: border-color var(--transition-base), background-color var(--transition-base);
@@ -289,29 +283,6 @@ input[type="range"]::-moz-range-thumb:focus {
     outline: none;
     border-color: var(--color-black);
     box-shadow: 0 0 0 3px rgb(0 0 0 / 10%);
-}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   Slider Ticks - Reference Markers
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-
-.slider-ticks {
-    position: absolute;
-    top: 20px;
-    left: 0;
-    right: 0;
-    height: 8px;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.slider-tick {
-    position: absolute;
-    top: 0;
-    width: 1px;
-    height: 8px;
-    background: var(--color-light-gray);
-    transform: translateX(-50%);
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -531,14 +502,14 @@ button#reset-button span[data-i18n] {
     }
 
     input[type="range"]::-webkit-slider-thumb {
-        width: 18px;
-        height: 18px;
-        top: -7px;
+        width: 16px;
+        height: 16px;
+        top: -6.5px;
     }
 
     input[type="range"]::-moz-range-thumb {
-        width: 18px;
-        height: 18px;
+        width: 16px;
+        height: 16px;
     }
 
     .presets-container {
