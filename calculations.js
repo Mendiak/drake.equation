@@ -11,13 +11,13 @@ function formatResult(n) {
         }
         return billions.toFixed(1) + " billion";
     }
-    if (n >= 10000) return Math.round(n).toLocaleString(currentLang);
+    if (n >= 10000) return Math.round(n).toLocaleString(getLocale());
     if (n < 0.01) {
         if (n === 0) return "0";
         const inverse = Math.round(1 / n);
-        return `< 1/${inverse.toLocaleString(currentLang)}`;
+        return `< 1/${inverse.toLocaleString(getLocale())}`;
     }
-    return n.toLocaleString(currentLang, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+    return n.toLocaleString(getLocale(), { minimumFractionDigits: 0, maximumFractionDigits: 2 });
 }
 
 function calculateN(params) {
@@ -25,13 +25,14 @@ function calculateN(params) {
 }
 
 function getScenario(params) {
+    const N = calculateN(params);
     const biologicalSuccess = params.fl * params.fi;
     const technologicalSuccess = params.fc;
     const longevity = params.L;
 
-    if (longevity < 1000) return t('scenarios.shooting_star');
+    if (longevity < 1000 && N < 100) return t('scenarios.shooting_star');
     if (biologicalSuccess <= 0.001) return t('scenarios.rare_earth');
-    if (technologicalSuccess < 0.05) return t('scenarios.silent_wilderness');
-    if (longevity > 100000) return t('scenarios.galactic_club');
+    if (technologicalSuccess < 0.05 && N < 1000) return t('scenarios.silent_wilderness');
+    if (longevity > 100000 && N > 1000) return t('scenarios.galactic_club');
     return t('scenarios.balanced');
 }

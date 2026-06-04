@@ -35,7 +35,8 @@ const translations = {
         result_unit: "Communicative civilizations",
         result_initial: "Adjust parameters to explore scenarios.",
         chart_title: "Sensitivity Analysis",
-        share_btn: "Share",
+        share_btn: "Copy Link",
+        share_copied: "Link copied!",
         export_btn: "Export",
         scale_label: "Scale:",
         toggle_log: "Log",
@@ -83,7 +84,7 @@ const translations = {
         galaxy_fullscreen_mobile_only: "Fullscreen view is only available on large screens.",
         section_learn: "Learn More",
         funnel_steps: {
-            total: "Without Planets",
+            total: "Total Stars",
             planets: "With Planets",
             habitable: "Habitable",
             life: "Developing Life",
@@ -91,7 +92,7 @@ const translations = {
             tech: "Communicative (N)"
         },
         funnel_insights: {
-            total: "Stars without planetary systems. These never enter the cosmic filter.",
+            total: "The estimated 200 billion stars in the Milky Way. Each factor filters down this starting pool.",
             planets: "Most stars have planets, but not all are in stable systems.",
             habitable: "Only planets in the 'Goldilocks Zone' can support liquid water.",
             life: "The jump from organic chemistry to biology. A major unknown.",
@@ -335,7 +336,7 @@ const translations = {
         nasa_habitable_context: "Where liquid water may exist",
         nasa_featured_label: "Notable Exoplanet",
         nasa_data_source: "Data fetched in real-time from <a href=\"https://exoplanetarchive.ipac.caltech.edu/\" target=\"_blank\" rel=\"noopener noreferrer\">NASA Exoplanet Archive</a>",
-        nasa_educational_intro: "Since the first discovery in 1992, over 6,100 exoplanets have been confirmed. Each represents a potential answer to the question: <em>Are we alone?</em>",
+        nasa_educational_intro: "Since the first discovery in 1992, over 5,800 exoplanets have been confirmed. Each represents a potential answer to the question: <em>Are we alone?</em>",
         nasa_fact_detection_title: "Detection Methods",
         nasa_fact_detection_desc: "Most exoplanets are found via transit (brightness dips) or radial velocity (stellar wobble).",
         nasa_fact_habitable_title: "Habitable Zone",
@@ -398,7 +399,8 @@ const translations = {
         result_unit: "Civilizaciones comunicativas",
         result_initial: "Ajusta los parámetros para explorar escenarios.",
         chart_title: "Análisis de sensibilidad",
-        share_btn: "Compartir",
+        share_btn: "Copiar enlace",
+        share_copied: "¡Enlace copiado!",
         export_btn: "Exportar",
         scale_label: "Escala:",
         toggle_log: "Log",
@@ -446,7 +448,7 @@ const translations = {
         funnel_intro: "Imagina la galaxia como un gran embudo. Cada factor de la ecuación actúa como un filtro que reduce las posibilidades de encontrar vida. Muchos candidatos entran por arriba, pero muy pocos logran salir por abajo como civilizaciones detectables.",
         section_learn: "Aprender más",
         funnel_steps: {
-            total: "Sin planetas",
+            total: "Estrellas totales",
             planets: "Con planetas",
             habitable: "Habitables",
             life: "Con vida",
@@ -454,7 +456,7 @@ const translations = {
             tech: "Detectables (N)"
         },
         funnel_insights: {
-            total: "Estrellas sin sistemas planetarios. Nunca entran en el filtro cósmico.",
+            total: "Los ~200 mil millones de estrellas en la Vía Láctea. Cada factor filtra este grupo inicial.",
             planets: "Hoy sabemos que casi todas las estrellas tienen planetas. La mayoría de los soles de la galaxia poseen su propio sistema planetario.",
             habitable: "No todos los planetas son aptos. Solo los que están a la distancia justa de su sol (Zona de Ricitos de Oro) pueden albergar agua líquida.",
             life: "Este es un gran salto: de la química a la biología. ¿Es la vida un proceso inevitable o un milagro químico extremadamente raro?",
@@ -694,7 +696,7 @@ const translations = {
         nasa_habitable_context: "Donde puede existir agua líquida",
         nasa_featured_label: "Exoplaneta Destacado",
         nasa_data_source: "Datos obtenidos en tiempo real del <a href=\"https://exoplanetarchive.ipac.caltech.edu/\" target=\"_blank\" rel=\"noopener noreferrer\">Archivo de Exoplanetas de la NASA</a>",
-        nasa_educational_intro: "Desde el primer descubrimiento en 1992, se han confirmado más de 6.100 exoplanetas. Cada uno representa una posible respuesta a la pregunta: <em>¿Estamos solos?</em>",
+        nasa_educational_intro: "Desde el primer descubrimiento en 1992, se han confirmado más de 5.800 exoplanetas. Cada uno representa una posible respuesta a la pregunta: <em>¿Estamos solos?</em>",
         nasa_fact_detection_title: "Métodos de Detección",
         nasa_fact_detection_desc: "La mayoría se encuentran por tránsito (caídas de brillo) o velocidad radial (oscilación estelar).",
         nasa_fact_habitable_title: "Zona Habitable",

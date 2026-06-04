@@ -124,7 +124,7 @@ function animateValue(start, end, duration) {
         const value = start + (end - start) * easeProgress;
         const resultEl = document.getElementById('result');
         if (resultEl) {
-            resultEl.innerText = formatResult(value);
+            resultEl.textContent = formatResult(value);
         }
         // Sync fullscreen N value
         const fsResultEl = document.getElementById('fullscreen-n-value');

@@ -74,14 +74,14 @@ const RGB_COLORS = {};
     }
 })();
 
-// Visibility state for each category - defaults to only showing top 3 interesting categories
+// Visibility state for each category - all visible by default for full galaxy structure
 const GALAXY_VISIBILITY = {
-    total: false,         // Hidden by default (noise)
-    planets: false,       // Hidden by default (noise)
-    habitable: false,     // Hidden by default (noise)
-    life: true,           // Visible by default (interesting)
-    intelligence: true,   // Visible by default (interesting)
-    tech: true            // Visible by default (most interesting)
+    total: true,
+    planets: true,
+    habitable: true,
+    life: true,
+    intelligence: true,
+    tech: true
 };
 
 // Blinking state for communicative civilizations

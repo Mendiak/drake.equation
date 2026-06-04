@@ -15,6 +15,10 @@ function t(key) {
     return value || key;
 }
 
+function getLocale() {
+    return currentLang === 'es' ? 'es-ES' : 'en-US';
+}
+
 // Get correct decimal places for each parameter
 function getDecimalPlaces(paramId) {
     const decimalMap = {
@@ -422,6 +426,36 @@ function resetForm() {
     validateAndCalculate('Rstar');
 }
 
+function copyShareUrl() {
+    const url = new URL(window.location);
+    const params = getParameterValues();
+    for (const [key, value] of Object.entries(params)) {
+        url.searchParams.set(key, value);
+    }
+    url.searchParams.set('lang', currentLang);
+    navigator.clipboard.writeText(url.toString()).then(() => {
+        const btn = document.querySelector('.share-btn');
+        if (btn) {
+            btn.classList.add('copied');
+            const span = btn.querySelector('span');
+            const original = span.textContent;
+            span.textContent = t('share_copied');
+            setTimeout(() => {
+                btn.classList.remove('copied');
+                span.textContent = original;
+            }, 2000);
+        }
+    }).catch(() => {
+        // Fallback: select and copy manually
+        const input = document.createElement('input');
+        input.value = url.toString();
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        document.body.removeChild(input);
+    });
+}
+
 function applyPreset(values) {
     // Batch DOM reads and writes for better performance
     const updates = [];
@@ -464,9 +498,54 @@ function applyUrlParameters() {
 
 function generateSliderTicks(paramId) {
     const ticksContainer = document.getElementById(`ticks-${paramId}`);
-    if (ticksContainer) {
-        ticksContainer.innerHTML = '';
+    if (!ticksContainer) return;
+
+    const slider = document.getElementById(paramId);
+    if (!slider) return;
+
+    ticksContainer.innerHTML = '';
+
+    const min = parseFloat(slider.min);
+    const max = parseFloat(slider.max);
+    const range = max - min;
+
+    let tickValues = getTickValues(paramId, min, max);
+    if (!tickValues.length) return;
+
+    for (const value of tickValues) {
+        const percent = ((value - min) / range) * 100;
+        const tick = document.createElement('div');
+        tick.className = 'slider-tick';
+        tick.style.left = percent + '%';
+        ticksContainer.appendChild(tick);
     }
+}
+
+function getTickValues(paramId, min, max) {
+    const logParams = ['fl', 'fi'];
+    if (logParams.includes(paramId)) {
+        const ticks = [];
+        for (let v = 0.001; v <= 1; v *= 10) {
+            if (v >= min && v <= max) ticks.push(v);
+            const mid = v * 3;
+            if (mid >= min && mid <= max && mid < v * 10) ticks.push(mid);
+        }
+        return ticks;
+    }
+
+    if (paramId === 'L') {
+        return [100, 1000, 10000, 100000, 1000000].filter(v => v >= min && v <= max);
+    }
+
+    const count = 5;
+    const range = max - min;
+    const ticks = [];
+    for (let i = 0; i <= count; i++) {
+        const value = min + (range * i / count);
+        const rounded = roundToDecimals(value, 1);
+        if (!ticks.includes(rounded)) ticks.push(rounded);
+    }
+    return ticks;
 }
 
 

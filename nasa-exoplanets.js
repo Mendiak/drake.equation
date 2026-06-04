@@ -126,8 +126,8 @@ const FEATURED_EXOPLANETS = [
 
 // Latest verified values from NASA Exoplanet Archive
 const NASA_LATEST_VALUES = {
-    total: 5653,
-    habitable: 58
+    total: 5800,
+    habitable: 60
 };
 
 /**
@@ -172,8 +172,8 @@ async function fetchNasaExoplanetData() {
         console.log('NASA API unavailable, using fallback');
     }
 
-    // Use API value if successful and greater than fallback, otherwise use fallback
-    const finalTotal = (apiTotal && apiTotal > fallbackTotal) ? apiTotal : fallbackTotal;
+    // Use API value if successful, otherwise use fallback
+    const finalTotal = (apiTotal && !isNaN(apiTotal)) ? apiTotal : fallbackTotal;
 
     // Cache the data
     cachedExoplanetData = {
@@ -207,7 +207,7 @@ function animateCounter(element, start, end, duration) {
         const current = Math.floor(start + (end - start) * easeProgress);
 
         element.textContent = isLargeNumber
-            ? current.toLocaleString(currentLang === 'es' ? 'es-ES' : 'en-US')
+            ? current.toLocaleString(getLocale())
             : current.toString();
 
         if (progress < 1) {
@@ -225,8 +225,8 @@ function updateCounterDisplay(total, habitable) {
     const totalEl = document.getElementById('nasa-total-exoplanets');
     const habitableEl = document.getElementById('nasa-habitable-candidates');
 
-    if (totalEl) totalEl.textContent = total.toLocaleString(currentLang === 'es' ? 'es-ES' : 'en-US');
-    if (habitableEl) habitableEl.textContent = habitable.toLocaleString(currentLang === 'es' ? 'es-ES' : 'en-US');
+    if (totalEl) totalEl.textContent = total.toLocaleString(getLocale());
+    if (habitableEl) habitableEl.textContent = habitable.toLocaleString(getLocale());
 }
 
 /**

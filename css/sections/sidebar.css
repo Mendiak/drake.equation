@@ -292,6 +292,29 @@ input[type="range"]::-moz-range-thumb:focus {
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Slider Ticks - Reference Markers
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.slider-ticks {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    height: 8px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.slider-tick {
+    position: absolute;
+    top: 0;
+    width: 1px;
+    height: 8px;
+    background: var(--color-light-gray);
+    transform: translateX(-50%);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    Value Display - Mono Clarity
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 

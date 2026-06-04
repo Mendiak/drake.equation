@@ -17,6 +17,30 @@ const backgroundPlugin = {
     }
 };
 
+const currentValuePlugin = {
+    id: 'currentValueMarker',
+    afterDraw: (chart) => {
+        const markerValue = chart.options.plugins.currentValueMarker?.value;
+        if (markerValue === undefined || markerValue === null) return;
+
+        const xScale = chart.scales.x;
+        if (!xScale) return;
+        const x = xScale.getPixelForValue(markerValue);
+        if (x < xScale.left || x > xScale.right) return;
+
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.beginPath();
+        ctx.setLineDash([4, 4]);
+        ctx.strokeStyle = 'rgba(255, 50, 50, 0.7)';
+        ctx.lineWidth = 1.5;
+        ctx.moveTo(x, chart.chartArea.top);
+        ctx.lineTo(x, chart.chartArea.bottom);
+        ctx.stroke();
+        ctx.restore();
+    }
+};
+
 function initChart() {
     Chart.defaults.font.family = 'system-ui, -apple-system, sans-serif';
     const ctx = document.getElementById('drakeChart').getContext('2d');
@@ -28,7 +52,7 @@ function initChart() {
             responsive: true,
             maintainAspectRatio: true,
             aspectRatio: 2,
-            plugins: { customCanvasBackgroundColor: { color: '#ffffff' }, legend: { display: false } },
+            plugins: { customCanvasBackgroundColor: { color: '#ffffff' }, currentValueMarker: { value: null }, legend: { display: false } },
             scales: {
                 x: { 
                     grid: { display: false },
@@ -43,7 +67,7 @@ function initChart() {
                 y: { type: 'logarithmic', title: { display: true, text: 'N', font: { size: 10, weight: '700' } }, ticks: { callback: value => value >= 1 ? Math.round(value).toLocaleString(currentLang) : value.toFixed(2) } }
             }
         },
-        plugins: [backgroundPlugin]
+        plugins: [backgroundPlugin, currentValuePlugin]
     });
     const funnelCtx = document.getElementById('funnelChart').getContext('2d');
     funnelChart = new Chart(funnelCtx, {
@@ -108,7 +132,7 @@ function updateChart(parameter, currentValues) {
     const values = [];
     const results = [];
     const baseValue = currentValues[parameter];
-    for (let i = 0; i < 50; i++) {
+    for (let i = 1; i <= 50; i++) {
         const variedValue = baseValue * (i / 25);
         values.push(variedValue);
         const chartPointParams = { ...currentValues };
@@ -118,6 +142,7 @@ function updateChart(parameter, currentValues) {
     drakeChart.data.labels = values;
     drakeChart.data.datasets[0].data = results;
     drakeChart.options.scales.x.title.text = t('labels.' + parameter);
+    drakeChart.options.plugins.currentValueMarker.value = baseValue;
     drakeChart.update();
     updateFunnel(currentValues);
     const explanationElement = document.getElementById('chart-explanation');
@@ -149,7 +174,7 @@ function updateFunnel(currentValues) {
                 let probText = ''; // eslint-disable-line no-useless-assignment
                 
                 if (ratio < 0.1) {
-                    probText = t('funnel_one_in').replace('{val}', Math.round(1/ratio).toLocaleString(currentLang));
+                    probText = t('funnel_one_in').replace('{val}', Math.round(1/ratio).toLocaleString(getLocale()));
                 } else {
                     const percentage = (ratio * 100).toFixed(i === 1 || i === 2 ? 0 : 2);
                     probText = t('funnel_pass').replace('{val}', percentage + '%');

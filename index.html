@@ -186,7 +186,7 @@
                     <h3 data-i18n="factors_title">Individual Factors</h3>
                 </div>
 
-                <form id="drake-form">
+                <form id="drake-form" onsubmit="return false">
                     <div class="input-group">
                         <label for="Rstar" class="param-label">
                             <span class="info-icon" data-param="Rstar"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>
@@ -370,6 +370,10 @@
                             <p id="result-meaning-context" class="result-meaning-context"></p>
                         </div>
                     </div>
+                    <button type="button" class="share-btn" onclick="copyShareUrl()">
+                        <i data-lucide="link" class="icon-sm"></i>
+                        <span data-i18n="share_btn">Copy Link</span>
+                    </button>
                 </div>
 
                 <section class="chart-section">
