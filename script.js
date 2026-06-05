@@ -1,5 +1,6 @@
 /* exported updateValueAndRecalculate */
-let currentLang = localStorage.getItem('drake-lang') || 'en';
+const _urlLang = new URLSearchParams(window.location.search).get('lang');
+let currentLang = _urlLang || localStorage.getItem('drake-lang') || 'en';
 let lastTooltipTrigger = null;
 
 // Drake chart instances (defined in chart-utils.js)
@@ -501,13 +502,17 @@ function _initCritical() {
     applyUrlParameters();
     updateLanguage(currentLang);
 
-    const saganBtn = document.querySelector('[data-preset="sagan"]');
-    if (saganBtn) saganBtn.classList.add('active-preset');
+    const hasUrlParams = window.location.search.length > 0;
+
+    if (!hasUrlParams) {
+        const saganBtn = document.querySelector('[data-preset="sagan"]');
+        if (saganBtn) saganBtn.classList.add('active-preset');
+    }
 
     // Initialize chart first (before validateAndCalculate)
     initChart();
 
-    applyPreset(presets.sagan);
+    applyPreset(hasUrlParams ? defaultValues : presets.sagan);
     validateAndCalculate('Rstar');
 
     // Initialize NASA Exoplanet data
