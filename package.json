@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "serve": "npx http-server -p 8080 -c-1",
-    "build": "if not exist dist mkdir dist && copy index.html dist && copy styles.css dist && xcopy /E /I /Y css dist\\css && xcopy /E /I /Y js dist\\js && xcopy /E /I /Y assets dist\\assets",
+    "build": "if not exist dist mkdir dist && copy index.html dist && copy styles.css dist && copy sitemap.xml dist && copy robots.txt dist && xcopy /E /I /Y css dist\\css && xcopy /E /I /Y js dist\\js && xcopy /E /I /Y assets dist\\assets",
 "lint": "eslint js/*.js js/galaxy/*.js",
 "lint:fix": "eslint js/*.js js/galaxy/*.js --fix",
     "lint:css": "stylelint \"**/*.css\"",

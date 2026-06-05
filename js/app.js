@@ -181,12 +181,27 @@ function resetForm() {
 
 function copyShareUrl() {
     const url = new URL(window.location);
-    const params = getParameterValues();
-    for (const [key, value] of Object.entries(params)) {
-        url.searchParams.set(key, value);
+    const activePreset = document.querySelector('.preset-btn.active-preset');
+    if (activePreset) {
+        url.search = '';
+        url.searchParams.set('preset', activePreset.getAttribute('data-preset'));
+    } else {
+        const params = getParameterValues();
+        for (const [key, value] of Object.entries(params)) {
+            url.searchParams.set(key, value);
+        }
     }
     url.searchParams.set('lang', currentLang);
-    navigator.clipboard.writeText(url.toString()).then(() => {
+    const shareUrl = url.toString();
+    const title = t('title');
+    const text = t('share_description');
+
+    if (navigator.share && window.matchMedia('(max-width: 768px)').matches) {
+        navigator.share({ title, text, url: shareUrl }).catch(() => {});
+        return;
+    }
+
+    navigator.clipboard.writeText(shareUrl).then(() => {
         const btn = document.querySelector('.share-btn');
         if (btn) {
             btn.classList.add('copied');
@@ -200,7 +215,7 @@ function copyShareUrl() {
         }
     }).catch(() => {
         const input = document.createElement('input');
-        input.value = url.toString();
+        input.value = shareUrl;
         document.body.appendChild(input);
         input.select();
         document.execCommand('copy');
@@ -234,6 +249,13 @@ function applyPreset(values) {
 
 function applyUrlParameters() {
     const urlParams = new URLSearchParams(window.location.search);
+    const presetName = urlParams.get('preset');
+    if (presetName && presets[presetName]) {
+        Object.assign(defaultValues, presets[presetName]);
+        const presetBtn = document.querySelector(`[data-preset="${presetName}"]`);
+        if (presetBtn) presetBtn.classList.add('active-preset');
+        return;
+    }
     for (const [key, value] of urlParams.entries()) {
         if (Object.hasOwn(defaultValues, key)) {
             const numValue = parseFloat(value);
@@ -262,7 +284,22 @@ function _initCritical() {
     loadRandomExoplanet();
 
     document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.addEventListener('click', () => updateLanguage(btn.getAttribute('data-lang')));
+        btn.addEventListener('click', () => {
+            updateLanguage(btn.getAttribute('data-lang'));
+            const values = getParameterValues();
+            const N = currentN;
+            interpretResult(N, values);
+            updateResultDetails(N);
+            updateMagnitudeScale(N);
+            updateFactorBreakdown(values);
+            updateConfidenceRange(values);
+            updateGreatFilterIndicator(N);
+            renderMagnitudeContext();
+            renderTimeline();
+            renderKeyConceptsCards();
+            updateExoplanetLanguage();
+            document.title = `N = ${formatResult(N)} | ${t('title')}`;
+        });
     });
 
     document.querySelectorAll('.info-icon').forEach(icon => {

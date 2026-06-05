@@ -10,6 +10,10 @@
     <meta name="author" content="Mendiak">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://mendiak.github.io/drake.equation/">
+    <link rel="alternate" hreflang="en" href="https://mendiak.github.io/drake.equation/?lang=en" />
+    <link rel="alternate" hreflang="es" href="https://mendiak.github.io/drake.equation/?lang=es" />
+    <link rel="alternate" hreflang="x-default" href="https://mendiak.github.io/drake.equation/" />
+    <link rel="sitemap" type="application/xml" href="https://mendiak.github.io/drake.equation/sitemap.xml" />
     <link rel="stylesheet" href="./styles.css">
     <link rel="icon" type="image/png" href="./assets/images/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -64,6 +68,62 @@
             "alignmentType": "educationalSubject",
             "targetName": "Astronomy"
         }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the Drake Equation?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The Drake Equation (N = R* × fp × ne × fl × fi × fc × L) is a probabilistic framework formulated by Dr. Frank Drake in 1961 to estimate the number of active, communicative extraterrestrial civilizations in the Milky Way galaxy."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the Fermi Paradox?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The Fermi Paradox asks: if the Drake Equation suggests many civilizations should exist, why have we found no evidence of them? Possible answers include the Great Filter, civilizations being short-lived, or vast distances preventing contact."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the Habitable Zone in the Drake Equation?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The Habitable Zone (or Goldilocks Zone) is the region around a star where conditions might be right for liquid water to exist. It relates to the ne parameter—the number of Earth-like planets per system that could potentially support life."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What are technosignatures and SETI?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Technosignatures are signs of advanced technology that could be detected remotely, such as radio signals or megastructures. SETI (Search for Extraterrestrial Intelligence) uses radio telescopes and other methods to search for these signals, relating to the fc parameter—the fraction of civilizations that develop detectable technology."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the Great Filter?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The Great Filter is a hypothesized challenge that prevents life from reaching an advanced, spacefaring stage. If N is low, the filter is likely behind us (life is rare). If N is high but we see no evidence, the filter may be ahead (civilizations tend to self-destruct)."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How many stars are in the Milky Way?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The Milky Way contains roughly 200 billion to 400 billion stars. The Drake Equation helps estimate how many of those stars might host intelligent, communicative civilizations."
+                }
+            }
+        ]
     }
     </script>
     <!-- Google tag (gtag.js) -->
@@ -890,8 +950,8 @@
             }
         }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script defer src="https://unpkg.com/lucide@latest"></script>
     <script type="module" src="js/app.js"></script>
     <script>
         document.getElementById('current-year').textContent = new Date().getFullYear();
