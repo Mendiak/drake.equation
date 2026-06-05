@@ -1,9 +1,4 @@
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   SIDEBAR CONTROLS - Less Is More UI
-   Restructured following Mies van der Rohe & Dieter Rams principles
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    Panel Container - Clean Structure
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
@@ -167,10 +162,6 @@
     transition: opacity 0.2s;
 }
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   Slider - Organic Modernist Design
-   Inspired by Dieter Rams' Braun controls
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .input-wrapper {
     display: flex;

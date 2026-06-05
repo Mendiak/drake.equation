@@ -280,6 +280,9 @@ function _initCritical() {
     applyPreset(hasUrlParams ? defaultValues : presets.sagan);
     validateAndCalculate('Rstar');
 
+    renderMagnitudeContext();
+    renderTimeline();
+    renderKeyConceptsCards();
     fetchNasaExoplanetData();
     loadRandomExoplanet();
 
