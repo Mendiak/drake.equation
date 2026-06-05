@@ -1,6 +1,5 @@
-/* exported initChart, updateChart */
-// Drake Equation Charts & Visualization
-// Chart.js initialization and management
+import { t, getLocale } from './i18n.js';
+import { calculateN, formatResult } from './calculations.js';
 
 let drakeChart;
 let funnelChart;
@@ -69,15 +68,15 @@ function initChart() {
             aspectRatio: 2,
             plugins: { customCanvasBackgroundColor: { color: '#ffffff' }, currentValueMarker: { value: null }, legend: { display: false } },
             scales: {
-                x: { 
+                x: {
                     grid: { display: false },
-                    title: { display: true, text: t('chart_axis_x'), font: { size: 10, weight: '700' } }, 
-                    ticks: { 
+                    title: { display: true, text: t('chart_axis_x'), font: { size: 10, weight: '700' } },
+                    ticks: {
                         callback: value => Number(drakeChart.data.labels[value]).toFixed(2),
                         autoSkip: true,
                         maxTicksLimit: 6,
                         maxRotation: 0,
-                    } 
+                    }
                 },
                 y: { type: 'logarithmic', title: { display: true, text: 'N', font: { size: 10, weight: '700' } }, ticks: { callback: value => value >= 1 ? Math.round(value).toLocaleString(getLocale()) : value.toFixed(2) } }
             }
@@ -87,37 +86,36 @@ function initChart() {
     const funnelCtx = document.getElementById('funnelChart').getContext('2d');
     funnelChart = new Chart(funnelCtx, {
         type: 'bar',
-        data: { 
-            labels: [], 
-            datasets: [{ 
-                data: [], 
-                backgroundColor: '#222222', 
-                borderWidth: 0, 
-                barPercentage: 0.8 
-            }] 
+        data: {
+            labels: [],
+            datasets: [{
+                data: [],
+                backgroundColor: '#222222',
+                borderWidth: 0,
+                barPercentage: 0.8
+            }]
         },
-        options: { 
-            indexAxis: 'y', 
-            responsive: true, 
+        options: {
+            indexAxis: 'y',
+            responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { display: false } }, 
-            scales: { 
-                x: { 
-                    type: 'logarithmic', 
+            plugins: { legend: { display: false } },
+            scales: {
+                x: {
+                    type: 'logarithmic',
                     title: { display: true, text: 'N', font: { size: 10, weight: '700' } },
-                    ticks: { callback: v => v >= 1e9 ? (v/1e9)+'B' : v >= 1e6 ? (v/1e6)+'M' : v >= 1e3 ? (v/1e3)+'k' : v } 
+                    ticks: { callback: v => v >= 1e9 ? (v/1e9)+'B' : v >= 1e6 ? (v/1e6)+'M' : v >= 1e3 ? (v/1e3)+'k' : v }
                 },
                 y: {
                     grid: { display: false }
                 }
-            } 
-        } 
+            }
+        }
     });
     document.getElementById('scale-toggle').addEventListener('change', (e) => {
         requestAnimationFrame(() => {
             drakeChart.options.scales.y.type = e.target.checked ? 'logarithmic' : 'linear';
             drakeChart.update();
-            // Update toggle label
             const label = e.target.closest('.toggle-group').querySelector('.toggle-label:last-of-type');
             if (label) {
                 label.textContent = e.target.checked ? 'Log' : 'Lin';
@@ -128,7 +126,6 @@ function initChart() {
         requestAnimationFrame(() => {
             funnelChart.options.scales.x.type = e.target.checked ? 'logarithmic' : 'linear';
             funnelChart.update();
-            // Update toggle label
             const label = e.target.closest('.toggle-group').querySelector('.toggle-label:last-of-type');
             if (label) {
                 label.textContent = e.target.checked ? 'Log' : 'Lin';
@@ -138,12 +135,11 @@ function initChart() {
 }
 
 function updateChart(parameter, currentValues) {
-    // Check if chart is initialized
     if (!drakeChart || !drakeChart.data) {
         console.warn('Chart not initialized yet');
         return;
     }
-    
+
     const values = [];
     const results = [];
     const baseValue = currentValues[parameter];
@@ -186,8 +182,8 @@ function updateFunnel(currentValues) {
             let retentionText = '';
             if (i > 0) {
                 const ratio = s.val / steps[i-1].val;
-                let probText = ''; // eslint-disable-line no-useless-assignment
-                
+                let probText;
+
                 if (ratio < 0.1) {
                     probText = t('funnel_one_in').replace('{val}', Math.round(1/ratio).toLocaleString(getLocale()));
                 } else {
@@ -200,3 +196,5 @@ function updateFunnel(currentValues) {
         }).join('');
     }
 }
+
+export { initChart, updateChart };

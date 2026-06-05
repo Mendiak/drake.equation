@@ -1,7 +1,3 @@
-/* exported defaultValues, presets, uncertaintyLevels, MOBILE_BREAKPOINT */
-// Drake Equation Configuration
-// Static values and presets
-
 const defaultValues = {
     Rstar: 1.5,
     fp: 0.8,
@@ -29,3 +25,5 @@ const uncertaintyLevels = {
 };
 
 const MOBILE_BREAKPOINT = 768;
+
+export { defaultValues, presets, uncertaintyLevels, MOBILE_BREAKPOINT };

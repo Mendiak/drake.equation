@@ -1,16 +1,13 @@
-// NASA Exoplanet Data Integration
-// Uses corsproxy.io for CORS-enabled API access
+import { t, getLocale, currentLang } from './i18n.js';
+import { translations } from './translations.js';
 
 let cachedExoplanetData = null;
 let lastFetchTime = null;
 let currentExoplanetIndex = -1;
 
-// NASA Exoplanet Archive API
 const NASA_API_BASE = 'https://exoplanetarchive.ipac.caltech.edu/TAP/sync';
-// CORS proxy to bypass browser CORS restrictions
 const CORS_PROXY = 'https://corsproxy.io/?';
 
-// Curated list of notable exoplanets with educational descriptions
 const FEATURED_EXOPLANETS = [
     {
         pl_name: 'TRAPPIST-1 e',
@@ -124,32 +121,24 @@ const FEATURED_EXOPLANETS = [
     }
 ];
 
-// Latest verified values from NASA Exoplanet Archive
 const NASA_LATEST_VALUES = {
     total: 5800,
     habitable: 60
 };
 
-/**
- * Fetch exoplanet count data from NASA API via CORS proxy
- * Uses corsproxy.io which reliably handles CORS for NASA API
- */
 async function fetchNasaExoplanetData() {
     const totalEl = document.getElementById('nasa-total-exoplanets');
     const habitableEl = document.getElementById('nasa-habitable-candidates');
 
-    // Check cache first (1 hour)
     const now = Date.now();
     if (cachedExoplanetData && lastFetchTime && (now - lastFetchTime < 3600000)) {
         updateCounterDisplay(cachedExoplanetData.total, cachedExoplanetData.habitable);
         return;
     }
 
-    // Use fallback values
     const fallbackTotal = NASA_LATEST_VALUES.total;
     const fallbackHabitable = NASA_LATEST_VALUES.habitable;
 
-    // Try NASA API via CORS proxy FIRST
     let apiTotal = null;
     try {
         const query = 'SELECT COUNT(*) FROM PSCompPars';
@@ -165,24 +154,20 @@ async function fetchNasaExoplanetData() {
 
         if (response.ok) {
             const data = await response.json();
-            // NASA API returns: [{"count(*)": 6153}]
             apiTotal = parseInt(data[0]?.['count(*)']);
         }
     } catch (error) {
         console.log('NASA API unavailable, using fallback');
     }
 
-    // Use API value if successful, otherwise use fallback
     const finalTotal = (apiTotal && !isNaN(apiTotal)) ? apiTotal : fallbackTotal;
 
-    // Cache the data
     cachedExoplanetData = {
         total: finalTotal,
         habitable: fallbackHabitable
     };
     lastFetchTime = now;
 
-    // Display with animation
     animateCounter(totalEl, 0, cachedExoplanetData.total, 2000);
     animateCounter(habitableEl, 0, cachedExoplanetData.habitable, 2000);
 
@@ -191,9 +176,6 @@ async function fetchNasaExoplanetData() {
     }
 }
 
-/**
- * Animate counter with easing
- */
 function animateCounter(element, start, end, duration) {
     if (!element) return;
 
@@ -218,9 +200,6 @@ function animateCounter(element, start, end, duration) {
     requestAnimationFrame(update);
 }
 
-/**
- * Update counter display
- */
 function updateCounterDisplay(total, habitable) {
     const totalEl = document.getElementById('nasa-total-exoplanets');
     const habitableEl = document.getElementById('nasa-habitable-candidates');
@@ -229,14 +208,10 @@ function updateCounterDisplay(total, habitable) {
     if (habitableEl) habitableEl.textContent = habitable.toLocaleString(getLocale());
 }
 
-/**
- * Load random exoplanet from curated list
- */
 function loadRandomExoplanet() {
     const contentEl = document.getElementById('exoplanet-content');
     if (!contentEl) return;
 
-    // Show loading
     contentEl.innerHTML = `
         <div class="exoplanet-loading">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="spin"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
@@ -244,7 +219,6 @@ function loadRandomExoplanet() {
     `;
 
     setTimeout(() => {
-        // Pick different exoplanet
         let newIndex;
         do {
             newIndex = Math.floor(Math.random() * FEATURED_EXOPLANETS.length);
@@ -255,17 +229,14 @@ function loadRandomExoplanet() {
     }, 300);
 }
 
-/**
- * Display exoplanet information with minimal design
- */
 function displayExoplanet(planet) {
     const contentEl = document.getElementById('exoplanet-content');
     if (!contentEl) return;
 
-    const t = translations[currentLang];
+    const tObj = translations[currentLang];
 
     const discoveryMethod = formatDiscoveryMethod(planet.pl_discmethod);
-    const orbitalPeriod = planet.pl_orbper ? `${parseFloat(planet.pl_orbper).toFixed(1)} ${t.exoplanet_day_unit}` : '?';
+    const orbitalPeriod = planet.pl_orbper ? `${parseFloat(planet.pl_orbper).toFixed(1)} ${tObj.exoplanet_day_unit}` : '?';
     const radius = planet.pl_radj ? `${parseFloat(planet.pl_radj).toFixed(2)} R⊕` : '?';
     const mass = planet.pl_bmasse ? `${parseFloat(planet.pl_bmasse).toFixed(1)} M⊕` : '?';
     const temp = planet.pl_eqt ? `${Math.round(planet.pl_eqt)} K` : '?';
@@ -273,31 +244,31 @@ function displayExoplanet(planet) {
     contentEl.innerHTML = `
         <div class="exoplanet-info">
             <div class="exoplanet-name">${planet.pl_name}</div>
-            <div class="exoplanet-host">${t.exoplanet_star_label} ${planet.host_name}</div>
+            <div class="exoplanet-host">${tObj.exoplanet_star_label} ${planet.host_name}</div>
 
             <div class="exoplanet-stats">
                 <div class="exoplanet-stat">
-                    <span class="exoplanet-stat-label">${t.exoplanet_year_label}</span>
+                    <span class="exoplanet-stat-label">${tObj.exoplanet_year_label}</span>
                     <span class="exoplanet-stat-value">${planet.discoveryyear}</span>
                 </div>
                 <div class="exoplanet-stat">
-                    <span class="exoplanet-stat-label">${t.exoplanet_method_label}</span>
+                    <span class="exoplanet-stat-label">${tObj.exoplanet_method_label}</span>
                     <span class="exoplanet-stat-value">${discoveryMethod}</span>
                 </div>
                 <div class="exoplanet-stat">
-                    <span class="exoplanet-stat-label">${t.exoplanet_orbit_label}</span>
+                    <span class="exoplanet-stat-label">${tObj.exoplanet_orbit_label}</span>
                     <span class="exoplanet-stat-value">${orbitalPeriod}</span>
                 </div>
                 <div class="exoplanet-stat">
-                    <span class="exoplanet-stat-label">${t.exoplanet_radius_label}</span>
+                    <span class="exoplanet-stat-label">${tObj.exoplanet_radius_label}</span>
                     <span class="exoplanet-stat-value">${radius}</span>
                 </div>
                 <div class="exoplanet-stat">
-                    <span class="exoplanet-stat-label">${t.exoplanet_mass_label}</span>
+                    <span class="exoplanet-stat-label">${tObj.exoplanet_mass_label}</span>
                     <span class="exoplanet-stat-value">${mass}</span>
                 </div>
                 <div class="exoplanet-stat">
-                    <span class="exoplanet-stat-label">${t.exoplanet_temp_label}</span>
+                    <span class="exoplanet-stat-label">${tObj.exoplanet_temp_label}</span>
                     <span class="exoplanet-stat-value">${temp}</span>
                 </div>
             </div>
@@ -305,39 +276,27 @@ function displayExoplanet(planet) {
             ${planet.habitable
                 ? `<div class="exoplanet-habitable-badge">
                     <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg>
-                    ${t.exoplanet_habitable_zone}
+                    ${tObj.exoplanet_habitable_zone}
                 </div>`
                 : ''
             }
         </div>
     `;
 
-    // Re-initialize Lucide icons
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
 }
 
-/**
- * Format discovery method
- */
 function formatDiscoveryMethod(method) {
     const methods = translations[currentLang].exoplanet_discovery_methods;
     return methods[method] || method || '?';
 }
 
-/**
- * Update language
- */
 function updateExoplanetLanguage() {
     if (currentExoplanetIndex >= 0) {
         displayExoplanet(FEATURED_EXOPLANETS[currentExoplanetIndex]);
     }
 }
 
-// Export for global access
-if (typeof window !== 'undefined') {
-    window.fetchNasaExoplanetData = fetchNasaExoplanetData;
-    window.loadRandomExoplanet = loadRandomExoplanet;
-    window.updateExoplanetLanguage = updateExoplanetLanguage;
-}
+export { fetchNasaExoplanetData, loadRandomExoplanet, updateExoplanetLanguage };

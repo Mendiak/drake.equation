@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "Interactive Drake Equation calculator — estimate the number of communicative extraterrestrial civilizations in the Milky Way.",
   "private": true,
+  "type": "module",
   "scripts": {
-    "lint": "eslint *.js",
-    "lint:fix": "eslint *.js --fix",
+    "lint": "eslint js/*.js",
+    "lint:fix": "eslint js/*.js --fix",
     "lint:css": "stylelint \"**/*.css\"",
     "check": "npm run lint && npm run lint:css"
   },

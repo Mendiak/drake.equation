@@ -1,12 +1,12 @@
-/* exported renderTimeline, renderKeyConceptsCards, updateResultDetails, updateMagnitudeScale, renderMagnitudeContext, currentN, animateValue, updateGalaxyVisualization, interpretResult, updateFactorBreakdown, updateGreatFilterIndicator */
-// Drake Equation DOM Updates
-// Visual and textual updates for the interface
+import { t, getLocale, currentLang } from './i18n.js';
+import { formatResult, calculateN, getScenario, calculateConfidenceRange } from './calculations.js';
+import { getDecimalPlaces } from './slider-utils.js';
 
 function renderMagnitudeContext() {
     const container = document.getElementById('magnitude-context-list');
     if (!container) return;
 
-    const contextList = translations[currentLang].magnitude_context_list;
+    const contextList = t('magnitude_context_list');
     container.innerHTML = contextList.map(item => `
         <li><strong>${item.range}:</strong> ${item.meaning}</li>
     `).join('');
@@ -16,7 +16,7 @@ function renderTimeline() {
     const container = document.getElementById('timeline-container');
     if (!container) return;
 
-    const timelineData = translations[currentLang].timeline;
+    const timelineData = t('timeline');
     container.innerHTML = timelineData.map(item => `
         <div class="timeline-item">
             <div class="timeline-year">${item.year}</div>
@@ -33,7 +33,7 @@ function renderKeyConceptsCards() {
     const concepts = ['habitable', 'technosignature', 'great_filter', 'cosmic_perspective'];
     const conceptsGrid = document.querySelector('.concepts-grid');
     if (!conceptsGrid) return;
-    
+
     conceptsGrid.innerHTML = concepts.map(concept => `
         <div class="concept-card">
             <h4>${t(`concept_${concept}.title`)}</h4>
@@ -45,30 +45,28 @@ function renderKeyConceptsCards() {
 function updateResultDetails(N) {
     const resultDetails = document.getElementById('result-details');
     if (!resultDetails) return;
-    
-    // Mostramos la caja si N es un valor positivo mínimo.
+
     if (N > 0.0000000001) {
         resultDetails.style.display = 'block';
-        
+
         const titleEl = document.getElementById('result-meaning-title');
         const nearEl = document.getElementById('result-meaning-near');
         const ratioEl = document.getElementById('result-meaning-ratio');
         const contextEl = document.getElementById('result-meaning-context');
-        
+
         titleEl.innerHTML = t('result_interpretation.title');
         contextEl.innerHTML = t('result_interpretation.earth_context') + '<br>' + t('result_interpretation.filter_note');
-        
+
         if (N >= 1) {
             const avgDistance = Math.round(100000 / Math.sqrt(N));
             const starRatio = Math.round(200000000000 / N);
-            
+
             nearEl.innerHTML = t('result_interpretation.near').replace('{distance}', avgDistance.toLocaleString(getLocale()));
             ratioEl.innerHTML = t('result_interpretation.ratio').replace('{ratio}', starRatio.toLocaleString(getLocale()));
-            
+
             nearEl.style.display = 'block';
             ratioEl.style.display = 'block';
         } else {
-            // Para N < 1 no mostramos las líneas de distancia/proporción, solo el contexto
             nearEl.style.display = 'none';
             ratioEl.style.display = 'none';
         }
@@ -81,10 +79,10 @@ function updateMagnitudeScale(N) {
     const indicator = document.getElementById('magnitude-indicator');
     const label = document.getElementById('magnitude-label');
     if (!indicator || !label) return;
-    
+
     let position = 0;
     let labelText = 'Start calculating...';
-    
+
     if (N >= 1) {
         if (N <= 10) {
             position = 16.66 * Math.log10(N);
@@ -106,7 +104,7 @@ function updateMagnitudeScale(N) {
             labelText = `N ≈ ${formatResult(N)} (${currentLang === 'es' ? 'Universo lleno' : 'Universe Teeming'})`;
         }
     }
-    
+
     indicator.style.left = Math.min(position, 100) + '%';
     label.innerHTML = labelText;
 }
@@ -126,7 +124,6 @@ function animateValue(start, end, duration) {
         if (resultEl) {
             resultEl.textContent = formatResult(value);
         }
-        // Sync fullscreen N value
         const fsResultEl = document.getElementById('fullscreen-n-value');
         if (fsResultEl) {
             fsResultEl.textContent = formatResult(value);
@@ -140,16 +137,14 @@ function animateValue(start, end, duration) {
 function updateGalaxyVisualization(N) {
     const galaxy = document.getElementById('galaxy-viz');
     if (!galaxy) return;
-    
+
     let targetCount = 0;
     if (N > 0) {
-        // Logarithmic scale so even low N values result in at least 20-50 stars
-        // but high values still feel noticeably denser (up to 600 max)
-        const logFactor = Math.log10(N + 1); 
-        targetCount = Math.floor(20 + (logFactor * 60)); 
+        const logFactor = Math.log10(N + 1);
+        targetCount = Math.floor(20 + (logFactor * 60));
     }
-    targetCount = Math.min(targetCount, 600); // Max stars
-    
+    targetCount = Math.min(targetCount, 600);
+
     const currentDots = galaxy.querySelectorAll('.galaxy-dot');
     const currentCount = currentDots.length;
 
@@ -230,9 +225,8 @@ function updateGreatFilterIndicator(N) {
     el.innerHTML = `<span class="filter-dot"></span><span>${t(labelKey)}</span>`;
 }
 
-function interpretResult(N) {
+function interpretResult(N, currentValues) {
     const interpretationEl = document.getElementById('result-interpretation');
-    const currentValues = getParameterValues();
     const scenario = getScenario(currentValues);
     if (!interpretationEl) return;
     const avgDistance = N >= 1 ? Math.round(100000 / Math.sqrt(N)) : null;
@@ -255,10 +249,25 @@ function interpretResult(N) {
 function updateFermiParadox(N) {
     const fermiDynamic = document.getElementById('fermi-dynamic');
     if (!fermiDynamic) return;
-    let fermiText = ''; // eslint-disable-line no-useless-assignment
+    let fermiText;
     if (N < 1) fermiText = t('fermi_dynamic.weak');
     else if (N < 100) fermiText = t('fermi_dynamic.start').replace('{n}', Math.round(N));
     else if (N < 10000) fermiText = t('fermi_dynamic.significant').replace('{n}', Math.round(N));
     else fermiText = t('fermi_dynamic.extreme').replace('{n}', formatResult(N));
     fermiDynamic.innerHTML = fermiText;
 }
+
+export {
+    renderMagnitudeContext,
+    renderTimeline,
+    renderKeyConceptsCards,
+    updateResultDetails,
+    updateMagnitudeScale,
+    animateValue,
+    updateGalaxyVisualization,
+    interpretResult,
+    updateFactorBreakdown,
+    updateConfidenceRange,
+    updateGreatFilterIndicator,
+    currentN
+};

@@ -1,4 +1,3 @@
-/* exported translations */
 const translations = {
     en: {
         title: "Drake Equation",
@@ -335,8 +334,6 @@ const translations = {
         galaxy_note_body: "The equation estimates civilizations active <strong>right now</strong> (N). The galaxy shows all stars that <strong>could potentially</strong> host communicative civilizations based on your parameters. The blinking white stars represent potential locations, not simultaneous civilizations.",
         galaxy_note_blinking_title: "Why don't I see blinking stars?",
         galaxy_note_blinking_body: "The simulation displays about 30,000 stars. With conservative parameters, statistically there may be zero communicative civilizations in this sample. To see blinking stars, try presets with higher N or increase L, fi, or fc.",
-
-        // NASA Exoplanet Section
         nasa_section_title: "Exoplanet Archive",
         nasa_confirmed_exoplanets: "Confirmed Exoplanets",
         nasa_confirmed_context: "Planets orbiting other stars",
@@ -352,8 +349,6 @@ const translations = {
         nasa_fact_jwst_title: "James Webb Impact",
         nasa_fact_jwst_desc: "JWST can analyze exoplanet atmospheres, searching for biosignatures like oxygen or methane.",
         nasa_explore_full: "Explore NASA Exoplanet Archive",
-
-        // Exoplanet Details
         exoplanet_star_label: "Star:",
         exoplanet_year_label: "Year",
         exoplanet_method_label: "Method",
@@ -616,45 +611,45 @@ const translations = {
             { year: "1995", title: "51 Pegasi b", desc: "Primer descubrimiento de un planeta orbitando una estrella similar al Sol.", wiki: "https://en.wikipedia.org/wiki/51_Pegasi_b" },
             { year: "2009", title: "Misión Kepler", desc: "La NASA lanza Kepler, demostrando que los planetas son comunes en toda la galaxia.", wiki: "https://en.wikipedia.org/wiki/Kepler_Space_Telescope" },
             { year: "2015", title: "Breakthrough Listen", desc: "Lanzamiento de la búsqueda científica más exhaustiva de comunicaciones alienígenas.", wiki: "https://en.wikipedia.org/wiki/Breakthrough_Listen" },
-            { year: "2018", title: "Lanzamiento de TESS", desc: "El Satélite de Sondeo de Exoplanetas en Tránsito comienza a mapear las estrellas más cercanas y brillantes.", wiki: "https://en.wikipedia.org/wiki/TESS_(satellite)" },
+            { year: "2018", title: "Lanzamiento TESS", desc: "El Satélite de Sondeo de Exoplanetas en Tránsito comienza a mapear las estrellas más cercanas y brillantes.", wiki: "https://en.wikipedia.org/wiki/TESS_(satellite)" },
             { year: "2021", title: "James Webb (JWST)", desc: "Lanzamiento del telescopio capaz de detectar biofirmas en atmósferas de exoplanetas.", wiki: "https://en.wikipedia.org/wiki/James_Webb_Space_Telescope" }
         ],
         key_concepts_title: "Conceptos clave",
         concept_habitable: {
             title: "Zona habitable",
-            desc: "La región alrededor de una estrella (la 'Zona de Ricitos de Oro') donde el agua líquida puede existir en la superficie. Demasiado cerca hirviendo; demasiado lejos congela."
+            desc: "La región alrededor de una estrella (la 'Zona de Ricitos de Oro') donde puede existir agua líquida en la superficie de un planeta."
         },
         concept_technosignature: {
             title: "Tecnofirma",
-            desc: "Evidencia de actividad tecnológica—señales de radio, pulsos láser, contaminación atmosférica, megaestructuras, o calor residual. Cómo sabríamos que 'alguien está en casa.'"
+            desc: "Evidencia de actividad tecnológica: señales de radio, pulsos láser, contaminación atmosférica, megaestructuras o calor residual."
         },
         concept_great_filter: {
             title: "El Gran Filtro",
-            desc: "Una barrera hipotética que explica la paradoja de Fermi. O la vida es increíblemente rara (filtro detrás), o las civilizaciones se autodestruyen rápido (filtro adelante)."
+            desc: "Una barrera hipotética que explica la Paradoja de Fermi. O la vida es increíblemente rara (filtro detrás), o las civilizaciones se autodestruyen rápido (filtro adelante)."
         },
         concept_cosmic_perspective: {
-            title: "Perspectiva cósmica",
-            desc: "Incluso una civilización extraterrestre revolucionaría nuestra comprensión de la vida. Encontrar vida inteligente validaría siglos de especulación."
+            title: "Perspectiva Cósmica",
+            desc: "Incluso una civilización alienígena revolucionaría nuestra comprensión de la vida. Encontrar vida inteligente validaría siglos de especulación."
         },
         uncertainty_title: "Una nota sobre la incertidumbre",
-        uncertainty_text: "Las estimaciones de la Ecuación de Drake varían en <strong>10 órdenes de magnitud</strong>. Investigaciones recientes (<a href=\"https://arxiv.org/abs/1806.02404\" target=\"_blank\" rel=\"noopener noreferrer\">Sandberg et al., 2018</a>) sugieren que al considerar la incertidumbre científica mediante distribuciones de probabilidad, el rango incluye el '1', lo que significa que podríamos estar solos. El desacuerdo es científicamente valioso. Esta herramienta es especulativa, no predictiva.",
+        uncertainty_text: "Las estimaciones de la Ecuación de Drake varían hasta <strong>10 órdenes de magnitud</strong>. Investigaciones recientes (<a href=\"https://arxiv.org/abs/1806.02404\" target=\"_blank\" rel=\"noopener noreferrer\">Sandberg et al., 2018</a>) sugieren que cuando consideramos la incertidumbre científica con distribuciones de probabilidad, el rango incluye '1', lo que significa que podríamos estar solos. El desacuerdo en sí mismo es científicamente valioso. Esta herramienta es especulativa, no predictiva.",
         result_interpretation: {
             title: "Qué significa esto",
-            near: "Las civilizaciones comunicativas están aproximadamente 1 cada {distance} años luz.",
-            ratio: "Eso es alrededor de 1 civilización per cada {ratio} estrellas en la galaxia.",
-            earth_context: "La Tierra es solo un mundo entre unos 200.000 millones de estrellas en nuestra galaxia.",
-            filter_note: "Si N es bajo, lo más difícil (el 'Gran Filtro') ya ha pasado: la vida es un milagro. Si N es alto y no vemos a nadie, el peligro puede estar en el futuro: las civilizaciones podrían tender a autodestruirse rápido."
+            near: "Las civilizaciones comunicativas están aproximadamente a 1 por cada {distance} años luz de distancia.",
+            ratio: "Eso es aproximadamente 1 civilización por cada {ratio} estrellas en la galaxia.",
+            earth_context: "La Tierra es solo un mundo entre aproximadamente 200 mil millones de estrellas en nuestra galaxia.",
+            filter_note: "Si N es bajo, el desafío más difícil (el 'Gran Filtro') probablemente quedó atrás: la vida es un milagro raro. Si N es alto pero no vemos nada, el filtro puede estar adelante: las civilizaciones podrían autodestruirse antes de ser encontradas."
         },
         magnitude_scale: "Escala de orden de magnitud",
-        magnitude_intro: "Esta escala te ayuda a entender lo que tu resultado <strong>realmente significa</strong> en términos cósmicos. La Ecuación de Drake puede producir respuestas muy diferentes dependiendo de tus suposiciones: desde un universo solitario hasta uno lleno de vida.",
+        magnitude_intro: "Esta escala te ayuda a entender qué significa realmente tu resultado en términos cósmicos. La Ecuación de Drake puede producir respuestas muy diferentes dependiendo de tus suposiciones, desde un universo solitario hasta uno repleto de vida.",
         magnitude_context_title: "¿Qué nos dice esta escala?",
         magnitude_context_list: [
-            { range: "N = 1", meaning: "Estamos solos en la Vía Láctea. O la vida nunca comienza, o las civilizaciones siempre se destruyen antes de volverse detectables." },
-            { range: "N = 10–1.000", meaning: "Las civilizaciones son extremadamente raras. Las vastas distancias entre ellas hacen que el contacto sea casi imposible." },
-            { range: "N = 1.000–1.000.000", meaning: "La vida es moderadamente común, pero las civilizaciones tienen vidas cortas o están muy separadas en el espacio y el tiempo." },
-            { range: "N > 1.000.000", meaning: "La galaxia debería estar llena de actividad. Esto plantea la paradoja de Fermi: si hay tantas, ¿dónde está todo el mundo?" }
+            { range: "N = 1", meaning: "Estamos solos en la Vía Láctea. O la vida nunca comienza, o las civilizaciones siempre se autodestruyen antes de volverse detectables." },
+            { range: "N = 10–1,000", meaning: "Las civilizaciones son extremadamente raras. Las vastas distancias entre ellas hacen casi imposible el contacto." },
+            { range: "N = 1,000–1,000,000", meaning: "La vida es moderadamente común, pero las civilizaciones son de corta duración o están muy separadas en el espacio y el tiempo." },
+            { range: "N > 1,000,000", meaning: "La galaxia debería estar llena de actividad. Esto plantea la Paradoja de Fermi: si existen tantas, ¿dónde está todo el mundo?" }
         ],
-        magnitude_explanation: "Según tus configuraciones, aquí es donde se sitúa tu estimación en la escala cósmica—desde apenas una civilización a miles de millones dispersos en la galaxia:",
+        magnitude_explanation: "Según tus ajustes, aquí es donde se sitúa tu estimación en la escala cósmica, desde una civilización solitaria hasta miles de millones en toda la galaxia.",
         references_title: "Referencias y recursos",
         confidence_levels_title: "Niveles de confianza científica",
         confidence_levels: {
@@ -667,20 +662,20 @@ const translations = {
             L: "very_high"
         },
         confidence_legend: {
-            low: "Bien observado (verde): Datos de telescopios",
-            medium: "Teórico pero fundamentado (amarillo): Ciencia establecida",
-            high: "Muy especulativo (naranja): Conjeturas educadas",
+            low: "Bien observado (verde): Basado en datos de telescopios",
+            medium: "Teórico pero fundamentado (amarillo): Basado en ciencia establecida",
+            high: "Altamente especulativo (naranja): Suposiciones fundamentadas",
             very_high: "Extremadamente especulativo (rojo): Incógnitas profundas"
         },
         confidence_legend_labels: {
-            observed: "Observed",
-            theoretical: "Theoretical",
-            speculative: "Speculative"
+            observed: "Observado",
+            theoretical: "Teórico",
+            speculative: "Especulativo"
         },
-        link_oxford: "Dissolving the Fermi Paradox (Oxford Paper)",
+        link_oxford: "Disolviendo la Paradoja de Fermi (Artículo Oxford)",
         desc_oxford: "Un análisis exhaustivo que explora por qué no hemos encontrado evidencia de civilizaciones extraterrestres a pesar de las altas probabilidades.",
-        link_hanson: "The Great Filter (Robin Hanson)",
-        desc_hanson: "La hipótesis de que una barrera significativa impide que la vida se vuelva interestelar, explicando la paradoja de Fermi.",
+        link_hanson: "El Gran Filtro (Robin Hanson)",
+        desc_hanson: "La hipótesis de que una barrera significativa impide que la vida se vuelva interestelar, explicando la Paradoja de Fermi.",
         fullscreen_params_title: "Parámetros",
         fullscreen_presets_title: "Preajustes",
         fullscreen_preset_optimistic: "Optimista",
@@ -689,39 +684,35 @@ const translations = {
         fullscreen_preset_scientific: "Moderno",
         fullscreen_preset_rare_earth: "Tierra rara",
         fullscreen_preset_pessimistic: "Pesimista",
-        fullscreen_sidebar_title: "Parámetros de la ecuación de Drake",
+        fullscreen_sidebar_title: "Parámetros de la Ecuación de Drake",
         fullscreen_viz_title: "Visualización",
         fullscreen_viz_rotation: "Rotación",
         fullscreen_viz_tilt: "Inclinación",
         fullscreen_viz_zoom: "Zoom",
-        fullscreen_viz_star_size: "Tamaño estelar",
+        fullscreen_viz_star_size: "Tamaño estrella",
         fullscreen_exit_fullscreen: "Salir de pantalla completa",
         fullscreen_result_label: "Resultado",
         fullscreen_result_unit: "civilizaciones comunicativas detectables",
-        fullscreen_legend_toggle_hint: "Haz clic para mostrar/ocultar categorías",
+        fullscreen_legend_toggle_hint: "Clic para mostrar/ocultar categorías",
         galaxy_note_title: "¿Por qué veo más estrellas que N?",
-        galaxy_note_body: "La ecuación estima civilizaciones activas <strong>ahora mismo</strong> (N). La galaxia muestra todas las estrellas que <strong>potencialmente</strong> podrían albergar civilizaciones comunicativas según tus parámetros. Las estrellas blancas parpadeantes representan ubicaciones potenciales, no civilizaciones simultáneas.",
+        galaxy_note_body: "La ecuación estima civilizaciones activas <strong>ahora mismo</strong> (N). La galaxia muestra todas las estrellas que <strong>podrían</strong> albergar civilizaciones comunicativas según tus parámetros.",
         galaxy_note_blinking_title: "¿Por qué no veo estrellas parpadeantes?",
-        galaxy_note_blinking_body: "La simulación muestra unas 30.000 estrellas. Con parámetros conservadores, estadísticamente puede no haber civilizaciones comunicativas en esta muestra. Para ver estrellas parpadeantes, prueba presets con N más alto o aumenta L, fi o fc.",
-
-        // NASA Exoplanet Section
-        nasa_section_title: "Archivo de Exoplanetas",
-        nasa_confirmed_exoplanets: "Exoplanetas Confirmados",
+        galaxy_note_blinking_body: "La simulación muestra unas 30,000 estrellas. Con parámetros conservadores, estadísticamente puede haber cero civilizaciones comunicativas en esta muestra. Para ver estrellas parpadeantes, prueba presets con N más alto o aumenta L, fi o fc.",
+        nasa_section_title: "Archivo de exoplanetas",
+        nasa_confirmed_exoplanets: "Exoplanetas confirmados",
         nasa_confirmed_context: "Planetas orbitando otras estrellas",
-        nasa_habitable_candidates: "En Zonas Habitables",
+        nasa_habitable_candidates: "En zonas habitables",
         nasa_habitable_context: "Donde puede existir agua líquida",
-        nasa_featured_label: "Exoplaneta Destacado",
+        nasa_featured_label: "Exoplaneta destacado",
         nasa_data_source: "Datos obtenidos en tiempo real del <a href=\"https://exoplanetarchive.ipac.caltech.edu/\" target=\"_blank\" rel=\"noopener noreferrer\">Archivo de Exoplanetas de la NASA</a>",
-        nasa_educational_intro: "Desde el primer descubrimiento en 1992, se han confirmado más de 5.800 exoplanetas. Cada uno representa una posible respuesta a la pregunta: <em>¿Estamos solos?</em>",
-        nasa_fact_detection_title: "Métodos de Detección",
-        nasa_fact_detection_desc: "La mayoría se encuentran por tránsito (caídas de brillo) o velocidad radial (oscilación estelar).",
-        nasa_fact_habitable_title: "Zona Habitable",
-        nasa_fact_habitable_desc: "La región donde las temperaturas permiten agua líquida, ni hirviendo ni congelada.",
-        nasa_fact_jwst_title: "Impacto de James Webb",
-        nasa_fact_jwst_desc: "JWST puede analizar atmósferas de exoplanetas, buscando biofirmas como oxígeno o metano.",
-        nasa_explore_full: "Explorar Archivo de Exoplanetas de la NASA",
-
-        // Exoplanet Details
+        nasa_educational_intro: "Desde el primer descubrimiento en 1992, se han confirmado más de 5,800 exoplanetas. Cada uno representa una respuesta potencial a la pregunta: <em>¿Estamos solos?</em>",
+        nasa_fact_detection_title: "Métodos de detección",
+        nasa_fact_detection_desc: "La mayoría de los exoplanetas se encuentran mediante tránsito (caídas de brillo) o velocidad radial (balanceo estelar).",
+        nasa_fact_habitable_title: "Zona habitable",
+        nasa_fact_habitable_desc: "La región donde las temperaturas permiten agua líquida—ni hirviendo ni congelada.",
+        nasa_fact_jwst_title: "Impacto del James Webb",
+        nasa_fact_jwst_desc: "El JWST puede analizar atmósferas de exoplanetas, buscando biofirmas como oxígeno o metano.",
+        nasa_explore_full: "Explorar el archivo de la NASA",
         exoplanet_star_label: "Estrella:",
         exoplanet_year_label: "Año",
         exoplanet_method_label: "Método",
@@ -729,7 +720,7 @@ const translations = {
         exoplanet_radius_label: "Radio",
         exoplanet_mass_label: "Masa",
         exoplanet_temp_label: "Temp",
-        exoplanet_habitable_zone: "Zona Habitable",
+        exoplanet_habitable_zone: "Zona habitable",
         exoplanet_load_another: "Cargar otro exoplaneta",
         exoplanet_day_unit: "d",
         exoplanet_discovery_methods: {
@@ -741,3 +732,5 @@ const translations = {
         }
     }
 };
+
+export { translations };

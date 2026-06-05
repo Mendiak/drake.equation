@@ -194,8 +194,7 @@
                         </label>
                         <div class="input-wrapper">
                             <div class="slider-container">
-                                <input type="range" id="Rstar" name="Rstar" min="0.1" max="10" step="0.1" value="1.5"
-                                    oninput="updateValueAndRecalculate('Rstar')">
+                                <input type="range" id="Rstar" name="Rstar" min="0.1" max="10" step="0.1" value="1.5">
                                 <div class="observed-marker" style="left: 14%;" title="Observed: 1.5–3.0 stars/yr (Licquia & Newman 2015)"></div>
                                 <div class="observed-marker" style="left: 29%;" title="Observed: 1.5–3.0 stars/yr (Licquia & Newman 2015)"></div>
                                 <span class="observed-label" data-i18n="observed_rstar">Observed range</span>
@@ -211,8 +210,7 @@
                         </label>
                         <div class="input-wrapper">
                             <div class="slider-container">
-                                <input type="range" id="fp" name="fp" min="0.01" max="1" step="0.01" value="0.5"
-                                    oninput="updateValueAndRecalculate('fp')">
+                                <input type="range" id="fp" name="fp" min="0.01" max="1" step="0.01" value="0.5">
                                 <div class="observed-marker" style="left: 80%;" title="Observed: ~80% of stars have planets (Kepler)"></div>
                                 <span class="observed-label" data-i18n="observed_fp">Observed min</span>
                             </div>
@@ -227,8 +225,7 @@
                         </label>
                         <div class="input-wrapper">
                             <div class="slider-container">
-                                <input type="range" id="ne" name="ne" min="0.1" max="10" step="0.1" value="2"
-                                    oninput="updateValueAndRecalculate('ne')">
+                                <input type="range" id="ne" name="ne" min="0.1" max="10" step="0.1" value="2">
                             </div>
                             <span id="ne-value" class="value-display">2</span>
                         </div>
@@ -241,8 +238,7 @@
                         </label>
                         <div class="input-wrapper">
                             <div class="slider-container">
-                                <input type="range" id="fl" name="fl" min="0.001" max="1" step="0.001" value="0.1"
-                                    oninput="updateValueAndRecalculate('fl')">
+                                <input type="range" id="fl" name="fl" min="0.001" max="1" step="0.001" value="0.1">
                             </div>
                             <span id="fl-value" class="value-display">0.1</span>
                         </div>
@@ -255,8 +251,7 @@
                         </label>
                         <div class="input-wrapper">
                             <div class="slider-container">
-                                <input type="range" id="fi" name="fi" min="0.001" max="1" step="0.001" value="0.01"
-                                    oninput="updateValueAndRecalculate('fi')">
+                                <input type="range" id="fi" name="fi" min="0.001" max="1" step="0.001" value="0.01">
                             </div>
                             <span id="fi-value" class="value-display">0.01</span>
                         </div>
@@ -269,8 +264,7 @@
                         </label>
                         <div class="input-wrapper">
                             <div class="slider-container">
-                                <input type="range" id="fc" name="fc" min="0.01" max="1" step="0.01" value="0.1"
-                                    oninput="updateValueAndRecalculate('fc')">
+                                <input type="range" id="fc" name="fc" min="0.01" max="1" step="0.01" value="0.1">
                             </div>
                             <span id="fc-value" class="value-display">0.1</span>
                         </div>
@@ -283,15 +277,14 @@
                         </label>
                         <div class="input-wrapper">
                             <div class="slider-container">
-                                <input type="range" id="L" name="L" min="100" max="1000000" step="100" value="10000"
-                                    oninput="updateValueAndRecalculate('L')">
+                                <input type="range" id="L" name="L" min="100" max="1000000" step="100" value="10000">
                             </div>
                             <span id="L-value" class="value-display">10,000</span>
                         </div>
                     </div>
 
                     <div class="button-container">
-                        <button type="button" id="reset-button" onclick="resetForm()">
+                        <button type="button" id="reset-button">
                             <i data-lucide="rotate-ccw" class="icon-md"></i>
                             <span data-i18n="reset_button">Reset to Defaults</span>
                         </button>
@@ -366,7 +359,7 @@
                     <div id="factor-breakdown" class="factor-breakdown" style="display: none;"></div>
                     <div id="confidence-range" class="confidence-range" style="display: none;"></div>
                     <div id="great-filter-indicator" class="great-filter-indicator" style="display: none;"></div>
-                    <button type="button" class="share-btn" onclick="copyShareUrl()" data-i18n-title="share_btn_title">
+                    <button type="button" class="share-btn" data-i18n-title="share_btn_title">
                         <i data-lucide="link" class="icon-sm"></i>
                         <span data-i18n="share_btn">Copy Preset Link</span>
                     </button>
@@ -441,7 +434,7 @@
                                 <div class="galaxy-sim-container" id="galaxy-simulation-container">
                                     <!-- Three.js Canvas will be here -->
                                 </div>
-                                <button type="button" class="fullscreen-btn-overlay" onclick="toggleGalaxyFullscreen()" data-i18n-aria-label="galaxy_fullscreen_text" data-i18n-title="galaxy_fullscreen">
+                                <button type="button" class="fullscreen-btn-overlay" data-action="galaxy-fullscreen" data-i18n-aria-label="galaxy_fullscreen_text" data-i18n-title="galaxy_fullscreen">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-maximize"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
                                     <span data-i18n="galaxy_fullscreen_text">Open Fullscreen Simulation</span>
                                 </button>
@@ -494,7 +487,7 @@
                         <div class="exoplanet-card">
                             <div class="exoplanet-card-header">
                                 <h4 data-i18n="nasa_featured_label">Notable Exoplanet</h4>
-                                <button type="button" class="exoplanet-shuffle-btn" onclick="loadRandomExoplanet()" data-i18n-aria-label="exoplanet_load_another" data-i18n-title="exoplanet_load_another">
+                                <button type="button" class="exoplanet-shuffle-btn" data-action="exoplanet-shuffle" data-i18n-aria-label="exoplanet_load_another" data-i18n-title="exoplanet_load_another">
                                     <i data-lucide="shuffle" class="icon-inline-sm"></i>
                                 </button>
                             </div>
@@ -619,7 +612,7 @@
                                     <label data-i18n="fullscreen_viz_rotation">Rotation</label>
                                     <div class="control-input-wrapper">
                                         <div class="control-slider-container">
-                                            <input type="range" id="fs-galaxy-rotation" min="0" max="0.01" step="0.0001" value="0.001" oninput="updateGalaxyRotation(this.value)">
+                                            <input type="range" id="fs-galaxy-rotation" min="0" max="0.01" step="0.0001" value="0.001" data-action="fs-galaxy-rotation">
                                         </div>
                                         <span id="fs-galaxy-rotation-value" class="control-value">0.001</span>
                                     </div>
@@ -628,7 +621,7 @@
                                     <label data-i18n="fullscreen_viz_tilt">Tilt</label>
                                     <div class="control-input-wrapper">
                                         <div class="control-slider-container">
-                                            <input type="range" id="fs-galaxy-tilt" min="0" max="90" step="1" value="45" oninput="updateGalaxyTilt(this.value)">
+                                            <input type="range" id="fs-galaxy-tilt" min="0" max="90" step="1" value="45" data-action="fs-galaxy-tilt">
                                         </div>
                                         <span id="fs-galaxy-tilt-value" class="control-value">45°</span>
                                     </div>
@@ -637,7 +630,7 @@
                                     <label data-i18n="fullscreen_viz_zoom">Zoom</label>
                                     <div class="control-input-wrapper">
                                         <div class="control-slider-container">
-                                            <input type="range" id="fs-galaxy-zoom" min="50" max="400" step="5" value="200" oninput="updateGalaxyZoom(this.value)">
+                                            <input type="range" id="fs-galaxy-zoom" min="50" max="400" step="5" value="200" data-action="fs-galaxy-zoom">
                                         </div>
                                         <span id="fs-galaxy-zoom-value" class="control-value">200</span>
                                     </div>
@@ -646,15 +639,15 @@
                                     <label data-i18n="fullscreen_viz_star_size">Star Size</label>
                                     <div class="control-input-wrapper">
                                         <div class="control-slider-container">
-                                            <input type="range" id="fs-galaxy-star-size" min="0.5" max="3" step="0.1" value="1.2" oninput="updateGalaxyStarSize(this.value)">
+                                            <input type="range" id="fs-galaxy-star-size" min="0.5" max="3" step="0.1" value="1.2" data-action="fs-galaxy-star-size">
                                         </div>
                                         <span id="fs-galaxy-star-size-value" class="control-value">1.2</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="fullscreen-viz-buttons">
-                                <button type="button" class="reset-view-btn" onclick="resetGalaxyView()" data-i18n="galaxy_reset_view">Reset View</button>
-                                <button type="button" class="exit-fullscreen-btn" onclick="toggleGalaxyFullscreen()" data-i18n-aria-label="fullscreen_exit_fullscreen">
+                                <button type="button" class="reset-view-btn" data-action="galaxy-reset-view" data-i18n="galaxy_reset_view">Reset View</button>
+                                <button type="button" class="exit-fullscreen-btn" data-action="galaxy-fullscreen" data-i18n-aria-label="fullscreen_exit_fullscreen">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minimize"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg> <span data-i18n="fullscreen_exit_fullscreen">Exit Fullscreen</span>
                                 </button>
                             </div>
@@ -847,20 +840,16 @@
                     </div>
         </div>
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-    <script type="module">
-        import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
-        window.THREE = THREE;
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+            }
+        }
     </script>
-    <script src="./config.js" defer></script>
-    <script src="./calculations.js" defer></script>
-    <script src="./chart-utils.js" defer></script>
-    <script src="./dom-updates.js" defer></script>
-    <script src="./galaxy-simulation.js" defer></script>
-    <script src="./translations.js" defer></script>
-    <script src="./nasa-exoplanets.js" defer></script>
-    <script src="./script.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script type="module" src="js/app.js"></script>
     <script>
         document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>

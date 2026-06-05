@@ -1,12 +1,10 @@
-/* exported formatResult, calculateN, getScenario, calculateConfidenceRange */
-// Drake Equation Calculations
-// Pure calculation functions
+import { t, getLocale } from './i18n.js';
 
 function formatResult(n) {
     if (n === 0) return "0";
     if (n >= 1e9) {
         const billions = n / 1e9;
-        if (currentLang === 'es') {
+        if (getLocale() === 'es-ES') {
             return billions >= 1000 ? (billions/1000).toFixed(1) + " billones" : billions.toFixed(0) + " mil millones";
         }
         return billions.toFixed(1) + " billion";
@@ -56,3 +54,5 @@ function calculateConfidenceRange(params) {
     }
     return { min, max };
 }
+
+export { formatResult, calculateN, getScenario, calculateConfidenceRange };
