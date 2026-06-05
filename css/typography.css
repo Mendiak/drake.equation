@@ -284,26 +284,6 @@ p, .body-text {
     white-space: nowrap;
 }
 
-.legend-dot {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-
-.legend-dot-observed {
-    background: var(--color-confidence-low);
-}
-
-.legend-dot-theoretical {
-    background: var(--color-confidence-medium);
-}
-
-.legend-dot-speculative {
-    background: var(--color-confidence-high);
-}
-
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    TABLET BREAKPOINT (768px)
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */

@@ -459,68 +459,6 @@ footer a:hover {
     transition: all var(--transition-base);
 }
 
-/* Confidence Levels */
-.confidence-section {
-    margin-top: var(--space-3xl);
-    padding-top: var(--space-2xl);
-    border-top: var(--border-width) solid rgb(255 255 255 / 10%);
-}
-
-.confidence-section h4 {
-    font-size: var(--text-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-text-subtle);
-    margin: 0 0 var(--space-lg) 0;
-}
-
-.confidence-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: var(--space-sm);
-    margin-bottom: var(--space-md);
-}
-
-.confidence-item {
-    text-align: center;
-}
-
-.confidence-label {
-    font-size: var(--text-xs);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-text-subtle);
-    margin-bottom: var(--space-sm);
-    display: block;
-}
-
-.confidence-indicator {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    margin: 0 auto;
-    border: 2px solid;
-}
-
-.confidence-indicator[data-confidence="low"] {
-    background: var(--color-confidence-low);
-    border-color: var(--color-confidence-low-dark);
-}
-
-.confidence-indicator[data-confidence="medium"] {
-    background: var(--color-confidence-medium);
-    border-color: var(--color-confidence-medium-dark);
-}
-
-.confidence-indicator[data-confidence="high"] {
-    background: var(--color-confidence-high);
-    border-color: var(--color-confidence-high-dark);
-}
-
-.confidence-indicator[data-confidence="very_high"] {
-    background: var(--color-confidence-very-high);
-    border-color: var(--color-confidence-very-high-dark);
-}
-
 #equation-text span {
     padding: 2px 4px;
     display: inline-block;

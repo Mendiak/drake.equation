@@ -18,7 +18,7 @@ function linearToLog(sliderValue, paramId) {
     const slider = document.getElementById(paramId);
     if (!slider) return sliderValue;
 
-    const noLogParams = ['fp', 'fl', 'fi', 'fc'];
+    const noLogParams = ['fp', 'fc'];
     if (noLogParams.includes(paramId)) return sliderValue;
 
     const logParams = ['fi', 'fl'];
@@ -60,7 +60,7 @@ function snapToDetent(value, paramId) {
     const slider = document.getElementById(paramId);
     if (!slider) return value;
 
-    const noSnapParams = ['fp', 'fl', 'fi', 'fc'];
+    const noSnapParams = ['fp', 'fc'];
     if (noSnapParams.includes(paramId)) return value;
 
     const min = parseFloat(slider.min);

@@ -14,7 +14,7 @@ import {
     updateGalaxyRotation, updateGalaxyTilt, updateGalaxyZoom,
     updateGalaxyStarSize, resetGalaxyView, applyPresetFromFullscreen,
     updateParamFromFullscreen, syncFullscreenValues, initGalaxyLegendHandlers
-} from './galaxy-simulation.js';
+} from './galaxy/simulation.js';
 import { fetchNasaExoplanetData, loadRandomExoplanet, updateExoplanetLanguage } from './nasa-exoplanets.js';
 
 let lastTooltipTrigger = null;

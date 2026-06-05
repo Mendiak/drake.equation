@@ -5,8 +5,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "eslint js/*.js",
-    "lint:fix": "eslint js/*.js --fix",
+    "serve": "npx http-server -p 8080 -c-1",
+    "build": "if not exist dist mkdir dist && copy index.html dist && copy styles.css dist && xcopy /E /I /Y css dist\\css && xcopy /E /I /Y js dist\\js && xcopy /E /I /Y assets dist\\assets",
+"lint": "eslint js/*.js js/galaxy/*.js",
+"lint:fix": "eslint js/*.js js/galaxy/*.js --fix",
     "lint:css": "stylelint \"**/*.css\"",
     "check": "npm run lint && npm run lint:css"
   },
