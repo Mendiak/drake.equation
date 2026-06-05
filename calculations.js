@@ -1,4 +1,4 @@
-/* exported formatResult, calculateN, getScenario */
+/* exported formatResult, calculateN, getScenario, calculateConfidenceRange */
 // Drake Equation Calculations
 // Pure calculation functions
 
@@ -35,4 +35,24 @@ function getScenario(params) {
     if (technologicalSuccess < 0.05 && N < 1000) return t('scenarios.silent_wilderness');
     if (longevity > 100000 && N > 1000) return t('scenarios.galactic_club');
     return t('scenarios.balanced');
+}
+
+const parameterUncertainty = {
+    Rstar: 1.5,
+    fp: 1.5,
+    ne: 3,
+    fl: 10,
+    fi: 100,
+    fc: 100,
+    L: 100
+};
+
+function calculateConfidenceRange(params) {
+    let min = 1, max = 1;
+    for (const key in params) {
+        const factor = parameterUncertainty[key];
+        min *= params[key] / factor;
+        max *= params[key] * factor;
+    }
+    return { min, max };
 }

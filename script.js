@@ -367,6 +367,9 @@ function _doValidateAndCalculate() {
     interpretResult(N);
     updateResultDetails(N);
     updateMagnitudeScale(N);
+    updateFactorBreakdown(currentValues);
+    updateConfidenceRange(currentValues);
+    updateGreatFilterIndicator(N);
 }
 
 function _applyNonCriticalUpdates(updates) {

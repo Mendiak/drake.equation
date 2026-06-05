@@ -108,6 +108,113 @@
     font-weight: var(--font-weight-bold);
 }
 
+.factor-breakdown {
+    position: relative;
+    z-index: 1;
+    margin-top: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    background: rgb(255 255 255 / 5%);
+    border-radius: var(--radius-xs);
+    font-family: var(--font-family-mono);
+    font-size: var(--text-xs);
+    line-height: var(--line-height-relaxed);
+}
+
+.breakdown-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.breakdown-label {
+    opacity: 0.5;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.65rem;
+}
+
+.breakdown-values {
+    color: var(--color-white);
+    word-break: break-all;
+}
+
+.breakdown-result {
+    display: flex;
+    gap: var(--space-xs);
+    margin-top: var(--space-xs);
+    padding-top: var(--space-xs);
+    border-top: 1px solid rgb(255 255 255 / 10%);
+}
+
+.breakdown-result .breakdown-value {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-white);
+}
+
+.confidence-range {
+    position: relative;
+    z-index: 1;
+    margin-top: var(--space-sm);
+    font-family: var(--font-family-mono);
+    font-size: var(--text-xs);
+    color: rgb(255 255 255 / 0.6);
+}
+
+.confidence-range-label {
+    opacity: 0.5;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-right: var(--space-xs);
+}
+
+.great-filter-indicator {
+    position: relative;
+    z-index: 1;
+    margin-top: var(--space-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semi);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-xs);
+    border: 1px solid rgb(255 255 255 / 15%);
+}
+
+.filter-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.filter-behind {
+    border-color: var(--color-confidence-low);
+    color: rgb(255 255 255 / 0.8);
+}
+
+.filter-behind .filter-dot {
+    background: var(--color-confidence-low);
+}
+
+.filter-uncertain {
+    border-color: var(--color-confidence-medium);
+    color: rgb(255 255 255 / 0.8);
+}
+
+.filter-uncertain .filter-dot {
+    background: var(--color-confidence-medium);
+}
+
+.filter-ahead {
+    border-color: var(--color-confidence-very-high);
+    color: rgb(255 255 255 / 0.8);
+}
+
+.filter-ahead .filter-dot {
+    background: var(--color-confidence-very-high);
+}
+
 .share-btn {
     position: relative;
     z-index: 1;

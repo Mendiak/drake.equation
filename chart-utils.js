@@ -25,7 +25,10 @@ const currentValuePlugin = {
 
         const xScale = chart.scales.x;
         if (!xScale) return;
-        const x = xScale.getPixelForValue(markerValue);
+        const labels = chart.data.labels;
+        const labelIndex = labels.findIndex(v => Number(v) === Number(markerValue));
+        if (labelIndex < 0) return;
+        const x = xScale.getPixelForValue(labelIndex, labelIndex);
         if (x < xScale.left || x > xScale.right) return;
 
         const ctx = chart.ctx;
@@ -37,6 +40,18 @@ const currentValuePlugin = {
         ctx.moveTo(x, chart.chartArea.top);
         ctx.lineTo(x, chart.chartArea.bottom);
         ctx.stroke();
+
+        ctx.setLineDash([]);
+        const label = t('chart_current_value');
+        ctx.font = '11px system-ui, -apple-system, sans-serif';
+        const textWidth = ctx.measureText(label).width;
+        const labelY = chart.chartArea.top + 12;
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+        ctx.fillRect(x - textWidth / 2 - 3, labelY - 9, textWidth + 6, 14);
+        ctx.fillStyle = 'rgba(255, 50, 50, 0.9)';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        ctx.fillText(label, x, labelY);
         ctx.restore();
     }
 };

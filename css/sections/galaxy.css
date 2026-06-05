@@ -62,56 +62,63 @@
 
 /* Sidebar with Drake parameters */
 .fullscreen-sidebar {
+    position: absolute;
+    left: var(--space-lg);
+    top: var(--space-lg);
+    bottom: var(--space-lg);
     width: 280px;
-    background: rgb(0 0 0 / 70%);
+    background: rgb(0 0 0 / 60%);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgb(255 255 255 / 10%);
     border-radius: var(--radius-sm);
     overflow-y: auto;
-    padding: var(--space-md);
-    flex-shrink: 0;
+    padding: var(--space-xs) var(--space-sm);
+    z-index: 10;
 }
 
 .sidebar-title {
     color: var(--color-white);
-    margin: 0 0 var(--space-sm) 0;
+    margin: 0 0 var(--space-xs) 0;
     padding-bottom: var(--space-xs);
     border-bottom: 1px solid rgb(255 255 255 / 10%);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
 }
 
 .fullscreen-params {
     display: flex;
     flex-direction: column;
-    gap: var(--space-sm);
+    gap: 4px;
 }
 
 /* Fullscreen presets section */
 .fullscreen-presets-section {
-    background: rgb(255 255 255 / 5%);
-    padding: var(--space-sm);
-    border-radius: var(--radius-xs);
-    margin-bottom: var(--space-md);
+    padding: 6px;
+    margin-bottom: 6px;
 }
 
 .fullscreen-presets-section .presets-title {
-    font-size: var(--text-xs);
+    font-size: 0.6rem;
     font-weight: var(--font-weight-bold);
     color: var(--color-white);
-    margin-bottom: 2px;
+    margin-bottom: 1px;
     text-transform: uppercase;
     letter-spacing: 0.08em;
 }
 
 .fullscreen-presets-section .presets-legend {
-    font-size: var(--text-xs);
+    font-size: 0.55rem;
     color: var(--color-white);
-    margin-bottom: var(--space-xs);
+    margin-bottom: 4px;
     font-style: italic;
 }
 
 .fullscreen-presets-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 4px;
+    gap: 3px;
     min-width: 0;
     width: 100%;
 }
@@ -121,9 +128,10 @@
     border: 1px solid rgb(255 255 255 / 15%) !important;
     color: rgb(255 255 255 / 70%) !important;
     -webkit-text-fill-color: rgb(255 255 255 / 70%) !important;
-    padding: 6px 4px;
+    padding: 3px 4px;
+    min-height: 24px;
     border-radius: var(--radius-xs);
-    font-size: var(--text-xs);
+    font-size: 0.6rem;
     cursor: pointer;
     transition: all 0.2s ease;
     font-family: var(--font-family-base);
@@ -155,18 +163,16 @@
 }
 
 .fullscreen-param-item {
-    background: rgb(255 255 255 / 5%);
-    padding: var(--space-sm);
-    border-radius: var(--radius-xs);
+    padding: 3px var(--space-xs);
 }
 
 .fullscreen-param-item label {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: var(--text-xs);
+    font-size: 0.65rem;
     color: var(--color-white);
-    margin-bottom: var(--space-xs);
+    margin-bottom: 2px;
 }
 
 .fullscreen-param-item input[type="range"] {
@@ -179,18 +185,18 @@
 
 .fullscreen-param-item input[type="range"]::-webkit-slider-thumb {
     appearance: none;
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     background: var(--color-white);
     border-radius: var(--radius-full);
     cursor: pointer;
     position: relative;
-    top: -4.5px;
+    top: -3.5px;
 }
 
 .fullscreen-param-item input[type="range"]::-moz-range-thumb {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     background: var(--color-white);
     border-radius: var(--radius-full);
     cursor: pointer;
@@ -239,12 +245,9 @@
 
 /* Main fullscreen content */
 .fullscreen-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
     position: relative;
     overflow: hidden;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
 }
 
@@ -267,12 +270,14 @@
     position: absolute;
     top: var(--space-lg);
     right: var(--space-lg);
-    background: rgb(0 0 0 / 70%);
-    padding: var(--space-md);
+    background: rgb(0 0 0 / 60%);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: var(--space-xs) var(--space-sm);
     border-radius: var(--radius-sm);
     border: 1px solid rgb(255 255 255 / 10%);
     z-index: 100;
-    min-width: 220px;
+    min-width: 180px;
 }
 
 .fullscreen-sidebar .control-group {
@@ -283,9 +288,9 @@
     font-size: var(--text-xs);
     font-weight: var(--font-weight-extra);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     color: var(--color-white);
-    margin: 0 0 var(--space-sm) 0;
+    margin: 0 0 var(--space-xs) 0;
     padding-bottom: var(--space-xs);
     border-bottom: 1px solid rgb(255 255 255 / 10%);
 }
@@ -293,14 +298,19 @@
 .viz-control-groups {
     display: flex;
     flex-direction: column;
-    gap: var(--space-sm);
+    gap: 4px;
 }
 
 .viz-control-groups .control-group {
     margin-bottom: 0;
-    padding-bottom: var(--space-md);
-    border-bottom: var(--border-width) solid rgb(255 255 255 / 10%);
+    padding-bottom: var(--space-xs);
+    border-bottom: var(--border-width) solid rgb(255 255 255 / 8%);
     background: transparent !important;
+}
+
+.viz-control-groups .control-group:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
 }
 
 .viz-control-groups .control-group:focus-within {

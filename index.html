@@ -196,6 +196,9 @@
                             <div class="slider-container">
                                 <input type="range" id="Rstar" name="Rstar" min="0.1" max="10" step="0.1" value="1.5"
                                     oninput="updateValueAndRecalculate('Rstar')">
+                                <div class="observed-marker" style="left: 14%;" title="Observed: 1.5–3.0 stars/yr (Licquia & Newman 2015)"></div>
+                                <div class="observed-marker" style="left: 29%;" title="Observed: 1.5–3.0 stars/yr (Licquia & Newman 2015)"></div>
+                                <span class="observed-label" data-i18n="observed_rstar">Observed range</span>
                             </div>
                             <span id="Rstar-value" class="value-display">1.5</span>
                         </div>
@@ -210,6 +213,8 @@
                             <div class="slider-container">
                                 <input type="range" id="fp" name="fp" min="0.01" max="1" step="0.01" value="0.5"
                                     oninput="updateValueAndRecalculate('fp')">
+                                <div class="observed-marker" style="left: 80%;" title="Observed: ~80% of stars have planets (Kepler)"></div>
+                                <span class="observed-label" data-i18n="observed_fp">Observed min</span>
                             </div>
                             <span id="fp-value" class="value-display">0.5</span>
                         </div>
@@ -358,6 +363,9 @@
                             <p id="result-meaning-context" class="result-meaning-context"></p>
                         </div>
                     </div>
+                    <div id="factor-breakdown" class="factor-breakdown" style="display: none;"></div>
+                    <div id="confidence-range" class="confidence-range" style="display: none;"></div>
+                    <div id="great-filter-indicator" class="great-filter-indicator" style="display: none;"></div>
                     <button type="button" class="share-btn" onclick="copyShareUrl()" data-i18n-title="share_btn_title">
                         <i data-lucide="link" class="icon-sm"></i>
                         <span data-i18n="share_btn">Copy Preset Link</span>
@@ -760,9 +768,11 @@
                     <div class="uncertainty-disclaimer">
                         <h3 data-i18n="uncertainty_title">A Note on Uncertainty</h3>
                         <p data-i18n="uncertainty_text">The Drake Equation estimates vary by <strong>10 orders of
-                                magnitude</strong>—from isolated Earth to billions of civilizations. This isn't a flaw;
-                            it's honest uncertainty. We're working with incomplete data, and disagreement itself is
-                            scientifically valuable. This tool is speculative, not predictive.</p>
+                                magnitude</strong>. Recent research (<a href="https://arxiv.org/abs/1806.02404"
+                                target="_blank" rel="noopener noreferrer">Sandberg et al., 2018</a>) suggests that when
+                            we account for scientific uncertainty with probability distributions, the range includes
+                            '1', meaning we may indeed be alone. Disagreement itself is scientifically valuable. This
+                            tool is speculative, not predictive.</p>
                     </div>
 
                     <div class="references-section">

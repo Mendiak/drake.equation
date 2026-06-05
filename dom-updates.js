@@ -1,4 +1,4 @@
-/* exported renderTimeline, renderKeyConceptsCards, updateResultDetails, updateMagnitudeScale, renderMagnitudeContext, currentN, animateValue, updateGalaxyVisualization, interpretResult */
+/* exported renderTimeline, renderKeyConceptsCards, updateResultDetails, updateMagnitudeScale, renderMagnitudeContext, currentN, animateValue, updateGalaxyVisualization, interpretResult, updateFactorBreakdown, updateGreatFilterIndicator */
 // Drake Equation DOM Updates
 // Visual and textual updates for the interface
 
@@ -172,6 +172,62 @@ function updateGalaxyVisualization(N) {
             setTimeout(() => { if (dot.parentNode) galaxy.removeChild(dot); }, 1000);
         }
     }
+}
+
+function updateFactorBreakdown(values) {
+    const container = document.getElementById('factor-breakdown');
+    if (!container) return;
+    const N = calculateN(values);
+    if (N <= 0) { container.style.display = 'none'; return; }
+    container.style.display = 'block';
+    const params = ['Rstar', 'fp', 'ne', 'fl', 'fi', 'fc', 'L'];
+    const parts = params.map(p => {
+        const v = values[p];
+        if (p === 'L') return Number(v).toLocaleString(getLocale());
+        return v.toFixed(getDecimalPlaces(p));
+    });
+    container.innerHTML = `
+        <div class="breakdown-row">
+            <span class="breakdown-label">R* · f<sub>p</sub> · n<sub>e</sub> · f<sub>l</sub> · f<sub>i</sub> · f<sub>c</sub> · L</span>
+            <span class="breakdown-values">${parts.join(' · ')}</span>
+        </div>
+        <div class="breakdown-result">
+            <span class="breakdown-label">N</span>
+            <span class="breakdown-value">= ${formatResult(N)}</span>
+        </div>
+    `;
+}
+
+function updateConfidenceRange(values) {
+    const el = document.getElementById('confidence-range');
+    if (!el) return;
+    const N = calculateN(values);
+    if (N <= 0) { el.style.display = 'none'; return; }
+    const range = calculateConfidenceRange(values);
+    const formattedMin = formatResult(Math.max(range.min, 1e-20));
+    const formattedMax = formatResult(range.max);
+    el.style.display = 'block';
+    el.innerHTML = `<span class="confidence-range-label">${t('confidence_range_label')}</span> ${formattedMin} – ${formattedMax}`;
+}
+
+function updateGreatFilterIndicator(N) {
+    const el = document.getElementById('great-filter-indicator');
+    if (!el) return;
+    if (N <= 0) { el.style.display = 'none'; return; }
+    el.style.display = 'flex';
+    let status, labelKey;
+    if (N < 1) {
+        status = 'behind';
+        labelKey = 'great_filter_behind';
+    } else if (N < 100) {
+        status = 'uncertain';
+        labelKey = 'great_filter_uncertain';
+    } else {
+        status = 'ahead';
+        labelKey = 'great_filter_ahead';
+    }
+    el.className = 'great-filter-indicator filter-' + status;
+    el.innerHTML = `<span class="filter-dot"></span><span>${t(labelKey)}</span>`;
 }
 
 function interpretResult(N) {
