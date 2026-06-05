@@ -13,7 +13,8 @@ import {
     initGalaxySimulation, updateGalaxySimulation, toggleGalaxyFullscreen,
     updateGalaxyRotation, updateGalaxyTilt, updateGalaxyZoom,
     updateGalaxyStarSize, resetGalaxyView, applyPresetFromFullscreen,
-    updateParamFromFullscreen, syncFullscreenValues, initGalaxyLegendHandlers
+    updateParamFromFullscreen, syncFullscreenValues, initGalaxyLegendHandlers,
+    handleFullscreenKeydown, isGalaxyFullscreen
 } from './galaxy/simulation.js';
 import { fetchNasaExoplanetData, loadRandomExoplanet, updateExoplanetLanguage } from './nasa-exoplanets.js';
 
@@ -277,6 +278,7 @@ function _initCritical() {
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') hideTooltip();
+        if (!e.defaultPrevented) handleFullscreenKeydown(e);
     });
 
     document.getElementById('drake-form').addEventListener('input', (e) => {
@@ -326,12 +328,12 @@ function _initNonCritical() {
     initGalaxySimulation();
     initGalaxyLegendHandlers();
 
-    const presetDebounceTimer = null;
-    document.querySelectorAll('[data-action="fullscreen-preset"]').forEach(btn => {
-        btn.addEventListener('click', () => {
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-action="fullscreen-preset"]');
+        if (btn) {
             const presetName = btn.getAttribute('data-preset');
             if (presetName) applyPresetFromFullscreen(presetName);
-        });
+        }
     });
 
     document.addEventListener('input', (e) => {

@@ -17,6 +17,7 @@ import {
     updateGalaxyStarSize, resetGalaxyView, toggleGalaxyFullscreen,
     populateFullscreenParams, applyPresetFromFullscreen,
     updateParamFromFullscreen, syncFullscreenValues,
+    handleFullscreenKeydown, isGalaxyFullscreen,
     blinkTechStars
 } from './interaction.js';
 
@@ -117,5 +118,7 @@ export {
     updateParamFromFullscreen,
     syncFullscreenValues,
     populateFullscreenParams,
-    initGalaxyLegendHandlers
+    initGalaxyLegendHandlers,
+    handleFullscreenKeydown,
+    isGalaxyFullscreen
 };

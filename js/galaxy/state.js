@@ -102,3 +102,11 @@ export function setLastFrameTime(v) { lastFrameTime = v; }
 export function setLastBlinkTime(v) { lastBlinkTime = v; }
 export function setCommunicativeBlinkState(v) { communicativeBlinkState = v; }
 export function setCurrentView(v) { currentView = v; }
+
+export let fullscreenUIVisible = true;
+export let fullscreenAutoHideTimer = null;
+export let fullscreenUIForced = false;
+
+export function setFullscreenUIVisible(v) { fullscreenUIVisible = v; }
+export function setFullscreenAutoHideTimer(v) { fullscreenAutoHideTimer = v; }
+export function setFullscreenUIForced(v) { fullscreenUIForced = v; }

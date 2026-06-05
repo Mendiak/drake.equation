@@ -605,65 +605,60 @@
                         </div>
                     </div>
                     <div class="fullscreen-content">
-                        <div class="fullscreen-viz-controls">
-                            <h4 data-i18n="fullscreen_viz_title">Visualization</h4>
-                            <div class="viz-control-groups">
-                                <div class="control-group">
-                                    <label data-i18n="fullscreen_viz_rotation">Rotation</label>
-                                    <div class="control-input-wrapper">
-                                        <div class="control-slider-container">
-                                            <input type="range" id="fs-galaxy-rotation" min="0" max="0.01" step="0.0001" value="0.001" data-action="fs-galaxy-rotation">
+                        <div class="fullscreen-right-panel">
+                            <div class="right-panel-section">
+                                <h4 data-i18n="fullscreen_viz_title">Visualization</h4>
+                                <div class="viz-control-groups">
+                                    <div class="control-group">
+                                        <label data-i18n="fullscreen_viz_rotation">Rotation</label>
+                                        <div class="control-input-wrapper">
+                                            <div class="control-slider-container">
+                                                <input type="range" id="fs-galaxy-rotation" min="0" max="0.01" step="0.0001" value="0.001" data-action="fs-galaxy-rotation">
+                                            </div>
+                                            <span id="fs-galaxy-rotation-value" class="control-value">0.001</span>
                                         </div>
-                                        <span id="fs-galaxy-rotation-value" class="control-value">0.001</span>
+                                    </div>
+                                    <div class="control-group">
+                                        <label data-i18n="fullscreen_viz_tilt">Tilt</label>
+                                        <div class="control-input-wrapper">
+                                            <div class="control-slider-container">
+                                                <input type="range" id="fs-galaxy-tilt" min="0" max="90" step="1" value="45" data-action="fs-galaxy-tilt">
+                                            </div>
+                                            <span id="fs-galaxy-tilt-value" class="control-value">45°</span>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label data-i18n="fullscreen_viz_zoom">Zoom</label>
+                                        <div class="control-input-wrapper">
+                                            <div class="control-slider-container">
+                                                <input type="range" id="fs-galaxy-zoom" min="50" max="400" step="5" value="200" data-action="fs-galaxy-zoom">
+                                            </div>
+                                            <span id="fs-galaxy-zoom-value" class="control-value">200</span>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label data-i18n="fullscreen_viz_star_size">Star Size</label>
+                                        <div class="control-input-wrapper">
+                                            <div class="control-slider-container">
+                                                <input type="range" id="fs-galaxy-star-size" min="0.5" max="3" step="0.1" value="1.2" data-action="fs-galaxy-star-size">
+                                            </div>
+                                            <span id="fs-galaxy-star-size-value" class="control-value">1.2</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="control-group">
-                                    <label data-i18n="fullscreen_viz_tilt">Tilt</label>
-                                    <div class="control-input-wrapper">
-                                        <div class="control-slider-container">
-                                            <input type="range" id="fs-galaxy-tilt" min="0" max="90" step="1" value="45" data-action="fs-galaxy-tilt">
-                                        </div>
-                                        <span id="fs-galaxy-tilt-value" class="control-value">45°</span>
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label data-i18n="fullscreen_viz_zoom">Zoom</label>
-                                    <div class="control-input-wrapper">
-                                        <div class="control-slider-container">
-                                            <input type="range" id="fs-galaxy-zoom" min="50" max="400" step="5" value="200" data-action="fs-galaxy-zoom">
-                                        </div>
-                                        <span id="fs-galaxy-zoom-value" class="control-value">200</span>
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label data-i18n="fullscreen_viz_star_size">Star Size</label>
-                                    <div class="control-input-wrapper">
-                                        <div class="control-slider-container">
-                                            <input type="range" id="fs-galaxy-star-size" min="0.5" max="3" step="0.1" value="1.2" data-action="fs-galaxy-star-size">
-                                        </div>
-                                        <span id="fs-galaxy-star-size-value" class="control-value">1.2</span>
-                                    </div>
+                                <div class="fullscreen-viz-buttons">
+                                    <button type="button" class="reset-view-btn" data-action="galaxy-reset-view" data-i18n="galaxy_reset_view">Reset View</button>
+                                    <button type="button" class="exit-fullscreen-btn" data-action="galaxy-fullscreen" data-i18n-aria-label="fullscreen_exit_fullscreen">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minimize"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg> <span data-i18n="fullscreen_exit_fullscreen">Exit Fullscreen</span>
+                                    </button>
                                 </div>
                             </div>
-                            <div class="fullscreen-viz-buttons">
-                                <button type="button" class="reset-view-btn" data-action="galaxy-reset-view" data-i18n="galaxy_reset_view">Reset View</button>
-                                <button type="button" class="exit-fullscreen-btn" data-action="galaxy-fullscreen" data-i18n-aria-label="fullscreen_exit_fullscreen">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minimize"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg> <span data-i18n="fullscreen_exit_fullscreen">Exit Fullscreen</span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="fullscreen-result" id="fullscreen-result">
-                            <div class="fullscreen-result-content">
+                            <div class="right-panel-section right-panel-result">
                                 <span class="result-label" data-i18n="fullscreen_result_label">Resultado</span>
                                 <span class="result-value" id="fullscreen-n-value">0</span>
                                 <span class="result-unit" data-i18n="fullscreen_result_unit">civilizaciones comunicativas detectables</span>
                             </div>
-                        </div>
-                        <div class="fullscreen-galaxy-container">
-                            <div class="galaxy-sim-container" id="galaxy-simulation-container-fullscreen">
-                                <!-- Three.js Canvas will be rendered here in fullscreen -->
-                            </div>
-                            <div class="galaxy-sim-legend" id="galaxy-sim-legend-fullscreen">
+                            <div class="right-panel-section" id="galaxy-sim-legend-fullscreen">
                                 <div class="legend-hint">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pointer"><path d="M22 14a8 8 0 0 1-8 8"/><path d="M18 11v-1a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"/><path d="M14 10V9a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v1"/><path d="M10 9.5V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v10"/><path d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>
                                     <span data-i18n="fullscreen_legend_toggle_hint">Click to show/hide categories</span>
@@ -674,6 +669,11 @@
                                 <div class="legend-item"><span class="dot" style="background-color: #2ecc71;"></span> <span data-i18n="funnel_steps.life">With Life</span></div>
                                 <div class="legend-item"><span class="dot" style="background-color: #9b59b6;"></span> <span data-i18n="funnel_steps.intelligence">Intelligent</span></div>
                                 <div class="legend-item"><span class="dot" style="background-color: #ffffff;"></span> <span data-i18n="funnel_steps.tech">Communicative</span></div>
+                            </div>
+                        </div>
+                        <div class="fullscreen-galaxy-container">
+                            <div class="galaxy-sim-container" id="galaxy-simulation-container-fullscreen">
+                                <!-- Three.js Canvas will be rendered here in fullscreen -->
                             </div>
                         </div>
                     </div>

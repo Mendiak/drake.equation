@@ -42,9 +42,14 @@
     overflow-x: hidden;
 }
 
-/* Fullscreen overlay - hidden by default */
+/* Fullscreen overlay - hidden by default, transitions for smooth entry/exit */
 .galaxy-fullscreen-overlay {
-    display: none;
+    display: flex;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                visibility 0.5s ease;
     position: fixed;
     top: 0;
     left: 0;
@@ -57,7 +62,19 @@
 
 /* Fullscreen active state - show overlay */
 .galaxy-fullscreen-overlay.active {
-    display: flex;
+    visibility: visible;
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Vignette overlay for depth */
+.fullscreen-content::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 40%, rgb(0 0 0 / 50%) 100%);
+    pointer-events: none;
+    z-index: 2;
 }
 
 /* Sidebar with Drake parameters */
@@ -254,37 +271,49 @@
 .galaxy-sim-container {
     width: 100%;
     height: 600px;
-    cursor: grab;
     border-radius: var(--radius-sm);
     overflow: hidden;
     border: 1px solid rgb(255 255 255 / 10%);
     max-width: 100%;
 }
 
-.galaxy-sim-container:active {
-    cursor: grabbing;
-}
-
-/* Visualization controls - compact, top right */
-.fullscreen-viz-controls {
+/* Right panel: merged visualization controls + result */
+.fullscreen-right-panel {
     position: absolute;
     top: var(--space-lg);
     right: var(--space-lg);
+    z-index: 100;
+    width: 240px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.fullscreen-right-panel .right-panel-section {
     background: rgb(0 0 0 / 60%);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     padding: var(--space-xs) var(--space-sm);
     border-radius: var(--radius-sm);
     border: 1px solid rgb(255 255 255 / 10%);
-    z-index: 100;
-    min-width: 180px;
 }
 
 .fullscreen-sidebar .control-group {
     margin-bottom: 0;
 }
 
-.fullscreen-viz-controls h4 {
+.fullscreen-right-panel .control-group label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.65rem;
+    color: var(--color-white);
+    margin-bottom: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.fullscreen-right-panel h4 {
     font-size: var(--text-xs);
     font-weight: var(--font-weight-extra);
     text-transform: uppercase;
@@ -343,11 +372,12 @@
     background: transparent !important;
 }
 
-.viz-control-groups .control-group input[type="range"] {
-    appearance: none;
+.fullscreen-right-panel .control-group input[type="range"] {
     width: 100%;
-    height: 20px;
-    background: transparent;
+    height: 2px;
+    background: rgb(255 255 255 / 20%);
+    border-radius: var(--radius-sm);
+    appearance: none;
     outline: none;
     margin: 0;
     padding: 0;
@@ -355,96 +385,63 @@
     border: none;
 }
 
-.viz-control-groups .control-group input[type="range"]:focus,
-.viz-control-groups .control-group input[type="range"]:focus-visible,
-.viz-control-groups .control-group input[type="range"]:active {
+.fullscreen-right-panel .control-group input[type="range"]:focus,
+.fullscreen-right-panel .control-group input[type="range"]:focus-visible,
+.fullscreen-right-panel .control-group input[type="range"]:active {
     outline: none;
-    background: transparent;
+    background: rgb(255 255 255 / 20%);
     border: none;
     box-shadow: none;
 }
 
-.viz-control-groups .control-group input[type="range"]::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(to right, 
-        rgb(255 255 255 / 50%) 0%, 
-        rgb(255 255 255 / 50%) var(--slider-fill, 0%), 
-        rgb(255 255 255 / 20%) var(--slider-fill, 0%), 
-        rgb(255 255 255 / 20%) 100%);
-    border-radius: var(--radius-full);
-    border: none;
-}
-
-.viz-control-groups .control-group input[type="range"]:focus::-webkit-slider-runnable-track,
-.viz-control-groups .control-group input[type="range"]:active::-webkit-slider-runnable-track {
-    background: linear-gradient(to right, 
-        rgb(255 255 255 / 50%) 0%, 
-        rgb(255 255 255 / 50%) var(--slider-fill, 0%), 
-        rgb(255 255 255 / 20%) var(--slider-fill, 0%), 
-        rgb(255 255 255 / 20%) 100%);
-    outline: none;
-}
-
-.viz-control-groups .control-group input[type="range"]::-webkit-slider-thumb {
+.fullscreen-right-panel .control-group input[type="range"]::-webkit-slider-thumb {
     appearance: none;
-    width: 16px;
-    height: 16px;
+    width: 10px;
+    height: 10px;
     background: var(--color-white);
-    border: 1.5px solid rgb(255 255 255 / 60%);
     border-radius: var(--radius-full);
     cursor: pointer;
     position: relative;
-    top: -7px;
-    transition: border-color var(--transition-base), background-color var(--transition-base);
-    box-shadow: none;
-    touch-action: none;
+    top: -4px;
 }
 
-.viz-control-groups .control-group input[type="range"]::-webkit-slider-thumb:hover {
-    border-color: var(--color-white);
-    box-shadow: none;
-}
-
-.viz-control-groups .control-group input[type="range"]::-webkit-slider-thumb:active {
+.fullscreen-right-panel .control-group input[type="range"]::-webkit-slider-thumb:hover {
     background: var(--color-white);
-    border-color: var(--color-white);
+}
+
+.fullscreen-right-panel .control-group input[type="range"]::-webkit-slider-thumb:active {
+    background: var(--color-white);
     transform: none;
 }
 
-.viz-control-groups .control-group input[type="range"]::-moz-range-track {
+.fullscreen-right-panel .control-group input[type="range"]::-moz-range-track {
     width: 100%;
-    height: 3px;
+    height: 2px;
     background: rgb(255 255 255 / 20%);
     border-radius: var(--radius-full);
     border: none;
 }
 
-.viz-control-groups .control-group input[type="range"]::-moz-range-thumb {
-    width: 16px;
-    height: 16px;
+.fullscreen-right-panel .control-group input[type="range"]::-moz-range-thumb {
+    width: 10px;
+    height: 10px;
     background: var(--color-white);
-    border: 1.5px solid rgb(255 255 255 / 60%);
-    border-radius: var(--radius-full);
     cursor: pointer;
-    transition: border-color var(--transition-base), background-color var(--transition-base);
-    box-shadow: none;
-    touch-action: none;
+    border-radius: var(--radius-full);
+    border: none;
 }
 
-.viz-control-groups .control-group input[type="range"]::-moz-range-thumb:hover {
-    border-color: var(--color-white);
-    box-shadow: none;
-}
-
-.viz-control-groups .control-group input[type="range"]::-moz-range-thumb:active {
+.fullscreen-right-panel .control-group input[type="range"]::-moz-range-thumb:hover {
     background: var(--color-white);
-    border-color: var(--color-white);
-    transform: scale(1.2);
 }
 
-.viz-control-groups .control-value,
-.viz-control-groups .control-group span {
+.fullscreen-right-panel .control-group input[type="range"]::-moz-range-thumb:active {
+    background: var(--color-white);
+    transform: none;
+}
+
+.fullscreen-right-panel .control-value,
+.fullscreen-right-panel .control-group span {
     font-family: var(--font-family-mono);
     font-size: var(--text-sm);
     font-weight: var(--font-weight-regular);
@@ -455,14 +452,19 @@
     overflow-wrap: break-word;
 }
 
-.fullscreen-viz-buttons {
+.fullscreen-right-panel .right-panel-section + .right-panel-section {
+    border-top: 1px solid rgb(255 255 255 / 10%);
+    padding-top: var(--space-xs);
+}
+
+.fullscreen-right-panel .fullscreen-viz-buttons {
     display: flex;
     flex-direction: column;
     gap: var(--space-xs);
     margin-top: var(--space-sm);
 }
 
-.fullscreen-viz-buttons .exit-fullscreen-btn {
+.fullscreen-right-panel .exit-fullscreen-btn {
     width: 100%;
     padding: var(--space-xs);
     background: rgb(255 255 255 / 10%);
@@ -479,56 +481,63 @@
     transition: all var(--transition-base);
 }
 
-.fullscreen-viz-buttons .exit-fullscreen-btn:hover {
+.fullscreen-right-panel .exit-fullscreen-btn:hover {
     background: rgb(255 255 255 / 20%);
 }
 
-/* Fullscreen result - minimal, clean */
-.fullscreen-result {
-    position: absolute;
-    top: var(--space-lg);
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    z-index: 100;
-    background: rgb(0 0 0 / 60%);
-    padding: var(--space-md) var(--space-xl);
-    border-radius: var(--radius-sm);
-    border: 1px solid rgb(255 255 255 / 15%);
-    min-width: 280px;
-}
-
-.fullscreen-result-content {
+/* Result section inside right panel */
+.right-panel-result {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: var(--space-xs);
+    gap: 0.15rem;
 }
 
-.fullscreen-result .result-label {
-    display: block;
+.right-panel-result .result-label {
     font-size: var(--text-xs);
-    color: var(--color-white);
+    color: rgb(255 255 255 / 60%);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
     font-weight: 400;
 }
 
-.fullscreen-result .result-value {
-    display: block;
-    font-size: var(--text-4xl);
-    font-weight: var(--font-weight-extra);
+.right-panel-result .result-value {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-bold);
     font-family: var(--font-family-mono);
     color: var(--color-white);
     line-height: 1;
 }
 
-.fullscreen-result .result-unit {
-    display: block;
-    font-size: var(--text-sm);
-    color: var(--color-white);
-    font-weight: 300;
+.right-panel-result .result-unit {
+    font-size: var(--text-xs);
+    color: rgb(255 255 255 / 60%);
+    font-weight: 400;
 }
+
+.fullscreen-sidebar,
+.fullscreen-right-panel,
+#galaxy-sim-legend-fullscreen {
+    transition: opacity 0.3s ease;
+}
+
+/* stylelint-disable no-descending-specificity */
+
+/* Auto-hide UI in fullscreen */
+.galaxy-fullscreen-overlay.ui-hidden .fullscreen-sidebar,
+.galaxy-fullscreen-overlay.ui-hidden .fullscreen-right-panel {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.galaxy-fullscreen-overlay.ui-hidden-all .fullscreen-sidebar,
+.galaxy-fullscreen-overlay.ui-hidden-all .fullscreen-right-panel,
+.galaxy-fullscreen-overlay.ui-hidden-all #galaxy-sim-legend-fullscreen {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+/* stylelint-enable no-descending-specificity */
 
 /* Fullscreen galaxy container */
 .fullscreen-galaxy-container {
@@ -559,22 +568,38 @@
     display: block;
 }
 
-/* Fullscreen legend inside fullscreen container */
+/* Fullscreen legend - inline inside right panel */
 #galaxy-sim-legend-fullscreen {
-    position: absolute;
-    bottom: var(--space-lg);
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgb(0 0 0 / 85%);
-    padding: var(--space-sm) var(--space-lg);
-    border-radius: var(--radius-sm);
-    z-index: 100;
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-md);
-    max-width: 90%;
-    width: fit-content;
-    border: 1px solid rgb(255 255 255 / 15%);
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+#galaxy-sim-legend-fullscreen .legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--text-xs);
+    color: var(--color-white);
+    cursor: pointer;
+    user-select: none;
+    transition: opacity var(--transition-base);
+}
+
+#galaxy-sim-legend-fullscreen .legend-item:hover {
+    opacity: 0.8;
+}
+
+#galaxy-sim-legend-fullscreen .legend-item.active {
+    opacity: 1;
+}
+
+#galaxy-sim-legend-fullscreen .legend-item:not(.active) {
+    opacity: 0.4;
+}
+
+#galaxy-sim-legend-fullscreen .legend-item:not(.active) .dot {
+    filter: grayscale(0.7);
 }
 
 /* Hide original legend in fullscreen */
@@ -657,16 +682,6 @@
     text-transform: uppercase;
 }
 
-/* Ensure viz control labels are bright white, not dimmed */
-.viz-control-groups .control-group > label {
-    font-size: var(--text-xs);
-    color: var(--color-white);
-    font-weight: var(--font-weight-regular);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    display: block;
-    margin-bottom: var(--space-xs);
-}
 
 .fullscreen-sidebar .control-group input[type="range"]::-webkit-slider-thumb:hover {
     transform: scale(1.3);
@@ -689,9 +704,9 @@
 }
 
 
-.fullscreen-viz-buttons .reset-view-btn {
+.fullscreen-right-panel .reset-view-btn {
     width: 100%;
-    padding: var(--space-sm);
+    padding: var(--space-xs);
     background: rgb(255 255 255 / 10%);
     border: 1px solid rgb(255 255 255 / 20%);
     font-weight: var(--font-weight-extra);
@@ -700,12 +715,11 @@
     letter-spacing: 0.05em;
     cursor: pointer;
     color: var(--color-white);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-xs);
     transition: all var(--transition-base);
-    margin-top: var(--space-md);
 }
 
-.fullscreen-viz-buttons .reset-view-btn:hover {
+.fullscreen-right-panel .reset-view-btn:hover {
     background: rgb(255 255 255 / 20%);
     border-color: var(--color-white);
 }
@@ -797,33 +811,28 @@
     filter: grayscale(0.7);
 }
 
-/* Compact fullscreen legend */
-#galaxy-sim-legend-fullscreen .legend-item {
-    font-size: var(--text-xs);
-    gap: var(--space-xs);
-}
-
 #galaxy-sim-legend-fullscreen .dot {
     width: 8px;
     height: 8px;
-    margin-right: var(--space-xs);
+    border-radius: 50%;
+    flex-shrink: 0;
 }
 
-/* Legend hint for fullscreen */
-.galaxy-sim-legend .legend-hint {
+/* Legend hint inside right panel */
+#galaxy-sim-legend-fullscreen .legend-hint {
     display: flex;
     align-items: center;
-    gap: var(--space-sm);
-    font-size: var(--text-xs);
-    color: var(--color-white);
-    padding: var(--space-xs) var(--space-sm);
-    background: rgb(255 255 255 / 10%);
+    gap: var(--space-xs);
+    font-size: 0.6rem;
+    color: rgb(255 255 255 / 60%);
+    padding: var(--space-xs);
+    background: rgb(255 255 255 / 6%);
     border-radius: var(--radius-xs);
-    margin-right: var(--space-lg);
-    border: var(--border-width) solid rgb(255 255 255 / 15%);
+    border: 1px solid rgb(255 255 255 / 8%);
+    margin-bottom: var(--space-xs);
 }
 
-.galaxy-sim-legend .legend-hint span {
+#galaxy-sim-legend-fullscreen .legend-hint span {
     font-style: italic;
     opacity: 0.8;
 }
@@ -965,10 +974,6 @@
     }
 
     #galaxy-sim-legend-fullscreen {
-        position: relative;
-        bottom: auto;
-        left: auto;
-        transform: none;
         background: transparent;
         padding: var(--space-md);
         flex-direction: column;
@@ -980,7 +985,7 @@
         max-width: 100%;
     }
 
-    .fullscreen-result .result-value {
+    .right-panel-result .result-value {
         font-size: var(--font-size-5xl);
     }
 

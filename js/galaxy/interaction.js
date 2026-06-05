@@ -7,7 +7,9 @@ import {
     _lastFcIdx, communicativeBlinkState,
     currentView, galaxyCamera, galaxyRenderer, galaxyScene,
     setGalaxyRendererFS, setCommunicativeGlowSystem,
-    setLastFcIdx, setCurrentView
+    setLastFcIdx, setCurrentView,
+    fullscreenUIVisible, fullscreenAutoHideTimer, fullscreenUIForced,
+    setFullscreenUIVisible, setFullscreenAutoHideTimer, setFullscreenUIForced
 } from './state.js';
 import { STAR_COUNT, createGlowTexture, updateSliderBackground, onGalaxyResize } from './scene.js';
 
@@ -262,7 +264,7 @@ export function initGalaxyLegendHandlers() {
     document.addEventListener('click', (e) => {
         const item = e.target.closest('.legend-item');
         if (!item) return;
-        const legend = item.closest('.galaxy-sim-legend');
+        const legend = item.closest('.galaxy-sim-legend, #galaxy-sim-legend-fullscreen');
         if (!legend) return;
         const items = Array.from(legend.querySelectorAll('.legend-item'));
         const index = items.indexOf(item);
@@ -296,6 +298,94 @@ export function showMobileFullscreenAlert() {
             setTimeout(() => alertEl.remove(), 300);
         }
     }, 3000);
+}
+
+const AUTO_HIDE_DELAY = 3000;
+
+function showFullscreenUI(overlay) {
+    if (!overlay) overlay = document.getElementById('galaxy-fullscreen-overlay');
+    if (!overlay) return;
+    overlay.classList.remove('ui-hidden');
+    overlay.classList.remove('ui-hidden-all');
+    setFullscreenUIVisible(true);
+}
+
+function hideFullscreenUI(overlay, hideAll) {
+    if (!overlay) overlay = document.getElementById('galaxy-fullscreen-overlay');
+    if (!overlay) return;
+    if (hideAll) {
+        overlay.classList.add('ui-hidden-all');
+        overlay.classList.remove('ui-hidden');
+    } else {
+        overlay.classList.add('ui-hidden');
+        overlay.classList.remove('ui-hidden-all');
+    }
+    setFullscreenUIVisible(false);
+}
+
+function startAutoHideTimer(overlay) {
+    stopAutoHideTimer();
+    showFullscreenUI(overlay);
+    const timer = setTimeout(() => {
+        hideFullscreenUI(overlay, false);
+    }, AUTO_HIDE_DELAY);
+    setFullscreenAutoHideTimer(timer);
+}
+
+function stopAutoHideTimer() {
+    if (fullscreenAutoHideTimer) {
+        clearTimeout(fullscreenAutoHideTimer);
+        setFullscreenAutoHideTimer(null);
+    }
+}
+
+function resetAutoHideTimer(overlay) {
+    if (!overlay) overlay = document.getElementById('galaxy-fullscreen-overlay');
+    if (!overlay) return;
+    if (overlay.classList.contains('active')) {
+        showFullscreenUI(overlay);
+        startAutoHideTimer(overlay);
+    }
+}
+
+export function isGalaxyFullscreen() {
+    const overlay = document.getElementById('galaxy-fullscreen-overlay');
+    return overlay && overlay.classList.contains('active');
+}
+
+export function handleFullscreenKeydown(e) {
+    const overlay = document.getElementById('galaxy-fullscreen-overlay');
+    if (!overlay) return;
+
+    if (e.key === 'f' || e.key === 'F' || e.key === 'Escape') {
+        if (e.key === 'Escape' && !overlay.classList.contains('active')) return;
+        e.preventDefault();
+        toggleGalaxyFullscreen();
+        return;
+    }
+
+    if (!overlay.classList.contains('active')) return;
+
+    if (e.key === 'h' || e.key === 'H') {
+        e.preventDefault();
+        const isAllHidden = overlay.classList.contains('ui-hidden-all');
+        if (isAllHidden) {
+            showFullscreenUI(overlay);
+            setFullscreenUIForced(false);
+            startAutoHideTimer(overlay);
+        } else {
+            hideFullscreenUI(overlay, true);
+            setFullscreenUIForced(true);
+            stopAutoHideTimer();
+        }
+        return;
+    }
+
+    if (e.key === 'r' || e.key === 'R') {
+        e.preventDefault();
+        resetGalaxyView();
+        resetAutoHideTimer(overlay);
+    }
 }
 
 export function updateGalaxyRotation(value) {
@@ -389,6 +479,9 @@ export function resetGalaxyView() {
     if (starSystem) starSystem.material.size = DEFAULT_VIEW.starSize;
 }
 
+let _fullscreenMousemoveHandler = null;
+let _fullscreenTouchHandler = null;
+
 export function toggleGalaxyFullscreen() {
     if (!galaxyRenderer) {
         console.error('Galaxy renderer not initialized yet');
@@ -409,10 +502,13 @@ export function toggleGalaxyFullscreen() {
     if (!overlay || !normalContainer || !fullscreenContainer) return;
 
     const isEnteringFullscreen = !overlay.classList.contains('active');
-    overlay.classList.toggle('active');
 
-    if (overlay.classList.contains('active')) {
+    if (isEnteringFullscreen) {
+        overlay.classList.add('active');
         section.classList.add('fullscreen');
+        setFullscreenUIForced(false);
+        showFullscreenUI(overlay);
+
         if (galaxyRenderer && galaxyRenderer.domElement) {
             fullscreenContainer.appendChild(galaxyRenderer.domElement);
         }
@@ -420,6 +516,8 @@ export function toggleGalaxyFullscreen() {
         syncFullscreenValues();
         syncFullscreenVizControls();
         updateLegendUI();
+        setGalaxyRendererFS(galaxyRenderer);
+
         if (fullscreenBtn) {
             fullscreenBtn.innerHTML = `
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minimize"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg>
@@ -428,15 +526,45 @@ export function toggleGalaxyFullscreen() {
             fullscreenBtn.setAttribute('aria-label', t('fullscreen_exit_fullscreen'));
             fullscreenBtn.setAttribute('title', t('fullscreen_exit_fullscreen'));
         }
+
+        _fullscreenMousemoveHandler = () => {
+            if (fullscreenUIForced) return;
+            resetAutoHideTimer(overlay);
+        };
+        _fullscreenTouchHandler = () => {
+            if (fullscreenUIForced) return;
+            resetAutoHideTimer(overlay);
+        };
+        document.addEventListener('mousemove', _fullscreenMousemoveHandler);
+        document.addEventListener('touchstart', _fullscreenTouchHandler);
+
+        startAutoHideTimer(overlay);
+
         setTimeout(() => {
             onGalaxyResize();
             if (galaxyRenderer) galaxyRenderer.render(galaxyScene, galaxyCamera);
         }, 50);
     } else {
+        overlay.classList.remove('active');
         section.classList.remove('fullscreen');
+        overlay.classList.remove('ui-hidden');
+        overlay.classList.remove('ui-hidden-all');
+        setFullscreenUIForced(false);
+        stopAutoHideTimer();
+
         if (galaxyRenderer && galaxyRenderer.domElement) {
             normalContainer.appendChild(galaxyRenderer.domElement);
         }
+
+        if (_fullscreenMousemoveHandler) {
+            document.removeEventListener('mousemove', _fullscreenMousemoveHandler);
+            _fullscreenMousemoveHandler = null;
+        }
+        if (_fullscreenTouchHandler) {
+            document.removeEventListener('touchstart', _fullscreenTouchHandler);
+            _fullscreenTouchHandler = null;
+        }
+
         if (fullscreenBtn) {
             fullscreenBtn.innerHTML = `
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-maximize"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
@@ -450,15 +578,13 @@ export function toggleGalaxyFullscreen() {
             if (galaxyRenderer) galaxyRenderer.render(galaxyScene, galaxyCamera);
         }, 50);
     }
-
-    if (isEnteringFullscreen) {
-        setGalaxyRendererFS(galaxyRenderer);
-    }
 }
 
 export function populateFullscreenParams() {
     const container = document.getElementById('fullscreen-params');
     if (!container) return;
+
+    container.innerHTML = '';
 
     const presetsSection = document.createElement('div');
     presetsSection.className = 'fullscreen-presets-section';
@@ -523,7 +649,7 @@ export function updateParamFromFullscreen(paramId, value) {
 
     if (originalInput) {
         originalInput.value = value;
-        originalInput.dispatchEvent(new Event('input'));
+        originalInput.dispatchEvent(new Event('input', { bubbles: true }));
     }
     if (originalValue) originalValue.textContent = value;
     if (fsValue) fsValue.textContent = value;
