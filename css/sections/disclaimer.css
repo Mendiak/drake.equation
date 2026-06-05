@@ -1,0 +1,109 @@
+.disclaimer-overlay {
+    display: flex;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.85);
+    z-index: 20000;
+    overflow-y: auto;
+    padding: var(--space-xl);
+    justify-content: center;
+}
+
+.disclaimer-overlay.active {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: all;
+}
+
+.disclaimer-modal {
+    background: var(--color-surface, #fff);
+    color: var(--color-text);
+    max-width: 720px;
+    width: 100%;
+    margin: auto;
+    padding: var(--space-3xl);
+    border-radius: var(--radius-md);
+    position: relative;
+    line-height: 1.7;
+}
+
+.disclaimer-close {
+    position: absolute;
+    top: var(--space-md);
+    right: var(--space-md);
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--color-text-subtle);
+    padding: var(--space-xs);
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.disclaimer-close:hover {
+    color: var(--color-text);
+}
+
+.disclaimer-modal h1 {
+    font-size: var(--text-2xl, 1.5rem);
+    margin-bottom: var(--space-lg);
+    font-weight: 700;
+}
+
+.disclaimer-modal h2 {
+    font-size: var(--text-lg, 1.15rem);
+    margin-top: var(--space-2xl);
+    margin-bottom: var(--space-sm);
+    font-weight: 600;
+}
+
+.disclaimer-modal p {
+    margin-bottom: var(--space-md);
+    font-size: var(--text-sm);
+}
+
+.disclaimer-modal ul {
+    margin: var(--space-sm) 0 var(--space-lg) var(--space-lg);
+    list-style: disc;
+}
+
+.disclaimer-modal li {
+    margin-bottom: var(--space-xs);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+}
+
+.disclaimer-modal strong {
+    font-weight: 600;
+}
+
+.disclaimer-modal .disclaimer-meta {
+    margin-top: var(--space-3xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-border);
+    font-size: var(--text-xs);
+    color: var(--color-text-subtle);
+    text-align: center;
+}
+
+.disclaimer-modal a {
+    color: var(--color-link, inherit);
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .disclaimer-overlay {
+        padding: var(--space-sm);
+    }
+    .disclaimer-modal {
+        padding: var(--space-lg);
+    }
+}

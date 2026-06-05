@@ -830,11 +830,54 @@
         </div>
     </div>
 
+    <!-- Disclaimer Overlay -->
+    <div id="disclaimer-overlay" class="disclaimer-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="disclaimer-modal">
+            <button type="button" class="disclaimer-close" data-action="toggle-disclaimer" data-i18n-aria-label="disclaimer_close" data-i18n-title="disclaimer_close">&times;</button>
+
+            <h1 data-i18n="disclaimer_title">About This Project</h1>
+
+            <h2 data-i18n="disclaimer_intro_title">Purpose & Nature</h2>
+            <p data-i18n="disclaimer_intro">This website is an educational and experimental project...</p>
+
+            <h2 data-i18n="disclaimer_author_title">About the Author</h2>
+            <p data-i18n="disclaimer_author">I am not a scientist — just an enthusiast...</p>
+
+            <h2 data-i18n="disclaimer_sliders_title">How the Sliders Work</h2>
+            <p data-i18n="disclaimer_sliders_intro">Each factor in the Drake Equation has its own slider...</p>
+            <ul>
+                <li data-i18n="disclaimer_sliders_step1">Reading: The raw position of the slider is converted...</li>
+                <li data-i18n="disclaimer_sliders_step2">Snapping: The value is shifted to the nearest meaningful increment...</li>
+                <li data-i18n="disclaimer_sliders_step3">Calculation trigger: Once the value settles, the full equation is recalculated...</li>
+            </ul>
+
+            <h2 data-i18n="disclaimer_calc_title">How the Calculation Works</h2>
+            <p data-i18n="disclaimer_calc_intro">The core calculation is a simple multiplication of the seven factors:</p>
+            <p style="text-align:center;font-size:var(--text-lg);font-weight:700;padding:var(--space-md) 0;font-family:var(--font-mono)" data-i18n="disclaimer_calc_formula">N = R* &times; fp &times; ne &times; fl &times; fi &times; fc &times; L</p>
+            <p data-i18n="disclaimer_calc_detail">Each factor represents a different variable in the chain...</p>
+            <p data-i18n="disclaimer_calc_scenario">The app also classifies the result into a scenario...</p>
+
+            <h2 data-i18n="disclaimer_charts_title">How the Charts Work</h2>
+            <p data-i18n="disclaimer_charts_sensitivity"><strong>Sensitivity Analysis chart:</strong> This line chart shows how changing each parameter...</p>
+            <p data-i18n="disclaimer_charts_funnel"><strong>Cosmic Filter Funnel chart:</strong> This bar chart visualizes the "Great Filter" concept...</p>
+            <p data-i18n="disclaimer_charts_galaxy"><strong>Galactic Simulation (3D):</strong> A WebGL (Three.js) real-time visualization...</p>
+            <p data-i18n="disclaimer_charts_magnitude"><strong>Order of Magnitude Scale:</strong> A logarithmic ruler...</p>
+            <p data-i18n="disclaimer_charts_nasa"><strong>NASA Exoplanet Archive:</strong> Live data from NASA's Exoplanet Archive...</p>
+
+            <h2 data-i18n="disclaimer_uncertainty_title">A Final Note on Uncertainty</h2>
+            <p data-i18n="disclaimer_uncertainty">The Drake Equation is inherently speculative...</p>
+
+            <div class="disclaimer-meta">
+                <p><a href="#" data-action="toggle-disclaimer" data-i18n="disclaimer_back">Back to Calculator</a></p>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <div class="footer-content">
             <p>&copy; <span id="current-year"></span> <a href="https://mendiak.github.io/portfolio/" target="_blank" rel="noopener noreferrer">Mikel
                     Aramendia</a> | <a href="https://github.com/Mendiak/drake.equation" target="_blank" rel="noopener noreferrer"
-                    data-i18n="link_source">Source Code</a></p>
+                    data-i18n="link_source">Source Code</a> | <a href="#" data-action="toggle-disclaimer" data-i18n="disclaimer_link">About & Disclaimer</a></p>
                     <div style="margin-top: 20px;">
                     <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="Mendiak" data-color="#FFDD00" data-emoji="" data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff"></script>
                     </div>

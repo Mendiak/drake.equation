@@ -154,7 +154,7 @@ function updateChart(parameter, currentValues) {
     drakeChart.data.datasets[0].data = results;
     drakeChart.options.scales.x.title.text = t('labels.' + parameter);
     drakeChart.options.plugins.currentValueMarker.value = baseValue;
-    drakeChart.update();
+    drakeChart.update('none');
     updateFunnel(currentValues);
     const explanationElement = document.getElementById('chart-explanation');
     if (explanationElement) {

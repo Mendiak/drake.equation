@@ -3,7 +3,7 @@ import { getLocale } from './i18n.js';
 function getDecimalPlaces(paramId) {
     const decimalMap = {
         'Rstar': 1, 'fp': 2, 'ne': 1,
-        'fl': 2, 'fi': 2, 'fc': 2, 'L': 0
+        'fl': 3, 'fi': 3, 'fc': 2, 'L': 0
     };
     return decimalMap[paramId] || 2;
 }
@@ -21,7 +21,7 @@ function linearToLog(sliderValue, paramId) {
     const noLogParams = ['fp', 'fc'];
     if (noLogParams.includes(paramId)) return sliderValue;
 
-    const logParams = ['fi', 'fl'];
+    const logParams = [];
     if (!logParams.includes(paramId)) return sliderValue;
 
     const min = parseFloat(slider.min);
@@ -39,10 +39,10 @@ function logToLinear(value, paramId) {
     const slider = document.getElementById(paramId);
     if (!slider) return value;
 
-    const noLogParams = ['fp', 'fl', 'fi', 'fc'];
+    const noLogParams = ['fp', 'fc'];
     if (noLogParams.includes(paramId)) return value;
 
-    const logParams = ['fi', 'fl'];
+    const logParams = [];
     if (!logParams.includes(paramId)) return value;
 
     const min = parseFloat(slider.min);
@@ -65,13 +65,12 @@ function snapToDetent(value, paramId) {
 
     const min = parseFloat(slider.min);
     const max = parseFloat(slider.max);
-    const logParams = ['fi', 'fl'];
+    const logParams = [];
     const isLog = logParams.includes(paramId) && max / min >= 100;
 
     let snapPoints = [];
 
     if (isLog) {
-        snapPoints = [0.001, 0.003, 0.005, 0.01, 0.03, 0.05, 0.1, 0.3, 0.5, 1.0];
         snapPoints = snapPoints.filter(v => v >= min && v <= max);
 
         const logValue = linearToLog(value, paramId);
@@ -95,6 +94,8 @@ function snapToDetent(value, paramId) {
 
         if (paramId === 'fp' || paramId === 'fc') {
             for (let i = 0; i <= 10; i++) snapPoints.push(roundToDecimals(min + (i * 0.1), 2));
+        } else if (paramId === 'fl' || paramId === 'fi') {
+            snapPoints = [0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0].filter(v => v >= min && v <= max);
         } else if (paramId === 'Rstar' || paramId === 'ne') {
             const start = Math.ceil(min * 10) / 10;
             const end = Math.floor(max * 10) / 10;
@@ -130,7 +131,8 @@ function snapToDetent(value, paramId) {
             }
         }
 
-        if (minDistance < range * 0.05) {
+        const snapThreshold = (paramId === 'fl' || paramId === 'fi') ? Math.max(nearest * 0.15, 0.003) : range * 0.05;
+        if (minDistance < snapThreshold) {
             return roundToDecimals(nearest, decimals);
         }
     }

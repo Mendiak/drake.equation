@@ -17,6 +17,7 @@ import {
     handleFullscreenKeydown, isGalaxyFullscreen
 } from './galaxy/simulation.js';
 import { fetchNasaExoplanetData, loadRandomExoplanet, updateExoplanetLanguage } from './nasa-exoplanets.js';
+import { toggleDisclaimer } from './disclaimer.js';
 
 let lastTooltipTrigger = null;
 
@@ -101,7 +102,11 @@ function _applyNonCriticalUpdates(updates) {
     }
 }
 
+let _isUpdating = false;
+
 function updateValueAndRecalculate(paramId) {
+    if (_isUpdating) return;
+
     const input = document.getElementById(paramId);
     const display = document.getElementById(paramId + '-value');
 
@@ -109,7 +114,9 @@ function updateValueAndRecalculate(paramId) {
     let snappedValue = snapToDetent(value, paramId);
 
     if (Math.abs(snappedValue - value) > 0.0001) {
+        _isUpdating = true;
         input.value = snappedValue;
+        _isUpdating = false;
     }
 
     document.querySelectorAll('.active-param').forEach(el => el.classList.remove('active-param'));
@@ -165,7 +172,10 @@ function hideTooltip() {
 }
 
 function resetForm() {
-    applyPreset(defaultValues);
+    applyPreset(presets.sagan);
+    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active-preset'));
+    const saganBtn = document.querySelector('[data-preset="sagan"]');
+    if (saganBtn) saganBtn.classList.add('active-preset');
     validateAndCalculate('Rstar');
 }
 
@@ -285,6 +295,7 @@ function _initCritical() {
         const slider = e.target.closest('input[type="range"]');
         if (slider && slider.id && !slider.id.startsWith('fs-')) {
             updateValueAndRecalculate(slider.id);
+            document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active-preset'));
         }
     });
 
@@ -321,6 +332,13 @@ function _initCritical() {
 
     document.querySelectorAll('[data-action="exoplanet-shuffle"]').forEach(el => {
         el.addEventListener('click', loadRandomExoplanet);
+    });
+
+    document.querySelectorAll('[data-action="toggle-disclaimer"]').forEach(el => {
+        el.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleDisclaimer();
+        });
     });
 }
 

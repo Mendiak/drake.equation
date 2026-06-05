@@ -11,7 +11,7 @@
     background: var(--color-bg-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    padding: var(--space-lg);
+    padding: var(--space-md);
     top: var(--space-xl);
     overflow-y: auto;
     width: 100%;
@@ -45,16 +45,16 @@
 
 .panel-header h3,
 .variables-header h3 {
-    margin: 0 0 var(--space-lg) 0;
+    margin: 0 0 var(--space-md) 0;
 }
 
 .panel-header {
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--space-lg);
 }
 
 .variables-header {
-    margin: var(--space-2xl) 0 var(--space-lg) 0;
-    padding-top: var(--space-lg);
+    margin: var(--space-lg) 0 var(--space-md) 0;
+    padding-top: var(--space-md);
     border-top: var(--border-width) solid var(--color-border);
 }
 
@@ -65,7 +65,7 @@
 .presets-legend {
     font-size: var(--text-xs);
     color: var(--color-text-muted);
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-xs);
 }
 
 .presets-container {
@@ -76,8 +76,8 @@
 }
 
 .preset-btn {
-    padding: var(--space-sm) var(--space-xs);
-    min-height: 44px;
+    padding: var(--space-xs) var(--space-xs);
+    min-height: 36px;
     font-size: var(--text-xs);
     font-weight: var(--font-weight-regular);
     background: var(--color-white);
@@ -114,8 +114,8 @@
 
 .equation-box {
     background: var(--color-bg-light);
-    padding: var(--space-md);
-    margin: var(--space-xl) 0;
+    padding: var(--space-sm);
+    margin: var(--space-lg) 0;
     text-align: center;
     font-family: var(--font-family-mono);
     font-size: var(--text-sm);
@@ -140,22 +140,22 @@
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .input-group {
-    margin-bottom: var(--space-md);
-    padding-bottom: var(--space-md);
+    margin-bottom: var(--space-sm);
+    padding-bottom: var(--space-sm);
 }
 
 .input-group:last-of-type {
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--space-md);
 }
 
 .param-label {
     display: flex;
     align-items: center;
     gap: var(--space-xs);
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
     font-weight: var(--font-weight-regular);
     color: var(--color-text-primary);
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-xs);
 }
 
 .param-label .param-label-main {
@@ -229,7 +229,7 @@
 input[type="range"] {
     appearance: none;
     width: 100%;
-    height: 44px;
+    height: 32px;
     background: transparent;
     outline: none;
     margin: 0;
@@ -338,14 +338,14 @@ input[type="range"]::-moz-range-thumb:focus {
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .button-container {
-    margin-top: var(--space-xl);
-    padding-top: var(--space-lg);
+    margin-top: var(--space-lg);
+    padding-top: var(--space-md);
     border-top: var(--border-width) solid var(--color-border);
 }
 
 button#reset-button {
     width: 100%;
-    min-height: 48px;
+    min-height: 40px;
     padding: var(--space-sm) var(--space-md);
     background: var(--color-white);
     border: var(--border-width) solid var(--color-black);
@@ -383,8 +383,8 @@ button#reset-button span[data-i18n] {
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .confidence-section {
-    margin-top: var(--space-xl);
-    padding-top: var(--space-lg);
+    margin-top: var(--space-lg);
+    padding-top: var(--space-md);
     border-top: var(--border-width) solid var(--color-border);
 }
 
@@ -488,7 +488,7 @@ button#reset-button span[data-i18n] {
 @media (width <= 900px) {
     .parameters-panel {
         max-height: none;
-        padding: var(--space-lg);
+        padding: var(--space-md);
         width: 100%;
         max-width: 100%;
     }
