@@ -163,12 +163,8 @@
 }
 
 .info-icon {
-    opacity: 0;
-    transition: opacity 0.2s;
-}
-
-.param-label:hover .info-icon {
     opacity: 1;
+    transition: opacity 0.2s;
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
