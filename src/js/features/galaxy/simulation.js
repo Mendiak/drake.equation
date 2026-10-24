@@ -93,10 +93,15 @@ function animateGalaxyWithRotation() {
 
     if (deltaTime < 8) return;
 
-    if (starSystem) {
-        starSystem.rotation.y += currentView.rotationSpeed * (deltaTime / 16.67);
+    const reduceMotion = window.matchMedia
+        && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        if (currentTime - lastBlinkTime > BLINK_INTERVAL) {
+    if (starSystem) {
+        if (!reduceMotion) {
+            starSystem.rotation.y += currentView.rotationSpeed * (deltaTime / 16.67);
+        }
+
+        if (!reduceMotion && currentTime - lastBlinkTime > BLINK_INTERVAL) {
             setCommunicativeBlinkState(!communicativeBlinkState);
             setLastBlinkTime(currentTime);
             blinkTechStars();

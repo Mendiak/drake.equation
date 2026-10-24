@@ -1,4 +1,4 @@
-import { t, getLocale } from './i18n.js';
+import { t, getLocale } from '../i18n/i18n.js';
 
 function formatResult(n) {
     if (n === 0) return "0";

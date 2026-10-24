@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { defaultValues } from '../config.js';
+import { defaultValues } from '../../core/config.js';
 import {
     QUALITY_SETTINGS, GALAXY_PARAMS, COLORS,
     galaxyScene, galaxyCamera, galaxyRenderer, starSystem,

@@ -1,29 +1,32 @@
-import { defaultValues, presets, uncertaintyLevels } from './config.js';
-import { t, getLocale, currentLang, updateLanguage, initLucideIcons } from './i18n.js';
-import { linearToLog, logToLinear, snapToDetent, getDecimalPlaces, roundToDecimals } from './slider-utils.js';
-import { formatResult, calculateN, getScenario } from './calculations.js';
+import { defaultValues, presets, uncertaintyLevels } from './core/config.js';
+import { t, getLocale, currentLang, updateLanguage, initLucideIcons } from './i18n/i18n.js';
+import { linearToLog, logToLinear, snapToDetent, getDecimalPlaces, roundToDecimals } from './ui/slider-utils.js';
+import { formatResult, calculateN, getScenario } from './core/calculations.js';
 import {
     renderMagnitudeContext, renderTimeline, renderKeyConceptsCards,
     updateResultDetails, updateMagnitudeScale, animateValue,
     updateGalaxyVisualization, interpretResult, updateFactorBreakdown,
     updateConfidenceRange, updateGreatFilterIndicator, currentN
-} from './dom-updates.js';
-import { initChart, updateChart } from './chart-utils.js';
+} from './ui/dom-updates.js';
+import { initChart, updateChart } from './ui/chart-utils.js';
 import {
     initGalaxySimulation, updateGalaxySimulation, toggleGalaxyFullscreen,
     updateGalaxyRotation, updateGalaxyTilt, updateGalaxyZoom,
     updateGalaxyStarSize, resetGalaxyView, applyPresetFromFullscreen,
     updateParamFromFullscreen, syncFullscreenValues, initGalaxyLegendHandlers,
     handleFullscreenKeydown, isGalaxyFullscreen
-} from './galaxy/simulation.js';
-import { fetchNasaExoplanetData, loadRandomExoplanet, updateExoplanetLanguage } from './nasa-exoplanets.js';
-import { toggleDisclaimer } from './disclaimer.js';
+} from './features/galaxy/simulation.js';
+import { fetchNasaExoplanetData, loadRandomExoplanet, updateExoplanetLanguage } from './features/nasa-exoplanets.js';
+import { toggleDisclaimer } from './ui/disclaimer.js';
+import { trapFocus } from './ui/a11y.js';
 
 let lastTooltipTrigger = null;
+let _hasUserInteracted = false;
 
 let _calcPending = false;
 let _calcLastParam = 'Rstar';
 let _calcThrottleTimer = null;
+let _liveRegionTimer = null;
 const CALC_THROTTLE_MS = 50;
 
 function getParameterValues() {
@@ -81,7 +84,20 @@ function _doValidateAndCalculate() {
         }, 16);
     }
 
-    document.title = `N = ${formattedN} | ${t('title')}`;
+    // Keep the descriptive static <title> until the visitor actually interacts:
+    // a dynamic "N = …" title hurts search snippets.
+    if (_hasUserInteracted) {
+        document.title = `N = ${formattedN} | ${t('title')}`;
+    }
+
+    const liveRegion = document.getElementById('result-live');
+    if (liveRegion) {
+        clearTimeout(_liveRegionTimer);
+        _liveRegionTimer = setTimeout(() => {
+            liveRegion.textContent = `${t('result_label')}: ${formattedN}`;
+        }, 600);
+    }
+
     interpretResult(N, currentValues);
     updateResultDetails(N);
     updateMagnitudeScale(N);
@@ -124,7 +140,7 @@ function updateValueAndRecalculate(paramId) {
     const eqSpan = document.getElementById('eq-' + paramId);
     if (eqSpan) eqSpan.classList.add('active-param');
 
-    const labelSpan = document.querySelector(`label[for="${paramId}"] span[data-i18n]`);
+    const labelSpan = document.querySelector(`label[for="${paramId}"][data-i18n]`);
     if (labelSpan) labelSpan.classList.add('active-param');
 
     const actualValue = linearToLog(parseFloat(input.value), paramId);
@@ -172,6 +188,7 @@ function hideTooltip() {
 }
 
 function resetForm() {
+    _hasUserInteracted = true;
     applyPreset(presets.sagan);
     document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active-preset'));
     const saganBtn = document.querySelector('[data-preset="sagan"]');
@@ -191,7 +208,6 @@ function copyShareUrl() {
             url.searchParams.set(key, value);
         }
     }
-    url.searchParams.set('lang', currentLang);
     const shareUrl = url.toString();
     const title = t('title');
     const text = t('share_description');
@@ -287,8 +303,17 @@ function _initCritical() {
     loadRandomExoplanet();
 
     document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            updateLanguage(btn.getAttribute('data-lang'));
+        btn.addEventListener('click', (e) => {
+            const lang = btn.getAttribute('data-lang');
+            if (lang !== currentLang) {
+                // Each language has its own static URL; keep the current share state.
+                const target = new URL(btn.getAttribute('href'), window.location.href);
+                target.search = window.location.search;
+                btn.setAttribute('href', target.toString());
+                return;
+            }
+            e.preventDefault();
+            updateLanguage(lang);
             const values = getParameterValues();
             const N = currentN;
             interpretResult(N, values);
@@ -305,18 +330,8 @@ function _initCritical() {
         });
     });
 
-    document.querySelectorAll('.info-icon').forEach(icon => {
-        icon.setAttribute('role', 'button');
-        icon.setAttribute('tabindex', '0');
-        icon.setAttribute('aria-label', t('info_icon_label'));
-        icon.setAttribute('title', t('info_icon_label'));
-        icon.addEventListener('click', (e) => showTooltip(e.currentTarget.getAttribute('data-param')));
-        icon.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                showTooltip(e.currentTarget.getAttribute('data-param'));
-            }
-        });
+    document.querySelectorAll('.info-icon[data-param]').forEach(icon => {
+        icon.addEventListener('click', () => showTooltip(icon.getAttribute('data-param')));
     });
 
     const tooltipModal = document.getElementById('tooltip-modal');
@@ -327,13 +342,21 @@ function _initCritical() {
     }
 
     document.addEventListener('keydown', (e) => {
+        const tooltipModal = document.getElementById('tooltip-modal');
+        const tooltipOpen = tooltipModal && tooltipModal.getAttribute('aria-hidden') === 'false';
+
         if (e.key === 'Escape') hideTooltip();
+        if (tooltipOpen) {
+            trapFocus(tooltipModal, e);
+            return;
+        }
         if (!e.defaultPrevented) handleFullscreenKeydown(e);
     });
 
     document.getElementById('drake-form').addEventListener('input', (e) => {
         const slider = e.target.closest('input[type="range"]');
         if (slider && slider.id && !slider.id.startsWith('fs-')) {
+            _hasUserInteracted = true;
             updateValueAndRecalculate(slider.id);
             document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active-preset'));
         }
@@ -343,6 +366,7 @@ function _initCritical() {
         btn.addEventListener('click', function() {
             const presetName = this.getAttribute('data-preset');
             if (presets[presetName]) {
+                _hasUserInteracted = true;
                 document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active-preset'));
                 this.classList.add('active-preset');
 

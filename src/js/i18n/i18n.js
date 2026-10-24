@@ -1,7 +1,18 @@
 import { translations } from './translations.js';
 
-const _urlLang = new URLSearchParams(window.location.search).get('lang');
-let currentLang = _urlLang || localStorage.getItem('drake-lang') || 'en';
+const PAGE_LANG = window.__DRAKE_LANG__ || (document.documentElement.lang === 'es' ? 'es' : 'en');
+const _params = new URLSearchParams(window.location.search);
+const _urlLang = _params.get('lang');
+
+// Legacy/param URLs (?lang=es) now have their own static page: redirect once.
+if ((_urlLang === 'en' || _urlLang === 'es') && _urlLang !== PAGE_LANG) {
+    const target = new URL(PAGE_LANG === 'es' ? '../' : './es/', window.location.href);
+    _params.delete('lang');
+    target.search = _params.toString();
+    window.location.replace(target.toString());
+}
+
+let currentLang = PAGE_LANG;
 
 function t(key) {
     const keys = key.split('.');
@@ -25,11 +36,13 @@ function initLucideIcons() {
 
 function updateLanguage(lang) {
     currentLang = lang;
-    localStorage.setItem('drake-lang', lang);
     document.documentElement.lang = lang;
 
     document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+        const isActive = btn.getAttribute('data-lang') === lang;
+        btn.classList.toggle('active', isActive);
+        if (isActive) btn.setAttribute('aria-current', 'page');
+        else btn.removeAttribute('aria-current');
     });
 
     document.querySelectorAll('[data-i18n]').forEach(el => {

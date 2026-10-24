@@ -1,5 +1,5 @@
-import { t, getLocale, currentLang } from './i18n.js';
-import { formatResult, calculateN, getScenario, calculateConfidenceRange } from './calculations.js';
+import { t, getLocale, currentLang } from '../i18n/i18n.js';
+import { formatResult, calculateN, getScenario, calculateConfidenceRange } from '../core/calculations.js';
 import { getDecimalPlaces } from './slider-utils.js';
 
 function renderMagnitudeContext() {
@@ -114,6 +114,18 @@ let animationFrame;
 
 function animateValue(start, end, duration) {
     if (animationFrame) cancelAnimationFrame(animationFrame);
+
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) {
+        const finalValue = formatResult(end);
+        const resultEl = document.getElementById('result');
+        if (resultEl) resultEl.textContent = finalValue;
+        const fsResultEl = document.getElementById('fullscreen-n-value');
+        if (fsResultEl) fsResultEl.textContent = finalValue;
+        currentN = end;
+        return;
+    }
+
     const startTime = performance.now();
     function update(now) {
         const elapsed = now - startTime;

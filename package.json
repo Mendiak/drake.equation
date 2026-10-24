@@ -5,11 +5,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "serve": "npx http-server -p 8080 -c-1",
-    "build": "if not exist dist mkdir dist && copy index.html dist && copy styles.css dist && copy sitemap.xml dist && copy robots.txt dist && xcopy /E /I /Y css dist\\css && xcopy /E /I /Y js dist\\js && xcopy /E /I /Y assets dist\\assets",
-"lint": "eslint js/*.js js/galaxy/*.js",
-"lint:fix": "eslint js/*.js js/galaxy/*.js --fix",
-    "lint:css": "stylelint \"**/*.css\"",
+    "serve": "npm run build && node scripts/serve.mjs",
+    "preview": "node scripts/serve.mjs",
+    "build:es": "node scripts/generate-es.mjs",
+    "build:content": "node scripts/generate-content.mjs",
+    "build": "node scripts/build.mjs",
+    "lint": "eslint \"src/js/**/*.js\"",
+    "lint:fix": "eslint \"src/js/**/*.js\" --fix",
+    "lint:css": "stylelint \"src/**/*.css\"",
     "check": "npm run lint && npm run lint:css"
   },
   "repository": {
@@ -33,7 +36,7 @@
   "bugs": {
     "url": "https://github.com/Mendiak/drake.equation/issues"
   },
-  "homepage": "https://github.com/Mendiak/drake.equation#readme",
+  "homepage": "https://mendiak.github.io/drake.equation/",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "eslint": "^10.1.0",

@@ -1,4 +1,4 @@
-import { getLocale } from './i18n.js';
+import { getLocale } from '../i18n/i18n.js';
 
 function getDecimalPlaces(paramId) {
     const decimalMap = {

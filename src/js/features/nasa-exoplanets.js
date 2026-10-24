@@ -1,5 +1,5 @@
-import { t, getLocale, currentLang } from './i18n.js';
-import { translations } from './translations.js';
+import { t, getLocale, currentLang } from '../i18n/i18n.js';
+import { translations } from '../i18n/translations.js';
 
 let cachedExoplanetData = null;
 let lastFetchTime = null;

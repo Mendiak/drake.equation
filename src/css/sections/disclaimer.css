@@ -9,7 +9,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0,0,0,0.85);
+    background: rgb(0 0 0 / 85%);
     z-index: 20000;
     overflow-y: auto;
     padding: var(--space-xl);
@@ -52,13 +52,14 @@
     color: var(--color-text);
 }
 
-.disclaimer-modal h1 {
+.disclaimer-modal .disclaimer-title {
     font-size: var(--text-2xl, 1.5rem);
     margin-bottom: var(--space-lg);
     font-weight: 700;
 }
 
-.disclaimer-modal h2 {
+.disclaimer-modal h2,
+.disclaimer-modal h3 {
     font-size: var(--text-lg, 1.15rem);
     margin-top: var(--space-2xl);
     margin-bottom: var(--space-sm);
@@ -99,10 +100,11 @@
     text-decoration: underline;
 }
 
-@media (max-width: 600px) {
+@media (width <= 600px) {
     .disclaimer-overlay {
         padding: var(--space-sm);
     }
+
     .disclaimer-modal {
         padding: var(--space-lg);
     }

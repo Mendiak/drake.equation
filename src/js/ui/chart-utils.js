@@ -1,5 +1,5 @@
-import { t, getLocale } from './i18n.js';
-import { calculateN, formatResult } from './calculations.js';
+import { t, getLocale } from '../i18n/i18n.js';
+import { calculateN, formatResult } from '../core/calculations.js';
 
 let drakeChart;
 let funnelChart;

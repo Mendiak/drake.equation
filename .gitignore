@@ -1,9 +1,8 @@
 # Dependencies
 node_modules/
 .npm
-package-lock.json
 
-# Build and dist
+# Build output
 dist/
 build/
 

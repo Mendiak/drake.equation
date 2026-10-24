@@ -157,7 +157,7 @@
     margin-top: var(--space-sm);
     font-family: var(--font-family-mono);
     font-size: var(--text-xs);
-    color: rgb(255 255 255 / 0.6);
+    color: rgb(255 255 255 / 60%);
 }
 
 .confidence-range-label {
@@ -190,7 +190,7 @@
 
 .filter-behind {
     border-color: var(--color-confidence-low);
-    color: rgb(255 255 255 / 0.8);
+    color: rgb(255 255 255 / 80%);
 }
 
 .filter-behind .filter-dot {
@@ -199,7 +199,7 @@
 
 .filter-uncertain {
     border-color: var(--color-confidence-medium);
-    color: rgb(255 255 255 / 0.8);
+    color: rgb(255 255 255 / 80%);
 }
 
 .filter-uncertain .filter-dot {
@@ -208,7 +208,7 @@
 
 .filter-ahead {
     border-color: var(--color-confidence-very-high);
-    color: rgb(255 255 255 / 0.8);
+    color: rgb(255 255 255 / 80%);
 }
 
 .filter-ahead .filter-dot {

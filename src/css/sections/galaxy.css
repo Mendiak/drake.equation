@@ -86,7 +86,6 @@
     width: 280px;
     background: rgb(0 0 0 / 60%);
     backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgb(255 255 255 / 10%);
     border-radius: var(--radius-sm);
     overflow-y: auto;
@@ -292,7 +291,6 @@
 .fullscreen-right-panel .right-panel-section {
     background: rgb(0 0 0 / 60%);
     backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
     padding: var(--space-xs) var(--space-sm);
     border-radius: var(--radius-sm);
     border: 1px solid rgb(255 255 255 / 10%);
@@ -569,6 +567,9 @@
 }
 
 /* Fullscreen legend - inline inside right panel */
+
+/* State-scoped overrides below intentionally follow more specific selectors. */
+/* stylelint-disable no-descending-specificity */
 #galaxy-sim-legend-fullscreen {
     display: flex;
     flex-direction: column;
@@ -601,6 +602,7 @@
 #galaxy-sim-legend-fullscreen .legend-item:not(.active) .dot {
     filter: grayscale(0.7);
 }
+/* stylelint-enable no-descending-specificity */
 
 /* Hide original legend in fullscreen */
 .galaxy-sim-section.fullscreen #galaxy-sim-legend {
@@ -764,6 +766,8 @@
     font-size: var(--text-base);
 }
 
+/* State-scoped overrides below intentionally follow more specific selectors. */
+/* stylelint-disable no-descending-specificity */
 .galaxy-sim-legend {
     display: flex;
     justify-content: center;
@@ -817,6 +821,7 @@
     border-radius: 50%;
     flex-shrink: 0;
 }
+/* stylelint-enable no-descending-specificity */
 
 /* Legend hint inside right panel */
 #galaxy-sim-legend-fullscreen .legend-hint {

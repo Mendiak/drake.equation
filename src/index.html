@@ -6,38 +6,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Drake Equation Calculator | Estimate Extraterrestrial Civilizations</title>
     <meta name="description" content="Interactive Drake Equation calculator to estimate the number of advanced civilizations in the Milky Way. Explore parameters, sensitivity analysis, and 3D galaxy simulation.">
-    <meta name="keywords" content="Drake Equation, extraterrestrial civilizations, SETI, astrobiology, Milky Way, exoplanets, Fermi Paradox, space science, astronomy calculator">
     <meta name="author" content="Mendiak">
     <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#ffffff">
     <link rel="canonical" href="https://mendiak.github.io/drake.equation/">
-    <link rel="alternate" hreflang="en" href="https://mendiak.github.io/drake.equation/?lang=en" />
-    <link rel="alternate" hreflang="es" href="https://mendiak.github.io/drake.equation/?lang=es" />
-    <link rel="alternate" hreflang="x-default" href="https://mendiak.github.io/drake.equation/" />
+    <link rel="alternate" hreflang="en" href="https://mendiak.github.io/drake.equation/">
+    <link rel="alternate" hreflang="es" href="https://mendiak.github.io/drake.equation/es/">
+    <link rel="alternate" hreflang="x-default" href="https://mendiak.github.io/drake.equation/">
     <link rel="sitemap" type="application/xml" href="https://mendiak.github.io/drake.equation/sitemap.xml" />
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./css/index.css">
     <link rel="icon" type="image/png" href="./assets/images/favicon.png" />
+    <link rel="apple-touch-icon" href="./assets/images/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
         rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="./styles.css"></noscript>
     <meta name="google-site-verification" content="7tAbK2WB9Cx4uF76izgXcrBdBXVeqDfUd9A97KrLewU" />
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Drake Equation Calculator">
     <meta property="og:url" content="https://mendiak.github.io/drake.equation/">
     <meta property="og:title" content="Drake Equation Calculator | Estimate Extraterrestrial Civilizations">
     <meta property="og:description" content="Interactive tool to explore the Drake Equation and estimate communicative civilizations in the Milky Way. Features 3D galaxy simulation and sensitivity analysis.">
     <meta property="og:image" content="https://mendiak.github.io/drake.equation/assets/images/og_image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Drake Equation calculator with a 3D Milky Way simulation and sensitivity charts">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="es_ES">
-    
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://mendiak.github.io/drake.equation/">
     <meta name="twitter:title" content="Drake Equation Calculator | Estimate Extraterrestrial Civilizations">
     <meta name="twitter:description" content="Interactive tool to explore the Drake Equation and estimate communicative civilizations in the Milky Way. Features 3D galaxy simulation.">
     <meta name="twitter:image" content="https://mendiak.github.io/drake.equation/assets/images/og_image.png">
+    <meta name="twitter:image:alt" content="Drake Equation calculator with a 3D Milky Way simulation and sensitivity charts">
     
     <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">
@@ -51,7 +56,8 @@
         "applicationCategory": "EducationalApplication",
         "operatingSystem": "Web Browser",
         "browserRequirements": "Requires JavaScript",
-        "inLanguage": ["en", "es"],
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
         "offers": {
             "@type": "Offer",
             "price": "0",
@@ -127,63 +133,6 @@
         ]
     }
     </script>
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "inLanguage": "es",
-        "mainEntity": [
-            {
-                "@type": "Question",
-                "name": "¿Qué es la Ecuación de Drake?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "La Ecuación de Drake (N = R* × fp × ne × fl × fi × fc × L) es un marco probabilístico formulado por el Dr. Frank Drake en 1961 para estimar el número de civilizaciones extraterrestres activas y comunicativas en la galaxia de la Vía Láctea."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "¿Qué es la Paradoja de Fermi?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "La Paradoja de Fermi pregunta: si la Ecuación de Drake sugiere que deberían existir muchas civilizaciones, ¿por qué no hemos encontrado evidencia de ellas? Las posibles respuestas incluyen el Gran Filtro, civilizaciones de corta duración o distancias vastas que impiden el contacto."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "¿Qué es la Zona Habitable en la Ecuación de Drake?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "La Zona Habitable (o Zona Ricitos de Oro) es la región alrededor de una estrella donde las condiciones podrían ser adecuadas para la existencia de agua líquida. Se relaciona con el parámetro ne: el número de planetas similares a la Tierra por sistema que podrían albergar vida."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "¿Qué son las tecnofirmas y SETI?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Las tecnofirmas son señales de tecnología avanzada que podrían detectarse de forma remota, como señales de radio o megaestructuras. SETI (Búsqueda de Inteligencia Extraterrestre) utiliza radiotelescopios y otros métodos para buscar estas señales, relacionándose con el parámetro fc: la fracción de civilizaciones que desarrollan tecnología detectable."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "¿Qué es el Gran Filtro?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "El Gran Filtro es un desafío hipotético que impide que la vida alcance una etapa avanzada y capaz de viajar al espacio. Si N es bajo, el filtro probablemente quedó atrás (la vida es rara). Si N es alto pero no vemos evidencia, el filtro puede estar adelante (las civilizaciones tienden a autodestruirse)."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "¿Cuántas estrellas hay en la Vía Láctea?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "La Vía Láctea contiene aproximadamente entre 200 mil y 400 mil millones de estrellas. La Ecuación de Drake ayuda a estimar cuántas de esas estrellas podrían albergar civilizaciones inteligentes y comunicativas."
-                }
-            }
-        ]
-    }
-    </script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZXLS14C7VJ"></script>
     <script>
@@ -196,6 +145,7 @@
 </head>
 
 <body>
+    <a class="skip-link" href="#main-content" data-i18n="skip_to_content">Skip to main content</a>
     <div class="container">
         <!-- Tooltip Modal -->
         <div id="tooltip-modal" class="tooltip-modal" role="dialog" aria-modal="true" aria-labelledby="tooltip-title" aria-describedby="tooltip-description" aria-hidden="true" style="display: none;">
@@ -225,10 +175,10 @@
                     <i data-lucide="telescope" class="icon-xl"></i>
                     <span data-i18n="title">Drake Equation</span>
                 </h1>
-                <div class="lang-switcher">
-                    <button type="button" class="lang-btn active" data-lang="en">EN</button>
-                    <span class="lang-divider">|</span>
-                    <button type="button" class="lang-btn" data-lang="es">ES</button>
+                <div class="lang-switcher" role="group" aria-label="Language" data-i18n-aria-label="language_switcher">
+                    <a class="lang-btn active" data-lang="en" hreflang="en" lang="en" aria-current="true" href="./">EN</a>
+                    <span class="lang-divider" aria-hidden="true">|</span>
+                    <a class="lang-btn" data-lang="es" hreflang="es" lang="es" href="./es/">ES</a>
                 </div>
             </div>
             <p class="subtitle" data-i18n="subtitle">An interactive estimate of advanced civilizations in our galaxy.
@@ -306,10 +256,10 @@
 
                 <form id="drake-form" onsubmit="return false">
                     <div class="input-group">
-                        <label for="Rstar" class="param-label">
-                            <span class="info-icon" data-param="Rstar"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>
-                            <span class="param-label-main" data-i18n="label_Rstar">Star formation rate (R*)</span>
-                        </label>
+                        <div class="param-label">
+                            <button type="button" class="info-icon" data-param="Rstar" aria-haspopup="dialog" data-i18n-aria-label="info_icon_label" data-i18n-title="info_icon_label"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></button>
+                            <label for="Rstar" class="param-label-main" data-i18n="label_Rstar">Star formation rate (R*)</label>
+                        </div>
                         <div class="input-wrapper">
                             <div class="slider-container">
                                 <input type="range" id="Rstar" name="Rstar" min="0.1" max="10" step="0.1" value="1.5">
@@ -322,10 +272,10 @@
                     </div>
 
                     <div class="input-group">
-                        <label for="fp" class="param-label">
-                            <span class="info-icon" data-param="fp"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>
-                            <span class="param-label-main" data-i18n="label_fp">Fraction with planets</span>
-                        </label>
+                        <div class="param-label">
+                            <button type="button" class="info-icon" data-param="fp" aria-haspopup="dialog" data-i18n-aria-label="info_icon_label" data-i18n-title="info_icon_label"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></button>
+                            <label for="fp" class="param-label-main" data-i18n="label_fp">Fraction with planets</label>
+                        </div>
                         <div class="input-wrapper">
                             <div class="slider-container">
                                 <input type="range" id="fp" name="fp" min="0.01" max="1" step="0.01" value="0.5">
@@ -337,10 +287,10 @@
                     </div>
 
                     <div class="input-group">
-                        <label for="ne" class="param-label">
-                            <span class="info-icon" data-param="ne"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>
-                            <span class="param-label-main" data-i18n="label_ne">Habitable planets</span>
-                        </label>
+                        <div class="param-label">
+                            <button type="button" class="info-icon" data-param="ne" aria-haspopup="dialog" data-i18n-aria-label="info_icon_label" data-i18n-title="info_icon_label"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></button>
+                            <label for="ne" class="param-label-main" data-i18n="label_ne">Habitable planets</label>
+                        </div>
                         <div class="input-wrapper">
                             <div class="slider-container">
                                 <input type="range" id="ne" name="ne" min="0.1" max="10" step="0.1" value="2">
@@ -350,10 +300,10 @@
                     </div>
 
                     <div class="input-group">
-                        <label for="fl" class="param-label">
-                            <span class="info-icon" data-param="fl"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>
-                            <span class="param-label-main" data-i18n="label_fl">Fraction with life</span>
-                        </label>
+                        <div class="param-label">
+                            <button type="button" class="info-icon" data-param="fl" aria-haspopup="dialog" data-i18n-aria-label="info_icon_label" data-i18n-title="info_icon_label"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></button>
+                            <label for="fl" class="param-label-main" data-i18n="label_fl">Fraction with life</label>
+                        </div>
                         <div class="input-wrapper">
                             <div class="slider-container">
                                 <input type="range" id="fl" name="fl" min="0.001" max="1" step="0.001" value="0.1">
@@ -363,10 +313,10 @@
                     </div>
 
                     <div class="input-group">
-                        <label for="fi" class="param-label">
-                            <span class="info-icon" data-param="fi"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>
-                            <span class="param-label-main" data-i18n="label_fi">Fraction with intelligence</span>
-                        </label>
+                        <div class="param-label">
+                            <button type="button" class="info-icon" data-param="fi" aria-haspopup="dialog" data-i18n-aria-label="info_icon_label" data-i18n-title="info_icon_label"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></button>
+                            <label for="fi" class="param-label-main" data-i18n="label_fi">Fraction with intelligence</label>
+                        </div>
                         <div class="input-wrapper">
                             <div class="slider-container">
                                 <input type="range" id="fi" name="fi" min="0.001" max="1" step="0.001" value="0.01">
@@ -376,10 +326,10 @@
                     </div>
 
                     <div class="input-group">
-                        <label for="fc" class="param-label">
-                            <span class="info-icon" data-param="fc"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>
-                            <span class="param-label-main" data-i18n="label_fc">Fraction with technology</span>
-                        </label>
+                        <div class="param-label">
+                            <button type="button" class="info-icon" data-param="fc" aria-haspopup="dialog" data-i18n-aria-label="info_icon_label" data-i18n-title="info_icon_label"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></button>
+                            <label for="fc" class="param-label-main" data-i18n="label_fc">Fraction with technology</label>
+                        </div>
                         <div class="input-wrapper">
                             <div class="slider-container">
                                 <input type="range" id="fc" name="fc" min="0.01" max="1" step="0.01" value="0.1">
@@ -389,10 +339,10 @@
                     </div>
 
                     <div class="input-group">
-                        <label for="L" class="param-label">
-                            <span class="info-icon" data-param="L"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>
-                            <span class="param-label-main" data-i18n="label_L">Civilization lifetime (L)</span>
-                        </label>
+                        <div class="param-label">
+                            <button type="button" class="info-icon" data-param="L" aria-haspopup="dialog" data-i18n-aria-label="info_icon_label" data-i18n-title="info_icon_label"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></button>
+                            <label for="L" class="param-label-main" data-i18n="label_L">Civilization lifetime (L)</label>
+                        </div>
                         <div class="input-wrapper">
                             <div class="slider-container">
                                 <input type="range" id="L" name="L" min="100" max="1000000" step="100" value="10000">
@@ -413,31 +363,31 @@
                         <div class="confidence-grid">
                             <div class="confidence-item">
                                 <div class="confidence-label">R*</div>
-                                <div class="confidence-indicator" data-confidence="low"></div>
+                                <div class="confidence-indicator" role="img" data-confidence="low" data-i18n-aria-label="confidence_low"></div>
                             </div>
                             <div class="confidence-item">
                                 <div class="confidence-label">f<sub>p</sub></div>
-                                <div class="confidence-indicator" data-confidence="low"></div>
+                                <div class="confidence-indicator" role="img" data-confidence="low" data-i18n-aria-label="confidence_low"></div>
                             </div>
                             <div class="confidence-item">
                                 <div class="confidence-label">n<sub>e</sub></div>
-                                <div class="confidence-indicator" data-confidence="medium"></div>
+                                <div class="confidence-indicator" role="img" data-confidence="medium" data-i18n-aria-label="confidence_medium"></div>
                             </div>
                             <div class="confidence-item">
                                 <div class="confidence-label">f<sub>l</sub></div>
-                                <div class="confidence-indicator" data-confidence="high"></div>
+                                <div class="confidence-indicator" role="img" data-confidence="high" data-i18n-aria-label="confidence_high"></div>
                             </div>
                             <div class="confidence-item">
                                 <div class="confidence-label">f<sub>i</sub></div>
-                                <div class="confidence-indicator" data-confidence="very_high"></div>
+                                <div class="confidence-indicator" role="img" data-confidence="very_high" data-i18n-aria-label="confidence_very_high"></div>
                             </div>
                             <div class="confidence-item">
                                 <div class="confidence-label">f<sub>c</sub></div>
-                                <div class="confidence-indicator" data-confidence="very_high"></div>
+                                <div class="confidence-indicator" role="img" data-confidence="very_high" data-i18n-aria-label="confidence_very_high"></div>
                             </div>
                             <div class="confidence-item">
                                 <div class="confidence-label">L</div>
-                                <div class="confidence-indicator" data-confidence="very_high"></div>
+                                <div class="confidence-indicator" role="img" data-confidence="very_high" data-i18n-aria-label="confidence_very_high"></div>
                             </div>
                         </div>
                         <div class="confidence-legend">
@@ -458,11 +408,12 @@
                 </form>
             </aside>
 
-            <main class="results-panel">
+            <main class="results-panel" id="main-content">
                 <div class="result-card">
-                    <div id="galaxy-viz" class="galaxy-container"></div>
+                    <div id="galaxy-viz" class="galaxy-container" aria-hidden="true"></div>
                     <span class="result-label" data-i18n="result_label">Estimated result (N)</span>
-                    <h2 id="result" role="status" aria-live="polite">0</h2>
+                    <h2 id="result">0</h2>
+                    <p id="result-live" class="sr-only" role="status" aria-live="polite"></p>
                     <span class="result-unit" data-i18n="result_unit">Communicative civilizations</span>
                     <div class="result-context">
                         <p id="result-interpretation" data-i18n="result_initial">Adjust parameters to explore scenarios.
@@ -496,14 +447,14 @@
                                 <span class="toggle-label" data-i18n="scale_label">Scale:</span>
                                 <span class="toggle-label" data-i18n="toggle_log">Log</span>
                                 <label class="switch">
-                                    <input type="checkbox" id="scale-toggle" checked>
+                                    <input type="checkbox" id="scale-toggle" checked data-i18n-aria-label="scale_toggle_log">
                                     <span class="slider"></span>
                                 </label>
                             </div>
                         </div>
                     </div>
                     <div class="chart-canvas-container">
-                        <canvas id="drakeChart"></canvas>
+                        <canvas id="drakeChart" role="img" data-i18n-aria-label="chart_sensitivity_alt">Sensitivity analysis chart: estimated number of civilizations versus each Drake Equation factor.</canvas>
                     </div>
                 </section>
 
@@ -520,7 +471,7 @@
                                 <span class="toggle-label" data-i18n="scale_label">Scale:</span>
                                 <span class="toggle-label" data-i18n="toggle_log">Log</span>
                                 <label class="switch">
-                                    <input type="checkbox" id="funnel-scale-toggle" checked>
+                                    <input type="checkbox" id="funnel-scale-toggle" checked data-i18n-aria-label="scale_toggle_funnel">
                                     <span class="slider"></span>
                                 </label>
                             </div>
@@ -529,7 +480,7 @@
 
                     <div class="funnel-container">
                         <div class="funnel-canvas-wrapper">
-                            <canvas id="funnelChart"></canvas>
+                            <canvas id="funnelChart" role="img" data-i18n-aria-label="chart_funnel_alt">Cosmic filter funnel chart: how each Drake Equation factor reduces the number of potentially communicative civilizations.</canvas>
                         </div>
                         <div class="funnel-insight-panel" id="funnel-insights">
                             <!-- Dynamic insights will be injected here -->
@@ -546,10 +497,12 @@
                         <p class="scientific-explanation" data-i18n="galaxy_intro"></p>
                     </div>
 
+                    <p class="sr-only" data-i18n="galaxy_sim_alt">Interactive 3D simulation of the Milky Way where stars are coloured by how far they pass through the Drake Equation filters.</p>
+
                     <div class="galaxy-sim-wrapper">
                         <div class="galaxy-fullscreen-wrapper" id="galaxy-fullscreen-wrapper">
                             <div class="galaxy-visualization">
-                                <div class="galaxy-sim-container" id="galaxy-simulation-container">
+                                <div class="galaxy-sim-container" id="galaxy-simulation-container" aria-hidden="true">
                                     <!-- Three.js Canvas will be here -->
                                 </div>
                                 <button type="button" class="fullscreen-btn-overlay" data-action="galaxy-fullscreen" data-i18n-aria-label="galaxy_fullscreen_text" data-i18n-title="galaxy_fullscreen">
@@ -772,9 +725,9 @@
                                 </div>
                             </div>
                             <div class="right-panel-section right-panel-result">
-                                <span class="result-label" data-i18n="fullscreen_result_label">Resultado</span>
+                                <span class="result-label" data-i18n="fullscreen_result_label">Result</span>
                                 <span class="result-value" id="fullscreen-n-value">0</span>
-                                <span class="result-unit" data-i18n="fullscreen_result_unit">civilizaciones comunicativas detectables</span>
+                                <span class="result-unit" data-i18n="fullscreen_result_unit">detectable communicative civilizations</span>
                             </div>
                             <div class="right-panel-section" id="galaxy-sim-legend-fullscreen">
                                 <div class="legend-hint">
@@ -790,178 +743,71 @@
                             </div>
                         </div>
                         <div class="fullscreen-galaxy-container">
-                            <div class="galaxy-sim-container" id="galaxy-simulation-container-fullscreen">
+                            <div class="galaxy-sim-container" id="galaxy-simulation-container-fullscreen" aria-hidden="true">
                                 <!-- Three.js Canvas will be rendered here in fullscreen -->
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <section class="educational-content">
-                    <h2 class="section-title" data-i18n="section_learn">Learn More</h2>
-                    <details>
-                        <summary data-i18n="background_title">Background and Context</summary>
-                        <p data-i18n="background_text_1">The Drake equation was formulated by Dr. Frank Drake in 1961.
-                            It serves as a probabilistic argument used to estimate the number of active, communicative
-                            extraterrestrial civilizations in the Milky Way galaxy.</p>
-                        <p data-i18n="background_text_2">The equation breaks down a large, unknown problem into smaller,
-                            more manageable pieces. While many values remain speculative, it remains a cornerstone of
-                            astrobiology and the search for extraterrestrial intelligence.</p>
-                    </details>
-
-                    <details>
-                        <summary data-i18n="fermi_title">The Fermi Paradox</summary>
-                        <div id="fermi-content">
-                            <p data-i18n="fermi_text_1">The Fermi Paradox highlights the contradiction between the high
-                                probability of extraterrestrial civilizations and the lack of evidence for their
-                                existence.</p>
-                            <div id="fermi-dynamic"></div>
-                            <p data-i18n="fermi_text_2">Possible explanations include the "Great Filter" hypothesis,
-                                suggesting that civilizations might inevitably self-destruct or that the emergence of
-                                life is rarer than we think.</p>
-                        </div>
-                    </details>
-
-                    <details>
-                        <summary data-i18n="habitable_title">The Habitable Zone</summary>
-                        <p data-i18n="habitable_text">A key component of the equation (n<sub>e</sub>) relies on the
-                            concept of the "Goldilocks Zone"—the region around a star where liquid water can exist on a
-                            planet's surface. Understanding this helps narrow down which of the billions of planets in
-                            our galaxy might actually be candidates for life.</p>
-                    </details>
-
-                    <details>
-                        <summary data-i18n="tech_title">Technosignatures and SETI</summary>
-                        <p data-i18n="tech_text">The final factors (f<sub>c</sub> and L) relate to how we might actually
-                            detect another civilization. Scientists look for "technosignatures" like narrow-band radio
-                            signals, laser pulses, or even massive engineering projects like Dyson Spheres. The Search
-                            for Extraterrestrial Intelligence (SETI) is the active effort to find these markers.</p>
-                    </details>
-                    
-                    <details open>
-                        <summary data-i18n="longevity_deep_dive_title">Longevity and the Modern Consensus</summary>
-                        <p data-i18n="longevity_deep_dive_text">The 'Modern Consensus' preset gives a small value for N because it assumes civilizations are relatively short-lived. This highlights the 'Great Filter'—the idea that something prevents life from reaching a point of long-term cosmic communication.</p>
-                    </details>
-
-                    <details>
-                        <summary data-i18n="timeline_title">Timeline of the Search</summary>
-                        <div class="timeline" id="timeline-container">
-                            <!-- Timeline items will be injected by JavaScript -->
-                        </div>
-                    </details>
-
-                    <details>
-                        <summary data-i18n="key_concepts_title">Key Concepts</summary>
-                        <div class="concepts-grid">
-                            <div class="concept-card">
-                                <h4 data-i18n="concept_habitable.title">Habitable Zone</h4>
-                                <p data-i18n="concept_habitable.desc">The region around a star (the 'Goldilocks Zone')
-                                    where liquid water can exist on a planet's surface.</p>
-                            </div>
-                            <div class="concept-card">
-                                <h4 data-i18n="concept_technosignature.title">Technosignature</h4>
-                                <p data-i18n="concept_technosignature.desc">Evidence of technological activity—radio
-                                    signals, laser pulses, or massive engineering projects.</p>
-                            </div>
-                            <div class="concept-card">
-                                <h4 data-i18n="concept_great_filter.title">The Great Filter</h4>
-                                <p data-i18n="concept_great_filter.desc">A barrier explaining the Fermi Paradox. Either
-                                    life is rare, or civilizations self-destruct quickly.</p>
-                            </div>
-                            <div class="concept-card">
-                                <h4 data-i18n="concept_cosmic_perspective.title">Cosmic Perspective</h4>
-                                <p data-i18n="concept_cosmic_perspective.desc">Even one alien civilization would
-                                    revolutionize our understanding of life itself.</p>
-                            </div>
-                        </div>
-                    </details>
-
-                    <div class="uncertainty-disclaimer">
-                        <h3 data-i18n="uncertainty_title">A Note on Uncertainty</h3>
-                        <p data-i18n="uncertainty_text">The Drake Equation estimates vary by <strong>10 orders of
-                                magnitude</strong>. Recent research (<a href="https://arxiv.org/abs/1806.02404"
-                                target="_blank" rel="noopener noreferrer">Sandberg et al., 2018</a>) suggests that when
-                            we account for scientific uncertainty with probability distributions, the range includes
-                            '1', meaning we may indeed be alone. Disagreement itself is scientifically valuable. This
-                            tool is speculative, not predictive.</p>
-                    </div>
-
-                    <div class="references-section">
-                        <h3 data-i18n="references_title">References & Resources</h3>
-                        <div class="links-grid">
-                            <div class="reference-item">
-                                <a class="reference-link" href="https://en.wikipedia.org/wiki/Drake_equation"
-                                    target="_blank">
-                                    <i data-lucide="external-link" class="icon-sm"></i>
-                                    <span data-i18n="link_drake">Drake Equation</span>
-                                </a>
-                                <p class="reference-desc" data-i18n="desc_drake">The original probabilistic formula for estimating the number of communicative civilizations in the galaxy.</p>
-                            </div>
-                            <div class="reference-item">
-                                <a class="reference-link" href="https://arxiv.org/abs/1806.02404" target="_blank">
-                                    <i data-lucide="external-link" class="icon-sm"></i>
-                                    <span data-i18n="link_oxford">Dissolving the Fermi Paradox (Oxford Paper)</span>
-                                </a>
-                                <p class="reference-desc" data-i18n="desc_oxford">A comprehensive analysis exploring why we haven't found evidence of extraterrestrial civilizations despite high probabilities.</p>
-                            </div>
-                            <div class="reference-item">
-                                <a class="reference-link" href="https://mason.gmu.edu/~rhanson/greatfilter.html" target="_blank">
-                                    <i data-lucide="external-link" class="icon-sm"></i>
-                                    <span data-i18n="link_hanson">The Great Filter (Robin Hanson)</span>
-                                </a>
-                                <p class="reference-desc" data-i18n="desc_hanson">The hypothesis that a significant barrier prevents life from becoming interstellar, explaining the Fermi Paradox.</p>
-                            </div>
-                            <div class="reference-item">
-                                <a class="reference-link" href="https://en.wikipedia.org/wiki/Fermi_paradox" target="_blank">
-                                    <i data-lucide="external-link" class="icon-sm"></i>
-                                    <span data-i18n="link_fermi">Fermi Paradox</span>
-                                </a>
-                                <p class="reference-desc" data-i18n="desc_fermi">The apparent contradiction between the likelihood of extraterrestrial life and the lack of evidence for it.</p>
-                            </div>
-                            <div class="reference-item">
-                                <a class="reference-link" href="https://en.wikipedia.org/wiki/Astrobiology" target="_blank">
-                                    <i data-lucide="external-link" class="icon-sm"></i>
-                                    <span data-i18n="link_astrobiology">Astrobiology</span>
-                                </a>
-                                <p class="reference-desc" data-i18n="desc_astrobiology">The scientific study of the origins, evolution, distribution, and future of life in the universe.</p>
-                            </div>
-                            <div class="reference-item">
-                                <a class="reference-link"
-                                    href="https://en.wikipedia.org/wiki/Search_for_extraterrestrial_intelligence"
-                                    target="_blank">
-                                    <i data-lucide="external-link" class="icon-sm"></i>
-                                    <span data-i18n="link_seti">SETI Institute</span>
-                                </a>
-                                <p class="reference-desc" data-i18n="desc_seti">The Search for Extraterrestrial Intelligence, an organization dedicated to finding signs of intelligent life beyond Earth.</p>
-                            </div>
-                            <div class="reference-item">
-                                <a class="reference-link" href="https://en.wikipedia.org/wiki/Exoplanet" target="_blank">
-                                    <i data-lucide="external-link" class="icon-sm"></i>
-                                    <span data-i18n="link_exoplanets">Exoplanets</span>
-                                </a>
-                                <p class="reference-desc" data-i18n="desc_exoplanets">Planets orbiting stars other than our Sun, key to understanding habitable worlds.</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
             </main>
         </div>
+
+        <section class="guides-section" aria-labelledby="guides-title">
+            <div class="guides-header">
+                <h2 id="guides-title" data-i18n="guides_title">Go deeper into the science</h2>
+                <p data-i18n="guides_subtitle">Four short guides on the ideas behind the calculator.</p>
+            </div>
+            <div class="guides-grid">
+                <a class="guide-card" href="./what-is-the-drake-equation/">
+                    <h3 data-i18n="guide_drake_title">What is the Drake Equation?</h3>
+                    <p data-i18n="guide_drake_desc">Where it comes from, what each term means, and what it can — and cannot — tell us.</p>
+                    <span data-i18n="guide_read_more">Read the guide</span>
+                </a>
+                <a class="guide-card" href="./fermi-paradox/">
+                    <h3 data-i18n="guide_fermi_title">The Fermi Paradox</h3>
+                    <p data-i18n="guide_fermi_desc">If the galaxy should be full of civilizations, why have we heard nothing?</p>
+                    <span data-i18n="guide_read_more">Read the guide</span>
+                </a>
+                <a class="guide-card" href="./habitable-zone/">
+                    <h3 data-i18n="guide_zone_title">The Habitable Zone</h3>
+                    <p data-i18n="guide_zone_desc">What makes a planet a candidate for life, and why location is not enough.</p>
+                    <span data-i18n="guide_read_more">Read the guide</span>
+                </a>
+                <a class="guide-card" href="./seti-technosignatures/">
+                    <h3 data-i18n="guide_seti_title">SETI &amp; Technosignatures</h3>
+                    <p data-i18n="guide_seti_desc">How radio telescopes and other instruments actually look for alien technology.</p>
+                    <span data-i18n="guide_read_more">Read the guide</span>
+                </a>
+            </div>
+            <div class="guides-meta">
+                <p class="guides-note" data-i18n="guides_note">Estimates span <strong>10 orders of magnitude</strong>. When uncertainty is treated honestly, “we may be alone” remains consistent with the data (<a href="https://arxiv.org/abs/1806.02404" target="_blank" rel="noopener noreferrer">Sandberg et al., 2018</a>).</p>
+                <div class="guides-links">
+                    <span class="guides-links-label" data-i18n="references_title">References &amp; Resources</span>
+                    <a href="https://en.wikipedia.org/wiki/Drake_equation" target="_blank" rel="noopener noreferrer" data-i18n="link_drake">Drake Equation</a>
+                    <a href="https://arxiv.org/abs/1806.02404" target="_blank" rel="noopener noreferrer" data-i18n="link_oxford">Dissolving the Fermi Paradox (Oxford Paper)</a>
+                    <a href="https://mason.gmu.edu/~rhanson/greatfilter.html" target="_blank" rel="noopener noreferrer" data-i18n="link_hanson">The Great Filter (Robin Hanson)</a>
+                    <a href="https://en.wikipedia.org/wiki/Fermi_paradox" target="_blank" rel="noopener noreferrer" data-i18n="link_fermi">Fermi Paradox</a>
+                    <a href="https://en.wikipedia.org/wiki/Search_for_extraterrestrial_intelligence" target="_blank" rel="noopener noreferrer" data-i18n="link_seti">SETI Institute</a>
+                </div>
+            </div>
+        </section>
     </div>
 
     <!-- Disclaimer Overlay -->
-    <div id="disclaimer-overlay" class="disclaimer-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div id="disclaimer-overlay" class="disclaimer-overlay" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="disclaimer-title">
         <div class="disclaimer-modal">
             <button type="button" class="disclaimer-close" data-action="toggle-disclaimer" data-i18n-aria-label="disclaimer_close" data-i18n-title="disclaimer_close">&times;</button>
 
-            <h1 data-i18n="disclaimer_title">About This Project</h1>
+            <h2 class="disclaimer-title" id="disclaimer-title" data-i18n="disclaimer_title">About This Project</h2>
 
-            <h2 data-i18n="disclaimer_intro_title">Purpose & Nature</h2>
+            <h3 data-i18n="disclaimer_intro_title">Purpose & Nature</h3>
             <p data-i18n="disclaimer_intro">This website is an educational and experimental project...</p>
 
-            <h2 data-i18n="disclaimer_author_title">About the Author</h2>
+            <h3 data-i18n="disclaimer_author_title">About the Author</h3>
             <p data-i18n="disclaimer_author">I am not a scientist — just an enthusiast...</p>
 
-            <h2 data-i18n="disclaimer_sliders_title">How the Sliders Work</h2>
+            <h3 data-i18n="disclaimer_sliders_title">How the Sliders Work</h3>
             <p data-i18n="disclaimer_sliders_intro">Each factor in the Drake Equation has its own slider...</p>
             <ul>
                 <li data-i18n="disclaimer_sliders_step1">Reading: The raw position of the slider is converted...</li>
@@ -969,20 +815,20 @@
                 <li data-i18n="disclaimer_sliders_step3">Calculation trigger: Once the value settles, the full equation is recalculated...</li>
             </ul>
 
-            <h2 data-i18n="disclaimer_calc_title">How the Calculation Works</h2>
+            <h3 data-i18n="disclaimer_calc_title">How the Calculation Works</h3>
             <p data-i18n="disclaimer_calc_intro">The core calculation is a simple multiplication of the seven factors:</p>
             <p style="text-align:center;font-size:var(--text-lg);font-weight:700;padding:var(--space-md) 0;font-family:var(--font-mono)" data-i18n="disclaimer_calc_formula">N = R* &times; fp &times; ne &times; fl &times; fi &times; fc &times; L</p>
             <p data-i18n="disclaimer_calc_detail">Each factor represents a different variable in the chain...</p>
             <p data-i18n="disclaimer_calc_scenario">The app also classifies the result into a scenario...</p>
 
-            <h2 data-i18n="disclaimer_charts_title">How the Charts Work</h2>
+            <h3 data-i18n="disclaimer_charts_title">How the Charts Work</h3>
             <p data-i18n="disclaimer_charts_sensitivity"><strong>Sensitivity Analysis chart:</strong> This line chart shows how changing each parameter...</p>
             <p data-i18n="disclaimer_charts_funnel"><strong>Cosmic Filter Funnel chart:</strong> This bar chart visualizes the "Great Filter" concept...</p>
             <p data-i18n="disclaimer_charts_galaxy"><strong>Galactic Simulation (3D):</strong> A WebGL (Three.js) real-time visualization...</p>
             <p data-i18n="disclaimer_charts_magnitude"><strong>Order of Magnitude Scale:</strong> A logarithmic ruler...</p>
             <p data-i18n="disclaimer_charts_nasa"><strong>NASA Exoplanet Archive:</strong> Live data from NASA's Exoplanet Archive...</p>
 
-            <h2 data-i18n="disclaimer_uncertainty_title">A Final Note on Uncertainty</h2>
+            <h3 data-i18n="disclaimer_uncertainty_title">A Final Note on Uncertainty</h3>
             <p data-i18n="disclaimer_uncertainty">The Drake Equation is inherently speculative...</p>
 
             <div class="disclaimer-meta">
@@ -997,7 +843,7 @@
                     Aramendia</a> | <a href="https://github.com/Mendiak/drake.equation" target="_blank" rel="noopener noreferrer"
                     data-i18n="link_source">Source Code</a> | <a href="#" data-action="toggle-disclaimer" data-i18n="disclaimer_link">About & Disclaimer</a></p>
                     <div style="margin-top: 20px;">
-                    <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="Mendiak" data-color="#FFDD00" data-emoji="" data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff"></script>
+                    <script async type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="Mendiak" data-color="#FFDD00" data-emoji="" data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff"></script>
                     </div>
         </div>
     </footer>
@@ -1009,7 +855,7 @@
         }
     </script>
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <script defer src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
     <script type="module" src="js/app.js"></script>
     <script>
         document.getElementById('current-year').textContent = new Date().getFullYear();

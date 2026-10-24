@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { t, currentLang } from '../i18n.js';
-import { defaultValues } from '../config.js';
+import { t, currentLang } from '../../i18n/i18n.js';
+import { defaultValues } from '../../core/config.js';
 import {
     RGB_COLORS, GALAXY_VISIBILITY,
     DEFAULT_VIEW, starSystem, communicativeGlowSystem,
