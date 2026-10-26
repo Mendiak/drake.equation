@@ -5,13 +5,41 @@
  * Run with: npm run build:content
  */
 import { mkdir, writeFile } from 'node:fs/promises';
+import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { articles, ui, SITE, LAST_UPDATED } from '../content/articles.mjs';
+import { articles as guideArticles, ui, SITE, LAST_UPDATED } from '../content/articles.mjs';
+import { methodologyArticle } from '../content/methodology.mjs';
+import { REFERENCES } from '../src/js/core/science.js';
 
 const root = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
 const dist = path.join(root, 'dist');
+const articles = [...guideArticles, methodologyArticle];
 const byId = new Map(articles.map((article) => [article.id, article]));
+
+/**
+ * Last commit date for a tracked path. Falls back to the editorial date when
+ * git history is unavailable (e.g. a shallow CI checkout).
+ */
+function lastUpdatedFor(relativePath) {
+    try {
+        const date = execFileSync('git', ['log', '-1', '--format=%cs', '--', relativePath], {
+            cwd: root,
+            encoding: 'utf8',
+            stdio: ['ignore', 'pipe', 'ignore']
+        }).trim();
+        return /^\d{4}-\d{2}-\d{2}$/.test(date) ? date : LAST_UPDATED;
+    } catch {
+        return LAST_UPDATED;
+    }
+}
+
+const ARTICLE_UPDATED = [
+    lastUpdatedFor('content/articles.mjs'),
+    lastUpdatedFor('content/methodology.mjs'),
+    lastUpdatedFor('src/js/core/science.js')
+].sort().at(-1);
+const HOME_UPDATED = lastUpdatedFor('src/index.html');
 
 const TELESCOPE_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
                         <path d="m10.065 12.493-6.18 1.318a.934.934 0 0 1-1.108-.702l-.537-2.15a1.07 1.07 0 0 1 .691-1.265l13.504-4.44" />
@@ -52,10 +80,15 @@ function pagePath(lang, slug) {
 function resolveTokens(html, lang) {
     return html
         .replaceAll('{{calc}}', lang === 'es' ? '../../' : '../')
-        .replace(/\{\{article:([a-z]+)\}\}/g, (match, id) => {
+        .replace(/\{\{article:([a-z0-9-]+)\}\}/g, (match, id) => {
             const target = byId.get(id);
             if (!target) throw new Error(`Unknown article token: ${id}`);
             return `../${target.slugs[lang]}/`;
+        })
+        .replace(/\{\{source:([a-z0-9-]+)\}\}/g, (match, id) => {
+            const reference = REFERENCES[id];
+            if (!reference) throw new Error(`Unknown source token: ${id}`);
+            return `<a href="${reference.url}" target="_blank" rel="noopener noreferrer">${reference.shortAuthors} (${reference.year})</a>`;
         });
 }
 
@@ -69,20 +102,39 @@ function renderJsonLd(article, lang, canonical) {
             headline: copy.h1,
             description: copy.description,
             inLanguage: lang,
-            datePublished: LAST_UPDATED,
-            dateModified: LAST_UPDATED,
+            datePublished: ARTICLE_UPDATED,
+            dateModified: ARTICLE_UPDATED,
+            articleSection: copy.eyebrow,
             author: {
                 '@type': 'Person',
                 name: 'Mikel Aramendia',
-                url: 'https://mendiak.github.io/portfolio/'
+                url: 'https://mendiak.github.io/portfolio/',
+                sameAs: ['https://github.com/Mendiak']
             },
             publisher: {
                 '@type': 'Organization',
                 name: 'Drake Equation Calculator',
+                url: `${SITE}/`,
+                logo: {
+                    '@type': 'ImageObject',
+                    url: `${SITE}/assets/images/apple-touch-icon.png`,
+                    width: 180,
+                    height: 180
+                }
+            },
+            isPartOf: {
+                '@type': 'WebSite',
+                name: 'Drake Equation Calculator',
                 url: `${SITE}/`
             },
             mainEntityOfPage: { '@id': canonical },
-            image: `${SITE}/assets/images/og_image.png`,
+            image: {
+                '@type': 'ImageObject',
+                url: `${SITE}/assets/images/og_image.png`,
+                width: 1200,
+                height: 630
+            },
+            keywords: 'Drake equation, astrobiology, SETI, exoplanets, Fermi paradox',
             about: ['Drake equation', 'Astrobiology', 'Search for extraterrestrial intelligence']
         },
         {
@@ -97,7 +149,7 @@ function renderJsonLd(article, lang, canonical) {
                 {
                     '@type': 'ListItem',
                     position: 2,
-                    name: copy.h1,
+                    name: copy.short,
                     item: canonical
                 }
             ]
@@ -131,7 +183,7 @@ function renderPage(article, lang) {
     const dateLabel = new Intl.DateTimeFormat(lang === 'es' ? 'es-ES' : 'en-US', {
         month: 'long',
         year: 'numeric'
-    }).format(new Date(`${LAST_UPDATED}T12:00:00Z`));
+    }).format(new Date(`${ARTICLE_UPDATED}T12:00:00Z`));
 
     const nav = [
         `<a href="${calcHref}">${strings.calc}</a>`,
@@ -192,8 +244,9 @@ function renderPage(article, lang) {
     <link rel="alternate" hreflang="x-default" href="${xDefault}">
     <link rel="sitemap" type="application/xml" href="${SITE}/sitemap.xml" />
     <link rel="stylesheet" href="${prefix}css/index.css">
-    <link rel="icon" type="image/png" href="${prefix}assets/images/favicon.png" />
-    <link rel="apple-touch-icon" href="${prefix}assets/images/favicon.png" />
+    <link rel="icon" type="image/svg+xml" href="${prefix}assets/images/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="64x64" href="${prefix}assets/images/favicon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="${prefix}assets/images/apple-touch-icon.png" />
 ${FONTS}
     <meta name="google-site-verification" content="7tAbK2WB9Cx4uF76izgXcrBdBXVeqDfUd9A97KrLewU" />
 
@@ -204,6 +257,7 @@ ${FONTS}
     <meta property="og:title" content="${escapeAttribute(copy.title)}">
     <meta property="og:description" content="${escapeAttribute(copy.description)}">
     <meta property="og:image" content="${SITE}/assets/images/og_image.png">
+    <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="${escapeAttribute(copy.h1)}">
@@ -216,7 +270,12 @@ ${FONTS}
     <meta name="twitter:title" content="${escapeAttribute(copy.title)}">
     <meta name="twitter:description" content="${escapeAttribute(copy.description)}">
     <meta name="twitter:image" content="${SITE}/assets/images/og_image.png">
+    <meta name="twitter:image:type" content="image/png">
     <meta name="twitter:image:alt" content="${escapeAttribute(copy.h1)}">
+    <meta property="article:published_time" content="${ARTICLE_UPDATED}T00:00:00Z">
+    <meta property="article:modified_time" content="${ARTICLE_UPDATED}T00:00:00Z">
+    <meta property="article:author" content="Mikel Aramendia">
+    <meta property="article:section" content="${escapeAttribute(copy.eyebrow)}">
 
 ${GA}
 
@@ -246,10 +305,16 @@ ${jsonLd}
 
         <main id="main-content">
             <article class="content-page content-article">
+                <nav class="content-breadcrumb" aria-label="${strings.breadcrumb}">
+                    <ol>
+                        <li><a href="${calcHref}">${strings.home}</a></li>
+                        <li aria-current="page">${copy.short}</li>
+                    </ol>
+                </nav>
                 <p class="content-eyebrow">${copy.eyebrow}</p>
                 <h1>${copy.h1}</h1>
-                <p class="content-lead">${copy.lead}</p>
-                <p class="content-meta">${strings.updated} ${dateLabel} &middot; ${copy.readingTime} ${strings.minRead} &middot; ${strings.authorship}</p>
+                <p class="content-lead">${resolveTokens(copy.lead, lang)}</p>
+                <p class="content-meta">${strings.updated} <time datetime="${ARTICLE_UPDATED}">${dateLabel}</time> &middot; ${copy.readingTime} ${strings.minRead} &middot; ${strings.authorship}</p>
 
                 <nav class="content-toc" aria-labelledby="toc-title">
                     <h2 id="toc-title">${strings.toc}</h2>
@@ -290,6 +355,12 @@ ${jsonLd}
 
     <script>
         document.getElementById('current-year').textContent = new Date().getFullYear();
+        document.querySelectorAll('a[target="_blank"]').forEach(function (link) {
+            var hint = document.createElement('span');
+            hint.className = 'sr-only';
+            hint.textContent = ' (' + (document.documentElement.lang === 'es' ? 'se abre en una pestaña nueva' : 'opens in a new tab') + ')';
+            link.appendChild(hint);
+        });
     </script>
 </body>
 
@@ -299,8 +370,8 @@ ${jsonLd}
 
 function renderSitemap() {
     const calculators = [
-        { loc: `${SITE}/`, priority: '1.0' },
-        { loc: `${SITE}/es/`, priority: '0.9' }
+        { loc: `${SITE}/` },
+        { loc: `${SITE}/es/` }
     ];
 
     const calculatorEntries = calculators.map((entry) => `  <url>
@@ -308,9 +379,7 @@ function renderSitemap() {
     <xhtml:link rel="alternate" hreflang="en" href="${SITE}/" />
     <xhtml:link rel="alternate" hreflang="es" href="${SITE}/es/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${SITE}/" />
-    <lastmod>${LAST_UPDATED}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>${entry.priority}</priority>
+    <lastmod>${HOME_UPDATED}</lastmod>
   </url>`);
 
     const articleEntries = articles.flatMap((article) => {
@@ -321,9 +390,7 @@ function renderSitemap() {
     <xhtml:link rel="alternate" hreflang="en" href="${en}" />
     <xhtml:link rel="alternate" hreflang="es" href="${es}" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${en}" />
-    <lastmod>${LAST_UPDATED}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>${ARTICLE_UPDATED}</lastmod>
   </url>`);
     });
 

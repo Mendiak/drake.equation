@@ -56,88 +56,96 @@ function logToLinear(value, paramId) {
     return sliderValue;
 }
 
+/** Paints the filled portion of a range track from its current value. */
+function updateSliderFill(input) {
+    if (!input) return;
+
+    const min = parseFloat(input.min);
+    const max = parseFloat(input.max);
+    const value = parseFloat(input.value);
+
+    if (!Number.isFinite(min) || !Number.isFinite(max) || !Number.isFinite(value) || max <= min) {
+        input.style.setProperty('--slider-fill', '0%');
+        return;
+    }
+
+    const percentage = ((value - min) / (max - min)) * 100;
+    input.style.setProperty('--slider-fill', `${Math.min(100, Math.max(0, percentage))}%`);
+}
+
+/** Formats a parameter for display with a stable number of decimals. */
+function formatParamValue(paramId, value) {
+    if (paramId === 'L') return Number(value).toLocaleString(getLocale());
+
+    const decimals = getDecimalPlaces(paramId);
+    return roundToDecimals(value, decimals).toFixed(decimals);
+}
+
+const SNAP_DETENTS = {
+    fl: [0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1],
+    fi: [0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1]
+};
+
+function getSnapPoints(paramId, min, max) {
+    if (paramId === 'L') {
+        const points = [min, max];
+        let magnitude = 100;
+        while (magnitude < max) {
+            for (const mult of [1, 2, 5]) {
+                const point = mult * magnitude;
+                if (point >= min && point <= max) points.push(point);
+            }
+            magnitude *= 10;
+        }
+        return [...new Set(points)].sort((a, b) => a - b);
+    }
+
+    const detents = SNAP_DETENTS[paramId];
+    return detents ? detents.filter(v => v >= min && v <= max) : [];
+}
+
 function snapToDetent(value, paramId) {
     const slider = document.getElementById(paramId);
     if (!slider) return value;
 
-    const noSnapParams = ['fp', 'fc'];
-    if (noSnapParams.includes(paramId)) return value;
-
     const min = parseFloat(slider.min);
     const max = parseFloat(slider.max);
-    const logParams = [];
-    const isLog = logParams.includes(paramId) && max / min >= 100;
+    const step = parseFloat(slider.step) || 0;
+    if (max <= min) return value;
 
-    let snapPoints = [];
+    const points = getSnapPoints(paramId, min, max);
+    if (points.length === 0) return value;
 
-    if (isLog) {
-        snapPoints = snapPoints.filter(v => v >= min && v <= max);
+    let nearestIndex = 0;
+    let minDistance = Math.abs(value - points[0]);
 
-        const logValue = linearToLog(value, paramId);
-        let nearest = logValue;
-        let minDistance = Math.abs(logValue - snapPoints[0]);
-
-        for (const point of snapPoints) {
-            const distance = Math.abs(logValue - point);
-            if (distance < minDistance) {
-                minDistance = distance;
-                nearest = point;
-            }
+    for (let i = 1; i < points.length; i += 1) {
+        const distance = Math.abs(value - points[i]);
+        if (distance < minDistance) {
+            minDistance = distance;
+            nearestIndex = i;
         }
+    }
 
-        if (minDistance < Math.max(nearest * 0.1, 0.001)) {
-            return logToLinear(nearest, paramId);
-        }
-    } else {
-        const range = max - min;
-        const decimals = getDecimalPlaces(paramId);
+    const nearest = points[nearestIndex];
+    const previousGap = nearestIndex > 0 ? nearest - points[nearestIndex - 1] : Infinity;
+    const nextGap = nearestIndex < points.length - 1 ? points[nearestIndex + 1] - nearest : Infinity;
+    const localGap = Math.min(previousGap, nextGap);
+    const range = max - min;
 
-        if (paramId === 'fp' || paramId === 'fc') {
-            for (let i = 0; i <= 10; i++) snapPoints.push(roundToDecimals(min + (i * 0.1), 2));
-        } else if (paramId === 'fl' || paramId === 'fi') {
-            snapPoints = [0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0].filter(v => v >= min && v <= max);
-        } else if (paramId === 'Rstar' || paramId === 'ne') {
-            const start = Math.ceil(min * 10) / 10;
-            const end = Math.floor(max * 10) / 10;
-            for (let i = start * 10; i <= end * 10; i += 5) {
-                snapPoints.push(roundToDecimals(i / 10, 1));
-            }
-            if (!snapPoints.includes(max)) {
-                snapPoints.push(max);
-            }
-        } else if (paramId === 'L') {
-            snapPoints.push(min);
-            let magnitude = 100;
-            while (magnitude < max) {
-                for (let mult of [1, 2, 5]) {
-                    const point = mult * magnitude;
-                    if (point >= min && point <= max) snapPoints.push(point);
-                }
-                magnitude *= 10;
-            }
-            snapPoints.push(max);
-        }
+    // Gentle magnet: 20% of the local gap, never below one native step and
+    // never more than 1% of the track. This keeps coarse detents (L) from
+    // swallowing half the scale and fine ones (fl/fi) from feeling sticky.
+    const threshold = Math.min(
+        Math.max(Number.isFinite(localGap) ? localGap * 0.2 : 0, step),
+        range * 0.01
+    );
 
-        snapPoints = [...new Set(snapPoints)].filter(v => v >= min && v <= max).sort((a, b) => a - b);
-
-        let nearest = value;
-        let minDistance = Math.abs(value - snapPoints[0]);
-
-        for (const point of snapPoints) {
-            const distance = Math.abs(value - point);
-            if (distance < minDistance) {
-                minDistance = distance;
-                nearest = point;
-            }
-        }
-
-        const snapThreshold = (paramId === 'fl' || paramId === 'fi') ? Math.max(nearest * 0.15, 0.003) : range * 0.05;
-        if (minDistance < snapThreshold) {
-            return roundToDecimals(nearest, decimals);
-        }
+    if (threshold > 0 && minDistance <= threshold) {
+        return roundToDecimals(nearest, getDecimalPlaces(paramId));
     }
 
     return value;
 }
 
-export { getDecimalPlaces, roundToDecimals, linearToLog, logToLinear, snapToDetent };
+export { getDecimalPlaces, roundToDecimals, linearToLog, logToLinear, snapToDetent, updateSliderFill, formatParamValue };

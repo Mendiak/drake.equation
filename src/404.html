@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page not found | Drake Equation Calculator</title>
+    <meta name="description" content="This page does not exist. Open the Drake Equation calculator to estimate how many communicative civilizations could exist in the Milky Way.">
+    <meta name="robots" content="noindex, follow">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style"
+        href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="/drake.equation/css/index.css">
+    <link rel="icon" type="image/svg+xml" href="/drake.equation/assets/images/favicon.svg">
+    <link rel="icon" type="image/png" sizes="64x64" href="/drake.equation/assets/images/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/drake.equation/assets/images/apple-touch-icon.png">
+</head>
+
+<body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div class="container">
+        <main id="main-content" class="not-found-page">
+            <p class="content-eyebrow">Error 404</p>
+            <h1>This page has drifted out of orbit</h1>
+            <p class="content-lead">The page you were looking for does not exist. It may have been moved, or the link
+                that brought you here may be out of date.</p>
+
+            <div class="not-found-actions">
+                <a href="/drake.equation/">Open the Drake Equation calculator</a>
+                <a href="/drake.equation/es/">Calculadora en español</a>
+            </div>
+
+            <p>Popular guides:</p>
+            <ul class="not-found-links">
+                <li><a href="/drake.equation/what-is-the-drake-equation/">What is the Drake Equation?</a></li>
+                <li><a href="/drake.equation/fermi-paradox/">The Fermi Paradox</a></li>
+                <li><a href="/drake.equation/habitable-zone/">The Habitable Zone</a></li>
+                <li><a href="/drake.equation/seti-technosignatures/">SETI &amp; Technosignatures</a></li>
+            </ul>
+        </main>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; <span id="current-year"></span> <a href="https://mendiak.github.io/portfolio/" target="_blank"
+                    rel="noopener noreferrer">Mikel Aramendia</a> | <a href="https://github.com/Mendiak/drake.equation"
+                    target="_blank" rel="noopener noreferrer">Source Code</a></p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        document.querySelectorAll('a[target="_blank"]').forEach(function (link) {
+            var hint = document.createElement('span');
+            hint.className = 'sr-only';
+            hint.textContent = ' (opens in a new tab)';
+            link.appendChild(hint);
+        });
+    </script>
+</body>
+
+</html>

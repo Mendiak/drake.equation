@@ -18,11 +18,11 @@ const SITE = 'https://mendiak.github.io/drake.equation';
 const es = translations.es;
 
 const HEAD_ES = {
-    title: 'Calculadora de la Ecuación de Drake | Estima civilizaciones extraterrestres',
-    description: 'Calculadora interactiva de la Ecuación de Drake para estimar el número de civilizaciones avanzadas en la Vía Láctea. Explora los parámetros, el análisis de sensibilidad y la simulación 3D de la galaxia.',
-    ogTitle: 'Calculadora de la Ecuación de Drake | Estima civilizaciones extraterrestres',
-    ogDescription: 'Herramienta interactiva para explorar la Ecuación de Drake y estimar las civilizaciones comunicativas de la Vía Láctea, con simulación 3D y análisis de sensibilidad.',
-    twitterDescription: 'Herramienta interactiva para explorar la Ecuación de Drake y estimar las civilizaciones comunicativas de la Vía Láctea. Incluye simulación 3D.',
+    title: 'Calculadora de la Ecuación de Drake | Civilizaciones',
+    description: 'Calculadora interactiva de la Ecuación de Drake: estima cuántas civilizaciones avanzadas podrían existir en la Vía Láctea y ajusta los siete factores.',
+    ogTitle: 'Calculadora de la Ecuación de Drake | Civilizaciones',
+    ogDescription: 'Explora la Ecuación de Drake con calculadora en vivo, gráficos de sensibilidad, simulación 3D de la Vía Láctea y datos reales de exoplanetas.',
+    twitterDescription: 'Explora la Ecuación de Drake con calculadora en vivo, gráficos de sensibilidad y simulación 3D de la Vía Láctea.',
     imageAlt: 'Calculadora de la Ecuación de Drake con una simulación 3D de la Vía Láctea y gráficos de sensibilidad'
 };
 
@@ -30,87 +30,141 @@ const JSON_LD_ES = `    <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Calculadora de la Ecuación de Drake",
-        "alternateName": "Drake Equation Calculator",
-        "url": "${SITE}/es/",
-        "description": "Calculadora interactiva de la Ecuación de Drake para estimar el número de civilizaciones avanzadas en la Vía Láctea.",
-        "applicationCategory": "EducationalApplication",
-        "operatingSystem": "Web Browser",
-        "browserRequirements": "Requiere JavaScript",
-        "inLanguage": "es",
-        "isAccessibleForFree": true,
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        },
-        "author": {
-            "@type": "Person",
-            "name": "Mendiak",
-            "url": "https://github.com/mendiak"
-        },
-        "keywords": "Ecuación de Drake, SETI, astrobiología, civilizaciones extraterrestres, exoplanetas, paradoja de Fermi",
-        "educationalAlignment": {
-            "@type": "EducationalAlignment",
-            "alignmentType": "educationalSubject",
-            "targetName": "Astronomía"
-        }
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "inLanguage": "es",
-        "mainEntity": [
+        "@graph": [
             {
-                "@type": "Question",
-                "name": "¿Qué es la Ecuación de Drake?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "La Ecuación de Drake (N = R* × fp × ne × fl × fi × fc × L) es un marco probabilístico formulado por el Dr. Frank Drake en 1961 para estimar el número de civilizaciones extraterrestres activas y comunicativas en la galaxia de la Vía Láctea."
+                "@type": "WebApplication",
+                "@id": "${SITE}/es/#app",
+                "name": "Calculadora de la Ecuación de Drake",
+                "alternateName": "Drake Equation Calculator",
+                "url": "${SITE}/es/",
+                "description": "Calculadora interactiva de la Ecuación de Drake para estimar el número de civilizaciones avanzadas en la Vía Láctea.",
+                "applicationCategory": "EducationalApplication",
+                "operatingSystem": "Web Browser",
+                "browserRequirements": "Requiere JavaScript",
+                "inLanguage": "es",
+                "isAccessibleForFree": true,
+                "dateModified": "2026-10-24",
+                "featureList": [
+                    "Cálculo en tiempo real de la Ecuación de Drake",
+                    "Gráfico de análisis de sensibilidad",
+                    "Embudo del filtro cósmico",
+                    "Simulación 3D de la Vía Láctea",
+                    "Datos de exoplanetas de la NASA"
+                ],
+                "screenshot": {
+                    "@type": "ImageObject",
+                    "url": "${SITE}/assets/images/og_image.png",
+                    "width": 1200,
+                    "height": 630
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                },
+                "author": {
+                    "@type": "Person",
+                    "name": "Mikel Aramendia",
+                    "url": "https://mendiak.github.io/portfolio/",
+                    "sameAs": [
+                        "https://github.com/Mendiak"
+                    ]
+                },
+                "publisher": {
+                    "@id": "${SITE}/#organization"
+                },
+                "isPartOf": {
+                    "@id": "${SITE}/#website"
+                },
+                "keywords": "Ecuación de Drake, SETI, astrobiología, civilizaciones extraterrestres, exoplanetas, paradoja de Fermi",
+                "educationalAlignment": {
+                    "@type": "EducationalAlignment",
+                    "alignmentType": "educationalSubject",
+                    "targetName": "Astronomía"
                 }
             },
             {
-                "@type": "Question",
-                "name": "¿Qué es la Paradoja de Fermi?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "La Paradoja de Fermi pregunta: si la Ecuación de Drake sugiere que deberían existir muchas civilizaciones, ¿por qué no hemos encontrado evidencia de ellas? Las posibles respuestas incluyen el Gran Filtro, civilizaciones de corta duración o distancias vastas que impiden el contacto."
+                "@type": "Organization",
+                "@id": "${SITE}/#organization",
+                "name": "Drake Equation Calculator",
+                "url": "${SITE}/",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "${SITE}/assets/images/apple-touch-icon.png",
+                    "width": 180,
+                    "height": 180
+                },
+                "sameAs": [
+                    "https://github.com/Mendiak"
+                ]
+            },
+            {
+                "@type": "WebSite",
+                "@id": "${SITE}/#website",
+                "url": "${SITE}/",
+                "name": "Drake Equation Calculator",
+                "inLanguage": [
+                    "en",
+                    "es"
+                ],
+                "publisher": {
+                    "@id": "${SITE}/#organization"
                 }
             },
             {
-                "@type": "Question",
-                "name": "¿Qué es la Zona Habitable en la Ecuación de Drake?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "La Zona Habitable (o Zona Ricitos de Oro) es la región alrededor de una estrella donde las condiciones podrían ser adecuadas para la existencia de agua líquida. Se relaciona con el parámetro ne: el número de planetas similares a la Tierra por sistema que podrían albergar vida."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "¿Qué son las tecnofirmas y SETI?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Las tecnofirmas son señales de tecnología avanzada que podrían detectarse de forma remota, como señales de radio o megaestructuras. SETI (Búsqueda de Inteligencia Extraterrestre) utiliza radiotelescopios y otros métodos para buscar estas señales, relacionándose con el parámetro fc: la fracción de civilizaciones que desarrollan tecnología detectable."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "¿Qué es el Gran Filtro?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "El Gran Filtro es un desafío hipotético que impide que la vida alcance una etapa avanzada y capaz de viajar al espacio. Si N es bajo, el filtro probablemente quedó atrás (la vida es rara). Si N es alto pero no vemos evidencia, el filtro puede estar adelante (las civilizaciones tienden a autodestruirse)."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "¿Cuántas estrellas hay en la Vía Láctea?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "La Vía Láctea contiene aproximadamente entre 200 mil y 400 mil millones de estrellas. La Ecuación de Drake ayuda a estimar cuántas de esas estrellas podrían albergar civilizaciones inteligentes y comunicativas."
-                }
+                "@type": "FAQPage",
+                "@id": "${SITE}/es/#faq",
+                "inLanguage": "es",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "¿Cómo funciona esta calculadora de la Ecuación de Drake?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Multiplica los siete factores de la ecuación —R*, fp, ne, fl, fi, fc y L— y muestra N, el número de civilizaciones que podrían estar comunicándose en la Vía Láctea ahora mismo. Cada control actualiza el resultado al instante."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "¿Por qué el resultado puede cambiar en órdenes de magnitud?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Varios términos son desconocidos por factores de diez o más. Multiplicar números inciertos acumula la incertidumbre en lugar de promediarla, así que pequeños cambios en fl, fi o L pueden llevar N de menos de uno a millones."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "¿Qué significan los presets?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Los presets son conjuntos completos de supuestos: Científico optimista, Sagan, los valores originales de Drake de 1961, Consenso moderno, Tierra rara y Científico pesimista. Son puntos de partida para comparar, no mediciones."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "¿Un N alto demuestra que existen extraterrestres?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "No. N es una estimación construida a partir de supuestos, no una observación. Un N alto hace más desconcertante el silencio del cielo —la paradoja de Fermi—, pero no demuestra que haya alguien ahí fuera."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "¿Por qué la galaxia 3D muestra más estrellas que N?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "La simulación colorea cada estrella según hasta dónde avanza por los filtros de Drake, incluidas estrellas que podrían albergar vida pero ninguna civilización detectable hoy. N cuenta solo civilizaciones activas ahora, por eso puede ser mucho menor, o cero."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "¿Qué cuenta como planeta habitable?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "ne es el número medio de planetas por sistema que podrían albergar vida. Estar en la zona habitable permite el agua líquida, pero no es suficiente por sí solo: la atmósfera, el campo magnético y la geología también importan."
+                        }
+                    }
+                ]
             }
         ]
     }
@@ -119,36 +173,45 @@ const JSON_LD_ES = `    <!-- Schema.org JSON-LD -->
 
 const HEAD_REPLACEMENTS = [
     ['<html lang="en">', '<html lang="es">'],
-    ['<title>Drake Equation Calculator | Estimate Extraterrestrial Civilizations</title>', `<title>${HEAD_ES.title}</title>`],
-    ['<meta name="description" content="Interactive Drake Equation calculator to estimate the number of advanced civilizations in the Milky Way. Explore parameters, sensitivity analysis, and 3D galaxy simulation.">', `<meta name="description" content="${HEAD_ES.description}">`],
     [`<link rel="canonical" href="${SITE}/">`, `<link rel="canonical" href="${SITE}/es/">`],
-    [`<meta property="og:url" content="${SITE}/">`, `<meta property="og:url" content="${SITE}/es/">`],
-    [`<meta property="og:title" content="Drake Equation Calculator | Estimate Extraterrestrial Civilizations">`, `<meta property="og:title" content="${HEAD_ES.ogTitle}">`],
-    ['<meta property="og:description" content="Interactive tool to explore the Drake Equation and estimate communicative civilizations in the Milky Way. Features 3D galaxy simulation and sensitivity analysis.">', `<meta property="og:description" content="${HEAD_ES.ogDescription}">`],
-    ['<meta property="og:image:alt" content="Drake Equation calculator with a 3D Milky Way simulation and sensitivity charts">', `<meta property="og:image:alt" content="${HEAD_ES.imageAlt}">`],
     ['<meta property="og:locale" content="en_US">', '<meta property="og:locale" content="es_ES">'],
     ['<meta property="og:locale:alternate" content="es_ES">', '<meta property="og:locale:alternate" content="en_US">'],
-    [`<meta name="twitter:url" content="${SITE}/">`, `<meta name="twitter:url" content="${SITE}/es/">`],
-    [`<meta name="twitter:title" content="Drake Equation Calculator | Estimate Extraterrestrial Civilizations">`, `<meta name="twitter:title" content="${HEAD_ES.ogTitle}">`],
-    ['<meta name="twitter:description" content="Interactive tool to explore the Drake Equation and estimate communicative civilizations in the Milky Way. Features 3D galaxy simulation.">', `<meta name="twitter:description" content="${HEAD_ES.twitterDescription}">`],
-    ['<meta name="twitter:image:alt" content="Drake Equation calculator with a 3D Milky Way simulation and sensitivity charts">', `<meta name="twitter:image:alt" content="${HEAD_ES.imageAlt}">`],
     // Spanish page: force the UI language regardless of previous visits.
     ['    <link rel="stylesheet" href="./css/index.css">', '    <script>window.__DRAKE_LANG__ = "es";</script>\n    <link rel="stylesheet" href="../css/index.css">'],
+    ['href="./assets/images/favicon.svg"', 'href="../assets/images/favicon.svg"'],
     ['href="./assets/images/favicon.png"', 'href="../assets/images/favicon.png"'],
+    ['href="./assets/images/apple-touch-icon.png"', 'href="../assets/images/apple-touch-icon.png"'],
     ['<script type="module" src="js/app.js"></script>', '<script type="module" src="../js/app.js"></script>'],
-    // Guide cards point at the Spanish articles.
+    // Guide cards and FAQ links point at the Spanish articles.
     ['href="./what-is-the-drake-equation/"', 'href="./que-es-la-ecuacion-de-drake/"'],
     ['href="./fermi-paradox/"', 'href="./paradoja-de-fermi/"'],
     ['href="./habitable-zone/"', 'href="./zona-habitable/"'],
     ['href="./seti-technosignatures/"', 'href="./seti-y-tecnofirmas/"'],
+    ['href="./methodology/"', 'href="./metodologia/"'],
     // Language switcher links point to the sibling page.
-    ['<a class="lang-btn active" data-lang="en" hreflang="en" lang="en" aria-current="true" href="./">EN</a>', '<a class="lang-btn" data-lang="en" hreflang="en" lang="en" href="../">EN</a>'],
+    ['<a class="lang-btn active" data-lang="en" hreflang="en" lang="en" aria-current="page" href="./">EN</a>', '<a class="lang-btn" data-lang="en" hreflang="en" lang="en" href="../">EN</a>'],
     ['<a class="lang-btn" data-lang="es" hreflang="es" lang="es" href="./es/">ES</a>', '<a class="lang-btn active" data-lang="es" hreflang="es" lang="es" aria-current="page" href="./">ES</a>']
 ];
 
+// The English copy in these tags can change at any time, so match the tags by
+// attribute instead of by their exact wording.
+const HEAD_META_REPLACEMENTS = [
+    [/<title>[\s\S]*?<\/title>/, `<title>${HEAD_ES.title}</title>`],
+    [/<meta name="description" content="[^"]*">/, `<meta name="description" content="${HEAD_ES.description}">`],
+    [/<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${SITE}/es/">`],
+    [/<meta property="og:title" content="[^"]*">/, `<meta property="og:title" content="${HEAD_ES.ogTitle}">`],
+    [/<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${HEAD_ES.ogDescription}">`],
+    [/<meta property="og:image:alt" content="[^"]*">/, `<meta property="og:image:alt" content="${HEAD_ES.imageAlt}">`],
+    [/<meta name="twitter:url" content="[^"]*">/, `<meta name="twitter:url" content="${SITE}/es/">`],
+    [/<meta name="twitter:title" content="[^"]*">/, `<meta name="twitter:title" content="${HEAD_ES.ogTitle}">`],
+    [/<meta name="twitter:description" content="[^"]*">/, `<meta name="twitter:description" content="${HEAD_ES.twitterDescription}">`],
+    [/<meta name="twitter:image:alt" content="[^"]*">/, `<meta name="twitter:image:alt" content="${HEAD_ES.imageAlt}">`]
+];
+
 function replaceOrThrow(html, from, to, label) {
-    if (!html.includes(from)) throw new Error(`Missing fragment while building es/: ${label}`);
-    return html.split(from).join(to);
+    const found = typeof from === 'string' ? html.includes(from) : from.test(html);
+    if (!found) throw new Error(`Missing fragment while building es/: ${label}`);
+    return typeof from === 'string' ? html.split(from).join(to) : html.replace(from, to);
 }
 
 function resolveKey(dict, key) {
@@ -238,6 +301,10 @@ let html = await readFile(path.join(root, 'src', 'index.html'), 'utf8');
 
 for (const [from, to] of HEAD_REPLACEMENTS) {
     html = replaceOrThrow(html, from, to, from.slice(0, 60));
+}
+
+for (const [pattern, to] of HEAD_META_REPLACEMENTS) {
+    html = replaceOrThrow(html, pattern, to, pattern.source);
 }
 
 // Swap the whole structured-data block for the Spanish version

@@ -1,23 +1,63 @@
 import * as THREE from 'three';
 import { defaultValues } from '../../core/config.js';
 import {
-    QUALITY_SETTINGS, GALAXY_PARAMS, COLORS,
+    QUALITY_SETTINGS, GALAXY_PARAMS, COLORS, DEFAULT_VIEW,
     galaxyScene, galaxyCamera, galaxyRenderer, starSystem,
-    setStarSystem, setGalaxyScene, setGalaxyCamera, setGalaxyRenderer
+    currentView, renderScale,
+    setStarSystem
 } from './state.js';
 
-let _cachedQuality = null;
+const TWO_PI = Math.PI * 2;
+
+let _starSprite = null;
+let _glowSprite = null;
+
+/**
+ * Picks a quality tier from the actual GPU when the browser exposes it.
+ * deviceMemory only exists in Chromium, so it is used as a fallback signal.
+ */
+function detectGpuTier() {
+    try {
+        const canvas = document.createElement('canvas');
+        const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+        if (!gl) return null;
+
+        const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+        const rendererName = debugInfo ? String(gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)) : '';
+        const loseContext = gl.getExtension('WEBGL_lose_context');
+        if (loseContext) loseContext.loseContext();
+
+        const name = rendererName.toLowerCase();
+        if (!name) return null;
+
+        if (/swiftshader|software|llvmpipe|basic render/.test(name)) return 'low';
+        if (/intel|uhd graphics|hd graphics|mali|adreno|powervr|videocore/.test(name)) {
+            return /iris|arc/.test(name) ? 'medium' : 'low';
+        }
+        if (/geforce|nvidia|radeon rx|radeon pro|apple m/.test(name)) return 'high';
+        return null;
+    } catch {
+        return null;
+    }
+}
 
 function detectPerformanceTier() {
-    const hasHighEndDevice = navigator.deviceMemory && navigator.deviceMemory >= 8;
-    const hasManyCores = navigator.hardwareConcurrency && navigator.hardwareConcurrency >= 8;
-    if (hasHighEndDevice && hasManyCores) return 'high';
-    if (navigator.deviceMemory && navigator.deviceMemory <= 4) return 'low';
+    const gpuTier = detectGpuTier();
+    if (gpuTier) return gpuTier;
+
+    const memory = navigator.deviceMemory;
+    const cores = navigator.hardwareConcurrency || 4;
+    const coarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+
+    if (coarsePointer) return 'low';
+    if ((typeof memory === 'number' && memory <= 4) || cores <= 2) return 'low';
+    if (typeof memory === 'number' && memory >= 8 && cores >= 8) return 'high';
     return 'medium';
 }
 
 const CURRENT_QUALITY = QUALITY_SETTINGS[detectPerformanceTier()];
 export const STAR_COUNT = CURRENT_QUALITY.starCount;
+export const QUALITY = CURRENT_QUALITY;
 
 export function updateSliderBackground(input, min, max) {
     const value = parseFloat(input.value);
@@ -25,14 +65,16 @@ export function updateSliderBackground(input, min, max) {
     input.style.setProperty('--slider-fill', `${percentage}%`);
 }
 
-export function initGalaxySliders() {
+/** Bell-shaped random value with standard deviation 1. */
+function gaussian() {
+    return (Math.random() + Math.random() + Math.random() - 1.5) * 2;
 }
 
 export function generateGlobularClusterPosition() {
-    const distance = 20 + Math.random() * 50;
-    const theta = Math.random() * Math.PI * 2;
+    const distance = 40 + Math.random() * 70;
+    const theta = Math.random() * TWO_PI;
     const phi = Math.acos(2 * Math.random() - 1);
-    const verticalFactor = 0.4;
+    const verticalFactor = 0.7;
     return {
         x: distance * Math.sin(phi) * Math.cos(theta),
         y: distance * Math.cos(phi) * verticalFactor,
@@ -42,41 +84,299 @@ export function generateGlobularClusterPosition() {
 
 export function generateOpenClusterPosition() {
     const armIndex = Math.floor(Math.random() * GALAXY_PARAMS.spiralArms);
-    const baseAngle = (armIndex / GALAXY_PARAMS.spiralArms) * Math.PI * 2;
+    const baseAngle = (armIndex / GALAXY_PARAMS.spiralArms) * TWO_PI;
     const radius = 35 + Math.random() * (GALAXY_PARAMS.diskRadius - 45);
     const spiralAngle = baseAngle + Math.log(radius + 1) * GALAXY_PARAMS.armTightness * GALAXY_PARAMS.armCurvature;
-    const armOffset = (Math.random() - 0.5) * 6;
-    const angleOffset = (Math.random() - 0.5) * 0.15;
+    const armOffset = gaussian() * 3;
+    const angleOffset = gaussian() * 0.02;
     const effectiveRadius = radius + armOffset;
     const finalAngle = spiralAngle + angleOffset;
     return {
         x: Math.cos(finalAngle) * effectiveRadius,
-        y: (Math.random() - 0.5) * 4,
+        y: gaussian() * 1.5,
         z: Math.sin(finalAngle) * effectiveRadius
     };
 }
 
+/**
+ * Builds a cluster as flat arrays so every cluster can be merged into the
+ * single star buffer (one draw call for the whole galaxy).
+ */
 export function generateClusterStars(centerX, centerY, centerZ, starCount, clusterType) {
-    const positions = [];
-    const colors = [];
-    const sizes = [];
-    const fpThreshold = starCount * defaultValues.fp;
-    const neThreshold = fpThreshold * (defaultValues.ne / 10);
-    const flThreshold = neThreshold * defaultValues.fl;
-    const fiThreshold = flThreshold * defaultValues.fi;
-    const fcThreshold = fiThreshold * defaultValues.fc;
+    const positions = new Float32Array(starCount * 3);
+    const sizes = new Float32Array(starCount);
+    const phases = new Float32Array(starCount);
+
+    const isGlobular = clusterType === 'globular';
+    const scaleRadius = isGlobular ? 5.5 : 3.2;
+    const maxRadius = isGlobular ? 14 : 8;
+    const flatten = isGlobular ? 1 : 0.45;
 
     for (let i = 0; i < starCount; i++) {
         const u = Math.random();
-        const rScale = clusterType === 'globular' ? 8 : 5;
-        const r = rScale * Math.pow(u, 1 / 3) / Math.pow(1 - u, 1 / 3);
-        const clampedR = Math.min(r, clusterType === 'globular' ? 20 : 12);
-        const theta = Math.random() * Math.PI * 2;
-        const phi = Math.acos(2 * Math.random() - 1);
-        const x = centerX + clampedR * Math.sin(phi) * Math.cos(theta);
-        const y = centerY + clampedR * Math.cos(phi);
-        const z = centerZ + clampedR * Math.sin(phi) * Math.sin(theta);
-        positions.push(x, y, z);
+        const r = Math.min(maxRadius, scaleRadius * Math.sqrt(u / (1 - u + 1e-4)));
+        const theta = Math.random() * TWO_PI;
+        const cosPhi = 2 * Math.random() - 1;
+        const sinPhi = Math.sqrt(1 - cosPhi * cosPhi);
+
+        positions[i * 3] = centerX + r * sinPhi * Math.cos(theta);
+        positions[i * 3 + 1] = centerY + r * cosPhi * flatten;
+        positions[i * 3 + 2] = centerZ + r * sinPhi * Math.sin(theta);
+        sizes[i] = 0.45 + Math.random() * 1.1;
+        phases[i] = Math.random();
+    }
+
+    return { positions, sizes, phases };
+}
+
+export function generateSpiralGalaxyPosition() {
+    if (Math.random() < GALAXY_PARAMS.bulgeFraction) {
+        const radius = GALAXY_PARAMS.coreRadius * Math.pow(Math.random(), 1.4);
+        const theta = Math.random() * TWO_PI;
+        return {
+            x: Math.cos(theta) * radius,
+            y: gaussian() * GALAXY_PARAMS.coreThickness * 0.14,
+            z: Math.sin(theta) * radius
+        };
+    }
+
+    const radiusNorm = GALAXY_PARAMS.diskInner +
+        (1 - GALAXY_PARAMS.diskInner) * Math.pow(Math.random(), 1.55);
+    const radius = radiusNorm * GALAXY_PARAMS.diskRadius;
+
+    const armIndex = Math.floor(Math.random() * GALAXY_PARAMS.spiralArms);
+    const baseAngle = (armIndex / GALAXY_PARAMS.spiralArms) * TWO_PI;
+    const spiralAngle = baseAngle +
+        Math.log(radius + 1) * GALAXY_PARAMS.armTightness * GALAXY_PARAMS.armCurvature;
+
+    const inArm = Math.random() > GALAXY_PARAMS.interArmFraction;
+    const armWidth = GALAXY_PARAMS.armSpread * (0.3 + 0.7 * radiusNorm);
+    const armOffset = gaussian() * armWidth * (inArm ? 1 : 1.8);
+
+    const waviness = 0.06 * Math.sin(radius * 0.045 + armIndex * 0.7) +
+        0.03 * Math.cos(radius * 0.08 - armIndex * 0.4);
+    const angularScatter = gaussian() * 0.03 * (0.4 + radiusNorm);
+
+    const effectiveRadius = Math.max(1.5, radius + armOffset);
+    const finalAngle = (inArm ? spiralAngle : Math.random() * TWO_PI) + waviness + angularScatter;
+
+    const thickness = GALAXY_PARAMS.diskThickness * (0.5 + 0.5 * (1 - radiusNorm));
+
+    return {
+        x: Math.cos(finalAngle) * effectiveRadius,
+        y: gaussian() * thickness * 0.5,
+        z: Math.sin(finalAngle) * effectiveRadius
+    };
+}
+
+function createStarTexture() {
+    const size = 64;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    const half = size / 2;
+    const gradient = ctx.createRadialGradient(half, half, 0, half, half, half);
+    gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+    gradient.addColorStop(0.25, 'rgba(255, 255, 255, 0.85)');
+    gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.28)');
+    gradient.addColorStop(0.75, 'rgba(255, 255, 255, 0.06)');
+    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, size, size);
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.needsUpdate = true;
+    return texture;
+}
+
+function createGlowTexture() {
+    const size = 128;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    const half = size / 2;
+    const gradient = ctx.createRadialGradient(half, half, 0, half, half, half);
+    gradient.addColorStop(0, 'rgba(255, 255, 255, 0.9)');
+    gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.55)');
+    gradient.addColorStop(0.45, 'rgba(255, 255, 255, 0.22)');
+    gradient.addColorStop(0.75, 'rgba(255, 255, 255, 0.05)');
+    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, size, size);
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.needsUpdate = true;
+    return texture;
+}
+
+export function getStarSprite() {
+    if (!_starSprite) _starSprite = createStarTexture();
+    return _starSprite;
+}
+
+export function getGlowSprite() {
+    if (!_glowSprite) _glowSprite = createGlowTexture();
+    return _glowSprite;
+}
+
+function createStarMaterial(sprite) {
+    return new THREE.ShaderMaterial({
+        uniforms: {
+            uTexture: { value: sprite },
+            uTime: { value: 0 },
+            uSizeScale: { value: DEFAULT_VIEW.starSize },
+            uViewportHeight: { value: 900 },
+            uBlink: { value: 1 },
+            uOpacity: { value: 0.9 }
+        },
+        vertexShader: `
+            uniform float uTime;
+            uniform float uSizeScale;
+            uniform float uViewportHeight;
+            uniform float uBlink;
+
+            attribute vec3 aColor;
+            attribute float aSize;
+            attribute float aPhase;
+            attribute float aTech;
+
+            varying vec3 vColor;
+            varying float vTech;
+
+            void main() {
+                vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                gl_Position = projectionMatrix * mvPosition;
+
+                float twinkle = 0.9 + 0.1 * sin(uTime * 1.9 + aPhase * 6.2831853);
+                float blink = mix(1.0, uBlink, aTech);
+                float pointSize = aSize * uSizeScale * mix(1.0, 2.0, aTech);
+
+                gl_PointSize = clamp(
+                    pointSize * uViewportHeight * 0.5 / max(-mvPosition.z, 1.0),
+                    1.0,
+                    32.0
+                );
+
+                vColor = aColor * twinkle * blink;
+                vTech = aTech;
+            }
+        `,
+        fragmentShader: `
+            uniform sampler2D uTexture;
+            uniform float uOpacity;
+
+            varying vec3 vColor;
+            varying float vTech;
+
+            void main() {
+                vec4 sprite = texture2D(uTexture, gl_PointCoord);
+                if (sprite.a < 0.02) discard;
+
+                vec3 color = vColor * mix(1.0, 1.35, vTech);
+                gl_FragColor = vec4(color, sprite.a * uOpacity);
+
+                #include <colorspace_fragment>
+            }
+        `,
+        transparent: true,
+        depthWrite: false,
+        depthTest: true,
+        blending: THREE.AdditiveBlending
+    });
+}
+
+function createCoreGlow() {
+    if (!galaxyScene) return;
+    const glowSprite = getGlowSprite();
+
+    const halo = new THREE.Sprite(new THREE.SpriteMaterial({
+        map: glowSprite,
+        color: 0xffdcae,
+        transparent: true,
+        opacity: 0.42,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        depthTest: false
+    }));
+    halo.scale.set(150, 150, 1);
+    halo.renderOrder = -1;
+    galaxyScene.add(halo);
+
+    const nucleus = new THREE.Sprite(new THREE.SpriteMaterial({
+        map: glowSprite,
+        color: 0xfff3e0,
+        transparent: true,
+        opacity: 0.6,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        depthTest: false
+    }));
+    nucleus.scale.set(38, 38, 1);
+    nucleus.renderOrder = -1;
+    galaxyScene.add(nucleus);
+}
+
+function buildClusterBuffers() {
+    const positions = [];
+    const sizes = [];
+    const phases = [];
+
+    const globularCount = CURRENT_QUALITY.globularClusters;
+    for (let i = 0; i < globularCount; i++) {
+        const center = generateGlobularClusterPosition();
+        const count = Math.floor(
+            GALAXY_PARAMS.clusterStarsMin +
+            Math.random() * (GALAXY_PARAMS.clusterStarsMax - GALAXY_PARAMS.clusterStarsMin)
+        );
+        const cluster = generateClusterStars(center.x, center.y, center.z, count, 'globular');
+        positions.push(...cluster.positions);
+        sizes.push(...cluster.sizes);
+        phases.push(...cluster.phases);
+    }
+
+    const openCount = CURRENT_QUALITY.openClusters;
+    for (let i = 0; i < openCount; i++) {
+        const center = generateOpenClusterPosition();
+        const count = Math.floor(
+            GALAXY_PARAMS.clusterStarsMin * 0.4 +
+            Math.random() * (GALAXY_PARAMS.clusterStarsMax * 0.6 - GALAXY_PARAMS.clusterStarsMin * 0.4)
+        );
+        const cluster = generateClusterStars(center.x, center.y, center.z, count, 'open');
+        positions.push(...cluster.positions);
+        sizes.push(...cluster.sizes);
+        phases.push(...cluster.phases);
+    }
+
+    return {
+        positions: new Float32Array(positions),
+        sizes: new Float32Array(sizes),
+        phases: new Float32Array(phases)
+    };
+}
+
+function buildStarGeometry() {
+    const clusters = buildClusterBuffers();
+    const clusterCount = clusters.sizes.length;
+    const total = STAR_COUNT + clusterCount;
+
+    const positions = new Float32Array(total * 3);
+    const colors = new Float32Array(total * 3);
+    const sizes = new Float32Array(total);
+    const phases = new Float32Array(total);
+    const tech = new Float32Array(total);
+
+    const fpThreshold = total * Math.min(1, defaultValues.fp);
+    const neThreshold = Math.min(fpThreshold, total * defaultValues.fp * defaultValues.ne);
+    const flThreshold = neThreshold * Math.min(1, defaultValues.fl);
+    const fiThreshold = flThreshold * Math.min(1, defaultValues.fi);
+    const fcThreshold = fiThreshold * Math.min(1, defaultValues.fc);
+
+    for (let i = 0; i < STAR_COUNT; i++) {
+        const star = generateSpiralGalaxyPosition();
+        const i3 = i * 3;
+        positions[i3] = star.x;
+        positions[i3 + 1] = star.y;
+        positions[i3 + 2] = star.z;
 
         let colorHex;
         if (i < fcThreshold) colorHex = COLORS.tech;
@@ -87,278 +387,129 @@ export function generateClusterStars(centerX, centerY, centerZ, starCount, clust
         else colorHex = COLORS.total;
 
         const color = new THREE.Color(colorHex);
-        colors.push(color.r, color.g, color.b);
-        sizes.push(0.8 + Math.random() * 1.8);
-    }
-    return { positions, colors, sizes };
-}
+        colors[i3] = color.r;
+        colors[i3 + 1] = color.g;
+        colors[i3 + 2] = color.b;
 
-function getStellarPopulationColor(population) {
-    const color = new THREE.Color();
-    switch (population) {
-        case 'core':
-            color.setHSL(0.1 + Math.random() * 0.05, 0.6, 0.7 + Math.random() * 0.2);
-            break;
-        case 'bar':
-            color.setHSL(0.12 + Math.random() * 0.08, 0.4, 0.75 + Math.random() * 0.15);
-            break;
-        case 'thickDisk':
-            color.setHSL(0.13 + Math.random() * 0.07, 0.5, 0.7 + Math.random() * 0.15);
-            break;
-        case 'spiralArm':
-            color.setHSL(0.55 + Math.random() * 0.15, 0.7, 0.8 + Math.random() * 0.2);
-            break;
-        default:
-            color.setHSL(0.1 + Math.random() * 0.15, 0.3, 0.75 + Math.random() * 0.2);
-    }
-    return color;
-}
-
-export function generateSpiralGalaxyPosition() {
-    const armIndex = Math.floor(Math.random() * GALAXY_PARAMS.spiralArms);
-    const baseAngle = (armIndex / GALAXY_PARAMS.spiralArms) * Math.PI * 2;
-    const radiusRandom = Math.random();
-    let radiusNorm;
-    const distributionType = Math.random();
-
-    if (distributionType < 0.50) radiusNorm = Math.pow(radiusRandom, 0.55);
-    else if (distributionType < 0.75) radiusNorm = Math.pow(radiusRandom, 0.7) * 0.5;
-    else if (distributionType < 0.90) radiusNorm = Math.pow(radiusRandom, 0.5) * 0.7 + 0.1;
-    else radiusNorm = Math.pow(radiusRandom, 0.4) * 0.6 + 0.35;
-
-    const radius = radiusNorm * GALAXY_PARAMS.diskRadius;
-    const spiralAngle = baseAngle + Math.log(radius + 1) * GALAXY_PARAMS.armTightness * GALAXY_PARAMS.armCurvature;
-
-    const armWidthVariation = 1 +
-        0.2 * Math.sin(armIndex * 2.1 + radius * 0.05) +
-        0.15 * Math.cos(armIndex * 1.7 + radius * 0.08) +
-        0.12 * Math.sin(radius * 0.12 - armIndex);
-
-    const outerFlare = 1 + (radius / GALAXY_PARAMS.diskRadius) * 0.4;
-    const armOffset = (Math.random() - 0.5) * GALAXY_PARAMS.armSpread * Math.sqrt(radius) * outerFlare * armWidthVariation;
-    const thicknessProfile = Math.exp(-radius / (GALAXY_PARAMS.diskRadius * 0.4));
-    const thickness = GALAXY_PARAMS.thickDisk * thicknessProfile + GALAXY_PARAMS.diskThickness * (1 - thicknessProfile);
-
-    const centerScatter = Math.max(0, 8 - radius * 0.5);
-    const baseScatter = 3 + centerScatter + (radius / GALAXY_PARAMS.diskRadius) * 4;
-    const scatterVariation = 1 +
-        0.3 * Math.sin(radius * 0.08 + armIndex * 1.5) +
-        0.2 * Math.cos(radius * 0.15 - armIndex * 0.8);
-    const scatter = (Math.random() - 0.5) * baseScatter * scatterVariation;
-    const baseAngularScatter = 0.15 * (radius / GALAXY_PARAMS.diskRadius);
-    const angularVariation = 1 + 0.2 * Math.sin(radius * 0.06 + armIndex);
-    const angularScatter = (Math.random() - 0.5) * baseAngularScatter * angularVariation;
-
-    const armWaviness = 0.05 * Math.sin(radius * 0.04 + armIndex * 0.5) +
-        0.03 * Math.cos(radius * 0.07 - armIndex * 0.3);
-    const interArmOffset = Math.random() < 0.25 ? (Math.random() - 0.5) * 18 : 0;
-
-    let barX = 0, barZ = 0;
-    if (radius < GALAXY_PARAMS.barLength * 0.4) {
-        const barInfluence = 1 - (radius / (GALAXY_PARAMS.barLength * 0.4));
-        const barAngle = 0.3;
-        barX = (Math.random() - 0.5) * GALAXY_PARAMS.barWidth * 0.6 * barInfluence;
-        barZ = (Math.random() - 0.5) * GALAXY_PARAMS.barWidth * 0.3 * barInfluence;
-        const tempX = barX * Math.cos(barAngle) - barZ * Math.sin(barAngle);
-        barZ = barX * Math.sin(barAngle) + barZ * Math.cos(barAngle);
-        barX = tempX;
+        // Most stars are tiny; a few are noticeably brighter.
+        sizes[i] = 0.55 + Math.pow(Math.random(), 2.2) * 1.9;
+        phases[i] = Math.random();
     }
 
-    const effectiveRadius = radius + armOffset + scatter + interArmOffset;
-    const finalAngle = spiralAngle + angularScatter + armWaviness;
-    const x = Math.cos(finalAngle) * effectiveRadius + barX;
-    const y = (Math.random() - 0.5) * thickness;
-    const z = Math.sin(finalAngle) * effectiveRadius + barZ;
+    positions.set(clusters.positions, STAR_COUNT * 3);
+    sizes.set(clusters.sizes, STAR_COUNT);
+    phases.set(clusters.phases, STAR_COUNT);
 
-    let population = 'spiralArm';
-    if (radius < GALAXY_PARAMS.coreRadius * 0.4) population = 'core';
-    else if (radius < GALAXY_PARAMS.diskRadius * 0.3) population = Math.random() < 0.3 ? 'thickDisk' : 'spiralArm';
-
-    return { x, y, z, population };
-}
-
-export function createStarTexture() {
-    const canvas = document.createElement('canvas');
-    canvas.width = 32;
-    canvas.height = 32;
-    const ctx = canvas.getContext('2d');
-    const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
-    gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-    gradient.addColorStop(0.4, 'rgba(255, 255, 255, 0.8)');
-    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, 32, 32);
-    const texture = new THREE.CanvasTexture(canvas);
-    texture.needsUpdate = true;
-    return texture;
-}
-
-export function createGlowTexture() {
-    const canvas = document.createElement('canvas');
-    canvas.width = 64;
-    canvas.height = 64;
-    const ctx = canvas.getContext('2d');
-    const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-    gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-    gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.9)');
-    gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.6)');
-    gradient.addColorStop(0.8, 'rgba(255, 255, 255, 0.2)');
-    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, 64, 64);
-    const texture = new THREE.CanvasTexture(canvas);
-    texture.needsUpdate = true;
-    return texture;
-}
-
-export function createStarField(sprite, glowSprite) {
-    const mainGeometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(STAR_COUNT * 3);
-    const colors = new Float32Array(STAR_COUNT * 3);
-    const sizes = new Float32Array(STAR_COUNT);
-    const glowPositions = [];
-
-    const fpThreshold = STAR_COUNT * defaultValues.fp;
-    const neThreshold = fpThreshold * (defaultValues.ne / 10);
-    const flThreshold = neThreshold * defaultValues.fl;
-    const fiThreshold = flThreshold * defaultValues.fi;
-    const fcThreshold = fiThreshold * defaultValues.fc;
-
-    for (let i = 0; i < STAR_COUNT; i++) {
-        const starData = generateSpiralGalaxyPosition();
-        positions[i * 3] = starData.x;
-        positions[i * 3 + 1] = starData.y;
-        positions[i * 3 + 2] = starData.z;
-
-        let colorHex;
-        if (i < fcThreshold) {
-            colorHex = COLORS.tech;
-            glowPositions.push(starData.x, starData.y, starData.z);
-        } else if (i < fiThreshold) colorHex = COLORS.intelligence;
-        else if (i < flThreshold) colorHex = COLORS.life;
-        else if (i < neThreshold) colorHex = COLORS.habitable;
-        else if (i < fpThreshold) colorHex = COLORS.planets;
-        else colorHex = COLORS.total;
-
-        const color = new THREE.Color(colorHex);
-        colors[i * 3] = color.r;
-        colors[i * 3 + 1] = color.g;
-        colors[i * 3 + 2] = color.b;
-        sizes[i] = Math.random() * 1.5 + 0.5;
+    for (let i = STAR_COUNT; i < total; i++) {
+        const i3 = i * 3;
+        const color = new THREE.Color(COLORS.total);
+        colors[i3] = color.r;
+        colors[i3 + 1] = color.g;
+        colors[i3 + 2] = color.b;
     }
 
-    mainGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    mainGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-    mainGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('aColor', new THREE.BufferAttribute(colors, 3));
+    geometry.setAttribute('aSize', new THREE.BufferAttribute(sizes, 1));
+    geometry.setAttribute('aPhase', new THREE.BufferAttribute(phases, 1));
+    geometry.setAttribute('aTech', new THREE.BufferAttribute(tech, 1));
+    geometry.computeBoundingSphere();
 
-    const mainMaterial = new THREE.PointsMaterial({
-        size: 1.2,
-        vertexColors: true,
-        transparent: true,
-        opacity: 0.85,
-        sizeAttenuation: true,
-        map: sprite,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false
-    });
+    return geometry;
+}
 
-    const system = new THREE.Points(mainGeometry, mainMaterial);
+export function createStarField() {
+    if (!galaxyScene) return null;
+
+    const geometry = buildStarGeometry();
+    const material = createStarMaterial(getStarSprite());
+    const system = new THREE.Points(geometry, material);
+
+    // The disk is animated and may shear at the edges; never cull it.
+    system.frustumCulled = false;
+    system.renderOrder = 0;
+
     galaxyScene.add(system);
     setStarSystem(system);
 
-    if (glowPositions.length > 0) {
-        const glowGeom = new THREE.BufferGeometry();
-        glowGeom.setAttribute('position', new THREE.BufferAttribute(new Float32Array(glowPositions), 3));
-        const glowMat = new THREE.PointsMaterial({
-            size: 3.5,
-            vertexColors: false,
-            color: 0xffffff,
-            transparent: true,
-            opacity: 0.6,
-            sizeAttenuation: true,
-            map: glowSprite,
-            blending: THREE.AdditiveBlending,
-            depthWrite: false
-        });
-        const glowSys = new THREE.Points(glowGeom, glowMat);
-        system.add(glowSys);
-    }
+    createCoreGlow();
 
     return system;
 }
 
-export function createStarClusters(sprite) {
-    for (let i = 0; i < GALAXY_PARAMS.globularClusters; i++) {
-        const clusterPos = generateGlobularClusterPosition();
-        const count = Math.floor(
-            GALAXY_PARAMS.clusterStarsMin +
-            Math.random() * (GALAXY_PARAMS.clusterStarsMax - GALAXY_PARAMS.clusterStarsMin)
-        );
-        const clusterData = generateClusterStars(clusterPos.x, clusterPos.y, clusterPos.z, count, 'globular');
-        addClusterMesh(clusterData, sprite, 1.0);
-    }
-
-    for (let i = 0; i < GALAXY_PARAMS.openClusters; i++) {
-        const clusterPos = generateOpenClusterPosition();
-        const count = Math.floor(
-            GALAXY_PARAMS.clusterStarsMin * 0.4 +
-            Math.random() * (GALAXY_PARAMS.clusterStarsMax * 0.6 - GALAXY_PARAMS.clusterStarsMin * 0.4)
-        );
-        const clusterData = generateClusterStars(clusterPos.x, clusterPos.y, clusterPos.z, count, 'open');
-        addClusterMesh(clusterData, sprite, 1.1);
-    }
-}
-
-function addClusterMesh(clusterData, sprite, size) {
-    if (!starSystem) return;
-
-    const clusterGeometry = new THREE.BufferGeometry();
-    const clusterPositions = new Float32Array(clusterData.positions);
-    const clusterColors = new Float32Array(clusterData.colors.length);
-    const clusterSizes = new Float32Array(clusterData.sizes);
-
-    for (let j = 0; j < clusterData.colors.length / 3; j++) {
-        const hslColor = new THREE.Color();
-        hslColor.setHSL(
-            clusterData.colors[j * 3],
-            clusterData.colors[j * 3 + 1],
-            clusterData.colors[j * 3 + 2]
-        );
-        clusterColors[j * 3] = hslColor.r;
-        clusterColors[j * 3 + 1] = hslColor.g;
-        clusterColors[j * 3 + 2] = hslColor.b;
-    }
-
-    clusterGeometry.setAttribute('position', new THREE.BufferAttribute(clusterPositions, 3));
-    clusterGeometry.setAttribute('color', new THREE.BufferAttribute(clusterColors, 3));
-    clusterGeometry.setAttribute('size', new THREE.BufferAttribute(clusterSizes, 1));
-
-    const clusterMaterial = new THREE.PointsMaterial({
-        size: size,
-        vertexColors: true,
-        transparent: true,
-        opacity: 0.9,
-        sizeAttenuation: true,
-        map: sprite,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false
-    });
-
-    const cluster = new THREE.Points(clusterGeometry, clusterMaterial);
-    starSystem.add(cluster);
-}
-
-export function onGalaxyResize() {
-    if (!galaxyCamera || !galaxyRenderer) return;
+function getActiveContainer() {
     const normalContainer = document.getElementById('galaxy-simulation-container');
     const fullscreenContainer = document.getElementById('galaxy-simulation-container-fullscreen');
     const overlay = document.getElementById('galaxy-fullscreen-overlay');
     const isFullscreen = overlay && overlay.classList.contains('active');
-    const container = isFullscreen && fullscreenContainer ? fullscreenContainer : normalContainer;
+    return isFullscreen && fullscreenContainer ? fullscreenContainer : normalContainer;
+}
+
+function resizeRenderer(container) {
+    const width = Math.max(1, container.clientWidth);
+    const height = Math.max(1, container.clientHeight);
+
+    const dprCap = CURRENT_QUALITY.pixelRatioCap;
+    const maxPixels = CURRENT_QUALITY.maxPixels;
+    const areaCap = Math.sqrt(maxPixels / (width * height));
+    const pixelRatio = Math.max(
+        0.7,
+        Math.min(window.devicePixelRatio || 1, dprCap, areaCap) * renderScale
+    );
+
+    galaxyRenderer.setPixelRatio(pixelRatio);
+    galaxyRenderer.setSize(width, height, true);
+}
+
+function updateViewportUniform() {
+    if (!starSystem || !galaxyRenderer) return;
+    const uniforms = starSystem.material.uniforms;
+    if (!uniforms || !uniforms.uViewportHeight) return;
+    uniforms.uViewportHeight.value = galaxyRenderer.domElement.height || 900;
+}
+
+/**
+ * Frames the whole disk no matter the viewport shape. The zoom slider is
+ * applied as a multiplier over this fitted distance (200 = fitted view).
+ */
+export function applyCameraView() {
+    if (!galaxyCamera) return;
+
+    const tiltRad = (currentView.tilt * Math.PI) / 180;
+
+    // The disk is foreshortened as the camera tilts, so frame the projected
+    // extents rather than the full diameter.
+    const fitRadius = GALAXY_PARAMS.diskRadius * 1.22 + 10;
+    const verticalExtent = Math.abs(Math.sin(tiltRad)) * fitRadius + 16;
+
+    const verticalHalf = Math.tan((galaxyCamera.fov * Math.PI / 180) / 2);
+    const horizontalHalf = verticalHalf * Math.max(galaxyCamera.aspect, 0.2);
+    const fitDistance = Math.max(
+        fitRadius / Math.max(horizontalHalf, 0.05),
+        verticalExtent / Math.max(verticalHalf, 0.05)
+    );
+
+    const zoomFactor = Math.min(2.5, Math.max(0.35, DEFAULT_VIEW.zoom / currentView.zoom));
+    const distance = fitDistance * zoomFactor;
+
+    const cosTilt = Math.cos(tiltRad);
+    // Avoid a degenerate lookAt when the camera is exactly above the pole.
+    const z = Math.abs(cosTilt) < 0.02 ? distance * 0.02 : cosTilt * distance;
+
+    galaxyCamera.position.set(0, Math.sin(tiltRad) * distance, z);
+    galaxyCamera.up.set(0, 1, 0);
+    galaxyCamera.lookAt(0, 0, 0);
+}
+
+export function onGalaxyResize() {
+    if (!galaxyCamera || !galaxyRenderer) return;
+    const container = getActiveContainer();
     if (!container || container.clientHeight === 0 || container.clientWidth === 0) return;
-    const width = container.clientWidth;
-    const height = container.clientHeight;
-    galaxyCamera.aspect = width / height;
+
+    resizeRenderer(container);
+    galaxyCamera.aspect = container.clientWidth / container.clientHeight;
     galaxyCamera.updateProjectionMatrix();
-    galaxyRenderer.setSize(width, height);
+    updateViewportUniform();
+    applyCameraView();
 }

@@ -1,6 +1,7 @@
 import { defaultValues, presets, uncertaintyLevels } from './core/config.js';
-import { t, getLocale, currentLang, updateLanguage, initLucideIcons } from './i18n/i18n.js';
-import { linearToLog, logToLinear, snapToDetent, getDecimalPlaces, roundToDecimals } from './ui/slider-utils.js';
+import { PARAMETERS, getReference } from './core/science.js';
+import { t, currentLang, updateLanguage, initLucideIcons } from './i18n/i18n.js';
+import { linearToLog, logToLinear, snapToDetent, updateSliderFill, formatParamValue } from './ui/slider-utils.js';
 import { formatResult, calculateN, getScenario } from './core/calculations.js';
 import {
     renderMagnitudeContext, renderTimeline, renderKeyConceptsCards,
@@ -22,6 +23,7 @@ import { trapFocus } from './ui/a11y.js';
 
 let lastTooltipTrigger = null;
 let _hasUserInteracted = false;
+let _pointerSlider = null;
 
 let _calcPending = false;
 let _calcLastParam = 'Rstar';
@@ -120,19 +122,21 @@ function _applyNonCriticalUpdates(updates) {
 
 let _isUpdating = false;
 
-function updateValueAndRecalculate(paramId) {
+function updateValueAndRecalculate(paramId, snap = false) {
     if (_isUpdating) return;
 
     const input = document.getElementById(paramId);
     const display = document.getElementById(paramId + '-value');
 
-    let value = parseFloat(input.value);
-    let snappedValue = snapToDetent(value, paramId);
+    if (snap) {
+        const currentValue = parseFloat(input.value);
+        const snappedValue = snapToDetent(currentValue, paramId);
 
-    if (Math.abs(snappedValue - value) > 0.0001) {
-        _isUpdating = true;
-        input.value = snappedValue;
-        _isUpdating = false;
+        if (Math.abs(snappedValue - currentValue) > 0.000001) {
+            _isUpdating = true;
+            input.value = snappedValue;
+            _isUpdating = false;
+        }
     }
 
     document.querySelectorAll('.active-param').forEach(el => el.classList.remove('active-param'));
@@ -144,10 +148,8 @@ function updateValueAndRecalculate(paramId) {
     if (labelSpan) labelSpan.classList.add('active-param');
 
     const actualValue = linearToLog(parseFloat(input.value), paramId);
-    const decimals = getDecimalPlaces(paramId);
-
-    if (paramId === 'L') display.textContent = Number(actualValue).toLocaleString(getLocale());
-    else display.textContent = roundToDecimals(actualValue, decimals).toFixed(decimals);
+    updateSliderFill(input);
+    display.textContent = formatParamValue(paramId, actualValue);
 
     validateAndCalculate(paramId);
 }
@@ -166,7 +168,16 @@ function showTooltip(paramId) {
     const levelData = uncertaintyLevels[data.uncertainty];
     const uncertaintyLabel = t('uncertainty.' + levelData.labelKey);
     uncertaintyEl.className = 'tooltip-uncertainty ' + data.uncertainty.replace(' ', '-');
-    uncertaintyEl.textContent = `${currentLang === 'es' ? 'Nivel de confianza' : 'Confidence Level'}: ${uncertaintyLabel}`;
+    uncertaintyEl.textContent = `${currentLang === 'es' ? 'Incertidumbre' : 'Uncertainty'}: ${uncertaintyLabel}`;
+
+    const sourceEl = document.getElementById('tooltip-source');
+    if (sourceEl) {
+        const parameter = PARAMETERS.find((entry) => entry.id === paramId);
+        const reference = parameter?.sourceId ? getReference(parameter.sourceId) : null;
+        sourceEl.innerHTML = reference
+            ? `<a href="${reference.url}" target="_blank" rel="noopener noreferrer">${reference.authors} (${reference.year})</a> — ${reference.container}<span class="sr-only"> (${t('new_tab_indicator')})</span>`
+            : t('tooltip_source_assumption');
+    }
 
     modal.setAttribute('aria-hidden', 'false');
     modal.style.display = 'flex';
@@ -189,10 +200,10 @@ function hideTooltip() {
 
 function resetForm() {
     _hasUserInteracted = true;
-    applyPreset(presets.sagan);
+    applyPreset(presets.scientific);
     document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active-preset'));
-    const saganBtn = document.querySelector('[data-preset="sagan"]');
-    if (saganBtn) saganBtn.classList.add('active-preset');
+    const scientificBtn = document.querySelector('[data-preset="scientific"]');
+    if (scientificBtn) scientificBtn.classList.add('active-preset');
     validateAndCalculate('Rstar');
 }
 
@@ -256,10 +267,8 @@ function applyPreset(values) {
 
     for (const update of updates) {
         update.slider.value = update.sliderPosition;
-        const decimals = getDecimalPlaces(update.paramId);
-        update.display.textContent = update.paramId === 'L'
-            ? Number(update.value).toLocaleString(getLocale())
-            : roundToDecimals(update.value, decimals).toFixed(decimals);
+        updateSliderFill(update.slider);
+        update.display.textContent = formatParamValue(update.paramId, update.value);
     }
 }
 
@@ -287,13 +296,13 @@ function _initCritical() {
     const hasUrlParams = window.location.search.length > 0;
 
     if (!hasUrlParams) {
-        const saganBtn = document.querySelector('[data-preset="sagan"]');
-        if (saganBtn) saganBtn.classList.add('active-preset');
+        const scientificBtn = document.querySelector('[data-preset="scientific"]');
+        if (scientificBtn) scientificBtn.classList.add('active-preset');
     }
 
     initChart();
 
-    applyPreset(hasUrlParams ? defaultValues : presets.sagan);
+    applyPreset(defaultValues);
     validateAndCalculate('Rstar');
 
     renderMagnitudeContext();
@@ -362,6 +371,28 @@ function _initCritical() {
         }
     });
 
+    // Snap to "nice" values only when a pointer drag ends: doing it on every
+    // input event made the thumb jump while dragging, and doing it on `change`
+    // also snapped keyboard arrow presses back to the detent.
+    document.getElementById('drake-form').addEventListener('pointerdown', (e) => {
+        const slider = e.target.closest('input[type="range"]');
+        if (slider && slider.id && !slider.id.startsWith('fs-')) {
+            _pointerSlider = slider;
+        }
+    });
+
+    window.addEventListener('pointerup', () => {
+        if (!_pointerSlider) return;
+        _hasUserInteracted = true;
+        updateValueAndRecalculate(_pointerSlider.id, true);
+        document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active-preset'));
+        _pointerSlider = null;
+    });
+
+    window.addEventListener('pointercancel', () => {
+        _pointerSlider = null;
+    });
+
     document.querySelectorAll('.preset-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             const presetName = this.getAttribute('data-preset');
@@ -371,16 +402,18 @@ function _initCritical() {
                 this.classList.add('active-preset');
 
                 const presetValues = presets[presetName];
+                const applyAndNotify = () => {
+                    applyPreset(presetValues);
+                    validateAndCalculate('Rstar');
+                    document.dispatchEvent(new CustomEvent('drake:preset-applied', {
+                        detail: { preset: presetName }
+                    }));
+                };
+
                 if ('requestIdleCallback' in window) {
-                    requestIdleCallback(() => {
-                        applyPreset(presetValues);
-                        validateAndCalculate('Rstar');
-                    }, { timeout: 100 });
+                    requestIdleCallback(applyAndNotify, { timeout: 100 });
                 } else {
-                    setTimeout(() => {
-                        applyPreset(presetValues);
-                        validateAndCalculate('Rstar');
-                    }, 50);
+                    setTimeout(applyAndNotify, 50);
                 }
             }
         });
@@ -394,6 +427,13 @@ function _initCritical() {
         el.addEventListener('click', toggleGalaxyFullscreen);
     });
 
+    const fullscreenTrigger = document.querySelector('.fullscreen-btn-overlay');
+    if (fullscreenTrigger && window.innerWidth <= 768) {
+        fullscreenTrigger.setAttribute('aria-disabled', 'true');
+        fullscreenTrigger.setAttribute('aria-label', t('mobile_fullscreen_unavailable'));
+        fullscreenTrigger.setAttribute('title', t('mobile_fullscreen_unavailable'));
+    }
+
     document.querySelectorAll('[data-action="exoplanet-shuffle"]').forEach(el => {
         el.addEventListener('click', loadRandomExoplanet);
     });
@@ -404,10 +444,51 @@ function _initCritical() {
             toggleDisclaimer();
         });
     });
+
+    enhanceExternalLinks();
+}
+
+/**
+ * Add an accessible hint to links that open in a new tab (WCAG 3.2.5).
+ */
+function enhanceExternalLinks() {
+    document.querySelectorAll('a[target="_blank"]:not([data-new-tab])').forEach(link => {
+        link.setAttribute('data-new-tab', '');
+        const hint = document.createElement('span');
+        hint.className = 'sr-only';
+        hint.textContent = ` (${t('new_tab_indicator')})`;
+        link.appendChild(hint);
+    });
+}
+
+function _initGalaxyWhenVisible() {
+    const section = document.querySelector('.galaxy-sim-section');
+    if (!section || !('IntersectionObserver' in window)) {
+        initGalaxySimulation();
+        return;
+    }
+
+    let started = false;
+    const start = () => {
+        if (started) return;
+        started = true;
+        observer.disconnect();
+        clearTimeout(fallback);
+        initGalaxySimulation();
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) start();
+    }, { rootMargin: '600px 0px' });
+
+    observer.observe(section);
+
+    // Safety net: never leave the simulation uninitialised for the whole visit.
+    const fallback = setTimeout(start, 8000);
 }
 
 function _initNonCritical() {
-    initGalaxySimulation();
+    _initGalaxyWhenVisible();
     initGalaxyLegendHandlers();
 
     document.addEventListener('click', (e) => {

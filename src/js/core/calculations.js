@@ -1,4 +1,5 @@
 import { t, getLocale } from '../i18n/i18n.js';
+import { calculateConfidenceRange } from './uncertainty.js';
 
 function formatResult(n) {
     if (n === 0) return "0";
@@ -28,31 +29,14 @@ function getScenario(params) {
     const technologicalSuccess = params.fc;
     const longevity = params.L;
 
-    if (longevity < 1000 && N < 100) return t('scenarios.shooting_star');
+    // Biological rarity takes precedence: a case with fl·fi ≈ 0 is a Rare Earth
+    // scenario even if L happens to be short, otherwise the label would blame
+    // longevity for a filter that sits in biology.
     if (biologicalSuccess <= 0.001) return t('scenarios.rare_earth');
+    if (longevity < 1000 && N < 100) return t('scenarios.shooting_star');
     if (technologicalSuccess < 0.05 && N < 1000) return t('scenarios.silent_wilderness');
     if (longevity > 100000 && N > 1000) return t('scenarios.galactic_club');
     return t('scenarios.balanced');
-}
-
-const parameterUncertainty = {
-    Rstar: 1.5,
-    fp: 1.5,
-    ne: 3,
-    fl: 10,
-    fi: 100,
-    fc: 100,
-    L: 100
-};
-
-function calculateConfidenceRange(params) {
-    let min = 1, max = 1;
-    for (const key in params) {
-        const factor = parameterUncertainty[key];
-        min *= params[key] / factor;
-        max *= params[key] * factor;
-    }
-    return { min, max };
 }
 
 export { formatResult, calculateN, getScenario, calculateConfidenceRange };

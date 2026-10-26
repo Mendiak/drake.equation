@@ -1,21 +1,14 @@
-const defaultValues = {
-    Rstar: 1.5,
-    fp: 0.8,
-    ne: 2,
-    fl: 0.1,
-    fi: 0.01,
-    fc: 0.1,
-    L: 10000
-};
+import { PARAMETERS, PRESETS } from './science.js';
 
-const presets = {
-    optimistic: { Rstar: 7, fp: 1, ne: 5, fl: 1, fi: 1, fc: 0.2, L: 1000000 },
-    sagan: { Rstar: 10, fp: 1, ne: 1, fl: 1, fi: 1, fc: 0.1, L: 1000000 },
-    scientific: { Rstar: 1.5, fp: 0.8, ne: 2, fl: 0.1, fi: 0.01, fc: 0.1, L: 10000 },
-    drake: { Rstar: 10, fp: 0.5, ne: 2, fl: 1, fi: 0.01, fc: 0.01, L: 10000 },
-    rare_earth: { Rstar: 1, fp: 0.5, ne: 0.1, fl: 0.001, fi: 0.001, fc: 0.01, L: 1000 },
-    pessimistic: { Rstar: 1, fp: 0.2, ne: 0.1, fl: 0.01, fi: 0.001, fc: 0.01, L: 100 }
-};
+/**
+ * Default state of the calculator. It is derived from the scientific registry
+ * so the first number on screen always matches the reviewed "modern estimate".
+ */
+const defaultValues = Object.fromEntries(PARAMETERS.map(({ id, value }) => [id, value]));
+
+const presets = Object.fromEntries(
+    Object.entries(PRESETS).map(([id, preset]) => [id, { ...preset.values }])
+);
 
 const uncertaintyLevels = {
     low: { color: '#000000', labelKey: 'low' },

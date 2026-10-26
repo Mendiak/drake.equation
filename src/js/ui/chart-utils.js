@@ -4,6 +4,32 @@ import { calculateN, formatResult } from '../core/calculations.js';
 let drakeChart;
 let funnelChart;
 
+function formatAxisTick(value) {
+    if (value >= 1e9) return (value / 1e9).toLocaleString(getLocale(), { maximumFractionDigits: 1 }) + 'B';
+    if (value >= 1e6) return (value / 1e6).toLocaleString(getLocale(), { maximumFractionDigits: 1 }) + 'M';
+    if (value >= 1e3) return (value / 1e3).toLocaleString(getLocale(), { maximumFractionDigits: 1 }) + 'k';
+    return Number(value.toPrecision(3)).toLocaleString(getLocale());
+}
+
+function formatAxisTitle(label) {
+    const maxChars = window.innerWidth <= 600 ? 22 : 60;
+    if (label.length <= maxChars) return label;
+
+    const lines = [];
+    let line = '';
+    label.split(' ').forEach(word => {
+        const candidate = line ? `${line} ${word}` : word;
+        if (candidate.length <= maxChars) {
+            line = candidate;
+        } else {
+            if (line) lines.push(line);
+            line = word;
+        }
+    });
+    if (line) lines.push(line);
+    return lines;
+}
+
 const backgroundPlugin = {
     id: 'customCanvasBackgroundColor',
     beforeDraw: (chart, args, options) => {
@@ -64,8 +90,11 @@ function initChart() {
         options: {
             animation: { duration: 400 },
             responsive: true,
-            maintainAspectRatio: true,
-            aspectRatio: 2,
+            maintainAspectRatio: false,
+            onResize: (chart) => {
+                if (!chart.$parameter) return;
+                chart.options.scales.x.title.text = formatAxisTitle(t('labels.' + chart.$parameter));
+            },
             plugins: { customCanvasBackgroundColor: { color: '#ffffff' }, currentValueMarker: { value: null }, legend: { display: false } },
             scales: {
                 x: {
@@ -74,11 +103,15 @@ function initChart() {
                     ticks: {
                         callback: value => Number(drakeChart.data.labels[value]).toFixed(2),
                         autoSkip: true,
-                        maxTicksLimit: 6,
+                        maxTicksLimit: 5,
                         maxRotation: 0,
                     }
                 },
-                y: { type: 'logarithmic', title: { display: true, text: 'N', font: { size: 10, weight: '700' } }, ticks: { callback: value => value >= 1 ? Math.round(value).toLocaleString(getLocale()) : value.toFixed(2) } }
+                y: {
+                    type: 'logarithmic',
+                    title: { display: true, text: 'N', font: { size: 10, weight: '700' } },
+                    ticks: { maxTicksLimit: 5, callback: formatAxisTick }
+                }
             }
         },
         plugins: [backgroundPlugin, currentValuePlugin]
@@ -152,7 +185,8 @@ function updateChart(parameter, currentValues) {
     }
     drakeChart.data.labels = values;
     drakeChart.data.datasets[0].data = results;
-    drakeChart.options.scales.x.title.text = t('labels.' + parameter);
+    drakeChart.$parameter = parameter;
+    drakeChart.options.scales.x.title.text = formatAxisTitle(t('labels.' + parameter));
     drakeChart.options.plugins.currentValueMarker.value = baseValue;
     drakeChart.update('none');
     updateFunnel(currentValues);
@@ -161,16 +195,44 @@ function updateChart(parameter, currentValues) {
         const paramName = t('labels.' + parameter);
         explanationElement.innerHTML = t('chart_explanation_base').replace('{param}', `<span class="active-param">${paramName}</span>`);
     }
+
+    // Text equivalent of the chart for screen-reader and non-visual users.
+    const tableElement = document.getElementById('chart-data-table');
+    if (tableElement) {
+        const paramName = t('labels.' + parameter);
+        const sampleIndexes = [0, 4, 9, 14, 19, 24, 29, 34, 39, 44, 49];
+        const formatParamValue = value => value >= 1000
+            ? Math.round(value).toLocaleString(getLocale())
+            : Number(value.toPrecision(3)).toLocaleString(getLocale());
+        const rows = sampleIndexes.map(index => {
+            const value = formatParamValue(values[index]);
+            return `<tr><th scope="row">${value}</th><td>${formatResult(results[index])}</td></tr>`;
+        }).join('');
+        tableElement.innerHTML = `
+            <table>
+                <caption>${t('chart_table_caption').replace('{param}', paramName)}</caption>
+                <thead>
+                    <tr><th scope="col">${t('chart_table_param')}</th><th scope="col">${t('chart_table_result')}</th></tr>
+                </thead>
+                <tbody>${rows}</tbody>
+            </table>
+        `;
+    }
 }
 
 function updateFunnel(currentValues) {
-    const totalStars = 200000000000;
+    // The funnel is the equation itself, term by term. It starts from the stars
+    // formed during the detectability window (R* · L), not from all 200 billion
+    // stars: that is the only starting point whose product is exactly N.
+    // The ne step counts planets per system, so it is the only bar that can be
+    // larger than the previous one; every other step multiplies by a fraction.
+    const stars = currentValues.Rstar * currentValues.L;
     const steps = [
-        { key: 'total', val: totalStars },
-        { key: 'planets', val: totalStars * currentValues.fp },
-        { key: 'habitable', val: totalStars * currentValues.fp * currentValues.ne },
-        { key: 'life', val: totalStars * currentValues.fp * currentValues.ne * currentValues.fl },
-        { key: 'intelligence', val: totalStars * currentValues.fp * currentValues.ne * currentValues.fl * currentValues.fi },
+        { key: 'total', val: stars },
+        { key: 'planets', val: stars * currentValues.fp },
+        { key: 'habitable', val: stars * currentValues.fp * currentValues.ne },
+        { key: 'life', val: stars * currentValues.fp * currentValues.ne * currentValues.fl },
+        { key: 'intelligence', val: stars * currentValues.fp * currentValues.ne * currentValues.fl * currentValues.fi },
         { key: 'tech', val: calculateN(currentValues) }
     ];
     funnelChart.data.labels = steps.map(s => t(`funnel_steps.${s.key}`));
@@ -184,7 +246,9 @@ function updateFunnel(currentValues) {
                 const ratio = s.val / steps[i-1].val;
                 let probText;
 
-                if (ratio < 0.1) {
+                if (ratio >= 1.01) {
+                    probText = `× ${ratio.toFixed(1)}`;
+                } else if (ratio < 0.1) {
                     probText = t('funnel_one_in').replace('{val}', Math.round(1/ratio).toLocaleString(getLocale()));
                 } else {
                     const percentage = (ratio * 100).toFixed(i === 1 || i === 2 ? 0 : 2);

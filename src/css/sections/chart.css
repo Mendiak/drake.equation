@@ -194,13 +194,6 @@ input:checked + .slider::before {
     transform: translateX(16px);
 }
 
-/* Specific height for sensitivity chart */
-#drake-chart, #funnel-chart {
-    width: 100% !important;
-    height: auto !important;
-    max-width: 100%;
-}
-
 .scientific-explanation {
     font-size: var(--text-base);
     color: #444;
@@ -649,6 +642,10 @@ footer a:hover {
         gap: var(--space-lg);
         padding: var(--space-md);
     }
+
+    .chart-canvas-container {
+        height: 320px;
+    }
 }
 
 @media (width <= 768px) {
@@ -666,6 +663,11 @@ footer a:hover {
         flex-direction: column;
         align-items: flex-start;
         gap: var(--space-sm);
+        padding: 0 var(--space-md);
+    }
+
+    .chart-canvas-container {
+        height: 280px;
     }
 
     .funnel-chart-wrapper {
@@ -709,6 +711,16 @@ footer a:hover {
 }
 
 @media (width <= 480px) {
+    .chart-canvas-container {
+        height: 260px;
+    }
+
+    /* Ten labels do not fit on a phone-width ruler, so show every other one.
+       The tick marks stay in place; only the text is hidden. */
+    .ruler-tick:nth-child(even) .tick-label {
+        display: none;
+    }
+
     .funnel-insight-panel {
         grid-template-columns: 1fr;
         padding-top: var(--space-lg);

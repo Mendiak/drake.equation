@@ -38,18 +38,18 @@
    Section Headers - Typography Hierarchy
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
-.panel-header h3,
-.variables-header h3 {
-    margin: 0 0 var(--space-md) 0;
+.panel-header h2,
+.variables-header h2 {
+    margin: 0 0 var(--space-sm) 0;
 }
 
 .panel-header {
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--space-md);
 }
 
 .variables-header {
-    margin: var(--space-lg) 0 var(--space-md) 0;
-    padding-top: var(--space-md);
+    margin: var(--space-md) 0 var(--space-sm) 0;
+    padding-top: var(--space-sm);
     border-top: var(--border-width) solid var(--color-border);
 }
 
@@ -110,7 +110,7 @@
 .equation-box {
     background: var(--color-bg-light);
     padding: var(--space-sm);
-    margin: var(--space-lg) 0;
+    margin: var(--space-md) 0;
     text-align: center;
     font-family: var(--font-family-mono);
     font-size: var(--text-sm);
@@ -125,6 +125,17 @@
     max-width: 100%;
 }
 
+/* On narrow screens the equation is wider than the sidebar: wrap it instead
+   of hiding the last factors behind a horizontal scrollbar. */
+@media (width <= 480px) {
+    .equation-box code {
+        white-space: normal;
+        overflow-x: visible;
+        overflow-wrap: break-word;
+        line-height: 1.6;
+    }
+}
+
 .equation-box .active-param {
     font-weight: var(--font-weight-bold);
     color: var(--color-black);
@@ -135,12 +146,11 @@
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .input-group {
-    margin-bottom: var(--space-sm);
-    padding-bottom: var(--space-sm);
+    margin-bottom: 14px;
 }
 
 .input-group:last-of-type {
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-sm);
 }
 
 .param-label {
@@ -150,7 +160,7 @@
     font-size: var(--text-xs);
     font-weight: var(--font-weight-regular);
     color: var(--color-text-primary);
-    margin-bottom: var(--space-xs);
+    margin-bottom: 4px;
 }
 
 .param-label .param-label-main {
@@ -166,7 +176,7 @@
 .input-wrapper {
     display: flex;
     align-items: center;
-    gap: var(--space-md);
+    gap: var(--space-sm);
     min-width: 0;
     max-width: 100%;
 }
@@ -175,134 +185,150 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: var(--space-xs);
-    min-width: 0;
     justify-content: center;
+    min-width: 0;
     position: relative;
+    isolation: isolate;
 }
 
-.observed-marker {
+/* Rows with an observed-range band reserve space for its caption. */
+.slider-container-with-band {
+    padding-bottom: 14px;
+}
+
+.observed-band {
     position: absolute;
-    top: 50%;
-    width: 2px;
-    height: 14px;
-    background: var(--color-confidence-low);
-    transform: translate(-50%, -50%);
+    top: 14px;
+    left: var(--obs-start, 0%);
+    width: calc(var(--obs-end, 0%) - var(--obs-start, 0%));
+    height: 12px;
+    transform: translateY(-50%);
+    background: rgb(47 125 79 / 22%);
+    border-radius: 3px;
     pointer-events: none;
-    z-index: 1;
-    opacity: 0.6;
-    border-radius: 1px;
+    z-index: 0;
 }
 
 .observed-label {
     position: absolute;
-    bottom: -4px;
-    font-size: 0.6rem;
-    color: var(--color-confidence-low);
-    opacity: 0.7;
-    letter-spacing: 0.05em;
-    pointer-events: none;
+    bottom: 0;
+    left: var(--obs-label-left, 0);
+    font-size: 0.6875rem;
+    line-height: 1.2;
+    letter-spacing: 0.04em;
+    color: var(--color-confidence-low-dark);
     white-space: nowrap;
+    pointer-events: none;
 }
 
-#rstar ~ .observed-label {
-    left: 14%;
+.observed-label-end {
+    left: auto;
+    right: 0;
 }
 
-#fp ~ .observed-label {
-    left: 80%;
-}
-
-input[type="range"] {
+#drake-form input[type="range"] {
     appearance: none;
+    position: relative;
+    z-index: 1;
     width: 100%;
-    height: 32px;
-    background: transparent;
-    outline: none;
+    height: 28px;
     margin: 0;
     padding: 0;
+    background: transparent;
+    border: none;
+    outline: none;
     cursor: pointer;
+
+    --slider-fill: 0%;
 }
 
-/* Slider Track - Webkit */
-input[type="range"]::-webkit-slider-runnable-track {
+#drake-form input[type="range"]:focus-visible {
+    outline: none;
+}
+
+/* Slider Track - Webkit (filled up to the thumb) */
+#drake-form input[type="range"]::-webkit-slider-runnable-track {
     width: 100%;
-    height: 3px;
-    background: var(--color-border);
-    border-radius: var(--radius-full);
+    height: 4px;
+    background:
+        linear-gradient(
+            to right,
+            var(--color-text-primary) 0 var(--slider-fill),
+            rgb(0 0 0 / 10%) var(--slider-fill) 100%
+        );
     border: none;
+    border-radius: var(--radius-full);
 }
 
 /* Slider Thumb - Webkit (Soft Circle) */
-input[type="range"]::-webkit-slider-thumb {
+#drake-form input[type="range"]::-webkit-slider-thumb {
     appearance: none;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
+    margin-top: -7px;
     background: var(--color-white);
-    border: 1.5px solid var(--color-text-muted);
+    border: 1.5px solid var(--color-text-primary);
     border-radius: var(--radius-full);
-    cursor: pointer;
-    position: relative;
-    top: -8.5px;
-    transition: border-color var(--transition-base), background-color var(--transition-base);
-    box-shadow: none;
-    touch-action: none;
+    cursor: grab;
+    box-shadow: 0 0 0 3px var(--color-bg-surface);
+    transition: background-color var(--transition-base), border-color var(--transition-base);
 }
 
-input[type="range"]::-webkit-slider-thumb:hover {
+#drake-form input[type="range"]::-webkit-slider-thumb:hover {
+    background: var(--color-bg-light);
     border-color: var(--color-black);
-    box-shadow: none;
 }
 
-input[type="range"]::-webkit-slider-thumb:active {
-    background: var(--color-black);
-    border-color: var(--color-black);
-    transform: none;
+#drake-form input[type="range"]:active::-webkit-slider-thumb {
+    background: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+    cursor: grabbing;
 }
 
-input[type="range"]::-webkit-slider-thumb:focus {
-    outline: none;
-    border-color: var(--color-black);
-    box-shadow: 0 0 0 3px rgb(0 0 0 / 10%);
+#drake-form input[type="range"]:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 3px var(--color-bg-surface), 0 0 0 5px var(--color-text-primary);
 }
 
 /* Slider Track - Firefox */
-input[type="range"]::-moz-range-track {
+#drake-form input[type="range"]::-moz-range-track {
     width: 100%;
-    height: 3px;
-    background: var(--color-border);
-    border-radius: var(--radius-full);
+    height: 4px;
+    background: rgb(0 0 0 / 10%);
     border: none;
+    border-radius: var(--radius-full);
+}
+
+#drake-form input[type="range"]::-moz-range-progress {
+    height: 4px;
+    background: var(--color-text-primary);
+    border-radius: var(--radius-full);
 }
 
 /* Slider Thumb - Firefox (Soft Circle) */
-input[type="range"]::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
+#drake-form input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
     background: var(--color-white);
-    border: 1.5px solid var(--color-text-muted);
+    border: 1.5px solid var(--color-text-primary);
     border-radius: var(--radius-full);
-    cursor: pointer;
-    transition: border-color var(--transition-base), background-color var(--transition-base);
-    box-shadow: none;
-    touch-action: none;
+    cursor: grab;
+    box-shadow: 0 0 0 3px var(--color-bg-surface);
+    transition: background-color var(--transition-base), border-color var(--transition-base);
 }
 
-input[type="range"]::-moz-range-thumb:hover {
+#drake-form input[type="range"]::-moz-range-thumb:hover {
+    background: var(--color-bg-light);
     border-color: var(--color-black);
-    box-shadow: none;
 }
 
-input[type="range"]::-moz-range-thumb:active {
-    background: var(--color-black);
-    border-color: var(--color-black);
-    transform: none;
+#drake-form input[type="range"]:active::-moz-range-thumb {
+    background: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+    cursor: grabbing;
 }
 
-input[type="range"]::-moz-range-thumb:focus {
-    outline: none;
-    border-color: var(--color-black);
-    box-shadow: 0 0 0 3px rgb(0 0 0 / 10%);
+#drake-form input[type="range"]:focus-visible::-moz-range-thumb {
+    box-shadow: 0 0 0 3px var(--color-bg-surface), 0 0 0 5px var(--color-text-primary);
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -310,14 +336,15 @@ input[type="range"]::-moz-range-thumb:focus {
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .value-display {
+    flex: 0 0 56px;
+    width: 56px;
     font-family: var(--font-family-mono);
     font-size: var(--text-sm);
+    font-variant-numeric: tabular-nums;
     font-weight: var(--font-weight-regular);
     color: var(--color-text-primary);
-    max-width: 80px;
     text-align: right;
-    flex-shrink: 0;
-    overflow-wrap: break-word;
+    overflow-wrap: normal;
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -325,8 +352,8 @@ input[type="range"]::-moz-range-thumb:focus {
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .button-container {
-    margin-top: var(--space-lg);
-    padding-top: var(--space-md);
+    margin-top: var(--space-sm);
+    padding-top: var(--space-sm);
     border-top: var(--border-width) solid var(--color-border);
 }
 
@@ -370,18 +397,18 @@ button#reset-button span[data-i18n] {
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .confidence-section {
-    margin-top: var(--space-lg);
-    padding-top: var(--space-md);
+    margin-top: var(--space-md);
+    padding-top: var(--space-sm);
     border-top: var(--border-width) solid var(--color-border);
 }
 
-.confidence-section h4 {
+.confidence-section h3 {
     font-size: var(--text-xs);
     font-weight: var(--font-weight-extra);
     text-transform: uppercase;
     letter-spacing: 0.15em;
     color: var(--color-text-muted);
-    margin: 0 0 var(--space-md) 0;
+    margin: 0 0 var(--space-sm) 0;
 }
 
 .confidence-grid {
@@ -435,37 +462,20 @@ button#reset-button span[data-i18n] {
 }
 
 .confidence-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs) var(--space-sm);
     font-size: var(--text-xs);
     color: var(--color-text-primary);
-    margin-top: var(--space-md) !important;
+    margin-top: var(--space-sm);
     line-height: var(--line-height-relaxed);
 }
 
-.confidence-legend span {
-    display: flex;
+.confidence-legend-item {
+    display: inline-flex;
     align-items: center;
-    gap: var(--space-xs);
-    margin-bottom: var(--space-xs) !important;
-}
-
-.confidence-legend span span {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-
-.confidence-legend span span[style*="background: #2ecc71"] {
-    background: var(--color-confidence-low) !important;
-}
-
-.confidence-legend span span[style*="background: #f39c12"] {
-    background: var(--color-confidence-medium) !important;
-}
-
-.confidence-legend span span[style*="background: #e74c3c"] {
-    background: var(--color-confidence-high) !important;
+    gap: 6px;
+    white-space: nowrap;
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -500,38 +510,6 @@ button#reset-button span[data-i18n] {
         max-width: 100%;
     }
 
-    .confidence-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--space-md);
-    }
-
-    .input-wrapper {
-        flex-direction: column;
-        align-items: stretch;
-        gap: var(--space-xs);
-    }
-
-    .slider-container {
-        width: 100%;
-    }
-
-    .value-display {
-        width: 100%;
-        text-align: left;
-        font-size: var(--text-xs);
-    }
-
-    input[type="range"]::-webkit-slider-thumb {
-        width: 16px;
-        height: 16px;
-        top: -6.5px;
-    }
-
-    input[type="range"]::-moz-range-thumb {
-        width: 16px;
-        height: 16px;
-    }
-
     .presets-container {
         gap: var(--space-xs);
     }
@@ -545,5 +523,21 @@ button#reset-button span[data-i18n] {
 @media (width <= 360px) {
     .presets-container {
         grid-template-columns: 1fr;
+    }
+
+    .input-wrapper {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 2px;
+    }
+
+    .slider-container {
+        width: 100%;
+    }
+
+    .value-display {
+        flex-basis: auto;
+        width: 100%;
+        font-size: var(--text-xs);
     }
 }

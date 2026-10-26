@@ -1,6 +1,17 @@
 import { t, getLocale, currentLang } from '../i18n/i18n.js';
 import { formatResult, calculateN, getScenario, calculateConfidenceRange } from '../core/calculations.js';
-import { getDecimalPlaces } from './slider-utils.js';
+import { GALAXY } from '../core/science.js';
+import { formatParamValue } from './slider-utils.js';
+
+/**
+ * Typical distance to the nearest civilisation for N objects spread uniformly
+ * over a thin disk. For a Poisson field the mean nearest-neighbour distance is
+ * 0.5 / sqrt(density); with density N / (pi R^2) that is 0.5 * sqrt(pi R^2 / N).
+ * It is an order-of-magnitude estimate, not a measurement.
+ */
+function meanSeparation(N) {
+    return Math.round(0.5 * Math.sqrt((Math.PI * GALAXY.radiusLy ** 2) / N));
+}
 
 function renderMagnitudeContext() {
     const container = document.getElementById('magnitude-context-list');
@@ -58,8 +69,8 @@ function updateResultDetails(N) {
         contextEl.innerHTML = t('result_interpretation.earth_context') + '<br>' + t('result_interpretation.filter_note');
 
         if (N >= 1) {
-            const avgDistance = Math.round(100000 / Math.sqrt(N));
-            const starRatio = Math.round(200000000000 / N);
+            const avgDistance = meanSeparation(N);
+            const starRatio = Math.round(GALAXY.stars / N);
 
             nearEl.innerHTML = t('result_interpretation.near').replace('{distance}', avgDistance.toLocaleString(getLocale()));
             ratioEl.innerHTML = t('result_interpretation.ratio').replace('{ratio}', starRatio.toLocaleString(getLocale()));
@@ -146,6 +157,37 @@ function animateValue(start, end, duration) {
     animationFrame = requestAnimationFrame(update);
 }
 
+const DOT_MAX_COUNT = 600;
+const TWINKLE_MIN_DURATION = 2.5;
+const TWINKLE_MAX_DURATION = 6;
+const TWINKLE_BRIGHT_MIN_DURATION = 4;
+const TWINKLE_BRIGHT_MAX_DURATION = 8;
+
+/**
+ * Builds one background star of the result card. Twinkle timing is randomised
+ * per dot (negative delay = already out of phase on the first frame) so the
+ * field breathes instead of pulsing in unison, mirroring the 3D simulation.
+ */
+function createGalaxyDot() {
+    const dot = document.createElement('div');
+    const isBright = Math.random() < 0.08;
+
+    dot.className = isBright ? 'galaxy-dot galaxy-dot-bright' : 'galaxy-dot';
+    dot.style.left = Math.random() * 100 + '%';
+    dot.style.top = Math.random() * 100 + '%';
+
+    const minDuration = isBright ? TWINKLE_BRIGHT_MIN_DURATION : TWINKLE_MIN_DURATION;
+    const maxDuration = isBright ? TWINKLE_BRIGHT_MAX_DURATION : TWINKLE_MAX_DURATION;
+    const duration = minDuration + Math.random() * (maxDuration - minDuration);
+
+    dot.style.setProperty('--twinkle-duration', duration.toFixed(2) + 's');
+    dot.style.setProperty('--twinkle-delay', (-Math.random() * duration).toFixed(2) + 's');
+    dot.style.transitionDelay = (Math.random() * 0.8).toFixed(2) + 's';
+    dot.dataset.baseOpacity = (0.2 + Math.random() * 0.8).toFixed(2);
+
+    return dot;
+}
+
 function updateGalaxyVisualization(N) {
     const galaxy = document.getElementById('galaxy-viz');
     if (!galaxy) return;
@@ -155,22 +197,29 @@ function updateGalaxyVisualization(N) {
         const logFactor = Math.log10(N + 1);
         targetCount = Math.floor(20 + (logFactor * 60));
     }
-    targetCount = Math.min(targetCount, 600);
+    targetCount = Math.min(targetCount, DOT_MAX_COUNT);
 
     const currentDots = galaxy.querySelectorAll('.galaxy-dot');
     const currentCount = currentDots.length;
 
     if (targetCount > currentCount) {
         const toAdd = targetCount - currentCount;
+        const added = [];
         for (let i = 0; i < toAdd; i++) {
-            const dot = document.createElement('div');
-            dot.className = 'galaxy-dot';
-            dot.style.left = Math.random() * 100 + '%';
-            dot.style.top = Math.random() * 100 + '%';
-            const opacity = 0.2 + Math.random() * 0.8;
+            const dot = createGalaxyDot();
             galaxy.appendChild(dot);
-            setTimeout(() => { dot.style.opacity = opacity; }, 10);
+            added.push(dot);
         }
+
+        // Let the browser paint them at opacity 0 once, otherwise the
+        // transition to the target opacity is collapsed into the first frame.
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                for (const dot of added) {
+                    if (dot.isConnected) dot.style.opacity = dot.dataset.baseOpacity;
+                }
+            });
+        });
     } else if (targetCount < currentCount) {
         const toRemove = currentCount - targetCount;
         for (let i = 0; i < toRemove; i++) {
@@ -190,8 +239,7 @@ function updateFactorBreakdown(values) {
     const params = ['Rstar', 'fp', 'ne', 'fl', 'fi', 'fc', 'L'];
     const parts = params.map(p => {
         const v = values[p];
-        if (p === 'L') return Number(v).toLocaleString(getLocale());
-        return v.toFixed(getDecimalPlaces(p));
+        return formatParamValue(p, v);
     });
     container.innerHTML = `
         <div class="breakdown-row">
@@ -241,8 +289,8 @@ function interpretResult(N, currentValues) {
     const interpretationEl = document.getElementById('result-interpretation');
     const scenario = getScenario(currentValues);
     if (!interpretationEl) return;
-    const avgDistance = N >= 1 ? Math.round(100000 / Math.sqrt(N)) : null;
-    const starRatio = N >= 1 ? (200000000000 / N).toLocaleString(getLocale(), { maximumFractionDigits: 0 }) : null;
+    const avgDistance = N >= 1 ? meanSeparation(N) : null;
+    const starRatio = N >= 1 ? (GALAXY.stars / N).toLocaleString(getLocale(), { maximumFractionDigits: 0 }) : null;
     let interpretation = `<strong>${scenario.name}</strong><p>${scenario.desc}</p>`;
     if (N >= 1) {
         interpretation += `<div class="cosmic-context">

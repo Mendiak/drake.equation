@@ -10,10 +10,12 @@
     "build:es": "node scripts/generate-es.mjs",
     "build:content": "node scripts/generate-content.mjs",
     "build": "node scripts/build.mjs",
+    "seo": "node scripts/check-seo.mjs",
+    "science": "node scripts/check-science.mjs",
     "lint": "eslint \"src/js/**/*.js\"",
     "lint:fix": "eslint \"src/js/**/*.js\" --fix",
     "lint:css": "stylelint \"src/**/*.css\"",
-    "check": "npm run lint && npm run lint:css"
+    "check": "npm run lint && npm run lint:css && npm run science"
   },
   "repository": {
     "type": "git",
@@ -39,6 +41,7 @@
   "homepage": "https://mendiak.github.io/drake.equation/",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "esbuild": "^0.28.2",
     "eslint": "^10.1.0",
     "stylelint": "^17.6.0",
     "stylelint-config-standard": "^40.0.0"

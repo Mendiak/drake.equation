@@ -14,7 +14,10 @@
 }
 
 .galaxy-sim-section {
-    content-visibility: auto;
+    /* Keep this section rendered: its dark background is part of the text
+       contrast context, and content-visibility breaks that for audits and
+       for assistive tech that snapshots the page before scrolling. */
+    content-visibility: visible;
     contain-intrinsic-size: 0 700px;
 }
 

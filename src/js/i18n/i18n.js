@@ -64,9 +64,16 @@ function updateLanguage(lang) {
         el.setAttribute('title', t(el.getAttribute('data-i18n-title')));
     });
 
-    document.querySelectorAll('.info-icon').forEach(icon => {
+    document.querySelectorAll('.info-icon[data-param]').forEach(icon => {
         icon.setAttribute('aria-label', t('info_icon_label'));
         icon.setAttribute('title', t('info_icon_label'));
+    });
+
+    document.querySelectorAll('.confidence-indicator[data-confidence]').forEach(indicator => {
+        const item = indicator.closest('.confidence-item');
+        const param = item ? item.querySelector('.confidence-label')?.textContent.trim() : '';
+        const level = t('confidence_' + indicator.getAttribute('data-confidence'));
+        indicator.setAttribute('aria-label', param ? `${param}: ${level}` : level);
     });
 
     initLucideIcons();

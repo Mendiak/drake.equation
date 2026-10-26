@@ -15,6 +15,7 @@ export default [
         requestAnimationFrame: 'readonly',
         cancelAnimationFrame: 'readonly',
         requestIdleCallback: 'readonly',
+        IntersectionObserver: 'readonly',
         performance: 'readonly',
         navigator: 'readonly',
         localStorage: 'readonly',

@@ -23,14 +23,73 @@
     opacity: 0.7;
 }
 
+/*
+ * Background starfield of the result card. The element itself is only the
+ * brightness/fade layer (its inline opacity is set from JS); the visible
+ * star lives in ::before so the twinkle animation never fights the fade-in.
+ */
 .galaxy-dot {
     position: absolute;
     width: 2px;
     height: 2px;
-    background: var(--color-white);
+    background: transparent;
     border-radius: var(--radius-full);
     opacity: 0;
     transition: opacity 1s ease;
+}
+
+.galaxy-dot::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: radial-gradient(
+        circle,
+        rgb(255 255 255 / 95%) 0%,
+        rgb(255 255 255 / 45%) 45%,
+        rgb(255 255 255 / 0%) 70%
+    );
+    animation: galaxy-dot-twinkle var(--twinkle-duration, 4s) ease-in-out infinite;
+    animation-delay: var(--twinkle-delay, 0s);
+}
+
+/* A handful of larger, slower stars so the field does not read as uniform. */
+.galaxy-dot-bright {
+    width: 3px;
+    height: 3px;
+}
+
+.galaxy-dot-bright::before {
+    inset: -2px;
+    background: radial-gradient(
+        circle,
+        rgb(255 255 255 / 100%) 0%,
+        rgb(255 255 255 / 55%) 28%,
+        rgb(255 255 255 / 12%) 55%,
+        rgb(255 255 255 / 0%) 75%
+    );
+    filter: drop-shadow(0 0 3px rgb(255 255 255 / 70%));
+}
+
+@keyframes galaxy-dot-twinkle {
+    0%,
+    100% {
+        opacity: 0.25;
+        transform: scale(0.75);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.3);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .galaxy-dot::before {
+        animation: none;
+        opacity: 0.7;
+        transform: none;
+    }
 }
 
 .result-label {
@@ -42,9 +101,11 @@
 #result {
     font-size: var(--text-4xl);
     font-weight: var(--font-weight-extra);
+    line-height: 1.05;
     position: relative;
     z-index: 1;
-    font-family: var(--font-family-mono);                                                                                                              margin: var(--space-xs) 0;
+    font-family: var(--font-family-mono);
+    margin: var(--space-xs) 0;
     max-width: 100%;
     word-break: normal;
     overflow-wrap: anywhere;
@@ -97,7 +158,7 @@
 }
 
 .context-item small {
-    opacity: 0.5;
+    opacity: 0.85;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     font-weight: var(--font-weight-bold);
@@ -161,7 +222,7 @@
 }
 
 .confidence-range-label {
-    opacity: 0.5;
+    opacity: 0.9;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-right: var(--space-xs);

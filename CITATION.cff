@@ -1,0 +1,61 @@
+cff-version: 1.2.0
+message: "If you use this calculator, its documentation or its data, please cite it as below."
+title: "Drake Equation Calculator"
+abstract: >-
+  An interactive, bilingual Drake Equation calculator with a documented
+  scientific registry: every parameter carries a source, a date and a status
+  (observed, derived or assumption), and the published methodology page is
+  generated from that registry.
+type: software
+version: 1.0.0
+date-released: 2026-10-26
+license: CC0-1.0
+repository-code: "https://github.com/Mendiak/drake.equation"
+url: "https://mendiak.github.io/drake.equation/"
+authors:
+  - family-names: Aramendia
+    given-names: Mikel
+    website: "https://mendiak.github.io/portfolio/"
+keywords:
+  - drake equation
+  - astrobiology
+  - seti
+  - fermi paradox
+  - exoplanets
+  - science communication
+references:
+  - type: article
+    authors:
+      - family-names: Sandberg
+        given-names: Anders
+      - family-names: Drexler
+        given-names: Eric
+      - family-names: Ord
+        given-names: Toby
+    title: "Dissolving the Fermi Paradox"
+    year: 2018
+    doi: "10.48550/arXiv.1806.02404"
+  - type: article
+    authors:
+      - family-names: Licquia
+        given-names: Timothy C.
+      - family-names: Newman
+        given-names: Jeffrey A.
+    title: "Improved Estimates of the Milky Way's Stellar Mass and Star Formation Rate from Hierarchical Bayesian Meta-Analysis"
+    journal: "The Astrophysical Journal"
+    volume: 806
+    year: 2015
+    doi: "10.1088/0004-637X/806/1/96"
+  - type: article
+    authors:
+      - family-names: Petigura
+        given-names: Erik A.
+      - family-names: Howard
+        given-names: Andrew W.
+      - family-names: Marcy
+        given-names: Geoffrey W.
+    title: "Prevalence of Earth-size planets orbiting Sun-like stars"
+    journal: "Proceedings of the National Academy of Sciences"
+    volume: 110
+    year: 2013
+    doi: "10.1073/pnas.1319909110"

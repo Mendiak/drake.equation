@@ -1,9 +1,10 @@
 /**
  * Long-form guide content for the static SEO pages.
  *
- * Bodies are HTML strings. Two tokens are resolved by generate-content.mjs:
+ * Bodies are HTML strings. Three tokens are resolved by generate-content.mjs:
  *   {{calc}}            -> calculator page, relative to the current article
  *   {{article:<id>}}    -> sibling article in the same language
+ *   {{source:<id>}}     -> formatted citation from src/js/core/science.js
  *
  * Add an article here and the generator creates both language versions,
  * links them from every other guide, and rebuilds sitemap.xml.
@@ -31,7 +32,7 @@ export const ui = {
         authorship: 'By Mikel Aramendia',
         source: 'Source Code',
         home: 'Home',
-        breadcrumb: 'Guides'
+        breadcrumb: 'Breadcrumb'
     },
     es: {
         skip: 'Saltar al contenido principal',
@@ -50,7 +51,7 @@ export const ui = {
         authorship: 'Por Mikel Aramendia',
         source: 'Código fuente',
         home: 'Inicio',
-        breadcrumb: 'Guías'
+        breadcrumb: 'Ruta de navegación'
     }
 };
 
@@ -64,7 +65,7 @@ export const articles = [
             description: 'The Drake Equation explained: its origin in 1961, what each of the seven terms means, and why honest estimates range from one civilization to millions.',
             eyebrow: 'Explainer',
             h1: 'What is the Drake Equation?',
-            lead: 'In 1961 an astronomer wrote seven terms on a blackboard. Together they turn a vague question — are we alone? — into a list of things we can actually argue about.',
+            lead: 'In 1961 an astronomer wrote seven terms on a blackboard. Together they turn a vague question — are we alone? — into a list of things we can actually argue about. The <a href="{{calc}}">interactive calculator</a> turns those seven terms into sliders you can test yourself.',
             readingTime: 8,
             sections: [
                 {
@@ -102,7 +103,7 @@ export const articles = [
                 },
                 {
                     id: 'uncertainty',
-                    heading: 'Why the answer spans ten orders of magnitude',
+                    heading: 'Why the answer spans many orders of magnitude',
                     body: `
 <p>Plug in optimistic values and N can reach millions. Plug in pessimistic ones and it falls below one, meaning we might be the only civilization in the galaxy. Both results come from the same equation.</p>
 <p>The reason is that several terms are unknown by factors of ten, a hundred, or more. Multiplying uncertain numbers does not average out the uncertainty; it compounds it. A common mistake is to take the middle of every plausible range, multiply, and present the result as <em>the</em> estimate. That number has no special status.</p>
@@ -150,11 +151,11 @@ export const articles = [
         },
         es: {
             short: 'Ecuación de Drake',
-            title: '¿Qué es la Ecuación de Drake? Guía clara y sin fórmulas raras',
-            description: 'La Ecuación de Drake explicada: su origen en 1961, qué significa cada uno de sus siete términos y por qué las estimaciones honestas van de una civilización a millones.',
+            title: '¿Qué es la Ecuación de Drake? Guía clara',
+            description: 'La Ecuación de Drake explicada: su origen en 1961, qué significa cada uno de sus siete términos y por qué el resultado abarca de una civilización a millones.',
             eyebrow: 'Guía',
             h1: '¿Qué es la Ecuación de Drake?',
-            lead: 'En 1961 un astrónomo escribió siete términos en una pizarra. Juntos convierten una pregunta vaga —¿estamos solos?— en una lista de cosas sobre las que sí podemos discutir.',
+            lead: 'En 1961 un astrónomo escribió siete términos en una pizarra. Juntos convierten una pregunta vaga —¿estamos solos?— en una lista de cosas sobre las que sí podemos discutir. La <a href="{{calc}}">calculadora interactiva</a> convierte esos siete términos en controles que puedes probar tú mismo.',
             readingTime: 8,
             sections: [
                 {
@@ -192,7 +193,7 @@ export const articles = [
                 },
                 {
                     id: 'uncertainty',
-                    heading: 'Por qué la respuesta abarca diez órdenes de magnitud',
+                    heading: 'Por qué la respuesta abarca muchos órdenes de magnitud',
                     body: `
 <p>Con valores optimistas, N puede llegar a millones. Con valores pesimistas, cae por debajo de uno: podríamos ser la única civilización de la galaxia. Ambos resultados salen de la misma ecuación.</p>
 <p>La razón es que varios términos son desconocidos en factores de diez, cien o más. Multiplicar números inciertos no promedia la incertidumbre: la acumula. Un error habitual consiste en tomar el centro de cada rango plausible, multiplicar y presentar el resultado como <em>la</em> estimación. Ese número no tiene ningún estatus especial.</p>
@@ -248,7 +249,7 @@ export const articles = [
             description: 'The Fermi Paradox explained: why a galaxy of hundreds of billions of stars looks silent, what the Great Filter means, and which solutions hold up.',
             eyebrow: 'Explainer',
             h1: 'The Fermi Paradox',
-            lead: 'The galaxy is old, enormous, and full of planets. If even a modest fraction of them host civilizations, the silence is the strangest fact in astronomy.',
+            lead: 'The galaxy is old, enormous, and full of planets. If even a modest fraction of them host civilizations, the silence is the strangest fact in astronomy. The <a href="{{calc}}">Drake Equation calculator</a> shows how quickly a plausible set of assumptions fills the galaxy.',
             readingTime: 8,
             sections: [
                 {
@@ -329,10 +330,10 @@ export const articles = [
         es: {
             short: 'Paradoja de Fermi',
             title: 'La paradoja de Fermi: ¿dónde está todo el mundo?',
-            description: 'La paradoja de Fermi explicada: por qué una galaxia con cientos de miles de millones de estrellas parece silenciosa, qué es el Gran Filtro y qué soluciones se sostienen.',
+            description: 'La paradoja de Fermi explicada: por qué una galaxia con cientos de miles de millones de estrellas parece silenciosa y qué respuestas existen.',
             eyebrow: 'Guía',
             h1: 'La paradoja de Fermi',
-            lead: 'La galaxia es vieja, enorme y está llena de planetas. Si aunque sea una fracción modesta alberga civilizaciones, el silencio es el hecho más extraño de la astronomía.',
+            lead: 'La galaxia es vieja, enorme y está llena de planetas. Si aunque sea una fracción modesta alberga civilizaciones, el silencio es el hecho más extraño de la astronomía. La <a href="{{calc}}">calculadora de la Ecuación de Drake</a> muestra con qué rapidez un conjunto plausible de supuestos llena la galaxia.',
             readingTime: 8,
             sections: [
                 {
@@ -420,7 +421,7 @@ export const articles = [
             description: 'What the habitable zone really means, how astronomers define its inner and outer edges, and why a planet in the zone is only a candidate for life.',
             eyebrow: 'Explainer',
             h1: 'The Habitable Zone',
-            lead: 'It is the strip around a star where a rocky planet could keep liquid water on its surface. It is a useful first filter — and a poor guarantee.',
+            lead: 'It is the strip around a star where a rocky planet could keep liquid water on its surface. It is a useful first filter — and a poor guarantee. See how it feeds the <a href="{{calc}}">Drake Equation calculator</a> through the n<sub>e</sub> term.',
             readingTime: 7,
             sections: [
                 {
@@ -504,7 +505,7 @@ export const articles = [
             description: 'Qué significa realmente la zona habitable, cómo se definen sus bordes interior y exterior y por qué un planeta en la zona es solo un candidato a albergar vida.',
             eyebrow: 'Guía',
             h1: 'La zona habitable',
-            lead: 'Es la franja alrededor de una estrella donde un planeta rocoso podría mantener agua líquida en su superficie. Es un buen primer filtro y una mala garantía.',
+            lead: 'Es la franja alrededor de una estrella donde un planeta rocoso podría mantener agua líquida en su superficie. Es un buen primer filtro y una mala garantía. Descubre cómo alimenta la <a href="{{calc}}">calculadora de la Ecuación de Drake</a> a través del término n<sub>e</sub>.',
             readingTime: 7,
             sections: [
                 {
@@ -592,7 +593,7 @@ export const articles = [
             description: 'How SETI actually works: radio and optical searches, technosignatures such as Dyson swarms, and what the silence does and does not mean.',
             eyebrow: 'Explainer',
             h1: 'SETI and Technosignatures',
-            lead: 'SETI is not a telescope pointed at a maybe-planet. It is a set of experiments designed to detect technology we did not build — and it is harder than it sounds.',
+            lead: 'SETI is not a telescope pointed at a maybe-planet. It is a set of experiments designed to detect technology we did not build — and it is harder than it sounds. The <a href="{{calc}}">calculator</a> shows how the fraction of technological civilizations (f<sub>c</sub>) shapes the estimate.',
             readingTime: 7,
             sections: [
                 {
@@ -674,7 +675,7 @@ export const articles = [
             description: 'Cómo funciona SETI de verdad: búsquedas de radio y ópticas, tecnofirmas como las esferas de Dyson y qué significa —y qué no— el silencio.',
             eyebrow: 'Guía',
             h1: 'SETI y tecnofirmas',
-            lead: 'SETI no es un telescopio apuntado a un planeta quizá habitable. Es un conjunto de experimentos diseñados para detectar tecnología que no construimos nosotros, y es más difícil de lo que parece.',
+            lead: 'SETI no es un telescopio apuntado a un planeta quizá habitable. Es un conjunto de experimentos diseñados para detectar tecnología que no construimos nosotros, y es más difícil de lo que parece. La <a href="{{calc}}">calculadora</a> muestra cómo la fracción de civilizaciones tecnológicas (f<sub>c</sub>) condiciona la estimación.',
             readingTime: 7,
             sections: [
                 {
