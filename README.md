@@ -1,5 +1,7 @@
 # Drake Equation Interactive Dashboard
 
+[![XERJ Corpus Hub contributor](https://hub.xerj.org/contributors/Mendiak/badge.svg)](https://hub.xerj.org/contributors/Mendiak)
+
 An interactive tool to explore the [Drake Equation](https://en.wikipedia.org/wiki/Drake_equation), estimate the number of communicative extraterrestrial civilizations in the Milky Way, and understand the factors that shape this famous probabilistic framework.
 
 [**Live Demo**](https://mendiak.github.io/drake.equation/)
