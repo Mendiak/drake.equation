@@ -184,6 +184,7 @@ const HEAD_REPLACEMENTS = [
     ['<script type="module" src="js/app.js"></script>', '<script type="module" src="../js/app.js"></script>'],
     // Guide cards and FAQ links point at the Spanish articles.
     ['href="./what-is-the-drake-equation/"', 'href="./que-es-la-ecuacion-de-drake/"'],
+    ['href="./drake-equation-estimates/"', 'href="./estimaciones-ecuacion-de-drake/"'],
     ['href="./fermi-paradox/"', 'href="./paradoja-de-fermi/"'],
     ['href="./habitable-zone/"', 'href="./zona-habitable/"'],
     ['href="./seti-technosignatures/"', 'href="./seti-y-tecnofirmas/"'],
