@@ -194,14 +194,19 @@
         ]
     }
     </script>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZXLS14C7VJ"></script>
+    <!-- Google tag (gtag.js) — production host only, so local previews never pollute the property -->
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
 
-        gtag('config', 'G-ZXLS14C7VJ');
+        if (location.hostname === 'mendiak.github.io') {
+            var gaScript = document.createElement('script');
+            gaScript.async = true;
+            gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-ZXLS14C7VJ';
+            document.head.appendChild(gaScript);
+            gtag('config', 'G-ZXLS14C7VJ');
+        }
     </script>
 </head>
 

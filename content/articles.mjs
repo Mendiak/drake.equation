@@ -61,16 +61,18 @@ export const articles = [
         slugs: { en: 'what-is-the-drake-equation', es: 'que-es-la-ecuacion-de-drake' },
         en: {
             short: 'Drake Equation',
-            title: 'What Is the Drake Equation? A Plain-English Guide',
-            description: 'The Drake Equation explained: its origin in 1961, what each of the seven terms means, and why honest estimates range from one civilization to millions.',
+            title: 'Drake Equation Explained: What the 7 Terms Actually Mean',
+            description: 'The Drake Equation explained term by term: its 1961 origin, what each of the seven factors means, and why honest estimates span one to millions.',
             eyebrow: 'Explainer',
             h1: 'What is the Drake Equation?',
-            lead: 'In 1961 an astronomer wrote seven terms on a blackboard. Together they turn a vague question — are we alone? — into a list of things we can actually argue about. The <a href="{{calc}}">interactive calculator</a> turns those seven terms into sliders you can test yourself.',
+            lead: 'In 1961 an astronomer wrote seven terms on a blackboard. Together they turn a vague question — are we alone? — into a list of things we can actually argue about. The <a href="{{calc}}">Drake Equation calculator</a> turns those seven terms into sliders you can test yourself.',
+            quickAnswer: 'N is the number of communicative civilisations in the Milky Way whose signals could reach us now. It is not a measurement: plausible inputs give anything from about 10⁻⁷ to 10⁶, and the modern estimate used by this calculator is 0.3.',
             readingTime: 8,
             sections: [
                 {
                     id: 'origins',
                     heading: 'A formula written as an agenda',
+                    answer: 'Frank Drake wrote the equation in November 1961 at the Green Bank conference, as an agenda for discussing whether listening for extraterrestrial signals was worth funding. It was never derived from a theory.',
                     body: `
 <p>In November 1961, Frank Drake hosted a small meeting at the Green Bank radio observatory in West Virginia. The topic was whether it was worth listening for radio signals from other stars. To give the discussion a structure, he wrote a short chain of multiplications on the board.</p>
 <p>That is the whole origin story. The equation was not derived from a theory of everything, and it was not intended to produce a precise census of aliens. It was an agenda: a way to split one enormous unknown into seven smaller ones, each of which could be discussed by a different kind of scientist.</p>
@@ -79,6 +81,7 @@ export const articles = [
                 {
                     id: 'terms',
                     heading: 'The seven terms, one by one',
+                    answer: 'The equation multiplies seven terms: the star formation rate (R*), the fraction of stars with planets (fp), habitable planets per system (ne), the fractions where life, intelligence and technology appear (fl, fi, fc), and the lifetime of a detectable civilisation (L).',
                     body: `
 <p class="content-formula">N = R* &times; f<sub>p</sub> &times; n<sub>e</sub> &times; f<sub>l</sub> &times; f<sub>i</sub> &times; f<sub>c</sub> &times; L</p>
 <p>Each term is a rate or a fraction, not a discovery. Read from left to right, the equation walks down a chain of conditions:</p>
@@ -96,6 +99,7 @@ export const articles = [
                 {
                     id: 'purpose',
                     heading: 'What the equation is actually for',
+                    answer: 'The equation is a map of ignorance: it shows which unknown dominates the answer, and therefore which measurement would change it. It is not a census of aliens.',
                     body: `
 <p>The Drake Equation is best understood as a bookkeeping device for ignorance. It does not tell you how many civilizations there are. It tells you <em>where</em> the uncertainty is concentrated, and therefore which measurement would actually change the answer.</p>
 <p>This matters because the terms are wildly unequal in quality. The first three can be constrained by astronomy. The last four are, so far, informed guesses. If <strong>f<sub>l</sub></strong> turns out to be extremely small, then the search for biosignatures is the decisive experiment. If life is common but intelligence is not, then the interesting question moves to evolution. If civilizations are common but short-lived, then <strong>L</strong> is the term that matters — and the galaxy may be full of ruins rather than radio shows.</p>
@@ -104,6 +108,7 @@ export const articles = [
                 {
                     id: 'uncertainty',
                     heading: 'Why the answer spans many orders of magnitude',
+                    answer: 'N spans many orders of magnitude because several terms are unknown by factors of ten or more, and multiplying uncertain numbers compounds the uncertainty instead of averaging it out.',
                     body: `
 <p>Plug in optimistic values and N can reach millions. Plug in pessimistic ones and it falls below one, meaning we might be the only civilization in the galaxy. Both results come from the same equation.</p>
 <p>The reason is that several terms are unknown by factors of ten, a hundred, or more. Multiplying uncertain numbers does not average out the uncertainty; it compounds it. A common mistake is to take the middle of every plausible range, multiply, and present the result as <em>the</em> estimate. That number has no special status.</p>
@@ -113,6 +118,7 @@ export const articles = [
                 {
                     id: 'misconceptions',
                     heading: 'Four common misconceptions',
+                    answer: 'The equation does not prove aliens exist, does not count every civilisation that ever lived, is not a physical law, and does not by itself imply that we should have detected anyone.',
                     body: `
 <ul>
     <li><strong>“It proves aliens exist.”</strong> It does not. The equation is a framework; it can be filled with values that produce N &lt; 1.</li>
@@ -124,6 +130,7 @@ export const articles = [
                 {
                     id: 'today',
                     heading: 'What is changing the estimate now',
+                    answer: 'The first terms are now measured: star formation, planet occurrence and habitable-zone occurrence. The biological terms (fl, fi, fc) and the lifetime L remain assumptions, and that is where the uncertainty lives.',
                     body: `
 <p>Two of the seven terms have moved from philosophy into measurement. <strong>f<sub>p</sub></strong> is now close to 1: planets are the normal outcome of star formation, not an exception. <strong>n<sub>e</sub></strong> is being attacked by surveys that count small rocky planets in <a href="{{article:zone}}">the habitable zone</a> around nearby stars.</p>
 <p>The harder terms are the biological ones. Transmission spectroscopy of exoplanet atmospheres can, in principle, detect oxygen, methane, or other gases that would be hard to explain without life. That would not settle <strong>f<sub>i</sub></strong> or <strong>f<sub>c</sub></strong>, but it would give <strong>f<sub>l</sub></strong> its first real data point.</p>
@@ -155,12 +162,14 @@ export const articles = [
             description: 'La Ecuación de Drake explicada: su origen en 1961, qué significa cada uno de sus siete términos y por qué el resultado abarca de una civilización a millones.',
             eyebrow: 'Guía',
             h1: '¿Qué es la Ecuación de Drake?',
-            lead: 'En 1961 un astrónomo escribió siete términos en una pizarra. Juntos convierten una pregunta vaga —¿estamos solos?— en una lista de cosas sobre las que sí podemos discutir. La <a href="{{calc}}">calculadora interactiva</a> convierte esos siete términos en controles que puedes probar tú mismo.',
+            lead: 'En 1961 un astrónomo escribió siete términos en una pizarra. Juntos convierten una pregunta vaga —¿estamos solos?— en una lista de cosas sobre las que sí podemos discutir. La <a href="{{calc}}">calculadora de la Ecuación de Drake</a> convierte esos siete términos en controles que puedes probar tú mismo.',
+            quickAnswer: 'N es el número de civilizaciones comunicativas de la Vía Láctea cuyas señales podrían llegar ahora. No es una medición: con supuestos plausibles va de unas 10⁻⁷ a 10⁶, y la estimación moderna que usa esta calculadora es 0,3.',
             readingTime: 8,
             sections: [
                 {
                     id: 'origins',
                     heading: 'Una fórmula escrita como orden del día',
+                    answer: 'Frank Drake escribió la ecuación en noviembre de 1961 en la conferencia de Green Bank, como orden del día para discutir si merecía la pena financiar la escucha de señales extraterrestres. Nunca se dedujo de una teoría.',
                     body: `
 <p>En noviembre de 1961, Frank Drake organizó una pequeña reunión en el observatorio de radio de Green Bank, en Virginia Occidental. El tema era si merecía la pena escuchar señales de radio de otras estrellas. Para dar estructura a la conversación, escribió en la pizarra una breve cadena de multiplicaciones.</p>
 <p>Ese es todo el origen. La ecuación no se dedujo de una teoría del todo ni pretendía hacer un censo preciso de extraterrestres. Era una agenda: una forma de dividir un desconocimiento enorme en siete incógnitas más pequeñas, cada una discutible por un especialista distinto.</p>
@@ -169,6 +178,7 @@ export const articles = [
                 {
                     id: 'terms',
                     heading: 'Los siete términos, uno por uno',
+                    answer: 'La ecuación multiplica siete términos: el ritmo de formación estelar (R*), la fracción de estrellas con planetas (fp), los planetas habitables por sistema (ne), las fracciones donde aparecen vida, inteligencia y tecnología (fl, fi, fc) y la vida media de una civilización detectable (L).',
                     body: `
 <p class="content-formula">N = R* &times; f<sub>p</sub> &times; n<sub>e</sub> &times; f<sub>l</sub> &times; f<sub>i</sub> &times; f<sub>c</sub> &times; L</p>
 <p>Cada término es una tasa o una fracción, no un descubrimiento. Leída de izquierda a derecha, la ecuación recorre una cadena de condiciones:</p>
@@ -186,6 +196,7 @@ export const articles = [
                 {
                     id: 'purpose',
                     heading: 'Para qué sirve realmente la ecuación',
+                    answer: 'La ecuación es un mapa de la ignorancia: muestra qué incógnita domina la respuesta y, por tanto, qué medición la cambiaría. No es un censo de extraterrestres.',
                     body: `
 <p>La Ecuación de Drake se entiende mejor como un sistema de contabilidad de la ignorancia. No dice cuántas civilizaciones hay. Dice <em>dónde</em> se concentra la incertidumbre y, por tanto, qué medición cambiaría de verdad la respuesta.</p>
 <p>Esto importa porque los términos son muy desiguales en calidad. Los tres primeros pueden acotarse con astronomía. Los cuatro últimos son, por ahora, conjeturas informadas. Si <strong>f<sub>l</sub></strong> resulta ser extremadamente pequeño, la búsqueda de biofirmas es el experimento decisivo. Si la vida es común pero la inteligencia no, la pregunta interesante se traslada a la evolución. Si las civilizaciones son comunes pero duran poco, el término que manda es <strong>L</strong>, y la galaxia podría estar llena de ruinas en lugar de programas de radio.</p>
@@ -194,6 +205,7 @@ export const articles = [
                 {
                     id: 'uncertainty',
                     heading: 'Por qué la respuesta abarca muchos órdenes de magnitud',
+                    answer: 'N abarca muchos órdenes de magnitud porque varios términos son desconocidos en factores de diez o más, y multiplicar números inciertos acumula la incertidumbre en lugar de promediarla.',
                     body: `
 <p>Con valores optimistas, N puede llegar a millones. Con valores pesimistas, cae por debajo de uno: podríamos ser la única civilización de la galaxia. Ambos resultados salen de la misma ecuación.</p>
 <p>La razón es que varios términos son desconocidos en factores de diez, cien o más. Multiplicar números inciertos no promedia la incertidumbre: la acumula. Un error habitual consiste en tomar el centro de cada rango plausible, multiplicar y presentar el resultado como <em>la</em> estimación. Ese número no tiene ningún estatus especial.</p>
@@ -203,6 +215,7 @@ export const articles = [
                 {
                     id: 'misconceptions',
                     heading: 'Cuatro malentendidos frecuentes',
+                    answer: 'La ecuación no demuestra que existan extraterrestres, no cuenta todas las civilizaciones que han existido, no es una ley física y no implica por sí sola que deberíamos haber detectado a alguien.',
                     body: `
 <ul>
     <li><strong>«Demuestra que existen extraterrestres».</strong> No. Es un marco de trabajo; se puede rellenar con valores que dan N &lt; 1.</li>
@@ -214,6 +227,7 @@ export const articles = [
                 {
                     id: 'today',
                     heading: 'Qué está cambiando la estimación ahora',
+                    answer: 'Los primeros términos ya se miden: formación estelar, ocurrencia planetaria y ocurrencia en zona habitable. Los términos biológicos (fl, fi, fc) y la vida media L siguen siendo supuestos, y ahí está la incertidumbre.',
                     body: `
 <p>Dos de los siete términos han pasado de la filosofía a la medición. <strong>f<sub>p</sub></strong> está ya cerca de 1: los planetas son el resultado normal de la formación estelar, no una excepción. <strong>n<sub>e</sub></strong> se está atacando con censos que cuentan planetas rocosos pequeños en <a href="{{article:zone}}">la zona habitable</a> alrededor de estrellas cercanas.</p>
 <p>Los términos difíciles son los biológicos. La espectroscopia de transmisión de atmósferas de exoplanetas puede, en principio, detectar oxígeno, metano u otros gases difíciles de explicar sin vida. Eso no resolvería <strong>f<sub>i</sub></strong> ni <strong>f<sub>c</sub></strong>, pero daría a <strong>f<sub>l</sub></strong> su primer dato real.</p>
@@ -250,6 +264,7 @@ export const articles = [
             eyebrow: 'Explainer',
             h1: 'The Fermi Paradox',
             lead: 'The galaxy is old, enormous, and full of planets. If even a modest fraction of them host civilizations, the silence is the strangest fact in astronomy. The <a href="{{calc}}">Drake Equation calculator</a> shows how quickly a plausible set of assumptions fills the galaxy.',
+            quickAnswer: 'The Fermi paradox is the mismatch between the expected number of civilizations and the complete absence of evidence for them. No confirmed technosignature exists, and every proposed resolution is still a hypothesis.',
             readingTime: 8,
             sections: [
                 {
@@ -334,6 +349,7 @@ export const articles = [
             eyebrow: 'Guía',
             h1: 'La paradoja de Fermi',
             lead: 'La galaxia es vieja, enorme y está llena de planetas. Si aunque sea una fracción modesta alberga civilizaciones, el silencio es el hecho más extraño de la astronomía. La <a href="{{calc}}">calculadora de la Ecuación de Drake</a> muestra con qué rapidez un conjunto plausible de supuestos llena la galaxia.',
+            quickAnswer: 'La paradoja de Fermi es el desajuste entre el número esperado de civilizaciones y la ausencia total de pruebas de ellas. No hay ninguna tecnofirma confirmada y toda solución propuesta sigue siendo una hipótesis.',
             readingTime: 8,
             sections: [
                 {
@@ -422,6 +438,7 @@ export const articles = [
             eyebrow: 'Explainer',
             h1: 'The Habitable Zone',
             lead: 'It is the strip around a star where a rocky planet could keep liquid water on its surface. It is a useful first filter — and a poor guarantee. See how it feeds the <a href="{{calc}}">Drake Equation calculator</a> through the n<sub>e</sub> term.',
+            quickAnswer: 'The habitable zone is the band around a star where a rocky planet with a suitable atmosphere could keep liquid water on its surface. Being inside it makes a planet a candidate for life, not a confirmed one.',
             readingTime: 7,
             sections: [
                 {
@@ -501,11 +518,12 @@ export const articles = [
         },
         es: {
             short: 'Zona habitable',
-            title: 'La zona habitable: dónde puede existir agua líquida',
-            description: 'Qué significa realmente la zona habitable, cómo se definen sus bordes interior y exterior y por qué un planeta en la zona es solo un candidato a albergar vida.',
+            title: 'Zona habitable: qué es y por qué no garantiza vida',
+            description: 'Zona habitable explicada: cómo se definen sus bordes, qué estrellas la hacen posible y por qué estar en ella es solo un candidato, no prueba de vida.',
             eyebrow: 'Guía',
             h1: 'La zona habitable',
             lead: 'Es la franja alrededor de una estrella donde un planeta rocoso podría mantener agua líquida en su superficie. Es un buen primer filtro y una mala garantía. Descubre cómo alimenta la <a href="{{calc}}">calculadora de la Ecuación de Drake</a> a través del término n<sub>e</sub>.',
+            quickAnswer: 'La zona habitable es la franja alrededor de una estrella donde un planeta rocoso con una atmósfera adecuada podría mantener agua líquida en su superficie. Estar dentro la convierte en candidata, no en un mundo habitado.',
             readingTime: 7,
             sections: [
                 {
@@ -594,6 +612,7 @@ export const articles = [
             eyebrow: 'Explainer',
             h1: 'SETI and Technosignatures',
             lead: 'SETI is not a telescope pointed at a maybe-planet. It is a set of experiments designed to detect technology we did not build — and it is harder than it sounds. The <a href="{{calc}}">calculator</a> shows how the fraction of technological civilizations (f<sub>c</sub>) shapes the estimate.',
+            quickAnswer: 'SETI is the search for technology built by someone else, mainly by listening for narrowband radio or optical signals. After six decades there is no confirmed detection, and a non-detection constrains only the specific search that produced it.',
             readingTime: 7,
             sections: [
                 {
@@ -676,6 +695,7 @@ export const articles = [
             eyebrow: 'Guía',
             h1: 'SETI y tecnofirmas',
             lead: 'SETI no es un telescopio apuntado a un planeta quizá habitable. Es un conjunto de experimentos diseñados para detectar tecnología que no construimos nosotros, y es más difícil de lo que parece. La <a href="{{calc}}">calculadora</a> muestra cómo la fracción de civilizaciones tecnológicas (f<sub>c</sub>) condiciona la estimación.',
+            quickAnswer: 'SETI es la búsqueda de tecnología ajena, sobre todo escuchando señales de radio o luz de banda estrecha. Tras seis décadas no hay ninguna detección confirmada, y una no detección solo acota la búsqueda concreta que la produjo.',
             readingTime: 7,
             sections: [
                 {
@@ -748,6 +768,190 @@ export const articles = [
                 {
                     q: '¿Por qué no enviamos directamente un mensaje?',
                     a: 'La humanidad ha enviado algunas transmisiones simbólicas, pero la mensajería deliberada es polémica: es lenta y no hay un protocolo acordado sobre qué decir ni sobre si conviene decirlo.'
+                }
+            ]
+        }
+    },
+    {
+        id: 'estimates',
+        slugs: { en: 'drake-equation-estimates', es: 'estimaciones-ecuacion-de-drake' },
+        en: {
+            short: 'Estimates',
+            title: 'Drake Equation Estimates: How Many Civilizations?',
+            description: 'Every Drake Equation estimate from N = 10 in 1961 to a million, the assumptions behind each number, and why the honest answer is a range, not a figure.',
+            eyebrow: 'Reference',
+            h1: 'How many civilizations? The estimates, side by side',
+            lead: 'Every published Drake Equation estimate is a set of assumptions multiplied together. The <a href="{{calc}}">calculator</a> ships six of them as presets; this page shows what each one produces and where the number comes from.',
+            quickAnswer: 'There is no single number. Depending on the assumptions, N ranges from about 10⁻⁷ to 10⁶ civilizations in the Milky Way. The modern estimate used by this calculator is 0.3, which means that with current data, being alone is the more likely outcome.',
+            readingTime: 7,
+            sections: [
+                {
+                    id: 'range',
+                    heading: 'The answer is a range, not a number',
+                    answer: 'Published estimates of N span roughly thirteen orders of magnitude, from about 1.5 × 10⁻⁷ to 1 × 10⁶ civilizations. Any single figure presented without its assumptions is misleading.',
+                    body: `
+<p>Every estimate of N is the product of the same seven terms. What changes between one published number and the next is not the mathematics but the values chosen for the four terms nobody can measure: f<sub>l</sub>, f<sub>i</sub>, f<sub>c</sub> and L.</p>
+<p>Because N is a product, a factor-of-ten change in any single term shifts the result by a factor of ten. Four uncertain terms therefore multiply into a spread of many orders of magnitude. The range is not a failure of the equation; it is the equation working as intended.</p>`
+                },
+                {
+                    id: 'published',
+                    heading: 'The published estimates, side by side',
+                    answer: "Drake's 1961 values give N = 10; Sagan's reconstruction gives about 10⁶; the modern estimate used by this calculator gives 0.3; the Rare Earth and pessimistic presets fall below one.",
+                    body: `
+{{estimates-table}}
+<p>Each row links to the calculator with that preset applied, so the number can be checked instead of trusted. The Sagan row is a reconstruction of a widely quoted ~10⁶ claim rather than a full published parameter list.</p>
+<p>Two rows are historical and four are modern constructions. None of them is a measurement of N, because N cannot be measured directly.</p>`
+                },
+                {
+                    id: 'assumptions',
+                    heading: 'Which terms carry the weight',
+                    answer: 'The first three terms are constrained by astronomy. The last four are informed guesses, and that is where the answer is actually decided.',
+                    body: `
+<p>The seven terms are not equal in quality. <strong>R*</strong>, <strong>f<sub>p</sub></strong> and <strong>n<sub>e</sub></strong> come from star counts, microlensing and transit surveys. <strong>f<sub>l</sub></strong>, <strong>f<sub>i</sub></strong>, <strong>f<sub>c</sub></strong> and <strong>L</strong> have no direct measurement at all.</p>
+<ul>
+    <li><strong>R*</strong> — roughly 1.5 to 3 stars per year, derived from the Galactic star formation rate ({{source:licquia2015}}).</li>
+    <li><strong>f<sub>p</sub></strong> — close to 1: bound planets are the norm ({{source:cassan2012}}).</li>
+    <li><strong>n<sub>e</sub></strong> — roughly 0.1 to 0.5 habitable-zone planets per system, depending on how generous the definition is ({{source:petigura2013}}).</li>
+    <li><strong>f<sub>l</sub>, f<sub>i</sub>, f<sub>c</sub>, L</strong> — assumptions. They range over orders of magnitude and no dataset currently constrains them.</li>
+</ul>
+<p>This is why two estimates can differ by a factor of a million while using identical astronomy.</p>`
+                },
+                {
+                    id: 'modern',
+                    heading: 'What the modern data actually changed',
+                    answer: 'Two things changed since 1961: planets turned out to be common, and the star formation rate was measured. Both moved the first three terms, and neither settled the biological ones.',
+                    body: `
+<p>Drake's 1961 values were reasonable for their time but rested on almost no data. Six decades later the first three terms are no longer guesses: planetary systems are ubiquitous, and the star formation rate has been measured to within about 12% ({{source:licquia2015}}).</p>
+<p>That progress pushed N in both directions at once. <strong>f<sub>p</sub></strong> went up, towards 1. <strong>n<sub>e</sub></strong> came down, because only a small fraction of planets sit in the conservative habitable zone ({{source:kopparapu2013}}). The net effect is that the astronomy is far better while the answer is barely more certain, because the uncertainty was never in the astronomy.</p>`
+                },
+                {
+                    id: 'sandberg',
+                    heading: 'Why the uncertainty is itself the result',
+                    answer: 'Sandberg, Drexler and Ord (2018) treated the terms as probability distributions instead of point values and found that a substantial probability of being alone is consistent with the data.',
+                    body: `
+<p>The usual failure mode is to pick the middle of every plausible range, multiply, and present the product as <em>the</em> estimate. That number has no special status: multiplying central values does not produce the central value of the product.</p>
+<p>Sandberg, Drexler and Ord redid the calculation with broad probability distributions and found that the resulting spread is so wide that a substantial probability of being alone survives ({{source:sandberg2018}}). A galaxy can be empty and the equation can still be correct.</p>`
+                },
+                {
+                    id: 'headlines',
+                    heading: 'How to read a headline number',
+                    answer: 'Check which values were used for fl, fi, fc and L, whether the result is a point estimate or a distribution, and whether it counts civilizations alive now or all that have ever existed.',
+                    body: `
+<p>Three questions separate a defensible estimate from a decorative one:</p>
+<ul>
+    <li><strong>Which terms were assumed?</strong> If an article quotes only N and not f<sub>l</sub>, f<sub>i</sub>, f<sub>c</sub> and L, the number cannot be checked.</li>
+    <li><strong>Point value or distribution?</strong> A single number hides the spread. A distribution shows how much of the probability sits below one.</li>
+    <li><strong>Now or ever?</strong> N counts civilizations detectable at the same time we are. A claim about how many have ever existed is a different quantity.</li>
+</ul>
+<p>The <a href="{{calc}}">calculator</a> is built to make those questions visible: every slider is one assumption, and the result updates as you change them.</p>`
+                }
+            ],
+            faq: [
+                {
+                    q: 'What is the current Drake Equation estimate?',
+                    a: 'There is no consensus figure. The modern estimate used by this calculator gives N ≈ 0.3, and published values range from about 10⁻⁷ to 10⁶ depending on the assumptions for life, intelligence, technology and lifetime.'
+                },
+                {
+                    q: 'Why does the answer range from less than one to millions?',
+                    a: 'Because N is a product of seven factors and four of them are unknown by factors of ten or more. Multiplying uncertain values compounds the spread instead of averaging it.'
+                },
+                {
+                    q: "Is Drake's N = 10 still valid?",
+                    a: "It is a historical reconstruction: Drake's 1961 inputs rather than modern measurements. It remains useful as a baseline for comparing newer values."
+                },
+                {
+                    q: 'Does a low N mean we are alone?',
+                    a: 'It means that, under those assumptions, the expected number of detectable civilizations is below one. That is a statement about the model, not a detection or a proof.'
+                }
+            ]
+        },
+        es: {
+            short: 'Estimaciones',
+            title: 'Estimaciones de la Ecuación de Drake: qué dicen los datos',
+            description: 'Todas las estimaciones de la Ecuación de Drake, de N = 10 en 1961 al millón, con los supuestos de cada cifra y por qué la respuesta honesta es un rango.',
+            eyebrow: 'Referencia',
+            h1: '¿Cuántas civilizaciones? Las estimaciones, una al lado de otra',
+            lead: 'Cada estimación publicada de la Ecuación de Drake es un conjunto de supuestos multiplicados entre sí. La <a href="{{calc}}">calculadora</a> incluye seis como presets; esta página muestra qué produce cada uno y de dónde sale la cifra.',
+            quickAnswer: 'No hay un número único. Según los supuestos, N va de unas 10⁻⁷ a 10⁶ civilizaciones en la Vía Láctea. La estimación moderna que usa esta calculadora es 0,3, lo que significa que, con los datos actuales, estar solos es el resultado más probable.',
+            readingTime: 7,
+            sections: [
+                {
+                    id: 'range',
+                    heading: 'La respuesta es un rango, no un número',
+                    answer: 'Las estimaciones publicadas de N abarcan unos trece órdenes de magnitud, desde 1,5 × 10⁻⁷ hasta 1 × 10⁶ civilizaciones. Cualquier cifra única presentada sin sus supuestos es engañosa.',
+                    body: `
+<p>Toda estimación de N es el producto de los mismos siete términos. Lo que cambia entre una cifra publicada y la siguiente no son las matemáticas, sino los valores elegidos para los cuatro términos que nadie puede medir: f<sub>l</sub>, f<sub>i</sub>, f<sub>c</sub> y L.</p>
+<p>Como N es un producto, un cambio de un factor diez en un solo término desplaza el resultado otro factor diez. Cuatro términos inciertos se multiplican, por tanto, en una dispersión de muchos órdenes de magnitud. El rango no es un fallo de la ecuación: es la ecuación funcionando como debe.</p>`
+                },
+                {
+                    id: 'published',
+                    heading: 'Las estimaciones publicadas, una al lado de otra',
+                    answer: 'Los valores de Drake de 1961 dan N = 10; la reconstrucción de Sagan da unos 10⁶; la estimación moderna de esta calculadora da 0,3; los presets de Tierra rara y pesimista quedan por debajo de uno.',
+                    body: `
+{{estimates-table}}
+<p>Cada fila enlaza a la calculadora con ese preset aplicado, para que la cifra se pueda comprobar en lugar de creerla. La fila de Sagan es una reconstrucción de una afirmación muy citada (~10⁶), no una lista completa de parámetros publicada.</p>
+<p>Dos filas son históricas y cuatro son construcciones modernas. Ninguna es una medición de N, porque N no se puede medir directamente.</p>`
+                },
+                {
+                    id: 'assumptions',
+                    heading: 'Qué términos soportan el peso',
+                    answer: 'Los tres primeros términos están acotados por la astronomía. Los cuatro últimos son conjeturas informadas, y ahí se decide realmente la respuesta.',
+                    body: `
+<p>Los siete términos no tienen la misma calidad. <strong>R*</strong>, <strong>f<sub>p</sub></strong> y <strong>n<sub>e</sub></strong> proceden de recuentos de estrellas, microlentes y tránsitos. <strong>f<sub>l</sub></strong>, <strong>f<sub>i</sub></strong>, <strong>f<sub>c</sub></strong> y <strong>L</strong> no tienen ninguna medición directa.</p>
+<ul>
+    <li><strong>R*</strong> — unas 1,5 a 3 estrellas por año, derivadas de la tasa de formación estelar galáctica ({{source:licquia2015}}).</li>
+    <li><strong>f<sub>p</sub></strong> — cerca de 1: los planetas ligados son la norma ({{source:cassan2012}}).</li>
+    <li><strong>n<sub>e</sub></strong> — aproximadamente 0,1 a 0,5 planetas en zona habitable por sistema, según lo generosa que sea la definición ({{source:petigura2013}}).</li>
+    <li><strong>f<sub>l</sub>, f<sub>i</sub>, f<sub>c</sub>, L</strong> — supuestos. Abarcan órdenes de magnitud y ningún conjunto de datos los acota hoy.</li>
+</ul>
+<p>Por eso dos estimaciones pueden diferir en un factor de un millón usando exactamente la misma astronomía.</p>`
+                },
+                {
+                    id: 'modern',
+                    heading: 'Qué cambió de verdad con los datos modernos',
+                    answer: 'Dos cosas desde 1961: los planetas resultaron ser comunes y se midió el ritmo de formación estelar. Ambas movieron los tres primeros términos, y ninguna resolvió los biológicos.',
+                    body: `
+<p>Los valores de Drake de 1961 eran razonables para su época, pero se apoyaban en casi ningún dato. Seis décadas después, los tres primeros términos ya no son conjeturas: los sistemas planetarios son ubicuos y la tasa de formación estelar se ha medido con una precisión de en torno al 12 % ({{source:licquia2015}}).</p>
+<p>Ese avance empujó N en dos direcciones a la vez. <strong>f<sub>p</sub></strong> subió hacia 1. <strong>n<sub>e</sub></strong> bajó, porque solo una fracción pequeña de los planetas está en la zona habitable conservadora ({{source:kopparapu2013}}). El efecto neto es que la astronomía es mucho mejor mientras la respuesta apenas es más cierta, porque la incertidumbre nunca estuvo en la astronomía.</p>`
+                },
+                {
+                    id: 'sandberg',
+                    heading: 'Por qué la incertidumbre es el resultado',
+                    answer: 'Sandberg, Drexler y Ord (2018) trataron los términos como distribuciones de probabilidad en lugar de valores puntuales y hallaron que una probabilidad sustancial de estar solos es compatible con los datos.',
+                    body: `
+<p>El error habitual consiste en tomar el centro de cada rango plausible, multiplicar y presentar el producto como <em>la</em> estimación. Ese número no tiene ningún estatus especial: multiplicar valores centrales no produce el valor central del producto.</p>
+<p>Sandberg, Drexler y Ord rehicieron el cálculo con distribuciones de probabilidad amplias y encontraron que la dispersión resultante es tan grande que sobrevive una probabilidad sustancial de estar solos ({{source:sandberg2018}}). La galaxia puede estar vacía y la ecuación seguir siendo correcta.</p>`
+                },
+                {
+                    id: 'headlines',
+                    heading: 'Cómo leer una cifra de titular',
+                    answer: 'Comprueba qué valores se usaron para fl, fi, fc y L, si el resultado es un valor puntual o una distribución, y si cuenta civilizaciones vivas ahora o todas las que han existido.',
+                    body: `
+<p>Tres preguntas separan una estimación defendible de una decorativa:</p>
+<ul>
+    <li><strong>¿Qué términos se supusieron?</strong> Si un artículo cita solo N y no f<sub>l</sub>, f<sub>i</sub>, f<sub>c</sub> y L, la cifra no se puede comprobar.</li>
+    <li><strong>¿Valor puntual o distribución?</strong> Un número único esconde la dispersión. Una distribución muestra cuánta probabilidad queda por debajo de uno.</li>
+    <li><strong>¿Ahora o siempre?</strong> N cuenta civilizaciones detectables a la vez que nosotros. Una afirmación sobre cuántas han existido alguna vez es otra cantidad.</li>
+</ul>
+<p>La <a href="{{calc}}">calculadora</a> está construida para hacer visibles esas preguntas: cada control es un supuesto y el resultado cambia al moverlos.</p>`
+                }
+            ],
+            faq: [
+                {
+                    q: '¿Cuál es la estimación actual de la Ecuación de Drake?',
+                    a: 'No hay una cifra de consenso. La estimación moderna que usa esta calculadora da N ≈ 0,3, y los valores publicados van de unas 10⁻⁷ a 10⁶ según los supuestos sobre vida, inteligencia, tecnología y duración.'
+                },
+                {
+                    q: '¿Por qué la respuesta va de menos de uno a millones?',
+                    a: 'Porque N es un producto de siete factores y cuatro de ellos son desconocidos en factores de diez o más. Multiplicar valores inciertos acumula la dispersión en lugar de promediarla.'
+                },
+                {
+                    q: '¿Sigue siendo válido el N = 10 de Drake?',
+                    a: 'Es una reconstrucción histórica: los valores de Drake de 1961, no mediciones modernas. Sigue siendo útil como referencia para comparar valores más recientes.'
+                },
+                {
+                    q: '¿Un N bajo significa que estamos solos?',
+                    a: 'Significa que, con esos supuestos, el número esperado de civilizaciones detectables es inferior a uno. Es una afirmación sobre el modelo, no una detección ni una prueba.'
                 }
             ]
         }

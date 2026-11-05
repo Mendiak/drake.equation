@@ -234,6 +234,17 @@
     text-transform: uppercase;
 }
 
+/* Lead paragraph that answers the section's question before the detail. */
+.content-body .content-answer {
+    margin: 0 0 var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    border-left: var(--border-width-thick) solid var(--color-black);
+    background: var(--color-bg-light);
+    color: var(--color-text-primary);
+    font-size: var(--text-base);
+    line-height: 1.6;
+}
+
 /* ── Call to action ──────────────────────────────────────────── */
 
 .content-cta {

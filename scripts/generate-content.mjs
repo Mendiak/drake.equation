@@ -10,7 +10,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { articles as guideArticles, ui, SITE, LAST_UPDATED } from '../content/articles.mjs';
 import { methodologyArticle } from '../content/methodology.mjs';
-import { REFERENCES } from '../src/js/core/science.js';
+import { REFERENCES, PRESETS } from '../src/js/core/science.js';
 
 const root = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
 const dist = path.join(root, 'dist');
@@ -51,13 +51,19 @@ const TELESCOPE_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 2
                         <circle cx="12" cy="13" r="2" />
                     </svg>`;
 
-const GA = `    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZXLS14C7VJ"></script>
+const GA = `    <!-- Google tag (gtag.js) — production host only, so local previews never pollute the property -->
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-        gtag('config', 'G-ZXLS14C7VJ');
+
+        if (location.hostname === 'mendiak.github.io') {
+            var gaScript = document.createElement('script');
+            gaScript.async = true;
+            gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-ZXLS14C7VJ';
+            document.head.appendChild(gaScript);
+            gtag('config', 'G-ZXLS14C7VJ');
+        }
     </script>`;
 
 const FONTS = `    <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -77,9 +83,65 @@ function pagePath(lang, slug) {
     return `${SITE}/${lang === 'es' ? 'es/' : ''}${slug}/`;
 }
 
+const SUPERVISOR_DIGITS = { '-': '⁻', 0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴', 5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹' };
+
+function superscript(value) {
+    return String(value).split('').map((character) => SUPERVISOR_DIGITS[character] ?? character).join('');
+}
+
+/** Format an N value so both 0.00000015 and 1000000 stay readable in a table. */
+function formatN(value, locale) {
+    if (value >= 0.01 && value < 10000) {
+        return value.toLocaleString(locale, { maximumFractionDigits: 2 });
+    }
+    const exponent = Math.floor(Math.log10(value));
+    const mantissa = value / 10 ** exponent;
+    return `${mantissa.toFixed(1).replace('.', locale === 'es-ES' ? ',' : '.')} × 10${superscript(exponent)}`;
+}
+
+function escapeHtml(value) {
+    return value
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
+/**
+ * The estimates table is derived from the same PRESETS the calculator ships, so
+ * the published numbers can never drift away from the tool.
+ */
+function renderEstimatesTable(lang) {
+    const locale = lang === 'es' ? 'es-ES' : 'en-US';
+    const calculatorHref = lang === 'es' ? '../../es/' : '../';
+    const headings = lang === 'es'
+        ? ['Estimación', 'N', 'Qué supone']
+        : ['Estimate', 'N', 'What it assumes'];
+
+    const rows = Object.entries(PRESETS).map(([id, preset]) => {
+        const n = Object.values(preset.values).reduce((total, value) => total * value, 1);
+        return `<tr>
+        <th scope="row"><a href="${calculatorHref}?preset=${id}">${escapeHtml(preset.label[lang])}</a></th>
+        <td class="content-table-number">${formatN(n, locale)}</td>
+        <td>${escapeHtml(preset.basis[lang])}</td>
+    </tr>`;
+    }).join('\n    ');
+
+    return `<div class="content-table-wrap">
+    <table class="content-table">
+        <thead>
+            <tr><th scope="col">${headings[0]}</th><th scope="col">${headings[1]}</th><th scope="col">${headings[2]}</th></tr>
+        </thead>
+        <tbody>
+    ${rows}
+        </tbody>
+    </table>
+</div>`;
+}
+
 function resolveTokens(html, lang) {
     return html
-        .replaceAll('{{calc}}', lang === 'es' ? '../../' : '../')
+        .replaceAll('{{calc}}', lang === 'es' ? '../../es/' : '../')
+        .replaceAll('{{estimates-table}}', renderEstimatesTable(lang))
         .replace(/\{\{article:([a-z0-9-]+)\}\}/g, (match, id) => {
             const target = byId.get(id);
             if (!target) throw new Error(`Unknown article token: ${id}`);
@@ -92,9 +154,38 @@ function resolveTokens(html, lang) {
         });
 }
 
+/** Rough plain-text extraction, used only for the JSON-LD word count. */
+function stripHtml(html) {
+    return html
+        .replace(/\{\{[^}]+\}\}/g, ' ')
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/&[a-z]+;/gi, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
 function renderJsonLd(article, lang, canonical) {
     const copy = article[lang];
     const strings = ui[lang];
+
+    const bodyText = [
+        copy.lead,
+        copy.quickAnswer ?? '',
+        ...copy.sections.map((section) => `${section.heading} ${section.answer ?? ''} ${section.body}`)
+    ].join(' ');
+    const wordCount = stripHtml(bodyText).split(/\s+/).filter(Boolean).length;
+    const citationIds = [...new Set([...bodyText.matchAll(/\{\{source:([a-z0-9-]+)\}\}/g)].map((match) => match[1]))];
+    const citations = citationIds
+        .map((id) => REFERENCES[id])
+        .filter(Boolean)
+        .map((reference) => ({
+            '@type': 'CreativeWork',
+            name: reference.title,
+            author: { '@type': 'Person', name: reference.authors },
+            datePublished: String(reference.year),
+            url: reference.url
+        }));
+
     const graph = [
         {
             '@type': 'Article',
@@ -135,7 +226,11 @@ function renderJsonLd(article, lang, canonical) {
                 height: 630
             },
             keywords: 'Drake equation, astrobiology, SETI, exoplanets, Fermi paradox',
-            about: ['Drake equation', 'Astrobiology', 'Search for extraterrestrial intelligence']
+            about: ['Drake equation', 'Astrobiology', 'Search for extraterrestrial intelligence'],
+            wordCount,
+            timeRequired: `PT${copy.readingTime}M`,
+            isAccessibleForFree: true,
+            citation: citations.length > 0 ? citations : undefined
         },
         {
             '@type': 'BreadcrumbList',
@@ -175,7 +270,7 @@ function renderPage(article, lang) {
     const copy = article[lang];
     const strings = ui[lang];
     const prefix = lang === 'es' ? '../../' : '../';
-    const calcHref = lang === 'es' ? '../../' : '../';
+    const calcHref = lang === 'es' ? '../../es/' : '../';
     const canonical = pagePath(lang, article.slugs[lang]);
     const xDefault = pagePath('en', article.slugs.en);
     const locale = lang === 'es' ? 'es_ES' : 'en_US';
@@ -208,7 +303,7 @@ function renderPage(article, lang) {
     const sections = copy.sections
         .map((section) => `<section id="${section.id}">
                     <h2>${section.heading}</h2>
-                    ${resolveTokens(section.body.trim(), lang)}
+                    ${section.answer ? `<p class="content-answer">${resolveTokens(section.answer, lang)}</p>\n                    ` : ''}${resolveTokens(section.body.trim(), lang)}
                 </section>`)
         .join('\n\n                ');
 
@@ -314,7 +409,11 @@ ${jsonLd}
                 <p class="content-eyebrow">${copy.eyebrow}</p>
                 <h1>${copy.h1}</h1>
                 <p class="content-lead">${resolveTokens(copy.lead, lang)}</p>
-                <p class="content-meta">${strings.updated} <time datetime="${ARTICLE_UPDATED}">${dateLabel}</time> &middot; ${copy.readingTime} ${strings.minRead} &middot; ${strings.authorship}</p>
+                ${copy.quickAnswer ? `<div class="content-callout">
+                    <strong>${lang === 'es' ? 'Respuesta rápida' : 'Quick answer'}</strong>
+                    <p>${resolveTokens(copy.quickAnswer, lang)}</p>
+                </div>
+                ` : ''}<p class="content-meta">${strings.updated} <time datetime="${ARTICLE_UPDATED}">${dateLabel}</time> &middot; ${copy.readingTime} ${strings.minRead} &middot; ${strings.authorship}</p>
 
                 <nav class="content-toc" aria-labelledby="toc-title">
                     <h2 id="toc-title">${strings.toc}</h2>
@@ -360,6 +459,19 @@ ${jsonLd}
             hint.className = 'sr-only';
             hint.textContent = ' (' + (document.documentElement.lang === 'es' ? 'se abre en una pestaña nueva' : 'opens in a new tab') + ')';
             link.appendChild(hint);
+        });
+
+        // Report which guide links actually send readers to the calculator.
+        document.addEventListener('click', function (event) {
+            var link = event.target.closest ? event.target.closest('a') : null;
+            if (!link || typeof gtag !== 'function') return;
+            var inCta = link.closest('.content-cta');
+            var inRelated = link.closest('.content-related');
+            if (!inCta && !inRelated) return;
+            gtag('event', inCta ? 'guide_cta_click' : 'guide_related_click', {
+                page_language: document.documentElement.lang,
+                link_url: link.getAttribute('href')
+            });
         });
     </script>
 </body>

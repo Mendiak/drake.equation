@@ -20,10 +20,31 @@ import {
 import { fetchNasaExoplanetData, loadRandomExoplanet, updateExoplanetLanguage } from './features/nasa-exoplanets.js';
 import { toggleDisclaimer } from './ui/disclaimer.js';
 import { trapFocus } from './ui/a11y.js';
+import { track, debounce } from './core/analytics.js';
 
 let lastTooltipTrigger = null;
 let _hasUserInteracted = false;
 let _pointerSlider = null;
+let _calculatorEngaged = false;
+
+// Sliders fire dozens of input events per drag; report only the value the user
+// settles on, and only once per parameter.
+const trackCalculatorChange = debounce((paramId) => {
+    const input = document.getElementById(paramId);
+    if (!input) return;
+    track('calculator_change', {
+        parameter: paramId,
+        value: linearToLog(parseFloat(input.value), paramId)
+    });
+}, 1200);
+
+function trackCalculatorEngagement(paramId) {
+    if (!_calculatorEngaged) {
+        _calculatorEngaged = true;
+        track('calculator_engage', { first_parameter: paramId });
+    }
+    trackCalculatorChange(paramId);
+}
 
 let _calcPending = false;
 let _calcLastParam = 'Rstar';
@@ -200,6 +221,7 @@ function hideTooltip() {
 
 function resetForm() {
     _hasUserInteracted = true;
+    track('calculator_reset');
     applyPreset(presets.scientific);
     document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active-preset'));
     const scientificBtn = document.querySelector('[data-preset="scientific"]');
@@ -222,8 +244,14 @@ function copyShareUrl() {
     const shareUrl = url.toString();
     const title = t('title');
     const text = t('share_description');
+    const usesNativeShare = navigator.share && window.matchMedia('(max-width: 768px)').matches;
 
-    if (navigator.share && window.matchMedia('(max-width: 768px)').matches) {
+    track('result_share', {
+        preset: activePreset ? activePreset.getAttribute('data-preset') : 'custom',
+        method: usesNativeShare ? 'native' : 'clipboard'
+    });
+
+    if (usesNativeShare) {
         navigator.share({ title, text, url: shareUrl }).catch(() => {});
         return;
     }
@@ -366,6 +394,7 @@ function _initCritical() {
         const slider = e.target.closest('input[type="range"]');
         if (slider && slider.id && !slider.id.startsWith('fs-')) {
             _hasUserInteracted = true;
+            trackCalculatorEngagement(slider.id);
             updateValueAndRecalculate(slider.id);
             document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active-preset'));
         }
@@ -398,6 +427,7 @@ function _initCritical() {
             const presetName = this.getAttribute('data-preset');
             if (presets[presetName]) {
                 _hasUserInteracted = true;
+                track('calculator_preset', { preset: presetName });
                 document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active-preset'));
                 this.classList.add('active-preset');
 
