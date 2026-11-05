@@ -245,6 +245,67 @@
     line-height: 1.6;
 }
 
+/* ── Inline figures (generated SVG) ──────────────────────────── */
+
+.content-figure {
+    margin: 0 0 var(--space-lg);
+    padding: var(--space-md);
+    overflow-x: auto;
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-sm);
+}
+
+.content-figure svg {
+    display: block;
+    width: 100%;
+    min-width: 560px;
+    height: auto;
+    overflow: visible;
+}
+
+.content-figure figcaption {
+    margin-top: var(--space-sm);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    line-height: 1.55;
+}
+
+.content-figure text {
+    fill: var(--color-text-secondary);
+    font-family: var(--font-family-mono);
+    font-size: 13px;
+}
+
+.content-figure .hz-band {
+    fill: var(--color-border);
+}
+
+.content-figure .hz-edge {
+    stroke: var(--color-black);
+    stroke-width: 1;
+    stroke-dasharray: 4 4;
+}
+
+.content-figure .hz-axis,
+.content-figure .hz-tick {
+    stroke: var(--color-black);
+    stroke-width: 1;
+}
+
+.content-figure .hz-star,
+.content-figure .hz-planet {
+    fill: var(--color-black);
+}
+
+.content-figure .hz-band-label {
+    fill: var(--color-black);
+    font-weight: var(--font-weight-bold);
+}
+
+.content-figure .hz-unit {
+    fill: var(--color-text-subtle);
+}
+
 /* ── Call to action ──────────────────────────────────────────── */
 
 .content-cta {

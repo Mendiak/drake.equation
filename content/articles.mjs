@@ -456,7 +456,8 @@ export const articles = [
 <p>Astronomers estimate the inner edge using the runaway greenhouse limit: the point where a warm planet's oceans evaporate, water vapour traps more heat, and the process accelerates until the surface is sterilised. Venus is the local warning.</p>
 <p>The outer edge is usually set by the maximum greenhouse effect: the distance at which even a thick CO<sub>2</sub> atmosphere cannot keep the surface above freezing. Mars, at the edge of the Sun's zone, is the nearby example of a world that lost most of its atmosphere and its surface water.</p>
 <p>A widely used 2013 model by Ravi Kopparapu and colleagues puts the Sun's conservative habitable zone at roughly 0.95 to 1.7 astronomical units, with an optimistic version extending further. The exact numbers move when assumptions about clouds, albedo and atmospheric mass change.</p>
-<p>Reference: <a href="https://arxiv.org/abs/1301.6674" target="_blank" rel="noopener noreferrer">Kopparapu et al., “Habitable Zones Around Main-Sequence Stars” (2013)</a>.</p>`
+<p>Reference: <a href="https://arxiv.org/abs/1301.6674" target="_blank" rel="noopener noreferrer">Kopparapu et al., “Habitable Zones Around Main-Sequence Stars” (2013)</a>.</p>
+{{figure:habitable-zone}}`
                 },
                 {
                     id: 'stars',
@@ -541,7 +542,8 @@ export const articles = [
 <p>Los astrónomos estiman el borde interior con el límite del invernadero desbocado: el punto en que los océanos de un planeta templado se evaporan, el vapor de agua retiene más calor y el proceso se acelera hasta esterilizar la superficie. Venus es el aviso cercano.</p>
 <p>El borde exterior se fija normalmente con el máximo efecto invernadero: la distancia a la que ni siquiera una atmósfera densa de CO<sub>2</sub> puede mantener la superficie por encima del punto de congelación. Marte, en el borde de la zona solar, es el ejemplo cercano de un mundo que perdió casi toda su atmósfera y su agua superficial.</p>
 <p>Un modelo muy citado de 2013 de Ravi Kopparapu y colaboradores sitúa la zona habitable conservadora del Sol aproximadamente entre 0,95 y 1,7 unidades astronómicas, con una versión optimista que se extiende más allá. Las cifras exactas cambian cuando se modifican las suposiciones sobre nubes, albedo y masa atmosférica.</p>
-<p>Referencia: <a href="https://arxiv.org/abs/1301.6674" target="_blank" rel="noopener noreferrer">Kopparapu et al., «Habitable Zones Around Main-Sequence Stars» (2013)</a>.</p>`
+<p>Referencia: <a href="https://arxiv.org/abs/1301.6674" target="_blank" rel="noopener noreferrer">Kopparapu et al., «Habitable Zones Around Main-Sequence Stars» (2013)</a>.</p>
+{{figure:habitable-zone}}`
                 },
                 {
                     id: 'stars',

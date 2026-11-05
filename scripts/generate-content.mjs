@@ -107,6 +107,81 @@ function escapeHtml(value) {
 }
 
 /**
+ * Side-view diagram of the Sun's conservative habitable zone. Distances and
+ * boundaries are the ones quoted in the article (Kopparapu et al. 2013), kept
+ * in one place so the drawing cannot drift from the text.
+ */
+function renderHabitableZoneFigure(lang) {
+    const X0 = 30;
+    const X1 = 790;
+    const MAX_AU = 2.2;
+    const x = (au) => (X0 + (au / MAX_AU) * (X1 - X0)).toFixed(1);
+    const INNER = 0.95;
+    const OUTER = 1.7;
+
+    const copy = lang === 'es'
+        ? {
+            bandLabel: 'Zona habitable conservadora · 0,95 – 1,7 UA',
+            star: 'Sol',
+            unit: 'UA',
+            title: 'La zona habitable conservadora del Sol',
+            desc: 'Diagrama de distancias: el Sol a la izquierda, la banda de la zona habitable conservadora entre 0,95 y 1,7 unidades astronómicas, con Venus fuera por dentro y la Tierra y Marte dentro.',
+            caption: 'La zona habitable conservadora del Sol, de 0,95 a 1,7 unidades astronómicas (Kopparapu et al., 2013). Venus queda fuera por el borde interior; Marte está dentro y aun así no alberga vida en superficie: estar en la zona es una condición necesaria, no suficiente.'
+        }
+        : {
+            bandLabel: 'Conservative habitable zone · 0.95 – 1.7 AU',
+            star: 'Sun',
+            unit: 'AU',
+            title: "The Sun's conservative habitable zone",
+            desc: 'Distance diagram: the Sun on the left, the conservative habitable zone between 0.95 and 1.7 astronomical units, with Venus outside on the inner side and Earth and Mars inside.',
+            caption: "The Sun's conservative habitable zone, from 0.95 to 1.7 astronomical units (Kopparapu et al., 2013). Venus falls outside the inner edge; Mars sits inside it and still has no surface life: being in the zone is necessary, not sufficient."
+        };
+
+    const planets = [
+        { au: 0.72, label: 'Venus' },
+        { au: 1.00, label: lang === 'es' ? 'Tierra' : 'Earth' },
+        { au: 1.52, label: lang === 'es' ? 'Marte' : 'Mars' }
+    ];
+
+    const ticks = [0, 0.5, 1, 1.5, 2];
+    const tickMarkup = ticks.map((au) => {
+        const label = lang === 'es' ? String(au).replace('.', ',') : String(au);
+        return `<line class="hz-tick" x1="${x(au)}" y1="172" x2="${x(au)}" y2="178" />
+        <text x="${x(au)}" y="192" text-anchor="middle">${label}</text>`;
+    }).join('\n        ');
+
+    const planetMarkup = planets.map((planet) => `<circle class="hz-planet" cx="${x(planet.au)}" cy="118" r="7" />
+        <text class="hz-planet-label" x="${x(planet.au)}" y="80" text-anchor="middle">${planet.label}</text>`).join('\n        ');
+
+    const bandLeft = x(INNER);
+    const bandRight = x(OUTER);
+    const bandWidth = (Number(bandRight) - Number(bandLeft)).toFixed(1);
+    const bandCenter = (Number(bandLeft) + Number(bandRight)) / 2;
+
+    return `<figure class="content-figure">
+    <svg viewBox="0 0 820 200" role="img" aria-labelledby="hz-title hz-desc" xmlns="http://www.w3.org/2000/svg">
+        <title id="hz-title">${copy.title}</title>
+        <desc id="hz-desc">${copy.desc}</desc>
+        <rect class="hz-band" x="${bandLeft}" y="94" width="${bandWidth}" height="48" />
+        <line class="hz-edge" x1="${bandLeft}" y1="88" x2="${bandLeft}" y2="150" />
+        <line class="hz-edge" x1="${bandRight}" y1="88" x2="${bandRight}" y2="150" />
+        <text class="hz-band-label" x="${bandCenter.toFixed(1)}" y="46" text-anchor="middle">${copy.bandLabel}</text>
+        <circle class="hz-star" cx="${X0}" cy="118" r="14" />
+        <text class="hz-planet-label" x="${X0}" y="80" text-anchor="middle">${copy.star}</text>
+        ${planetMarkup}
+        <line class="hz-axis" x1="${X0}" y1="172" x2="${X1}" y2="172" />
+        ${tickMarkup}
+        <text x="${X1}" y="192" text-anchor="end" class="hz-unit">${copy.unit}</text>
+    </svg>
+    <figcaption>${copy.caption}</figcaption>
+</figure>`;
+}
+
+const FIGURES = {
+    'habitable-zone': renderHabitableZoneFigure
+};
+
+/**
  * The estimates table is derived from the same PRESETS the calculator ships, so
  * the published numbers can never drift away from the tool.
  */
@@ -142,6 +217,11 @@ function resolveTokens(html, lang) {
     return html
         .replaceAll('{{calc}}', lang === 'es' ? '../../es/' : '../')
         .replaceAll('{{estimates-table}}', renderEstimatesTable(lang))
+        .replace(/\{\{figure:([a-z0-9-]+)\}\}/g, (match, id) => {
+            const render = FIGURES[id];
+            if (!render) throw new Error(`Unknown figure token: ${id}`);
+            return render(lang);
+        })
         .replace(/\{\{article:([a-z0-9-]+)\}\}/g, (match, id) => {
             const target = byId.get(id);
             if (!target) throw new Error(`Unknown article token: ${id}`);
