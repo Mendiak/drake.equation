@@ -306,6 +306,64 @@
     fill: var(--color-text-subtle);
 }
 
+.content-figure .gf-box {
+    stroke: var(--color-black);
+    stroke-width: 1;
+}
+
+.content-figure .gf-known {
+    fill: var(--color-border);
+}
+
+.content-figure .gf-unknown {
+    fill: none;
+    stroke-dasharray: 4 4;
+}
+
+.content-figure .gf-brace {
+    fill: none;
+    stroke: var(--color-black);
+    stroke-width: 1;
+}
+
+.content-figure .gf-brace-label {
+    fill: var(--color-black);
+    font-weight: var(--font-weight-bold);
+}
+
+.content-figure .gf-divider {
+    stroke: var(--color-black);
+    stroke-width: 1;
+    stroke-dasharray: 2 4;
+}
+
+.content-figure .gf-label {
+    fill: var(--color-text-secondary);
+    font-size: 12px;
+}
+
+.content-figure .ss-axis,
+.content-figure .ss-tick,
+.content-figure .ss-marker {
+    stroke: var(--color-black);
+    stroke-width: 1;
+}
+
+.content-figure .ss-dot {
+    fill: var(--color-black);
+}
+
+.content-figure .ss-dot-text {
+    fill: var(--color-white);
+    font-size: 10px;
+    font-weight: var(--font-weight-bold);
+}
+
+.content-figure .ss-legend {
+    fill: var(--color-text-secondary);
+    font-size: 12px;
+}
+
 /* ── Call to action ──────────────────────────────────────────── */
 
 .content-cta {

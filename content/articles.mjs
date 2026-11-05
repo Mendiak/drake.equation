@@ -281,7 +281,8 @@ export const articles = [
                     body: `
 <p>The Milky Way contains roughly 100 to 400 billion stars and is about 13 billion years old. Earth is 4.6 billion years old, so there has been a very long window for other civilizations to appear, expand, and leave traces.</p>
 <p>Interstellar travel is slow but not impossibly slow. A civilization crossing the galaxy at one percent of the speed of light would need on the order of ten million years — long by human standards, but a small fraction of the galaxy's age. If expansion is even occasionally successful, the timescale problem disappears.</p>
-<p>Planets are not the bottleneck either. More than five thousand exoplanets have been confirmed, and the Kepler mission showed that small rocky planets are common. The question is no longer whether there are places to live. It is why nobody seems to be home.</p>`
+<p>Planets are not the bottleneck either. More than five thousand exoplanets have been confirmed, and the Kepler mission showed that small rocky planets are common. The question is no longer whether there are places to live. It is why nobody seems to be home.</p>
+{{figure:silence-scale}}`
                 },
                 {
                     id: 'filter',
@@ -289,6 +290,7 @@ export const articles = [
                     body: `
 <p>In 1998 the economist Robin Hanson gave the tension a useful shape. Somewhere between a cloud of hydrogen and a star-spanning civilization there is a step that is extremely improbable. He called it the Great Filter.</p>
 <p>The filter can sit behind us or ahead of us. If it is behind us — the origin of life, the evolution of complex cells, the emergence of intelligence — then life may be extraordinarily rare and we are an unlikely exception. If it is ahead of us, then civilizations tend to hit a wall: war, climate collapse, resource exhaustion, or something we have not imagined.</p>
+{{figure:great-filter}}
 <p>Our own existence is a constraint. We are evidence that the filter, wherever it is, is not absolutely impossible. That is about as far as the argument gets without more data.</p>
 <p>Reference: <a href="https://mason.gmu.edu/~rhanson/greatfilter.html" target="_blank" rel="noopener noreferrer">Robin Hanson, “The Great Filter” (1998)</a>.</p>`
                 },
@@ -366,7 +368,8 @@ export const articles = [
                     body: `
 <p>La Vía Láctea contiene entre unos 100 y 400 mil millones de estrellas y tiene unos 13 mil millones de años. La Tierra tiene 4.600 millones de años, así que ha habido muchísimo tiempo para que otras civilizaciones aparezcan, se expandan y dejen rastros.</p>
 <p>Viajar entre estrellas es lento, pero no imposiblemente lento. Una civilización que cruzara la galaxia al uno por ciento de la velocidad de la luz tardaría del orden de diez millones de años: mucho para nosotros, pero una fracción pequeña de la edad galáctica. Si la expansión funciona aunque sea de vez en cuando, el problema del tiempo desaparece.</p>
-<p>Los planetas tampoco son el cuello de botella. Se han confirmado más de cinco mil exoplanetas y la misión Kepler demostró que los planetas rocosos pequeños son comunes. La pregunta ya no es si hay lugares donde vivir. Es por qué nadie parece estar en casa.</p>`
+<p>Los planetas tampoco son el cuello de botella. Se han confirmado más de cinco mil exoplanetas y la misión Kepler demostró que los planetas rocosos pequeños son comunes. La pregunta ya no es si hay lugares donde vivir. Es por qué nadie parece estar en casa.</p>
+{{figure:silence-scale}}`
                 },
                 {
                     id: 'filter',
@@ -374,6 +377,7 @@ export const articles = [
                     body: `
 <p>En 1998 el economista Robin Hanson dio una forma útil a la tensión. En algún punto entre una nube de hidrógeno y una civilización que abarca estrellas hay un paso extremadamente improbable. Lo llamó el Gran Filtro.</p>
 <p>El filtro puede estar detrás de nosotros o delante. Si está detrás —el origen de la vida, la evolución de células complejas, la aparición de la inteligencia—, la vida puede ser extraordinariamente rara y nosotros una excepción improbable. Si está delante, las civilizaciones tienden a chocar con un muro: guerra, colapso climático, agotamiento de recursos o algo que no hemos imaginado.</p>
+{{figure:great-filter}}
 <p>Nuestra propia existencia es una restricción. Somos prueba de que el filtro, dondequiera que esté, no es absolutamente imposible. Hasta ahí llega el argumento sin más datos.</p>
 <p>Referencia: <a href="https://mason.gmu.edu/~rhanson/greatfilter.html" target="_blank" rel="noopener noreferrer">Robin Hanson, «The Great Filter» (1998)</a>.</p>`
                 },

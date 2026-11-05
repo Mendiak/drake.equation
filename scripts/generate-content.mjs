@@ -177,8 +177,153 @@ function renderHabitableZoneFigure(lang) {
 </figure>`;
 }
 
+/**
+ * The Great Filter as a six-stage chain: the four stages humanity already
+ * passed, and the two whose inevitability is unknown.
+ */
+function renderGreatFilterFigure(lang) {
+    const copy = lang === 'es'
+        ? {
+            known: 'Ya ocurrió',
+            unknown: 'Aún desconocido',
+            stages: [
+                ['Origen de', 'la vida'],
+                ['Células', 'complejas'],
+                ['Inteligencia'],
+                ['Tecnología', 'detectable'],
+                ['Supervivencia', 'a largo plazo'],
+                ['Expansión', 'galáctica']
+            ],
+            title: 'Las seis etapas del Gran Filtro',
+            desc: 'Cadena de seis etapas entre el origen de la vida y una civilización que se expande por la galaxia. Las cuatro primeras ya ocurrieron; las dos últimas son desconocidas.',
+            caption: 'Las seis etapas del Gran Filtro. Sabemos que las cuatro primeras son posibles porque la humanidad las atravesó; no sabemos si las dos últimas lo son, ni cuál de las seis es el paso improbable que explicaría el silencio.'
+        }
+        : {
+            known: 'Already happened',
+            unknown: 'Still unknown',
+            stages: [
+                ['Origin of', 'life'],
+                ['Complex', 'cells'],
+                ['Intelligence'],
+                ['Detectable', 'technology'],
+                ['Long-term', 'survival'],
+                ['Galactic', 'expansion']
+            ],
+            title: 'The six stages of the Great Filter',
+            desc: 'A chain of six stages from the origin of life to a civilisation that expands across the galaxy. The first four already happened; the last two are unknown.',
+            caption: 'The six stages of the Great Filter. We know the first four are possible because humanity passed through them; we do not know whether the last two are, nor which of the six is the improbable step that would explain the silence.'
+        };
+
+    const BOX_W = 116;
+    const GAP = 14;
+    const START = 30;
+    const TOP = 70;
+    const HEIGHT = 52;
+
+    const boxLeft = (index) => START + index * (BOX_W + GAP);
+    const boxCenter = (index) => boxLeft(index) + BOX_W / 2;
+
+    const boxes = copy.stages.map((lines, index) => {
+        const known = index < 4;
+        const cls = known ? 'gf-box gf-known' : 'gf-box gf-unknown';
+        const label = lines.length === 2
+            ? `<text class="gf-label" x="${boxCenter(index)}" y="93" text-anchor="middle">${lines[0]}</text>
+        <text class="gf-label" x="${boxCenter(index)}" y="109" text-anchor="middle">${lines[1]}</text>`
+            : `<text class="gf-label" x="${boxCenter(index)}" y="101" text-anchor="middle">${lines[0]}</text>`;
+        return `<rect class="${cls}" x="${boxLeft(index)}" y="${TOP}" width="${BOX_W}" height="${HEIGHT}" rx="4" />
+        ${label}`;
+    }).join('\n        ');
+
+    const brace = (from, to, label) => `<path class="gf-brace" d="M${from} 50 L${from} 44 L${to} 44 L${to} 50" />
+        <text class="gf-brace-label" x="${(from + to) / 2}" y="36" text-anchor="middle">${label}</text>`;
+
+    const dividerX = (boxLeft(3) + BOX_W + boxLeft(4)) / 2;
+
+    return `<figure class="content-figure">
+    <svg viewBox="0 0 820 160" role="img" aria-labelledby="gf-title gf-desc" xmlns="http://www.w3.org/2000/svg">
+        <title id="gf-title">${copy.title}</title>
+        <desc id="gf-desc">${copy.desc}</desc>
+        ${brace(boxLeft(0), boxLeft(3) + BOX_W, copy.known)}
+        ${brace(boxLeft(4), boxLeft(5) + BOX_W, copy.unknown)}
+        <line class="gf-divider" x1="${dividerX}" y1="56" x2="${dividerX}" y2="128" />
+        ${boxes}
+    </svg>
+    <figcaption>${copy.caption}</figcaption>
+</figure>`;
+}
+
+/**
+ * Logarithmic time line. Linear scale is useless here: the radio window and the
+ * age of the galaxy differ by eight orders of magnitude.
+ */
+function renderSilenceScaleFigure(lang) {
+    const MAX_LOG = 10.3;
+    const X0 = 60;
+    const X1 = 790;
+    const AXIS_Y = 80;
+    const x = (log10) => (X0 + (log10 / MAX_LOG) * (X1 - X0)).toFixed(1);
+
+    const copy = lang === 'es'
+        ? {
+            title: 'Escala logarítmica del tiempo',
+            desc: 'Línea temporal logarítmica de 1 año a más de 10.000 millones de años con cuatro referencias: la radio humana, el Homo sapiens, cruzar la galaxia al 1 % de la velocidad de la luz y la edad de la Vía Láctea.',
+            caption: 'Escala logarítmica. La ventana en la que la Tierra es detectable por radio (~100 años) es ocho órdenes de magnitud menor que la edad de la galaxia (1,3 × 10¹⁰ años). Cruzar la Vía Láctea al 1 % de la velocidad de la luz llevaría unos 10 millones de años, más de mil veces menos que su edad.',
+            legend: [
+                'Radio humano · 100 años',
+                'Homo sapiens · 300.000 años',
+                'Cruzar la galaxia al 1 % c · 10⁷ años',
+                'Edad de la Vía Láctea · 1,3 × 10¹⁰ años'
+            ]
+        }
+        : {
+            title: 'Logarithmic time scale',
+            desc: 'Logarithmic timeline from 1 year to more than 10 billion years, with four references: human radio, Homo sapiens, crossing the galaxy at 1% of the speed of light, and the age of the Milky Way.',
+            caption: 'Logarithmic scale. The window in which Earth is detectable by radio (~100 years) is eight orders of magnitude shorter than the age of the galaxy (1.3 × 10¹⁰ years). Crossing the Milky Way at 1% of the speed of light would take about 10 million years, more than a thousand times less than its age.',
+            legend: [
+                'Human radio · 100 years',
+                'Homo sapiens · 300,000 years',
+                'Crossing the galaxy at 1% c · 10⁷ years',
+                'Age of the Milky Way · 1.3 × 10¹⁰ years'
+            ]
+        };
+
+    const markers = [100, 300000, 10000000, 13000000000].map((years) => Math.log10(years));
+
+    const ticks = Array.from({ length: 11 }, (unused, decade) => {
+        const label = decade === 0 ? '1' : decade === 1 ? '10' : `10${superscript(decade)}`;
+        return `<line class="ss-tick" x1="${x(decade)}" y1="${AXIS_Y}" x2="${x(decade)}" y2="${AXIS_Y + 6}" />
+        <text x="${x(decade)}" y="102" text-anchor="middle">${label}</text>`;
+    }).join('\n        ');
+
+    const markerMarkup = markers.map((log10, index) => `<line class="ss-marker" x1="${x(log10)}" y1="${AXIS_Y}" x2="${x(log10)}" y2="50" />
+        <circle class="ss-dot" cx="${x(log10)}" cy="40" r="10" />
+        <text class="ss-dot-text" x="${x(log10)}" y="44" text-anchor="middle">${index + 1}</text>`).join('\n        ');
+
+    const legendRows = copy.legend.map((text, index) => {
+        const cx = index < 2 ? 68 : 438;
+        const y = 140 + (index % 2) * 26;
+        return `<circle class="ss-dot" cx="${cx}" cy="${y - 4}" r="8" />
+        <text class="ss-dot-text" x="${cx}" y="${y - 0.5}" text-anchor="middle">${index + 1}</text>
+        <text class="ss-legend" x="${cx + 16}" y="${y}">${text}</text>`;
+    }).join('\n        ');
+
+    return `<figure class="content-figure">
+    <svg viewBox="0 0 820 185" role="img" aria-labelledby="ss-title ss-desc" xmlns="http://www.w3.org/2000/svg">
+        <title id="ss-title">${copy.title}</title>
+        <desc id="ss-desc">${copy.desc}</desc>
+        <line class="ss-axis" x1="${X0}" y1="${AXIS_Y}" x2="${X1}" y2="${AXIS_Y}" />
+        ${ticks}
+        ${markerMarkup}
+        ${legendRows}
+    </svg>
+    <figcaption>${copy.caption}</figcaption>
+</figure>`;
+}
+
 const FIGURES = {
-    'habitable-zone': renderHabitableZoneFigure
+    'habitable-zone': renderHabitableZoneFigure,
+    'great-filter': renderGreatFilterFigure,
+    'silence-scale': renderSilenceScaleFigure
 };
 
 /**
